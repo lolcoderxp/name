@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>زیباکالا | فروشگاه لوکس لوازم آرایشی و مراقبت پوست</title>
+  <meta name="description" content="زیباکالا مارکت‌پلیس لوکس آرایشی؛ رژلب، کرم‌پودر، سرم، عطر، کی‌بیوتی با ضمانت اصالت و ارسال سریع." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+:root{
+  --rose:#b3124e;--rose2:#e11d64;--blush:#fdf2f5;--gold:#c4a35a;--gold2:#e8d5a3;
+  --ink:#1c1220;--muted:#7a6a74;--line:#f0e4ea;--bg:#faf6f7;--card:#fff;
+  --ok:#0f766e;--bad:#be123c;--plus:#6d28d9;
+  --r:16px;--shadow:0 12px 40px rgba(28,18,32,.08);
+  --max:1240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Vazirmatn,Tahoma,sans-serif;font-size:13.5px;line-height:1.75}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+img{max-width:100%;display:block}
+.wrap{width:min(var(--max),calc(100% - 28px));margin-inline:auto}
+.hidden{display:none!important}
+
+.promo-strip{
+  background:linear-gradient(90deg,#1c1220 0%,#7a1d3a 42%,#c4a35a 100%);
+  color:#fff;text-align:center;padding:9px 12px;font-weight:700;letter-spacing:.3px;font-size:12.5px
+}
+.topbar{background:#1c1220;color:#f6dce6;font-size:12px}
+.topbar .wrap{display:flex;justify-content:space-between;gap:12px;padding:7px 0;flex-wrap:wrap}
+.topbar a{color:#e8d5a3}
+
+.header{background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+.header-row{display:flex;align-items:center;gap:14px;padding:12px 0}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo img{width:44px;height:44px;border-radius:12px;object-fit:cover;box-shadow:0 4px 14px rgba(179,18,78,.25)}
+.logo-name{font-weight:900;font-size:22px;background:linear-gradient(90deg,#b3124e,#c4a35a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo-sub{font-size:10px;color:var(--muted);display:block;margin-top:-3px;letter-spacing:.4px}
+.search{flex:1;position:relative}
+.search input{width:100%;background:#faf4f6;border:1px solid transparent;border-radius:14px;padding:12px 16px 12px 42px;outline:none;transition:.2s}
+.search input:focus{border-color:#f4b6c8;background:#fff;box-shadow:0 0 0 4px rgba(179,18,78,.08)}
+.search-ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.45}
+.suggest{position:absolute;top:calc(100% + 6px);right:0;left:0;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);z-index:50;overflow:hidden}
+.suggest a{display:flex;gap:10px;align-items:center;padding:8px 12px}
+.suggest a:hover{background:var(--blush)}
+.suggest img{width:40px;height:40px;object-fit:cover;border-radius:8px}
+.hdr-acts{display:flex;align-items:center;gap:8px}
+.icon-btn{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 12px;cursor:pointer;font-weight:600}
+.icon-btn:hover{border-color:#f4b6c8}
+.badge{position:absolute;top:-7px;left:-7px;background:var(--rose);color:#fff;border-radius:99px;min-width:18px;height:18px;font-size:10px;display:grid;place-items:center;font-weight:800}
+.cart-wrap{position:relative}
+.minicart{display:none;position:absolute;top:calc(100% + 8px);left:0;width:340px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:12px;z-index:50}
+.cart-wrap:hover .minicart:not(:empty){display:block}
+.minicart-item{display:flex;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #f3e8ee;font-size:12px}
+.minicart-item img{width:48px;height:48px;object-fit:cover;border-radius:8px}
+
+.nav{background:#fff;border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;gap:2px;overflow:auto;padding:0}
+.nav a{white-space:nowrap;padding:11px 13px;font-size:13px;color:#4a3a44;border-bottom:2px solid transparent}
+.nav a:hover,.nav a.on{color:var(--rose);border-color:var(--rose);font-weight:800}
+
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#1c1220;color:#fff;padding:11px 18px;border-radius:99px;z-index:80;font-size:13px;box-shadow:var(--shadow)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.sec{margin:22px 0}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 12px}
+.sec-h h2{margin:0;font-size:18px;font-weight:800}
+.muted{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(180deg,#d01a5c,#b3124e);color:#fff;border:0;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:800;box-shadow:0 8px 18px rgba(179,18,78,.22)}
+.btn.gold{background:linear-gradient(180deg,#e8d5a3,#c4a35a);color:#3b2a08;box-shadow:0 8px 18px rgba(196,163,90,.28)}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.ok{background:var(--ok);box-shadow:none}
+.btn.wide{width:100%}
+.price{font-weight:900;color:var(--rose);font-size:15px}
+.old{color:#a1a1aa;text-decoration:line-through;font-size:12px;margin-inline-start:6px}
+.off{background:#ffe4e6;color:#be123c;border-radius:8px;padding:2px 7px;font-size:11px;font-weight:800}
+
+.story-row{display:flex;gap:12px;overflow:auto;padding:8px 0 14px}
+.story{min-width:92px;text-align:center;font-size:11.5px;font-weight:700}
+.story img{width:78px;height:78px;border-radius:50%;object-fit:cover;border:3px solid #f4b6c8;margin:0 auto 6px;padding:3px;background:#fff;box-shadow:0 6px 16px rgba(179,18,78,.12)}
+
+.hero{display:grid;grid-template-columns:2.15fr 1fr;gap:12px}
+.hero-slide{position:relative;border-radius:20px;overflow:hidden;min-height:320px;box-shadow:var(--shadow)}
+.hero-slide img{width:100%;height:320px;object-fit:cover}
+.hero-cap{position:absolute;inset:auto 0 0;background:linear-gradient(transparent,rgba(20,10,18,.78));color:#fff;padding:28px 22px}
+.hero-cap b{font-size:26px;display:block;margin-bottom:4px}
+.hero-side{display:grid;gap:12px}
+.hero-side a{position:relative;border-radius:20px;overflow:hidden;min-height:154px;box-shadow:var(--shadow)}
+.hero-side img{width:100%;height:154px;object-fit:cover}
+.hero-side span{position:absolute;bottom:12px;right:12px;background:rgba(255,255,255,.94);padding:5px 10px;border-radius:10px;font-weight:800;font-size:12.5px}
+
+.amazing{background:linear-gradient(120deg,#7a1236,#c2185b 48%,#c4a35a);border-radius:20px;padding:16px}
+.amazing .sec-h,.amazing .sec-h h2{color:#fff}
+.prod-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+@media(max-width:1100px){.prod-row{grid-template-columns:repeat(3,1fr)}.hero{grid-template-columns:1fr}}
+@media(max-width:640px){.prod-row,.grid5{grid-template-columns:repeat(2,1fr)!important}}
+
+.pcard{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column;min-height:100%;position:relative;transition:.2s}
+.pcard:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#f4b6c8}
+.pcard .ph{position:relative}
+.pcard img{width:100%;height:176px;object-fit:cover;background:#faf5f7}
+.pcard .b{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.pcard h3{margin:0;font-size:13px;font-weight:700;height:40px;overflow:hidden}
+.stars{color:#c4a35a;font-size:12px;letter-spacing:.5px}
+.pcard .meta{font-size:11px;color:var(--muted)}
+.qadd{position:absolute;left:8px;bottom:8px;background:#fff;border:0;border-radius:99px;width:32px;height:32px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12);font-size:16px;display:none}
+.pcard:hover .qadd{display:grid;place-items:center}
+
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tile{position:relative;border-radius:18px;overflow:hidden;min-height:168px;box-shadow:var(--shadow)}
+.tile img{width:100%;height:168px;object-fit:cover;transition:.4s}
+.tile:hover img{transform:scale(1.06)}
+.tile b{position:absolute;bottom:12px;right:12px;background:rgba(255,255,255,.95);padding:6px 11px;border-radius:10px}
+
+.brands{display:flex;gap:10px;overflow:auto;padding-bottom:6px}
+.brand{min-width:120px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 12px;text-align:center;font-weight:800}
+.brand:hover{border-color:var(--gold)}
+
+.svc{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.svc div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center;font-size:12px}
+.svc b{display:block;margin-top:4px}
+@media(max-width:900px){.svc,.tiles{grid-template-columns:repeat(2,1fr)}}
+
+.catban{position:relative;border-radius:20px;overflow:hidden;margin-bottom:16px;min-height:180px}
+.catban img{width:100%;height:200px;object-fit:cover}
+.catban .cap{position:absolute;inset:0;background:linear-gradient(90deg,rgba(28,18,32,.7),transparent);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:24px}
+.subs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.subs a{background:#fff;border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:700}
+.subs a:hover{border-color:var(--rose);color:var(--rose)}
+
+.layout{display:grid;grid-template-columns:250px 1fr;gap:16px;align-items:start}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+.filters{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;position:sticky;top:92px}
+.filters h3{margin:0 0 8px;font-size:14px}
+.filters label{display:flex;gap:8px;align-items:center;margin:6px 0;font-size:12.5px}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:1100px){.grid5{grid-template-columns:repeat(3,1fr)}}
+
+.pdp{display:grid;grid-template-columns:1.05fr 1.15fr .9fr;gap:18px;align-items:start}
+@media(max-width:1000px){.pdp{grid-template-columns:1fr}}
+.gallery{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px}
+.gallery .main{width:100%;height:420px;object-fit:contain;background:linear-gradient(#fff,#faf4f6);border-radius:12px}
+.thumbs{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.thumbs img{width:68px;height:68px;object-fit:cover;border-radius:10px;border:2px solid transparent;cursor:pointer}
+.thumbs img.on{border-color:var(--rose)}
+.buybox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;position:sticky;top:92px;box-shadow:var(--shadow)}
+.shades{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.shade{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #ddd;cursor:pointer}
+.shade.on{box-shadow:0 0 0 2px var(--rose)}
+.qty{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:4px 10px;width:max-content}
+.qty button{background:none;border:0;cursor:pointer;font-size:18px}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin:22px 0 0;overflow:auto;background:#fff;border-radius:16px 16px 0 0;padding:4px 8px 0}
+.tabs button{background:none;border:0;padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;font-weight:700;color:var(--muted)}
+.tabs button.on{color:var(--rose);border-color:var(--rose)}
+.tabc{background:#fff;border:1px solid var(--line);border-top:0;border-radius:0 0 16px 16px;padding:18px}
+.bars{display:grid;gap:7px;margin:10px 0 16px}
+.bar{display:grid;grid-template-columns:78px 1fr 42px;gap:8px;align-items:center;font-size:12px}
+.bar i{display:block;height:8px;background:#f3e8ee;border-radius:99px;overflow:hidden}
+.bar i b{display:block;height:100%;background:linear-gradient(90deg,#c4a35a,#e8d5a3)}
+.qa,.rev{border-top:1px dashed var(--line);padding:12px 0}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.pill{background:#fdf2f8;color:#9d174d;border-radius:99px;padding:3px 10px;font-size:11px;font-weight:700}
+.pill.gold{background:#fef9c3;color:#854d0e}
+.pill.ok{background:#ecfdf5;color:#065f46}
+.score{display:flex;gap:16px;align-items:center;background:var(--blush);border-radius:14px;padding:14px;margin:10px 0}
+.score .big{font-size:36px;font-weight:900;color:var(--rose);line-height:1}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.feat span{background:#faf4f6;border-radius:10px;padding:8px 10px;font-size:12px}
+.ship{display:grid;gap:6px;font-size:12.5px;margin:10px 0}
+.ship div{display:flex;gap:8px}
+
+.cart-layout{display:grid;grid-template-columns:1fr 330px;gap:16px}
+@media(max-width:900px){.cart-layout{grid-template-columns:1fr}}
+.line{display:grid;grid-template-columns:80px 1fr auto;gap:12px;align-items:center;padding:12px;border-bottom:1px solid var(--line)}
+.line img{width:80px;height:80px;object-fit:cover;border-radius:10px}
+.steps{display:flex;gap:8px;margin:12px 0}
+.step{flex:1;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center;font-size:12px}
+.step.on{border-color:var(--rose);color:var(--rose);font-weight:800}
+
+.acc{display:grid;grid-template-columns:220px 1fr;gap:16px}
+@media(max-width:800px){.acc{grid-template-columns:1fr}}
+.menu a{display:block;padding:9px 12px;border-radius:10px}
+.menu a.on,.menu a:hover{background:#fdf2f8;color:var(--rose)}
+
+footer{background:#1c1220;color:#f6dce6;margin-top:36px;padding:36px 0 16px}
+footer a{color:#e8d5a3}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:18px}
+@media(max-width:800px){.fgrid{grid-template-columns:1fr 1fr}}
+.remax{display:inline-block;margin-top:10px;background:linear-gradient(90deg,#c4a35a,#fff1c2);color:#3b2a08;padding:9px 14px;border-radius:12px;font-weight:800}
+.trust{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.trust span{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:12px}
+
+.form{display:grid;gap:8px}
+.form input,.form select,.form textarea{border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+table{width:100%;border-collapse:collapse;background:#fff}
+th,td{border-bottom:1px solid var(--line);padding:9px;text-align:right;font-size:12.5px}
+.empty{text-align:center;padding:48px;color:var(--muted)}
+.news{background:linear-gradient(100deg,#1c1220,#6b1238);color:#fff;border-radius:18px;padding:22px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.news input{border:0;border-radius:12px;padding:11px;min-width:220px}
+.mnav{display:none;position:fixed;bottom:0;right:0;left:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);z-index:40;padding:6px 4px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(28,18,32,.06)}
+.mnav a{flex:1;text-align:center;font-size:11px;font-weight:800;padding:8px 4px;border-radius:10px;color:#5a4650}
+.mnav a:active{background:var(--blush);color:var(--rose)}
+.crumb{font-size:12.5px;color:var(--muted);margin:10px 0}
+.expert{background:linear-gradient(90deg,#fff8e8,#fff);border:1px solid #f0e0b0;border-radius:14px;padding:12px 14px;margin:12px 0}
+.look{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.mbuy{display:none}
+main#app{padding:14px 0 40px}
+.nav .wrap::-webkit-scrollbar,.story-row::-webkit-scrollbar,.brands::-webkit-scrollbar,.tabs::-webkit-scrollbar{height:0}
+.nav .wrap,.story-row,.brands,.tabs{scrollbar-width:none;-webkit-overflow-scrolling:touch}
+
+@media(max-width:1100px){
+  .prod-row{grid-template-columns:repeat(3,1fr)}
+  .hero{grid-template-columns:1fr}
+  .hero-slide img{height:260px}
+  .hero-side{grid-template-columns:1fr 1fr}
+  .hero-side a,.hero-side img{min-height:140px;height:140px}
+}
+@media(max-width:900px){
+  .svc,.tiles{grid-template-columns:repeat(2,1fr)}
+  .layout,.cart-layout,.acc{grid-template-columns:1fr}
+  .filters{position:static}
+  .buybox{position:static;box-shadow:none}
+  table{display:block;overflow:auto}
+}
+@media(max-width:760px){
+  #app section.card > div[style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+  .topbar{display:none}
+  .promo-strip{font-size:11px;padding:7px 10px;line-height:1.5}
+  .header-row{flex-wrap:wrap;gap:8px;padding:8px 0}
+  .logo img{width:36px;height:36px}
+  .logo-name{font-size:18px}
+  .logo-sub{display:none}
+  .search{order:3;flex:1 1 100%}
+  .search input{padding:10px 14px 10px 38px;border-radius:12px;font-size:13px}
+  #userChip{max-width:52px;overflow:hidden;padding:8px 10px;font-size:12px}
+  .hdr-acts{margin-right:auto}
+  .icon-btn{padding:8px 10px;min-height:40px}
+  .minicart{display:none!important}
+  .nav a{padding:10px 11px;font-size:12.5px}
+  .story{min-width:76px}
+  .story img{width:64px;height:64px}
+  .hero-slide{border-radius:14px;min-height:200px}
+  .hero-slide img{height:200px}
+  .hero-cap{padding:16px}
+  .hero-cap b{font-size:18px}
+  .hero-side{grid-template-columns:1fr 1fr;gap:8px}
+  .hero-side a{border-radius:14px;min-height:110px}
+  .hero-side img{height:110px}
+  .prod-row,.grid5,.look{grid-template-columns:repeat(2,1fr)!important;gap:8px}
+  .pcard img{height:148px}
+  .pcard h3{font-size:12px;height:36px}
+  .pcard:hover{transform:none}
+  .qadd{display:grid;place-items:center;width:36px;height:36px}
+  .tile,.tile img{min-height:120px;height:120px;border-radius:14px}
+  .amazing{border-radius:14px;padding:12px 10px}
+  .sec{margin:16px 0}
+  .sec-h h2{font-size:15px}
+  .catban,.catban img{min-height:140px;height:140px;border-radius:14px}
+  .catban .cap{padding:16px}
+  .gallery .main{height:260px}
+  .thumbs img{width:56px;height:56px}
+  .score .big{font-size:28px}
+  .feat{grid-template-columns:1fr}
+  .line{grid-template-columns:64px 1fr;gap:8px}
+  .line img{width:64px;height:64px}
+  .line .price{grid-column:2}
+  .fgrid{grid-template-columns:1fr}
+  footer{padding:28px 0 88px}
+  main#app{padding:10px 0 120px}
+  .mnav{display:flex}
+  .toast{bottom:78px;max-width:calc(100% - 24px)}
+  .mbuy{display:flex;position:fixed;right:0;left:0;bottom:56px;z-index:36;background:#fff;border-top:1px solid var(--line);padding:8px 12px calc(8px + env(safe-area-inset-bottom));gap:10px;align-items:center;box-shadow:0 -8px 20px rgba(28,18,32,.08)}
+  .mbuy .btn{flex:1}
+  .news{padding:14px;border-radius:14px}
+  .news input{min-width:0;width:100%}
+  .wrap{width:min(var(--max),calc(100% - 16px))}
+  .steps{font-size:11px}
+  .step{padding:8px 4px}
+}
+@media(max-width:380px){
+  .prod-row,.grid5{gap:6px}
+  .pcard img{height:128px}
+}
+
+  
+/* =========================
+   ZIBAKALA PRO VISUAL UPGRADE
+   ========================= */
+:root{
+  --rose:#a80f4d;
+  --rose2:#d41462;
+  --blush:#fff5f8;
+  --gold:#b9984e;
+  --gold2:#ead9a8;
+  --ink:#19131b;
+  --muted:#756b73;
+  --line:#eadfe5;
+  --bg:#f7f3f5;
+  --card:#ffffff;
+  --shadow:0 18px 55px rgba(32,18,28,.09);
+  --shadow-sm:0 8px 26px rgba(32,18,28,.07);
+  --r:18px;
+}
+body{
+  background:
+    radial-gradient(circle at 10% 0%,rgba(212,20,98,.055),transparent 28rem),
+    radial-gradient(circle at 95% 8%,rgba(185,152,78,.065),transparent 24rem),
+    var(--bg);
+  color:var(--ink);
+}
+body:before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:-1;
+  background-image:linear-gradient(rgba(255,255,255,.28) 1px,transparent 1px);
+  background-size:100% 34px;
+  opacity:.16;
+}
+.wrap{width:min(1320px,calc(100% - 40px))}
+.promo-strip{
+  background:linear-gradient(100deg,#21151f,#7d153d 48%,#b9984e);
+  padding:10px 14px;
+  letter-spacing:.15px;
+}
+.topbar{
+  background:#171017;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.header{
+  background:rgba(255,255,255,.88);
+  border-bottom:1px solid rgba(234,223,229,.9);
+  box-shadow:0 8px 28px rgba(27,16,24,.045);
+}
+.header-row{padding:14px 0;gap:18px}
+.logo{gap:12px}
+.logo img{
+  width:48px;height:48px;border-radius:15px;
+  box-shadow:0 8px 22px rgba(168,15,77,.18);
+}
+.logo-name{font-size:23px;letter-spacing:-.4px}
+.logo-sub{font-size:10.5px}
+.search input{
+  background:#f8f4f6;
+  border:1px solid #eee2e8;
+  border-radius:16px;
+  padding:13px 18px 13px 46px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+.search input:focus{
+  border-color:#e7a7be;
+  box-shadow:0 0 0 4px rgba(168,15,77,.07),0 8px 20px rgba(32,18,28,.05);
+}
+.hdr-acts{gap:9px}
+.icon-btn{
+  border-color:#eadfe5;
+  border-radius:14px;
+  padding:10px 13px;
+  transition:.2s ease;
+}
+.icon-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:var(--shadow-sm);
+  border-color:#e2b0c2;
+}
+.nav{
+  background:rgba(255,255,255,.96);
+  box-shadow:0 4px 18px rgba(28,18,32,.035);
+}
+.nav .wrap{gap:5px}
+.nav a{
+  padding:12px 14px;
+  border-radius:10px 10px 0 0;
+  transition:.2s;
+}
+.nav a:hover,.nav a.on{background:#fff5f8}
+main#app{padding:20px 0 54px}
+.sec{margin:28px 0}
+.sec-h{margin-bottom:14px}
+.sec-h h2{
+  font-size:19px;
+  letter-spacing:-.25px;
+}
+.sec-h a{
+  font-size:12px;
+  font-weight:800;
+  color:var(--rose);
+}
+.card,.gallery,.buybox,.filters{
+  border-color:#eadfe5;
+  box-shadow:var(--shadow-sm);
+}
+.hero{
+  gap:16px;
+  grid-template-columns:minmax(0,2.2fr) minmax(300px,1fr);
+}
+.hero-slide{
+  min-height:390px;
+  border-radius:24px;
+  box-shadow:0 24px 65px rgba(32,18,28,.14);
+}
+.hero-slide img{height:390px;filter:saturate(.96)}
+.hero-cap{
+  padding:42px 34px 30px;
+  background:linear-gradient(180deg,transparent 5%,rgba(17,8,15,.9) 100%);
+}
+.hero-cap b{
+  font-size:31px;
+  letter-spacing:-.7px;
+}
+.hero-cap div{max-width:680px;font-size:13.5px;color:#f9eaf0}
+.hero-side{gap:16px}
+.hero-side a{
+  min-height:187px;
+  border-radius:20px;
+  box-shadow:var(--shadow-sm);
+}
+.hero-side img{height:187px;filter:saturate(.94)}
+.hero-side span{
+  bottom:14px;right:14px;
+  padding:7px 12px;
+  border:1px solid rgba(255,255,255,.75);
+  box-shadow:0 5px 16px rgba(0,0,0,.08);
+}
+.svc{
+  gap:10px;
+  padding:0;
+  background:transparent;
+}
+.svc div{
+  background:rgba(255,255,255,.8);
+  border-color:#eadfe5;
+  border-radius:16px;
+  padding:15px 10px;
+  box-shadow:var(--shadow-sm);
+  transition:.2s;
+}
+.svc div:hover{transform:translateY(-3px);background:#fff}
+.svc div:first-letter{font-size:18px}
+.amazing{
+  padding:20px;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(255,255,255,.16),transparent 24rem),
+    linear-gradient(125deg,#6c1034,#b50e4f 55%,#b9984e);
+  box-shadow:0 18px 48px rgba(115,16,56,.18);
+}
+.amazing .sec-h h2{font-size:20px}
+.prod-row,.grid5{gap:12px}
+.pcard{
+  border-color:#ece2e7;
+  border-radius:18px;
+  box-shadow:0 5px 18px rgba(32,18,28,.035);
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.pcard:hover{
+  transform:translateY(-6px);
+  box-shadow:0 18px 38px rgba(32,18,28,.11);
+  border-color:#e2b0c2;
+}
+.pcard img{
+  height:190px;
+  transition:transform .35s ease;
+}
+.pcard:hover img{transform:scale(1.025)}
+.pcard .b{padding:12px 13px 14px;gap:5px}
+.pcard h3{font-size:13.2px}
+.price{font-size:15.5px}
+.old{font-size:11.5px}
+.off{box-shadow:0 4px 12px rgba(190,18,60,.1)}
+.qadd{
+  width:36px;height:36px;
+  color:var(--rose);
+  border:1px solid #eee2e8;
+}
+.tiles{gap:14px}
+.tile{
+  min-height:190px;
+  border-radius:20px;
+  box-shadow:var(--shadow-sm);
+}
+.tile img{height:190px}
+.tile b{
+  bottom:14px;right:14px;
+  padding:7px 12px;
+  box-shadow:0 6px 18px rgba(32,18,28,.08);
+}
+.brands{gap:12px}
+.brand{
+  min-width:130px;
+  padding:17px 13px;
+  border-radius:16px;
+  box-shadow:0 5px 16px rgba(32,18,28,.035);
+}
+.news{
+  background:
+    radial-gradient(circle at 0 50%,rgba(255,255,255,.1),transparent 22rem),
+    linear-gradient(110deg,#191119,#6f1238);
+  box-shadow:0 18px 45px rgba(28,18,32,.13);
+  padding:26px;
+  border-radius:20px;
+}
+.trust span{
+  background:rgba(255,255,255,.9);
+  box-shadow:0 5px 16px rgba(32,18,28,.035);
+}
+.catban{
+  min-height:230px;
+  border-radius:22px;
+  box-shadow:var(--shadow);
+}
+.catban img{height:230px}
+.catban .cap{
+  padding:32px;
+  background:linear-gradient(90deg,rgba(20,11,17,.82),rgba(20,11,17,.18));
+}
+.catban .cap b{font-size:30px!important}
+.subs a{
+  padding:8px 14px;
+  box-shadow:0 4px 12px rgba(32,18,28,.035);
+}
+.filters{
+  top:105px;
+  border-radius:18px;
+  padding:17px;
+}
+.buybox{
+  top:105px;
+  border-radius:20px;
+}
+.gallery{border-radius:20px}
+.gallery .main{height:470px;border-radius:15px}
+.score{
+  background:linear-gradient(135deg,#fff5f8,#fff);
+  border:1px solid #f1e2e8;
+}
+.tabs{
+  border:1px solid var(--line);
+  border-bottom:0;
+  box-shadow:var(--shadow-sm);
+}
+.tabc{
+  box-shadow:var(--shadow-sm);
+}
+.form input,.form select,.form textarea{
+  background:#fff;
+  border-color:#eadfe5;
+}
+.form input:focus,.form select:focus,.form textarea:focus{
+  outline:none;
+  border-color:#dca0b8;
+  box-shadow:0 0 0 4px rgba(168,15,77,.06);
+}
+footer{
+  margin-top:50px;
+  padding:44px 0 20px;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(185,152,78,.12),transparent 20rem),
+    #171017;
+}
+.remax{
+  box-shadow:0 8px 24px rgba(185,152,78,.12);
+}
+.mnav{
+  border-top-color:#eadfe5;
+}
+.toast{
+  background:#181219;
+  box-shadow:0 12px 35px rgba(0,0,0,.18);
+}
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr}
+  .hero-slide,.hero-slide img{height:330px}
+}
+@media(max-width:760px){
+  .wrap{width:min(100% - 18px,1320px)}
+  .header-row{padding:9px 0}
+  .logo img{width:40px;height:40px}
+  .logo-name{font-size:19px}
+  .search input{padding:11px 13px 11px 40px}
+  .hero-slide,.hero-slide img{height:230px}
+  .hero-slide{border-radius:17px}
+  .hero-cap{padding:24px 17px 17px}
+  .hero-cap b{font-size:20px}
+  .hero-cap div{font-size:11.5px}
+  .hero-side a,.hero-side img{height:125px;min-height:125px}
+  .svc div{padding:11px 7px;font-size:11px}
+  .amazing{padding:14px 10px}
+  .pcard img{height:155px}
+  .tile,.tile img{height:130px;min-height:130px}
+  .catban,.catban img{height:165px;min-height:165px}
+  .catban .cap{padding:18px}
+  .catban .cap b{font-size:22px!important}
+  .gallery .main{height:300px}
+}
+
+  </style>
+  <link rel="icon" href="images/logo.png" />
+
+<style id="ZIBAKALA-IMAGE-PACK">
+:root{
+  --img-radius:24px;
+}
+.hero{position:relative;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(24,14,20,.72) 0%,rgba(24,14,20,.30) 48%,rgba(24,14,20,.04) 100%),
+    url("https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=1800&q=88") center/cover;
+  z-index:0;
+}
+.hero > *{position:relative;z-index:1}
+.hero .hero-slide{background:transparent!important;min-height:430px}
+.hero .hero-copy h1,.hero .hero-copy p{color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.28)}
+.hero .hero-copy .eyebrow{color:#f9d7df}
+.hero-side{
+  background-image:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.35)),
+  url("https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=900&q=88")!important;
+  background-size:cover!important;background-position:center!important;color:#fff!important;
+}
+.hero-side *{color:#fff!important}
+.visual-category{
+  position:relative;overflow:hidden;min-height:180px;border-radius:24px;
+  background:#f4e8ea center/cover no-repeat;
+  display:flex;align-items:flex-end;padding:22px;color:#fff;
+  box-shadow:0 12px 30px rgba(40,20,30,.10);
+}
+.visual-category::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(20,10,15,.68),transparent 65%)}
+.visual-category > *{position:relative;z-index:1}
+.pcard .pic,.product-card .pic,.product-image{
+  overflow:hidden;border-radius:22px;background:#f8f1f3;
+}
+.pcard .pic img,.product-card .pic img,.product-image img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .55s cubic-bezier(.2,.7,.2,1),filter .35s;
+}
+.pcard:hover .pic img,.product-card:hover .pic img{transform:scale(1.055)}
+.brand-banner{
+  min-height:170px;border-radius:26px;background:center/cover;
+  position:relative;overflow:hidden;color:#fff;
+}
+.brand-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,10,14,.68),rgba(15,10,14,.12))}
+.brand-banner>*{position:relative;z-index:1}
+.news{position:relative;overflow:hidden}
+.news::before{
+ content:"";position:absolute;inset:0;opacity:.16;
+ background:url("https://images.unsplash.com/photo-1556229010-aa3e5a45e5b9?auto=format&fit=crop&w=1400&q=80") center/cover;
+ pointer-events:none;
+}
+@media(max-width:760px){
+ .hero .hero-slide{min-height:360px}
+ .visual-category{min-height:150px}
+}
+</style>
+
+
+<style id="ZIBAKALA-ALL-IMAGE-POLISH">
+img{object-fit:cover}
+img[src=""],img:not([src]){visibility:hidden}
+.pcard .pic,.product-card .pic,.gallery,.gallery-main,.thumb,.brand-card,.category-card,.cat-card,.tile,.banner{
+  background:#f6edef center/cover no-repeat;
+}
+.pcard .pic img,.product-card .pic img{aspect-ratio:1/1}
+.gallery-main img{width:100%;height:100%;min-height:420px}
+.thumb img{width:100%;height:100%;aspect-ratio:1/1}
+.brand-card,.category-card,.cat-card{min-height:150px}
+.visual-category{min-height:190px}
+@media(max-width:900px){
+  .visual-category{min-height:155px}
+  .gallery-main img{min-height:300px}
+}
+@media(max-width:600px){
+  .visual-category{min-height:130px}
+}
+</style>
+
+</head>
+<body>
+  <div class="promo-strip">ارسال رایگان بالای ۸۰۰ هزار · کد GLOW10 و هدیه عروس BRIDE15 · مشاوره رنگ رایگان</div>
+  <div class="topbar">
+    <div class="wrap">
+      <span>۷ روز هفته، ۹ تا ۲۳ · ضمانت اصالت کالا</span>
+      <span><a href="admin.html">ورود مدیران</a> · <a href="tel:09903581971">تیم ریمکس ۰۹۹۰۳۵۸۱۹۷۱</a></span>
+    </div>
+  </div>
+  <header class="header">
+    <div class="wrap header-row">
+      <a class="logo" href="#/">
+        <img loading="lazy" src="images/logo.png" alt="زیباکالا" />
+        <div><span class="logo-name">زیباکالا</span><span class="logo-sub">بازار لوکس زیبایی</span></div>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="جستجو در زیباکالا؛ رژلب، سرم ویتامین C، عطر، پالت…" autocomplete="off" />
+        <span class="search-ico">⌕</span>
+        <div id="suggest" class="suggest hidden"></div>
+      </div>
+      <div class="hdr-acts">
+        <a class="icon-btn" href="#/account" id="userChip">ورود / ثبت‌نام</a>
+        <a class="icon-btn" href="#/wish">♡ <span class="badge" id="wishBadge">0</span></a>
+        <div class="cart-wrap">
+          <a class="icon-btn" href="#/cart">🛒 <span class="badge" id="cartBadge">0</span></a>
+          <div id="minicart" class="minicart"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <nav class="nav">
+    <div class="wrap">
+      <a href="#/">خانه</a>
+      <a href="#/amazing">شگفت‌انگیز</a>
+      <a href="#/c/face">آرایش صورت</a>
+      <a href="#/c/eyes">چشم</a>
+      <a href="#/c/lips">لب</a>
+      <a href="#/c/skin">مراقبت پوست</a>
+      <a href="#/c/kbeauty">کی‌بیوتی</a>
+      <a href="#/c/scent">عطر</a>
+      <a href="#/c/hair">مو</a>
+      <a href="#/c/nails">ناخن</a>
+      <a href="#/c/tools">براش</a>
+      <a href="#/gift">پک هدیه</a>
+      <a href="#/best">پرفروش</a>
+    </div>
+  </nav>
+
+  <main class="wrap" id="app"></main>
+
+  
+<section class="wrap" style="margin-top:22px">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <a class="visual-category" href="#/category/skin" style="background-image:url('https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=800&q=85')"><div><b style="font-size:20px">مراقبت پوست</b><div>روتین حرفه‌ای و روزانه</div></div></a>
+    <a class="visual-category" href="#/category/makeup" style="background-image:url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=85')"><div><b style="font-size:20px">آرایش</b><div>انتخاب‌های ترند و کاربردی</div></div></a>
+    <a class="visual-category" href="#/category/hair" style="background-image:url('https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=800&q=85')"><div><b style="font-size:20px">مراقبت مو</b><div>درخشش و لطافت بیشتر</div></div></a>
+    <a class="visual-category" href="#/category/fragrance" style="background-image:url('https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&w=800&q=85')"><div><b style="font-size:20px">عطر و رایحه</b><div>امضای شخصی شما</div></div></a>
+  </div>
+</section>
+
+<footer>
+    <div class="wrap fgrid">
+      <div>
+        <a class="logo" href="#/"><img loading="lazy" src="images/logo.png" alt="" /><div><span class="logo-name">زیباکالا</span></div></a>
+        <p>مارکت‌پلیس لوکس لوازم آرایشی، مراقبت پوست و عطر. کالای اصل، مشاوره رنگ، بسته‌بندی هدیه.</p>
+        <a class="remax" href="tel:09903581971">طراحی و توسعه یافته توسط تیم ریمکس · ۰۹۹۰۳۵۸۱۹۷۱</a>
+      </div>
+      <div>
+        <h4>با زیباکالا</h4>
+        <p><a href="#/faq">پرسش‌ها</a></p>
+        <p><a href="#/account">حساب کاربری</a></p>
+        <p><a href="#/gift">کارت هدیه</a></p>
+        <p><a href="admin.html">پنل مدیریت</a></p>
+      </div>
+      <div>
+        <h4>دسته‌ها</h4>
+        <p><a href="#/c/skin">اسکینکر</a></p>
+        <p><a href="#/c/lips">لب</a></p>
+        <p><a href="#/c/scent">عطر</a></p>
+        <p><a href="#/c/kbeauty">کی‌بیوتی</a></p>
+      </div>
+      <div>
+        <h4>پشتیبانی</h4>
+        <p>تماس فروشگاه از ۹ تا ۲۳</p>
+        <p><a href="tel:09903581971">۰۹۹۰۳۵۸۱۹۷۱</a></p>
+        <p>تهران، ولیعصر، برج زیبایی</p>
+      </div>
+    </div>
+    <div class="wrap" style="opacity:.7;margin-top:16px;font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <span>© ۱۴۰۵ زیباکالا</span>
+      <a href="tel:09903581971">طراحی و توسعه یافته توسط تیم ریمکس</a>
+    </div>
+  </footer>
+  <nav class="mnav">
+    <a href="#/">خانه</a>
+    <a href="#/c/lips">دسته‌ها</a>
+    <a href="#/cart">سبد</a>
+    <a href="#/wish">علاقه</a>
+    <a href="#/account">حساب</a>
+  </nav>
+  <div id="toast" class="toast hidden"></div>
+  <script>
+window.ZK_DATA = (() => {
+  const CATS = [
+    { id: "face", name: "آرایش صورت", ico: "✨", color: "#fff1f2", sub: ["کرم‌پودر", "کانسیلر", "پنکک", "پرایمر"] },
+    { id: "eyes", name: "چشم", ico: "👁", color: "#f5f3ff", sub: ["سایه", "ریمل", "خط چشم", "ابرو"] },
+    { id: "lips", name: "لب", ico: "💋", color: "#ffe4e6", sub: ["رژلب", "لیپ‌گلاس", "مداد لب", "بالم"] },
+    { id: "skin", name: "مراقبت پوست", ico: "💧", color: "#ecfeff", sub: ["سرم", "کرم", "تونر", "شوینده"] },
+    { id: "hair", name: "مو", ico: "💇", color: "#fff7ed", sub: ["شامپو", "ماسک", "روغن", "رنگ"] },
+    { id: "scent", name: "عطر", ico: "🌸", color: "#fdf4ff", sub: ["زنانه", "مردانه", "نیش", "بادی‌اسپلش"] },
+    { id: "nails", name: "ناخن", ico: "💅", color: "#fdf2f8", sub: ["لاک", "ژل", "مراقبت", "ابزار"] },
+    { id: "tools", name: "براش و ابزار", ico: "🖌", color: "#f8fafc", sub: ["براش صورت", "براش چشم", "بیوتی‌بلندر", "آینه"] },
+    { id: "body", name: "بدن و حمام", ico: "🧴", color: "#f0fdf4", sub: ["لوسیون", "اسکراب", "دئودورانت"] },
+    { id: "men", name: "آقایان", ico: "🧔", color: "#eff6ff", sub: ["اصلاح", "افترشیو", "عطر مردانه"] },
+    { id: "sets", name: "پک و هدیه", ico: "🎁", color: "#fffbeb", sub: ["پک عروس", "ست روزانه", "گیفت"] },
+    { id: "kbeauty", name: "کی‌بیوتی", ico: "🇰🇷", color: "#fdf2f8", sub: ["گلس‌اسکین", "ماسک ورقه‌ای", "سان‌اسکرین"] },
+    { id: "organic", name: "ارگانیک", ico: "🌿", color: "#ecfdf5", sub: ["طبیعی", "وگان", "بدون تست حیوانی"] },
+  ];
+
+  const p = (id, title, cat, brand, price, old, rating, reviews, img, unit, amazing, stock, desc, extra = {}) => ({
+    id, title, cat, brand, price, old, rating, reviews, img,
+    gallery: extra.gallery || [img],
+    unit, amazing: !!amazing, stock, desc,
+    sold: extra.sold || Math.floor(reviews * 0.62),
+    plus: !!extra.plus,
+    vegan: !!extra.vegan,
+    origin: extra.origin || "فرانسه",
+    volume: extra.volume || unit,
+    finish: extra.finish || "طبیعی",
+    skin: extra.skin || "همه انواع پوست",
+    spf: extra.spf || "",
+    shades: extra.shades || [],
+    ingredients: extra.ingredients || "آب، گلیسیرین، روغن جوجوبا، ویتامین E، هیالورونیک اسید.",
+    howto: extra.howto || "روی پوست تمیز بزنید. با حرکات دایره‌ای پخش کنید. صبح و شب قابل استفاده است.",
+    warn: extra.warn || "دور از دسترس کودکان. در صورت حساسیت مصرف را قطع کنید.",
+    specs: extra.specs || { برند: brand, حجم: extra.volume || unit, ساخت: extra.origin || "فرانسه" },
+    tags: extra.tags || [],
+    pao: extra.pao || "۱۲ ماه پس از باز شدن",
+  });
+
+  const PRODUCTS = [
+    p(1, "رژلب مخملی نود رزگلد Pillow Talk", "lips", "گلوری‌رز", 489000, 629000, 4.8, 2341, "images/p-lipstick.png", "۳٫۵ گرم", 1, 28,
+      "رژلب مخملی با پیگمنت بالا و رایحه وانیل ملایم. پوشش کامل در یک لایه، بدون خشکی لب.",
+      { origin: "انگلستان", finish: "مات مخملی", shades: [{ n: "Pillow Talk", h: "#c08081" }, { n: "Berry", h: "#8b2942" }, { n: "Nude", h: "#c9a08a" }, { n: "Cherry", h: "#b91c1c" }], gallery: ["images/p-lipstick.png", "images/p-nudelip.jpg", "images/p-lips.png"], vegan: 1, tags: ["پرفروش", "عروس"] }),
+    p(2, "رژلب مات قرمز سینمایی Holly Red", "lips", "گلوری‌رز", 459000, 540000, 4.7, 1870, "images/p-redlip.jpg", "۳٫۵ گرم", 1, 22,
+      "قرمز کلاسیک هالیوودی با فینیش مات مدرن. ماندگاری ۸ ساعته.",
+      { origin: "انگلستان", finish: "مات", shades: [{ n: "Holly", h: "#9f1239" }, { n: "Ruby", h: "#be123c" }], gallery: ["images/p-redlip.jpg", "images/p-lips.png"] }),
+    p(3, "بالم لب آبرسان هپی‌کیس هلویی", "lips", "گلوری‌رز", 289000, 349000, 4.6, 980, "images/p-nudelip.jpg", "۳ گرم", 0, 40,
+      "بالم رنگی مرطوب‌کننده با شی‌باتر و ویتامین E.",
+      { finish: "براق مرطوب", vegan: 1 }),
+    p(4, "لیپ‌گلاس شاین الماسی Crystal Gloss", "lips", "لومی‌بژ", 198000, 245000, 4.5, 654, "images/p-lipstick.png", "۴ میل", 1, 35,
+      "گلاس غیرچسبنده با درخشش چندبعدی.",
+      { finish: "براق", origin: "کره" }),
+    p(5, "مداد لب ضدآب Nude Contour", "lips", "لومی‌بژ", 129000, 159000, 4.4, 720, "images/p-nudelip.jpg", "عدد", 0, 50, "مداد کرمی برای کانتور لب، ضدآب."),
+    p(6, "پالت سایه ۶۰ رنگ Luxury Gathering", "eyes", "لونار", 890000, 1190000, 4.9, 3102, "images/p-palette.jpg", "پالت", 1, 14,
+      "۶۰ رنگ مات، شیمر و متالیک. پیگمنت سینمایی، بدون ریزش.",
+      { origin: "چین", gallery: ["images/p-palette.jpg", "images/p-palette2.jpg", "images/p-palette3.jpg"], tags: ["حرفه‌ای"], shades: [{ n: "Nude", h: "#d4b5a0" }, { n: "Gold", h: "#c9a227" }, { n: "Plum", h: "#6b21a8" }] }),
+    p(7, "پالت چشم نود رزگلد Sunset Nude", "eyes", "لونار", 459000, 560000, 4.7, 1440, "images/p-palette2.jpg", "پالت", 0, 19, "۱۲ رنگ روزمره نود و رزگلد."),
+    p(8, "ریمل حجم‌دهنده مشکی Lash Opera", "eyes", "نویر", 245000, 299000, 4.6, 4201, "images/p-brushes.jpg", "۱۰ میل", 1, 48, "برس مخروطی، حجم بدون چسبندگی، ضدآب.", { origin: "ایتالیا", finish: "حجیم" }),
+    p(9, "خط چشم ماژیکی ضدآب Ink Line", "eyes", "نویر", 189000, 229000, 4.5, 2100, "images/p-brushes2.jpg", "۲ میل", 0, 40, "نوک نمدی دقیق، مشکی عمیق ۲۴ ساعته."),
+    p(10, "ژل ابرو شفاف Brow Sculpt", "eyes", "لومی‌بژ", 165000, 198000, 4.4, 880, "images/p-brushes.jpg", "۶ میل", 0, 33, "ثابت‌کننده ابرو با برس مینی."),
+    p(11, "کرم‌پودر مخملی Forever Velvet", "face", "دیوا", 789000, 980000, 4.8, 2650, "images/p-found.jpg", "۳۰ میل", 1, 21,
+      "پوشش کامل مخملی، کنترل چربی ۱۲ ساعته، طیف رنگ گسترده.",
+      { origin: "فرانسه", finish: "مات مخملی", skin: "چرب و مختلط", spf: "SPF 20",
+        shades: [{ n: "1N", h: "#f3d5c0" }, { n: "2N", h: "#e6bea0" }, { n: "3W", h: "#d0a07a" }, { n: "4W", h: "#b8835c" }, { n: "5N", h: "#8d5a3a" }],
+        gallery: ["images/p-found.jpg", "images/p-found2.jpg"] }),
+    p(12, "پنکک کامپکت Camo Powder", "face", "الف", 329000, 399000, 4.5, 1990, "images/p-found2.jpg", "۱۲ گرم", 1, 30, "پنکک سبک با پوشانندگی متوسط تا کامل.", { origin: "آمریکا", shades: [{ n: "Fair", h: "#f0d0b8" }, { n: "Light", h: "#e0b894" }, { n: "Medium", h: "#c99670" }] }),
+    p(13, "کانسیلر سه‌رنگ اصلاح تیرگی", "face", "لومی‌بژ", 245000, 289000, 4.6, 1220, "images/p-concealer.jpg", "پالت", 0, 26, "هلویی، بژ و زرد برای اصلاح تیرگی دور چشم."),
+    p(14, "پرایمر منافذ Poreless Silk", "face", "دیوا", 398000, 459000, 4.7, 980, "images/p-serum.jpg", "۳۰ میل", 0, 24, "پرایمر سیلیکونی نرم‌کننده منافذ."),
+    p(15, "پالت هایلایتر و بلاشر Glow-Up", "face", "لومی‌بژ", 365000, 429000, 4.6, 1540, "images/p-blush.jpg", "پالت", 1, 18, "بلاشر هلویی + هایلایتر شامپاینی + کانتور.", { gallery: ["images/p-blush.jpg", "images/p-concealer.jpg"] }),
+    p(16, "سرم ویتامین C ۱۵٪ Glow Ampoule", "skin", "اورا", 545000, 689000, 4.8, 3310, "images/p-serum.jpg", "۳۰ میل", 1, 27,
+      "سرم پایدار ویتامین C برای درخشش و یکدستی رنگ پوست. مناسب لک و کدری.",
+      { origin: "کره", skin: "کدر و لک‌دار", vegan: 1, plus: 1, gallery: ["images/p-serum.jpg", "images/p-kbeauty.jpg"] }),
+    p(17, "کرم شب کلاژن Repair Night", "skin", "اورا", 489000, 590000, 4.7, 1760, "images/p-serum.jpg", "۵۰ میل", 0, 22, "کرم شب بازسازی با پپتید و سرامید."),
+    p(18, "شوینده ملایم Amino Foam", "skin", "اورا", 219000, 259000, 4.6, 2880, "images/p-kbeauty.jpg", "۱۵۰ میل", 0, 55, "فوم آمینواسید، pH ۵٫۵، بدون خشکی."),
+    p(19, "تونر برنج ۷۰٪ Glow Milky", "kbeauty", "آنوا", 389000, 459000, 4.8, 2104, "images/p-toner.jpg", "۲۵۰ میل", 1, 31, "تونر شیری برنج برای گلس‌اسکین و سد پوستی.", { origin: "کره", vegan: 1 }),
+    p(20, "کیت گلس‌اسکین کلاژن ۴ مرحله", "kbeauty", "مدیکیوب", 629000, 790000, 4.7, 990, "images/p-kkit.jpg", "ست", 1, 16, "ست مینی ۴ مرحله‌ای کلاژن برای پوست شیشه‌ای.", { origin: "کره", gallery: ["images/p-kkit.jpg", "images/p-kbeauty.jpg"] }),
+    p(21, "ست دابل‌کلینزینگ + مرطوب‌کننده", "kbeauty", "بیوتی‌آو‌جوسون", 549000, 680000, 4.8, 1444, "images/p-kbeauty.jpg", "ست", 0, 20, "شوینده روغنی و فوم + کرم گلس‌اسکین."),
+    p(22, "ماسک ورقه‌ای عسل و پروپولیس ۱۰ عددی", "kbeauty", "اورا", 289000, 349000, 4.5, 2011, "images/p-kkit.jpg", "جعبه", 0, 40, "ماسک آبرسان درخشان."),
+    p(23, "سان‌اسکرین سبک SPF50+", "kbeauty", "اورا", 329000, 399000, 4.7, 3220, "images/p-toner.jpg", "۵۰ میل", 1, 36, "ضدآفتاب کرمی سبک، بدون سفیدک.", { spf: "SPF 50+ PA++++", origin: "کره" }),
+    p(24, "عطر زنانه گلد اسپلش EDP ۱۰۰ میل", "scent", "نویر", 1890000, 2290000, 4.9, 870, "images/p-perfume.jpg", "۱۰۰ میل", 1, 11,
+      "گل‌های سفید، وانیل و چوب صندل. پخش بوی لوکس عصرانه.",
+      { origin: "فرانسه", gallery: ["images/p-perfume.jpg", "images/b-perfume.jpg", "images/b-hand.jpg"], tags: ["لوکس"] }),
+    p(25, "عطر زنانه رزگلد Mist ۵۰ میل", "scent", "گلوری‌رز", 980000, 1190000, 4.6, 540, "images/b-perfume.jpg", "۵۰ میل", 0, 15, "رز بلغاری و مشک سفید."),
+    p(26, "بادی‌اسپلش وانیل و گل محمدی", "scent", "لومی‌بژ", 245000, 299000, 4.4, 1660, "images/p-perfume.jpg", "۲۵۰ میل", 0, 40, "رایحه تازه روزانه."),
+    p(27, "عطر مردانه ابسیدین EDP ۷۵ میل", "men", "نویر", 1450000, 1750000, 4.7, 410, "images/p-perfume.jpg", "۷۵ میل", 1, 12, "چرم، وتیور و برگاموت."),
+    p(28, "افترشیو تسکین‌دهنده آلوئه‌ورا", "men", "نویر", 189000, 229000, 4.5, 620, "images/p-serum.jpg", "۱۰۰ میل", 0, 28, "پس از اصلاح بدون سوزش."),
+    p(29, "فوم اصلاح پوست حساس", "men", "نویر", 165000, 198000, 4.3, 480, "images/p-hair.jpg", "۲۰۰ میل", 0, 30, "فوم غلیظ با روغن بادام."),
+    p(30, "شامپو ترمیم‌کننده کراتین سالن", "hair", "سیلک", 329000, 399000, 4.6, 1880, "images/p-hair.jpg", "۳۰۰ میل", 1, 34, "شامپو بدون سولفات برای موهای آسیب‌دیده.", { origin: "ایتالیا", skin: "موی خشک" }),
+    p(31, "ماسک مو آرگان ۱۰ دقیقه‌ای", "hair", "سیلک", 289000, 349000, 4.7, 1220, "images/p-hair.jpg", "۲۵۰ میل", 0, 26, "ماسک مغذی با روغن آرگان مراکش."),
+    p(32, "روغن مو براق‌کننده آرگان ۵۰ میل", "hair", "سیلک", 245000, 299000, 4.8, 990, "images/p-serum.jpg", "۵۰ میل", 0, 22, "چند قطره برای نوک مو."),
+    p(33, "اسپری محافظ حرارت ۲۳۰ درجه", "hair", "سیلک", 198000, 245000, 4.4, 710, "images/p-hair.jpg", "۲۰۰ میل", 0, 29, "قبل از اتو و سشوار."),
+    p(34, "لاک ناخن ژل‌لایت رز کوارتز", "nails", "لونا", 89000, 119000, 4.5, 1540, "images/p-nails.jpg", "۱۵ میل", 1, 60, "رنگ رز کوارتز براق، ۷ روز ماندگاری.", { shades: [{ n: "Rose", h: "#e11d48" }, { n: "Nude", h: "#e8c4b8" }, { n: "Red", h: "#9f1239" }, { n: "Black", h: "#111827" }], gallery: ["images/p-nails.jpg", "images/p-nails2.jpg"] }),
+    p(35, "ست لاک رنگارنگ ۱۲ عددی", "nails", "لونا", 389000, 490000, 4.6, 880, "images/p-nails2.jpg", "ست", 1, 18, "۱۲ رنگ ترند بهار."),
+    p(36, "تقویت‌کننده ناخن با بیوتین", "nails", "لونا", 129000, 159000, 4.4, 430, "images/p-nails.jpg", "۱۲ میل", 0, 40, "بیس‌کوت تقویتی."),
+    p(37, "ست براش چشم لوکس ۱۵ تکه رزگلد", "tools", "جِس‌آپ", 459000, 590000, 4.8, 2010, "images/p-brushes2.jpg", "ست", 1, 20, "موی مصنوعی نرم، دسته رزگلد.", { gallery: ["images/p-brushes2.jpg", "images/p-brushes.jpg"], origin: "چین" }),
+    p(38, "ست براش صورت بامبو ۷ تکه", "tools", "اِنزو", 329000, 399000, 4.6, 760, "images/p-brushes.jpg", "ست", 0, 24, "دسته بامبو، مناسب سفر."),
+    p(39, "بیوتی‌بلندر اصل صورتی", "tools", "لومی‌بژ", 189000, 245000, 4.7, 2880, "images/b-pouch.jpg", "عدد", 0, 50, "اسفنج لاتکس‌فری، خیس استفاده شود."),
+    p(40, "آینه LED جیبی شارژی", "tools", "دیوا", 398000, 479000, 4.5, 510, "images/b-dior.jpg", "عدد", 0, 15, "نور سه‌حالته، شارژ USB."),
+    p(41, "لوسیون بدن وانیل و شی‌باتر", "body", "اورا", 245000, 299000, 4.6, 1330, "images/p-serum.jpg", "۲۵۰ میل", 0, 38, "آبرسان ۲۴ ساعته بدن."),
+    p(42, "اسکراب شکر و روغن نارگیل", "body", "اورا", 219000, 269000, 4.5, 890, "images/p-kbeauty.jpg", "۲۰۰ گرم", 1, 27, "لایه‌بردار ملایم، پوست مخملی."),
+    p(43, "دئودورانت رولی بدون آلومینیوم", "body", "سیلک", 165000, 198000, 4.4, 1540, "images/p-toner.jpg", "۵۰ میل", 0, 44, "۲۴ ساعت خشکی، رایحه پودری."),
+    p(44, "پک عروس Glow Bridal", "sets", "گلوری‌رز", 2490000, 3190000, 4.9, 310, "images/b-flat.jpg", "باکس", 1, 8,
+      "رژلب نود، پالت نود، کرم‌پودر، هایلایتر و براش در باکس مخمل.",
+      { gallery: ["images/b-flat.jpg", "images/b-rosegold.jpg", "images/b-dior.jpg"], tags: ["هدیه", "عروس"] }),
+    p(45, "ست روزانه اسکینکر ۵ تکه", "sets", "اورا", 980000, 1290000, 4.7, 640, "images/p-kkit.jpg", "ست", 0, 14, "شوینده، تونر، سرم، کرم روز و شب."),
+    p(46, "گیفت باکس رزگلد مینی", "sets", "لومی‌بژ", 459000, 590000, 4.5, 420, "images/b-pouch.jpg", "باکس", 0, 19, "بالم لب، مینی عطر و آینه."),
+    p(47, "روغن صورت ارگانیک گل رز دمشقی", "organic", "هِربل", 389000, 459000, 4.8, 770, "images/p-serum.jpg", "۳۰ میل", 1, 17, "۱۰۰٪ طبیعی، پرس سرد، مناسب پوست خشک.", { origin: "ایران", vegan: 1 }),
+    p(48, "صابون گیاهی زعفران و شیر", "organic", "هِربل", 89000, 119000, 4.4, 980, "images/p-kbeauty.jpg", "عدد", 0, 60, "صابون دست‌ساز بدون پارابن.", { origin: "ایران", vegan: 1 }),
+    p(49, "سرم هیالورونیک ۲٪ + B5", "skin", "اورا", 365000, 429000, 4.7, 2540, "images/p-serum.jpg", "۳۰ میل", 1, 29, "آبرسانی عمقی، مناسب لایه زیر کرم.", { vegan: 1, plus: 1 }),
+    p(50, "کرم دور چشم کافئین و پپتید", "skin", "دیوا", 429000, 520000, 4.6, 1110, "images/p-serum.jpg", "۱۵ میل", 0, 20, "کاهش پف و تیرگی."),
+    p(51, "رژگونه کرمی هلویی Peach Cream", "face", "لومی‌بژ", 245000, 299000, 4.6, 1320, "images/p-blush.jpg", "۶ گرم", 0, 32, "بلاشر کرمی قابل لایه‌بندی.", { shades: [{ n: "Peach", h: "#e8a090" }, { n: "Rose", h: "#d46a7e" }] }),
+    p(52, "کانتور استیکی دو سر Warm Sculpt", "face", "دیوا", 329000, 399000, 4.5, 860, "images/p-concealer.jpg", "عدد", 0, 22, "کانتور و هایلایت کرمی."),
+    p(53, "اسپری فیکس ۱۲ ساعته Matte Lock", "face", "نویر", 289000, 349000, 4.7, 1990, "images/p-toner.jpg", "۱۰۰ میل", 1, 34, "فیکساتور مات، بدون سفیدک."),
+    p(54, "مداد چشم ژلی مشکی اسموکی", "eyes", "نویر", 145000, 179000, 4.4, 1540, "images/p-brushes.jpg", "عدد", 0, 48, "ژلی نرم، قابل اسموک."),
+    p(55, "سایه تکی متالیک طلایی 24K", "eyes", "لونار", 129000, 165000, 4.5, 610, "images/p-palette3.jpg", "۳ گرم", 0, 40, "شیمر درشت لوکس."),
+    p(56, "ریمل قهوه‌ای روزمره Soft Brown", "eyes", "نویر", 219000, 259000, 4.3, 720, "images/p-brushes.jpg", "۱۰ میل", 0, 28, "نگاه طبیعی روزانه."),
+    p(57, "تینت لب کره‌ای آبدار Cherry Water", "lips", "اورا", 189000, 229000, 4.7, 2110, "images/p-redlip.jpg", "۵ گرم", 1, 36, "تینت آبدار ماندگار روی لب و گونه.", { origin: "کره" }),
+    p(58, "لیپ‌اویل شفاف مغذی", "lips", "هِربل", 165000, 198000, 4.6, 880, "images/p-lipstick.png", "۶ میل", 0, 30, "روغن جوجوبا و ویتامین E.", { vegan: 1 }),
+    p(59, "ماسک خواب آبرسان هیالورون", "skin", "اورا", 329000, 399000, 4.6, 990, "images/p-kkit.jpg", "۸۰ میل", 0, 24, "شب بزنید، صبح پوست پُر."),
+    p(60, "اسید لاکتیک ۵٪ لایه بردار ملایم", "skin", "اورا", 289000, 349000, 4.5, 640, "images/p-toner.jpg", "۳۰ میل", 0, 22, "شب‌ها، بعد ضدآفتاب صبح ضروری.", { warn: "در بارداری و روی پوست آسیب‌دیده استفاده نشود. SPF روزانه الزامی است." }),
+    p(61, "شامپو ضدریزش کافئین", "hair", "سیلک", 365000, 429000, 4.5, 1110, "images/p-hair.jpg", "۲۵۰ میل", 0, 26, "کافئین و بیوتین برای ریشه مو."),
+    p(62, "سرم مو انتهای دو شاخه", "hair", "سیلک", 219000, 269000, 4.4, 540, "images/p-serum.jpg", "۵۰ میل", 0, 31, "نوک مو را سیل می‌کند."),
+    p(63, "عطر جیبی رز و عود ۲۰ میل", "scent", "نویر", 389000, 459000, 4.6, 430, "images/b-hand.jpg", "۲۰ میل", 0, 25, "سایز کیف، شارژ مجدد."),
+    p(64, "ست دوقلو زنانه و مردانه Couple", "scent", "نویر", 2590000, 3190000, 4.8, 210, "images/b-perfume.jpg", "ست", 1, 7, "دو ادکلن ۷۵ میل در باکس چوبی."),
+    p(65, "لاک ژل یووی نود شیری", "nails", "لونا", 145000, 179000, 4.5, 760, "images/p-nails.jpg", "۱۵ میل", 0, 28, "نیاز به دستگاه UV."),
+    p(66, "نرم‌کننده کوتیکول روغن بادام", "nails", "لونا", 79000, 99000, 4.4, 510, "images/p-nails2.jpg", "۱۵ میل", 0, 45, "روزانه روی کوتیکول."),
+    p(67, "کیف آرایش مخمل رزگلد", "tools", "لومی‌بژ", 289000, 359000, 4.6, 980, "images/b-pouch.jpg", "عدد", 0, 22, "جیب‌بندی حرفه‌ای، زیپ طلایی."),
+    p(68, "اپلیکاتور سایه دوطرفه ۲۰ عددی", "tools", "لونار", 59000, 79000, 4.2, 1220, "images/p-brushes.jpg", "بسته", 0, 80, "یک‌بارمصرف بهداشتی."),
+    p(69, "روغن بدن خشک Dry Oil Shimmer", "body", "گلوری‌رز", 329000, 399000, 4.7, 640, "images/b-hand.jpg", "۱۰۰ میل", 1, 18, "درخشش پوست برنزه، غیرچرب."),
+    p(70, "کره بدن پسته و وانیل", "body", "هِربل", 245000, 299000, 4.5, 410, "images/p-kbeauty.jpg", "۲۰۰ میل", 0, 24, "غلیظ و مغذی، مناسب زمستان.", { origin: "ایران" }),
+    p(71, "بالم ریش چوب سدر", "men", "نویر", 219000, 269000, 4.4, 290, "images/p-serum.jpg", "۵۰ میل", 0, 20, "نرم‌کننده ریش و پوست."),
+    p(72, "غلتک یخ صورت استیل", "tools", "اورا", 259000, 329000, 4.6, 880, "images/p-found.jpg", "عدد", 0, 16, "کاهش پف صبحگاهی."),
+    p(73, "ماسک خاک رس صورتی پاکسازی", "organic", "هِربل", 189000, 229000, 4.5, 670, "images/p-kkit.jpg", "۱۰۰ گرم", 0, 28, "برای پوست چرب و جوش‌دار.", { vegan: 1, origin: "ایران" }),
+    p(74, "میسلار واتر گل رز ۴۰۰ میل", "skin", "اورا", 245000, 299000, 4.6, 1880, "images/p-toner.jpg", "۴۰۰ میل", 0, 40, "پاک‌کننده آرایش ضدآب بدون سوزش چشم."),
+    p(75, "پد تونر پنبه‌ای ۶۰ عددی", "kbeauty", "آنوا", 129000, 159000, 4.4, 990, "images/p-toner.jpg", "جعبه", 0, 50, "پد ضخیم بدون پرز."),
+    p(76, "کرم‌پودر سبک Skin Tint SPF30", "face", "اورا", 429000, 520000, 4.5, 1110, "images/p-found2.jpg", "۳۰ میل", 0, 23, "کاور طبیعی اسکینکِر، مناسب پوست خشک.", { spf: "SPF 30", shades: [{ n: "Ivory", h: "#f4d8c4" }, { n: "Beige", h: "#e2b894" }, { n: "Tan", h: "#c48a62" }] }),
+    p(77, "پودر بیک شفاف Invisible Bake", "face", "دیوا", 365000, 429000, 4.7, 1540, "images/p-found.jpg", "۱۰ گرم", 1, 27, "بیک زیر چشم بدون فلش‌بک."),
+    p(78, "پالت کانتور خامه‌ای ۴ رنگ", "face", "لومی‌بژ", 389000, 459000, 4.5, 720, "images/p-concealer.jpg", "پالت", 0, 19, "کانتور، برنز، بلاشر، هایلایت."),
+    p(79, "خط لب مایع مات Transfer-proof", "lips", "نویر", 198000, 245000, 4.6, 860, "images/p-redlip.jpg", "۲ میل", 0, 33, "نوک قلم‌مو، ضدانتقال."),
+    p(80, "ست مینی عطر دیسکاوری ۶ تایی", "scent", "نویر", 629000, 790000, 4.8, 540, "images/b-perfume.jpg", "ست", 1, 13, "شش دکانتی ۱۰ میل برای انتخاب امضا."),
+    p(81, "رنگ موی بدون آمونیاک شکلاتی", "hair", "سیلک", 289000, 349000, 4.3, 410, "images/p-hair.jpg", "کیت", 0, 18, "پوشش کامل سفیدی، بوی ملایم."),
+    p(82, "اسپری حجم ریشه Volume Mist", "hair", "سیلک", 198000, 245000, 4.4, 330, "images/p-hair.jpg", "۱۵۰ میل", 0, 25, "حجم در ریشه بدون چربی."),
+    p(83, "کرم دست ابریشمی شی‌باتر", "body", "هِربل", 129000, 159000, 4.6, 1220, "images/p-serum.jpg", "۷۵ میل", 0, 48, "جذب سریع، رایحه پودری."),
+    p(84, "اسپری بدن مردانه Vetiver Sport", "men", "نویر", 219000, 269000, 4.3, 510, "images/p-perfume.jpg", "۱۵۰ میل", 0, 30, "تازه و چوبی بعد از باشگاه."),
+    p(85, "پک مسافرتی اسکینکر ۷ تکه", "sets", "اورا", 389000, 490000, 4.6, 760, "images/b-pouch.jpg", "ست", 0, 22, "سایز فرودگاهی، کیف شفاف."),
+    p(86, "سرم نیاسینامید ۱۰٪ + زینک", "skin", "اورا", 329000, 399000, 4.7, 2760, "images/p-serum.jpg", "۳۰ میل", 1, 38, "کنترل چربی و منافذ.", { skin: "چرب و جوش‌دار", vegan: 1, plus: 1 }),
+    p(87, "کرم ضدلک ترانگزامیک اسید", "skin", "دیوا", 545000, 649000, 4.6, 540, "images/p-serum.jpg", "۳۰ میل", 0, 16, "برای لک هورمونی و جای جوش."),
+    p(88, "پالت چشم اسموکی Midnight", "eyes", "لونار", 429000, 529000, 4.7, 680, "images/p-palette3.jpg", "پالت", 0, 14, "۹ رنگ دودی و متالیک شب."),
+    p(89, "چسب مژه و مژه مصنوعی طبیعی", "eyes", "نویر", 165000, 198000, 4.4, 990, "images/p-brushes.jpg", "ست", 0, 35, "مژه ۳ بعدی سبک."),
+    p(90, "رژلب مایع مات ۲۲ ساعته Velvet Ink", "lips", "نویر", 259000, 319000, 4.8, 1880, "images/p-redlip.jpg", "۴ میل", 1, 29,
+      "مایع مات بدون خشکی، طیف نود تا زرشکی.",
+      { finish: "مات", shades: [{ n: "Sand", h: "#c9a08a" }, { n: "Rose", h: "#b76e79" }, { n: "Wine", h: "#7f1d1d" }] }),
+  ];
+
+  const FAQ = [
+    { q: "اصالت کالا چطور تضمین می‌شود؟", a: "همه کالاها از نمایندگی رسمی وارد می‌شوند. کد اصالت روی جعبه قابل استعلام است و تا ۷ روز امکان مرجوعی با جعبه سالم دارید." },
+    { q: "چطور رنگ کرم‌پودر را انتخاب کنم؟", a: "در صفحه کالا طیف شید را ببینید. اگر مردد بودید، کد REMAX را بزنید و با تیم ریمکس روی ۰۹۹۰۳۵۸۱۹۷۱ مشورت کنید." },
+    { q: "ارسال چه مدت طول می‌کشد؟", a: "در تهران ارسال جت زیر ۳ ساعت برای سفارش‌های قبل از ۲۰. سایر شهرها ۱ تا ۳ روز کاری." },
+    { q: "تست حیوانی؟", a: "کالاهای دارای نشان وگان و cruelty-free روی کارت مشخص شده‌اند. فیلتر ارگانیک را در دسته‌بندی بزنید." },
+    { q: "مرجوعی آرایشی؟", a: "کالای پلمپ تا ۷ روز. کالای بازشده فقط در صورت مغایرت یا نقص تولید با هماهنگی پشتیبانی." },
+  ];
+  const COUPONS = [
+    { code: "GLOW10", percent: 10, min: 400000, title: "درخشش ۱۰٪" },
+    { code: "BRIDE15", percent: 15, min: 1500000, title: "عروس ۱۵٪" },
+    { code: "SKIN20", percent: 20, min: 900000, title: "اسکینکر ۲۰٪" },
+    { code: "REMAX", percent: 12, min: 250000, title: "تیم ریمکس ۱۲٪" },
+  ];
+  const CITIES = ["تهران", "کرج", "اصفهان", "شیراز", "مشهد", "تبریز", "رشت", "اهواز", "قم", "یزد"];
+  const PHOTO = {
+    face: "images/p-found.jpg", eyes: "images/p-palette.jpg", lips: "images/p-lipstick.png",
+    skin: "images/p-serum.jpg", hair: "images/p-hair.jpg", scent: "images/p-perfume.jpg",
+    nails: "images/p-nails.jpg", tools: "images/p-brushes.jpg", body: "images/p-kbeauty.jpg",
+    men: "images/b-perfume.jpg", sets: "images/b-flat.jpg", kbeauty: "images/p-kkit.jpg", organic: "images/b-store.jpg",
+  };
+  CATS.forEach(c => { c.photo = PHOTO[c.id]; });
+  return { CATS, PRODUCTS, FAQ, COUPONS, CITIES };
+})();
+
+  </script>
+  <script>
+(() => {
+  const LS = {
+    p: "zk3_products", u: "zk3_users", s: "zk3_session", c: "zk3_cart",
+    w: "zk3_wish", o: "zk3_orders", r: "zk3_reviews", q: "zk3_qa",
+    cmp: "zk3_cmp", view: "zk3_view", news: "zk3_news",
+  };
+  const { CATS, PRODUCTS, FAQ, COUPONS, CITIES } = window.ZK_DATA;
+  const BANNER = {
+    face: "images/p-found.jpg", eyes: "images/p-palette.jpg", lips: "images/h-lips.jpg",
+    skin: "images/h-skin.jpg", hair: "images/p-hair.jpg", scent: "images/h-perfume.jpg",
+    nails: "images/p-nails.jpg", tools: "images/h-brushes.jpg", body: "images/h-skin.jpg",
+    men: "images/b-perfume.jpg", sets: "images/b-flat.jpg", kbeauty: "images/h-kbeauty.jpg",
+    organic: "images/h-skin.jpg",
+  };
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const fmt = n => (n || 0).toLocaleString("fa-IR") + " تومان";
+  const toast = m => { const t = $("#toast"); t.textContent = m; t.classList.remove("hidden"); clearTimeout(t._t); t._t = setTimeout(() => t.classList.add("hidden"), 2400); };
+  const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+  const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+  const hash = () => location.hash.replace(/^#/, "") || "/";
+  const go = p => { location.hash = p; };
+  const catOf = id => CATS.find(c => c.id === id) || { name: id, sub: [] };
+
+  function seed() {
+    let ps = load(LS.p, null);
+    if (!ps || !Array.isArray(ps) || ps.length < 80) { save(LS.p, PRODUCTS); ps = PRODUCTS; }
+    if (!load(LS.u, null)) {
+      save(LS.u, [
+        { phone: "09903581971", pass: "admin123", name: "مدیر زیباکالا", role: "admin" },
+        { phone: "09120000000", pass: "123456", name: "سارا نمونه", role: "user" },
+      ]);
+    }
+    if (!load(LS.r, null)) {
+      const names = ["نرگس م.", "هستی ر.", "آیدا ک.", "مهسا ش.", "یاسمن ب."];
+      const texts = [
+        "کیفیت عالی و بسته‌بندی لوکس. رنگ دقیقاً همان عکس بود.",
+        "ماندگاری خوب روی پوست مختلط. برای مهمانی عالی است.",
+        "بافت سبک، بدون سنگینی. دوباره می‌خرم.",
+        "ارسال سریع و کارت اصالت داخل جعبه بود.",
+        "رایحه ملایم و رنگ پوستم را یکدست کرد.",
+      ];
+      const sample = [];
+      ps.slice(0, 50).forEach(p => {
+        sample.push({ id: p.id + "a", pid: p.id, name: names[p.id % 5], stars: 5, text: texts[p.id % 5], date: "۱۴۰۴/۰۶/۱۲", rec: true });
+        sample.push({ id: p.id + "b", pid: p.id, name: names[(p.id + 2) % 5], stars: 4, text: texts[(p.id + 1) % 5], date: "۱۴۰۴/۰۵/۲۸", rec: true });
+      });
+      save(LS.r, sample);
+    }
+    if (!load(LS.q, null)) {
+      save(LS.q, ps.slice(0, 30).flatMap(p => ([
+        { id: "q" + p.id, pid: p.id, q: "برای پوست مختلط مناسب است؟", a: "بله، فرمولاسیون سبک است. اگر چربی ناحیه T دارید با پرایمر منافذ استفاده کنید.", name: "پشتیبانی زیباکالا" },
+        { id: "q2" + p.id, pid: p.id, q: "روی پوست سبزه چطور می‌نشیند؟", a: "شیدها برای تناژ گرم ایرانی انتخاب شده‌اند. اگر مردد بودید با ۰۹۹۰۳۵۸۱۹۷۱ مشورت کنید.", name: "مشاور رنگ" },
+      ])));
+    }
+    if (!load(LS.o, []).length) {
+      save(LS.o, [{
+        id: "ZK-10021", user: "09120000000", status: "delivered", pay: "آنلاین",
+        total: 978000, date: "۱۴۰۴/۰۵/۰۲", items: [{ id: 1, title: PRODUCTS[0].title, qty: 1, price: 489000, img: PRODUCTS[0].img }],
+        addr: "تهران، زعفرانیه", name: "سارا نمونه",
+      }]);
+    }
+  }
+  seed();
+
+  const db = {
+    products: () => load(LS.p, PRODUCTS),
+    product: id => db.products().find(x => String(x.id) === String(id)),
+    users: () => load(LS.u, []),
+    session: () => load(LS.s, null),
+    cart: () => load(LS.c, []),
+    wish: () => load(LS.w, []),
+    orders: () => load(LS.o, []),
+    reviews: pid => load(LS.r, []).filter(x => String(x.pid) === String(pid)),
+    qa: pid => load(LS.q, []).filter(x => String(x.pid) === String(pid)),
+  };
+
+  function setSession(u) { save(LS.s, u); paintChrome(); }
+  function cartCount() { return db.cart().reduce((s, i) => s + i.qty, 0); }
+  function addCart(id, qty = 1, shade = "") {
+    const p = db.product(id); if (!p) return;
+    const c = db.cart();
+    const k = id + "|" + shade;
+    const f = c.find(x => x.key === k);
+    if (f) f.qty += qty; else c.push({ key: k, id: p.id, title: p.title, price: p.price, img: p.img, qty, shade });
+    save(LS.c, c); paintChrome(); toast("به سبد افزوده شد");
+  }
+  function toggleWish(id) {
+    let w = db.wish();
+    const on = w.includes(id);
+    w = on ? w.filter(x => x !== id) : [...w, id];
+    save(LS.w, w); paintChrome(); toast(on ? "از علاقه‌مندی حذف شد" : "به علاقه‌مندی‌ها اضافه شد");
+  }
+  function stars(n) { const f = Math.round(n); return "★★★★★".slice(0, f) + "☆☆☆☆☆".slice(0, 5 - f) + ` <span class="muted">${Number(n).toFixed(1)}</span>`; }
+  function off(p) { return p.old && p.old > p.price ? Math.round((1 - p.price / p.old) * 100) : 0; }
+  function card(p) {
+    const o = off(p);
+    return `<article class="pcard">
+      <a class="ph" href="#/p/${p.id}">
+        <img loading="lazy" src="${p.img}" alt="${p.title}">
+        ${o ? `<span class="off" style="position:absolute;top:8px;right:8px">${o}٪</span>` : ""}
+        <button class="qadd" title="افزودن" onclick="event.preventDefault();event.stopPropagation();ZK.qadd(${p.id})">＋</button>
+      </a>
+      <div class="b">
+        <div class="meta">${p.brand} ${p.plus ? "· پلاس" : ""} ${p.vegan ? "· وگان" : ""}</div>
+        <h3><a href="#/p/${p.id}">${p.title}</a></h3>
+        <div class="stars">${stars(p.rating)} <span class="muted">(${(p.reviews || 0).toLocaleString("fa-IR")})</span></div>
+        <div><span class="price">${fmt(p.price)}</span> ${o ? `<span class="old">${fmt(p.old)}</span>` : ""}</div>
+      </div></article>`;
+  }
+  function row(list, n = 6) { return `<div class="prod-row">${list.slice(0, n).map(card).join("")}</div>`; }
+
+  function paintChrome() {
+    const u = db.session();
+    $("#userChip").textContent = u ? u.name : "ورود / ثبت‌نام";
+    $("#cartBadge").textContent = cartCount();
+    $("#wishBadge").textContent = db.wish().length;
+    const c = db.cart();
+    const mc = $("#minicart");
+    if (!c.length) mc.innerHTML = ""; else {
+      mc.innerHTML = c.slice(0, 4).map(i => `<div class="minicart-item"><img loading="lazy" src="${i.img}"><div><b>${i.title}</b><div class="muted">${i.qty} × ${fmt(i.price)}</div></div></div>`).join("")
+        + `<a class="btn wide" href="#/cart" style="margin-top:8px">مشاهده سبد</a>`;
+    }
+    const q = $("#q");
+    if (q && !q._ok) {
+      q._ok = 1;
+      q.addEventListener("keydown", e => { if (e.key === "Enter") { go("/search/" + encodeURIComponent(q.value)); $("#suggest").classList.add("hidden"); } });
+      q.addEventListener("input", () => {
+        const v = q.value.trim();
+        const box = $("#suggest");
+        if (!v) { box.classList.add("hidden"); box.innerHTML = ""; return; }
+        const hits = db.products().filter(p => (p.title + p.brand).includes(v)).slice(0, 6);
+        box.innerHTML = hits.map(p => `<a href="#/p/${p.id}" onclick="document.getElementById('suggest').classList.add('hidden')"><img loading="lazy" src="${p.img}"><div><b>${p.title}</b><div class="muted">${p.brand} · ${fmt(p.price)}</div></div></a>`).join("") || `<div class="muted" style="padding:10px">موردی نیست</div>`;
+        box.classList.remove("hidden");
+      });
+      document.addEventListener("click", e => { if (!e.target.closest(".search")) $("#suggest")?.classList.add("hidden"); });
+    }
+    $$(".nav a").forEach(a => {
+      const href = a.getAttribute("href") || "";
+      a.classList.toggle("on", href !== "#/" && hash().startsWith(href.slice(1)));
+    });
+  }
+
+  function pageHome() {
+    const ps = db.products();
+    const amaz = ps.filter(p => p.amazing);
+    const best = [...ps].sort((a, b) => b.reviews - a.reviews);
+    const k = ps.filter(p => p.cat === "kbeauty");
+    const sc = ps.filter(p => p.cat === "scent");
+    const sk = ps.filter(p => p.cat === "skin");
+    const mk = ps.filter(p => ["face", "eyes", "lips"].includes(p.cat));
+    const nails = ps.filter(p => p.cat === "nails");
+    const tools = ps.filter(p => p.cat === "tools");
+    const vegan = ps.filter(p => p.vegan);
+    return `
+    <div class="story-row">${CATS.map(c => `<a class="story" href="#/c/${c.id}"><img loading="lazy" src="${c.photo}" alt=""><div>${c.name}</div></a>`).join("")}</div>
+    <div class="hero">
+      <a class="hero-slide" href="#/c/lips"><img loading="lazy" src="images/h-hero.jpg" alt="کلکسیون پاییز"><div class="hero-cap"><b>کلکسیون پاییز زیباکالا</b><div>رژلب مخملی، پالت رزگلد و عطرهای نیش — تا ۲۰٪ با کد GLOW10</div></div></a>
+      <div class="hero-side">
+        <a href="#/c/scent"><img loading="lazy" src="images/h-perfume.jpg" alt=""><span>عطرهای نیش فرانسه</span></a>
+        <a href="#/c/skin"><img loading="lazy" src="images/h-skin.jpg" alt=""><span>روتین گلس‌اسکین</span></a>
+      </div>
+    </div>
+    <section class="sec card" style="padding:14px 16px;background:linear-gradient(90deg,#fff,#fff8fb)">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center">
+        <div><b style="font-size:18px;color:var(--rose)">۹۰+</b><div class="muted" style="font-size:11px">محصول منتخب</div></div>
+        <div><b style="font-size:18px;color:var(--rose)">۴٫۸★</b><div class="muted" style="font-size:11px">رضایت مشتریان</div></div>
+        <div><b style="font-size:18px;color:var(--rose)">۷ روز</b><div class="muted" style="font-size:11px">مهلت مرجوعی</div></div>
+        <div><b style="font-size:18px;color:var(--rose)">اصل</b><div class="muted" style="font-size:11px">ضمانت اصالت کالا</div></div>
+      </div>
+    </section>
+    <div class="svc sec">${[
+      ["🚚", "ارسال جت تهران"], ["✅", "ضمانت اصالت"], ["↩", "۷ روز مرجوعی"],
+      ["💳", "پرداخت اقساطی"], ["🎁", "بسته‌بندی هدیه"], ["☎", "مشاوره رنگ"]
+    ].map(([i, t]) => `<div>${i}<b>${t}</b></div>`).join("")}</div>
+    <section class="amazing sec"><div class="sec-h"><h2>پیشنهاد شگفت‌انگیز زیبایی</h2><a href="#/amazing" style="color:#fff">همه</a></div>${row(amaz, 6)}</section>
+    <div class="tiles sec">
+      <a class="tile" href="#/c/lips"><img loading="lazy" src="images/h-lips.jpg"><b>لب و تینت</b></a>
+      <a class="tile" href="#/c/eyes"><img loading="lazy" src="images/p-palette.jpg"><b>پالت چشم</b></a>
+      <a class="tile" href="#/c/tools"><img loading="lazy" src="images/h-brushes.jpg"><b>براش حرفه‌ای</b></a>
+      <a class="tile" href="#/c/kbeauty"><img loading="lazy" src="images/h-kbeauty.jpg"><b>کی‌بیوتی</b></a>
+    </div>
+    <section class="sec"><div class="sec-h"><h2>پرفروش‌های هفته</h2><a href="#/best">همه</a></div>${row(best, 6)}</section>
+    <section class="sec"><div class="sec-h"><h2>کی‌بیوتی و گلس‌اسکین</h2><a href="#/c/kbeauty">همه</a></div>${row(k.concat(sk), 6)}</section>
+    <section class="sec"><div class="sec-h"><h2>عطر و رایحه</h2><a href="#/c/scent">همه</a></div>${row(sc, 6)}</section>
+    <section class="sec"><div class="sec-h"><h2>آرایش صورت، چشم و لب</h2></div>${row(mk, 6)}</section>
+    <section class="sec"><div class="sec-h"><h2>ناخن و ابزار</h2></div>${row(nails.concat(tools), 6)}</section>
+    <section class="sec"><div class="sec-h"><h2>انتخاب وگان</h2><a href="#/c/organic">ارگانیک</a></div>${row(vegan, 6)}</section>
+    <section class="sec"><div class="sec-h"><h2>برندهای منتخب</h2></div>
+      <div class="brands">${[...new Set(ps.map(p => p.brand))].map(b => `<a class="brand" href="#/brand/${encodeURIComponent(b)}">${b}</a>`).join("")}</div>
+    </section>
+    <div class="news sec"><div><b>باشگاه درخشش زیباکالا</b><div style="color:#fbcfe8">کد تخفیف، آموزش میکاپ و روتین پوست هر هفته</div></div>
+      <form onsubmit="return ZK.news(event)"><input name="email" placeholder="ایمیل یا موبایل" required> <button class="btn gold">عضویت</button></form>
+    </div>
+    <div class="trust">${["پرداخت امن", "ضمانت اصالت", "ارسال سریع", "مشاوره رایگان رنگ", "بسته‌بندی لوکس", "تست حیوانی ندارد (وگان)"].map(t => `<span>${t}</span>`).join("")}</div>
+    <section class="sec card" style="padding:16px"><h2>سوالات پرتکرار</h2>${FAQ.map(f => `<details><summary><b>${f.q}</b></summary><p>${f.a}</p></details>`).join("")}</section>`;
+  }
+
+  function listPage(title, list, cat) {
+    const brands = [...new Set(list.map(p => p.brand))];
+    const banner = cat ? BANNER[cat.id] : "";
+    const amaz = list.filter(p => p.amazing);
+    return `
+      ${cat ? `<div class="catban"><img loading="lazy" src="${banner}" alt=""><div class="cap"><b style="font-size:26px">${cat.name}</b><div>${cat.sub.join(" · ")} · ${list.length} کالا</div></div></div>
+      <div class="subs">${(cat.sub || []).map(s => `<a href="#/search/${encodeURIComponent(s)}">${s}</a>`).join("")}<a href="#/amazing">شگفت‌انگیز</a></div>
+      ${amaz.length ? `<section class="sec"><div class="sec-h"><h2>منتخب ${cat.name}</h2></div>${row(amaz, 6)}</section>` : ""}` : ""}
+      <div class="layout">
+      <aside class="filters">
+        <h3>فیلتر ${title}</h3>
+        <label><input type="checkbox" data-f="amazing"> شگفت‌انگیز</label>
+        <label><input type="checkbox" data-f="vegan"> وگان</label>
+        <label><input type="checkbox" data-f="plus"> پلاس</label>
+        <div class="muted" style="margin-top:8px">حداکثر قیمت</div>
+        <input type="range" id="pmax" min="50000" max="3000000" value="3000000" style="width:100%">
+        <div class="muted" id="pmaxl">تا ۳٬۰۰۰٬۰۰۰</div>
+        <div class="muted" style="margin-top:8px">برند</div>
+        ${brands.map(b => `<label><input type="checkbox" data-b="${b}"> ${b}</label>`).join("")}
+        <div class="muted" style="margin-top:8px">مرتب‌سازی</div>
+        <select id="sort"><option value="pop">پرفروش</option><option value="new">جدید</option><option value="cheap">ارزان</option><option value="exp">گران</option><option value="rate">امتیاز</option></select>
+      </aside>
+      <div>
+        <div class="sec-h"><h2>${title}</h2><span class="muted" id="cnt">${list.length} کالا</span></div>
+        <div id="grid" class="grid5">${list.map(card).join("")}</div>
+      </div></div>`;
+  }
+  function bindFilters(list) {
+    const apply = () => {
+      const amaz = $("[data-f=amazing]")?.checked;
+      const vegan = $("[data-f=vegan]")?.checked;
+      const plus = $("[data-f=plus]")?.checked;
+      const max = +($("#pmax")?.value || 3e6);
+      if ($("#pmaxl")) $("#pmaxl").textContent = "تا " + max.toLocaleString("fa-IR");
+      const bs = $$("[data-b]").filter(x => x.checked).map(x => x.dataset.b);
+      let out = list.filter(p => (!amaz || p.amazing) && (!vegan || p.vegan) && (!plus || p.plus) && p.price <= max && (!bs.length || bs.includes(p.brand)));
+      const s = $("#sort")?.value;
+      if (s === "cheap") out = [...out].sort((a, b) => a.price - b.price);
+      if (s === "exp") out = [...out].sort((a, b) => b.price - a.price);
+      if (s === "rate") out = [...out].sort((a, b) => b.rating - a.rating);
+      if (s === "pop") out = [...out].sort((a, b) => b.reviews - a.reviews);
+      $("#grid").innerHTML = out.map(card).join("") || `<div class="empty">کالایی یافت نشد</div>`;
+      if ($("#cnt")) $("#cnt").textContent = out.length + " کالا";
+    };
+    $$("[data-f],[data-b],#sort,#pmax").forEach(el => el.addEventListener("change", apply));
+    $("#pmax")?.addEventListener("input", apply);
+  }
+
+  function pagePdp(id) {
+    const p = db.product(id); if (!p) return `<div class="empty">کالا پیدا نشد</div>`;
+    let v = load(LS.view, []); v = [p.id, ...v.filter(x => x !== p.id)].slice(0, 12); save(LS.view, v);
+    const revs = db.reviews(p.id);
+    const qa = db.qa(p.id);
+    const similar = db.products().filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 6);
+    const look = db.products().filter(x => x.id !== p.id && (["tools", "sets"].includes(x.cat) || x.cat === p.cat)).slice(0, 4);
+    const also = db.products().filter(x => x.brand === p.brand && x.id !== p.id).slice(0, 6);
+    const o = off(p);
+    const cat = catOf(p.cat);
+    const bars = [5, 4, 3, 2, 1].map(s => {
+      const n = revs.filter(r => r.stars === s).length || (s === 5 ? Math.round(p.reviews * 0.62) : s === 4 ? Math.round(p.reviews * 0.24) : Math.round(p.reviews * 0.05));
+      const pct = Math.min(100, Math.round((n / Math.max(1, p.reviews)) * 100));
+      return `<div class="bar"><span>${s} ستاره</span><i><b style="width:${pct}%"></b></i><span>${pct}٪</span></div>`;
+    }).join("");
+    const specs = Object.entries({
+      برند: p.brand, دسته‌بندی: cat.name, حجم: p.volume, فینیش: p.finish, پوست: p.skin,
+      ساخت: p.origin, SPF: p.spf || "—", PAO: p.pao, وگان: p.vegan ? "بله" : "خیر", پلاس: p.plus ? "بله" : "خیر",
+    }).map(([k, val]) => `<tr><th>${k}</th><td>${val || "—"}</td></tr>`).join("");
+    const gals = (p.gallery && p.gallery.length ? p.gallery : [p.img]);
+    const inst = Math.round(p.price / 4);
+    return `
+    <div class="crumb"><a href="#/">خانه</a> / <a href="#/c/${p.cat}">${cat.name}</a> / ${p.title}</div>
+    <div class="pdp">
+      <div class="gallery">
+        <img loading="lazy" class="main" id="gMain" src="${gals[0]}" alt="${p.title}">
+        <div class="thumbs">${gals.map((g, i) => `<img loading="lazy" src="${g}" class="${i ? "" : "on"}" onclick="ZK.thumb(this)">`).join("")}</div>
+        <div class="badge-row">
+          ${p.amazing ? `<span class="pill">شگفت‌انگیز</span>` : ""}
+          ${p.vegan ? `<span class="pill ok">وگان · بدون تست حیوانی</span>` : ""}
+          ${p.plus ? `<span class="pill" style="background:#ede9fe;color:#5b21b6">پلاس</span>` : ""}
+          <span class="pill gold">اصالت تضمینی</span>
+          ${(p.tags || []).map(t => `<span class="pill">${t}</span>`).join("")}
+        </div>
+      </div>
+      <div>
+        <div class="muted"><a href="#/brand/${encodeURIComponent(p.brand)}">${p.brand}</a> · ${cat.name}</div>
+        <h1 style="margin:4px 0 8px;font-size:22px;line-height:1.5">${p.title}</h1>
+        <div class="score">
+          <div><div class="big">${Number(p.rating).toFixed(1)}</div><div class="stars">${stars(p.rating)}</div></div>
+          <div><b>${(p.reviews || 0).toLocaleString("fa-IR")}</b> دیدگاه<br><span class="muted">${(p.sold || 0).toLocaleString("fa-IR")} فروش موفق</span></div>
+        </div>
+        <p>${p.desc}</p>
+        ${p.shades && p.shades.length ? `<div><b>انتخاب رنگ / شید</b><div class="shades" id="shades">${p.shades.map((s, i) => `<button type="button" class="shade ${i ? "" : "on"}" title="${s.n}" data-n="${s.n}" style="background:${s.h}" onclick="ZK.shade(this)"></button>`).join("")}</div><div class="muted" id="shadeN">${p.shades[0].n}</div></div>` : ""}
+        <div class="feat">
+          <span>حجم: <b>${p.volume}</b></span>
+          <span>فینیش: <b>${p.finish}</b></span>
+          <span>پوست: <b>${p.skin}</b></span>
+          <span>ساخت: <b>${p.origin}</b></span>
+        </div>
+        <div class="expert"><b>نکته متخصص زیبایی: </b>${p.howto}</div>
+        <div style="margin:12px 0">${o ? `<span class="off">${o}٪ تخفیف</span>` : ""} <span class="price" style="font-size:24px">${fmt(p.price)}</span> ${o ? `<span class="old">${fmt(p.old)}</span>` : ""}</div>
+        <div class="muted">۴ قسط ${fmt(inst)} بدون کارمزد زیباکالا</div>
+        <div class="qty" style="margin-top:10px"><button onclick="ZK.qty(-1)">−</button><b id="qv">1</b><button onclick="ZK.qty(1)">+</button></div>
+      </div>
+      <aside class="buybox">
+        <div class="muted">فروشنده</div>
+        <b>زیباکالا آفیشال</b>
+        <div class="stars">عملکرد عالی ★۴٫۹</div>
+        <div style="margin:8px 0">موجودی: <b>${p.stock}</b> عدد در انبار مرکزی</div>
+        <div class="ship">
+          <div>🚚 ارسال جت تهران (زیر ۳ ساعت)</div>
+          <div>📦 پست پیشتاز سایر شهرها ۱–۳ روز</div>
+          <div>↩ مرجوعی ۷ روز با جعبه سالم</div>
+          <div>🛡 گارانتی اصالت و سلامت فیزیکی</div>
+        </div>
+        <button class="btn wide" style="margin-top:10px" onclick="ZK.buy(${p.id})">افزودن به سبد</button>
+        <button class="btn gold wide" style="margin-top:6px" onclick="ZK.buyNow(${p.id})">خرید فوری</button>
+        <div style="display:flex;gap:6px;margin-top:8px">
+          <button class="btn ghost" onclick="ZK.wish(${p.id})">♡ علاقه‌مندی</button>
+          <button class="btn ghost" onclick="ZK.cmp(${p.id})">⚖ مقایسه</button>
+        </div>
+        <p class="muted">مشاوره رنگ رایگان: <a href="tel:09903581971">۰۹۹۰۳۵۸۱۹۷۱</a></p>
+      </aside>
+    </div>
+    <div class="mbuy"><span class="price">${fmt(p.price)}</span><button class="btn" onclick="ZK.buy(${p.id})">افزودن به سبد</button><button class="btn gold" onclick="ZK.buyNow(${p.id})">خرید</button></div>
+    <div class="tabs" id="ptabs">
+      ${["معرفی", "ترکیبات", "نحوه استفاده", "مشخصات", "دیدگاه‌ها", "پرسش‌ها"].map((t, i) => `<button class="${i ? "" : "on"}" data-t="${i}">${t}</button>`).join("")}
+    </div>
+    <div class="tabc" id="tabc">
+      <div data-p="0">
+        <p>${p.desc}</p>
+        <p>این محصول برای استفاده روزانه و آرایش حرفه‌ای طراحی شده؛ بافت سبک، رایحه ملایم و عملکرد تست‌شده روی پوست‌های ایرانی. مناسب ${p.skin} با فینیش ${p.finish}.</p>
+        <p>در زیباکالا هر محموله با کارت اصالت ارسال می‌شود. برای انتخاب شید، نور طبیعی و مقایسه با خط فک توصیه می‌شود.</p>
+      </div>
+      <div data-p="1" class="hidden"><p>${p.ingredients}</p><p class="muted">لیست کامل روی جعبه چاپ شده. در صورت حساسیت به اسانس، پچ‌تست ۲۴ ساعته انجام دهید.</p></div>
+      <div data-p="2" class="hidden"><p>${p.howto}</p><p class="muted">${p.warn}</p></div>
+      <div data-p="3" class="hidden"><table>${specs}</table></div>
+      <div data-p="4" class="hidden">
+        <div class="score"><div><div class="big">${Number(p.rating).toFixed(1)}</div></div><div style="flex:1"><div class="bars">${bars}</div></div></div>
+        ${revs.map(r => `<div class="rev"><b>${r.name}</b> <span class="stars">${stars(r.stars)}</span> ${r.rec ? `<span class="pill ok">خرید را توصیه می‌کند</span>` : ""}<div>${r.text}</div><div class="muted">${r.date}</div></div>`).join("") || "<p>هنوز دیدگاهی نیست.</p>"}
+        <form class="form" onsubmit="return ZK.review(event,${p.id})" style="margin-top:12px">
+          <b>تجربه شما از این کالا</b>
+          <select name="stars"><option value="5">۵ ستاره — عالی</option><option value="4">۴ — خوب</option><option value="3">۳ — متوسط</option><option value="2">۲</option><option value="1">۱</option></select>
+          <textarea name="text" required placeholder="بافت، ماندگاری، رنگ روی پوست شما…"></textarea>
+          <button class="btn">ثبت دیدگاه</button>
+        </form>
+      </div>
+      <div data-p="5" class="hidden">
+        ${qa.map(x => `<div class="qa"><b>؟ ${x.q}</b><div>${x.a}</div><div class="muted">${x.name}</div></div>`).join("")}
+        <form class="form" onsubmit="return ZK.ask(event,${p.id})"><input name="q" required placeholder="پرسش شما درباره شید، پوست یا ماندگاری"><button class="btn ghost">ارسال پرسش</button></form>
+      </div>
+    </div>
+    <section class="sec"><div class="sec-h"><h2>کامل کردن استایل</h2></div><div class="prod-row" style="grid-template-columns:repeat(4,1fr)">${look.map(card).join("")}</div></section>
+    <section class="sec"><div class="sec-h"><h2>کالاهای مشابه</h2></div>${row(similar, 6)}</section>
+    ${also.length ? `<section class="sec"><div class="sec-h"><h2>از همین برند</h2></div>${row(also, 6)}</section>` : ""}
+    <section class="sec"><div class="sec-h"><h2>بازدیدهای اخیر</h2></div>${row(load(LS.view, []).map(i => db.product(i)).filter(Boolean), 6)}</section>`;
+  }
+
+  function pageCart() {
+    const c = db.cart();
+    if (!c.length) return `<div class="empty">سبد خرید خالی است. <a class="btn" href="#/">شروع خرید</a></div>`;
+    const sum = c.reduce((s, i) => s + i.price * i.qty, 0);
+    return `<div class="cart-layout">
+      <div class="card">${c.map(i => `<div class="line">
+        <img loading="lazy" src="${i.img}"><div><b>${i.title}</b><div class="muted">${i.shade || ""}</div>
+          <div class="qty"><button onclick="ZK.cqty('${i.key}',-1)">−</button><b>${i.qty}</b><button onclick="ZK.cqty('${i.key}',1)">+</button>
+          <button class="btn ghost" onclick="ZK.cdel('${i.key}')">حذف</button></div>
+        </div><div class="price">${fmt(i.price * i.qty)}</div></div>`).join("")}</div>
+      <aside class="buybox">
+        <h3>خلاصه سفارش</h3>
+        <div>جمع کالا: ${fmt(sum)}</div>
+        <div class="muted">ارسال رایگان بالای ۸۰۰ هزار</div>
+        <form onsubmit="return ZK.coupon(event)" style="display:flex;gap:6px;margin:8px 0"><input name="code" placeholder="کد GLOW10"><button class="btn ghost">اعمال</button></form>
+        <div id="cnote" class="muted"></div>
+        <div>قابل پرداخت: <b class="price" id="pay">${fmt(sum)}</b></div>
+        <a class="btn wide" href="#/checkout">ادامه خرید</a>
+      </aside></div>`;
+  }
+
+  function pageCheckout() {
+    const u = db.session();
+    const c = db.cart();
+    if (!c.length) return pageCart();
+    const sum = c.reduce((s, i) => s + i.price * i.qty, 0);
+    return `<div class="steps"><div class="step on">۱. آدرس</div><div class="step">۲. پرداخت</div><div class="step">۳. تایید</div></div>
+    <div class="cart-layout">
+      <form class="card form" style="padding:16px" onsubmit="return ZK.place(event)">
+        <h2>اطلاعات گیرنده</h2>
+        <input name="name" required placeholder="نام" value="${u ? u.name : ""}">
+        <input name="phone" required placeholder="موبایل" value="${u ? u.phone : ""}">
+        <select name="city">${CITIES.map(x => `<option>${x}</option>`).join("")}</select>
+        <textarea name="addr" required placeholder="آدرس کامل"></textarea>
+        <select name="pay"><option>آنلاین</option><option>کارت به کارت</option><option>در محل</option></select>
+        <label><input type="checkbox" name="gift"> بسته‌بندی هدیه لوکس (+۳۵ هزار)</label>
+        <button class="btn">ثبت سفارش</button>
+      </form>
+      <aside class="buybox"><b>مبلغ ${fmt(sum)}</b><p class="muted">${c.length} قلم</p>${c.map(i => `<div class="muted">${i.title} × ${i.qty}</div>`).join("")}</aside>
+    </div>`;
+  }
+
+  function pageAccount() {
+    const u = db.session();
+    if (!u) return pageAuth();
+    const ords = db.orders().filter(o => o.user === u.phone);
+    const w = db.wish().map(i => db.product(i)).filter(Boolean);
+    return `<div class="acc">
+      <nav class="menu card" style="padding:8px">
+        <a class="on" href="#/account">سفارش‌ها</a>
+        <a href="#/wish">علاقه‌مندی (${w.length})</a>
+        <a href="#/compare">مقایسه</a>
+        ${u.role === "admin" ? `<a href="admin.html">پنل مدیریت</a>` : ""}
+        <a href="#" onclick="ZK.logout();return false">خروج</a>
+      </nav>
+      <div>
+        <h2>سلام ${u.name}</h2>
+        <table><thead><tr><th>کد</th><th>وضعیت</th><th>مبلغ</th><th>تاریخ</th></tr></thead>
+        <tbody>${ords.map(o => `<tr><td>${o.id}</td><td>${o.status}</td><td>${fmt(o.total)}</td><td>${o.date}</td></tr>`).join("") || `<tr><td colspan="4">سفارشی نیست</td></tr>`}</tbody></table>
+      </div></div>`;
+  }
+  function pageAuth() {
+    return `<div class="card form" style="max-width:400px;margin:28px auto;padding:22px">
+      <h2>ورود به زیباکالا</h2>
+      <form onsubmit="return ZK.login(event)">
+        <input name="phone" required placeholder="موبایل" value="09120000000">
+        <input name="pass" type="password" required placeholder="رمز" value="123456">
+        <button class="btn wide">ورود</button>
+      </form>
+      <p class="muted">اگر شماره جدید باشد، حساب ساخته می‌شود. مدیر: ۰۹۹۰۳۵۸۱۹۷۱ / admin123</p>
+    </div>`;
+  }
+  function pageWish() {
+    const w = db.wish().map(i => db.product(i)).filter(Boolean);
+    return `<h2>علاقه‌مندی‌ها</h2>${w.length ? `<div class="grid5">${w.map(card).join("")}</div>` : `<div class="empty">لیست خالی است</div>`}`;
+  }
+  function pageCompare() {
+    const ids = load(LS.cmp, []);
+    const ps = ids.map(i => db.product(i)).filter(Boolean);
+    if (ps.length < 1) return `<div class="empty">کالایی برای مقایسه انتخاب نشده</div>`;
+    const keys = ["brand", "price", "rating", "volume", "finish", "skin", "origin", "spf"];
+    const lab = { brand: "برند", price: "قیمت", rating: "امتیاز", volume: "حجم", finish: "فینیش", skin: "پوست", origin: "ساخت", spf: "SPF" };
+    return `<h2>مقایسه کالا</h2><div style="overflow:auto"><table><tr><th></th>${ps.map(p => `<th><img loading="lazy" src="${p.img}" style="height:90px;margin:auto;border-radius:8px"><div>${p.title}</div></th>`).join("")}</tr>
+      ${keys.map(k => `<tr><th>${lab[k]}</th>${ps.map(p => `<td>${k === "price" ? fmt(p.price) : (p[k] || "—")}</td>`).join("")}</tr>`).join("")}</table></div>`;
+  }
+
+  function route() {
+    seed();
+    paintChrome();
+    const h = hash();
+    const app = $("#app");
+    let html = "";
+    let after = null;
+    if (h === "/" || h === "") html = pageHome();
+    else if (h.startsWith("/p/")) html = pagePdp(h.split("/")[2]);
+    else if (h.startsWith("/c/")) {
+      const id = h.split("/")[2];
+      const cat = CATS.find(c => c.id === id);
+      const list = db.products().filter(p => p.cat === id);
+      html = listPage(cat ? cat.name : "دسته‌بندی", list, cat); after = () => bindFilters(list);
+    } else if (h.startsWith("/search/")) {
+      const q = decodeURIComponent(h.split("/")[2] || "").toLowerCase();
+      const list = db.products().filter(p => (p.title + p.brand + p.desc + (p.tags || []).join("")).toLowerCase().includes(q));
+      html = listPage("جستجو: " + q, list); after = () => bindFilters(list);
+    } else if (h.startsWith("/brand/")) {
+      const b = decodeURIComponent(h.split("/")[2] || "");
+      const list = db.products().filter(p => p.brand === b);
+      html = listPage("برند " + b, list); after = () => bindFilters(list);
+    } else if (h === "/amazing") {
+      const list = db.products().filter(p => p.amazing);
+      html = listPage("شگفت‌انگیز", list); after = () => bindFilters(list);
+    } else if (h === "/best") {
+      const list = [...db.products()].sort((a, b) => b.reviews - a.reviews);
+      html = listPage("پرفروش", list); after = () => bindFilters(list);
+    } else if (h === "/gift") {
+      const list = db.products().filter(p => p.cat === "sets" || (p.tags || []).includes("هدیه"));
+      html = listPage("هدیه و پک", list); after = () => bindFilters(list);
+    } else if (h === "/cart") html = pageCart();
+    else if (h === "/checkout") html = pageCheckout();
+    else if (h === "/account") html = pageAccount();
+    else if (h === "/wish") html = pageWish();
+    else if (h === "/compare") html = pageCompare();
+    else if (h === "/faq") html = `<div class="card" style="padding:18px"><h2>پرسش‌های متداول</h2>${FAQ.map(f => `<details open><summary><b>${f.q}</b></summary><p>${f.a}</p></details>`).join("")}</div>`;
+    else if (h === "/about") html = `<div class="card" style="padding:22px"><h2>درباره زیباکالا</h2><p>زیباکالا مارکت‌پلیس لوکس لوازم آرایشی و مراقبت پوست است؛ الهام از بوتیک‌های پاریس و سئول با تراکم یک فروشگاه ایرانی کامل.</p><a class="remax" href="tel:09903581971">طراحی و توسعه یافته توسط تیم ریمکس</a></div>`;
+    else if (h === "/contact") html = `<div class="card form" style="max-width:480px;margin:20px auto;padding:16px"><h2>تماس با ما</h2><p>پشتیبانی ۹ تا ۲۳ · <a href="tel:09903581971">۰۹۹۰۳۵۸۱۹۷۱</a></p><form onsubmit="alert('پیام شما ثبت شد');return false"><input placeholder="نام" required><input placeholder="ایمیل"><textarea rows="4" placeholder="پیام" required></textarea><button class="btn">ارسال</button></form></div>`;
+    else html = pageHome();
+    app.innerHTML = html;
+    if (h.startsWith("/p/")) {
+      $$("#ptabs button").forEach(b => b.onclick = () => {
+        $$("#ptabs button").forEach(x => x.classList.remove("on")); b.classList.add("on");
+        $$("#tabc [data-p]").forEach(x => x.classList.toggle("hidden", x.dataset.p !== b.dataset.t));
+      });
+    }
+    after && after();
+    window.scrollTo(0, 0);
+  }
+
+  window.ZK = {
+    thumb(el) { $("#gMain").src = el.src; $$(".thumbs img").forEach(i => i.classList.remove("on")); el.classList.add("on"); },
+    shade(el) { $$(".shade").forEach(s => s.classList.remove("on")); el.classList.add("on"); $("#shadeN").textContent = el.dataset.n; },
+    qty(d) { const el = $("#qv"); let n = parseInt(String(el.textContent), 10) || 1; n = Math.max(1, n + d); el.textContent = String(n); },
+    buy(id) { const n = +($("#qv")?.textContent.replace(/[^\d]/g, "") || 1); const sh = $("#shadeN")?.textContent || ""; addCart(id, n, sh); },
+    buyNow(id) { ZK.buy(id); go("/checkout"); },
+    qadd(id) { addCart(id, 1, ""); },
+    wish(id) { toggleWish(id); },
+    cmp(id) { let a = load(LS.cmp, []); if (!a.includes(id)) a = [...a, id].slice(-4); save(LS.cmp, a); toast("به مقایسه اضافه شد"); },
+    cqty(key, d) { const c = db.cart(); const i = c.find(x => x.key === key); if (!i) return; i.qty = Math.max(1, i.qty + d); save(LS.c, c); route(); },
+    cdel(key) { save(LS.c, db.cart().filter(x => x.key !== key)); route(); },
+    coupon(e) {
+      e.preventDefault();
+      const code = e.target.code.value.trim().toUpperCase();
+      const cpn = COUPONS.find(x => x.code === code);
+      const sum = db.cart().reduce((s, i) => s + i.price * i.qty, 0);
+      if (!cpn) { $("#cnote").textContent = "کد نامعتبر"; return false; }
+      if (sum < cpn.min) { $("#cnote").textContent = "حداقل خرید " + fmt(cpn.min); return false; }
+      const pay = Math.round(sum * (1 - cpn.percent / 100));
+      $("#pay").textContent = fmt(pay);
+      $("#cnote").textContent = cpn.title + " اعمال شد";
+      save("zk3_cpn", cpn); return false;
+    },
+    place(e) {
+      e.preventDefault();
+      const f = e.target;
+      const c = db.cart(); if (!c.length) return false;
+      let sum = c.reduce((s, i) => s + i.price * i.qty, 0);
+      const cpn = load("zk3_cpn", null);
+      if (cpn) sum = Math.round(sum * (1 - cpn.percent / 100));
+      if (f.gift?.checked) sum += 35000;
+      const u = db.session() || { phone: f.phone.value, name: f.name.value };
+      const o = {
+        id: "ZK-" + Math.floor(10000 + Math.random() * 90000), user: u.phone, status: "processing",
+        pay: f.pay.value, total: sum, date: new Date().toLocaleDateString("fa-IR"),
+        items: c, addr: f.city.value + "، " + f.addr.value, name: f.name.value,
+      };
+      save(LS.o, [o, ...db.orders()]); save(LS.c, []); save("zk3_cpn", null);
+      toast("سفارش " + o.id + " ثبت شد"); go("/account"); return false;
+    },
+    login(e) {
+      e.preventDefault();
+      const phone = e.target.phone.value.trim();
+      const pass = e.target.pass.value;
+      let users = db.users();
+      let u = users.find(x => x.phone === phone);
+      if (!u) { u = { phone, pass, name: "کاربر زیباکالا", role: "user" }; users.push(u); save(LS.u, users); }
+      else if (u.pass !== pass) { toast("رمز نادرست"); return false; }
+      setSession(u); toast("خوش آمدید"); go(u.role === "admin" ? "/account" : "/"); return false;
+    },
+    logout() { save(LS.s, null); go("/"); },
+    review(e, pid) {
+      e.preventDefault();
+      const u = db.session(); if (!u) { toast("ابتدا وارد شوید"); go("/account"); return false; }
+      const all = load(LS.r, []);
+      all.unshift({ id: Date.now(), pid, name: u.name, stars: +e.target.stars.value, text: e.target.text.value, date: new Date().toLocaleDateString("fa-IR"), rec: true });
+      save(LS.r, all); toast("دیدگاه ثبت شد"); route(); return false;
+    },
+    ask(e, pid) {
+      e.preventDefault();
+      const all = load(LS.q, []);
+      all.unshift({ id: Date.now(), pid, q: e.target.q.value, a: "به‌زودی پاسخ داده می‌شود.", name: "صف انتظار" });
+      save(LS.q, all); toast("پرسش ثبت شد"); route(); return false;
+    },
+    news(e) { e.preventDefault(); const a = load(LS.news, []); a.push(e.target.email.value); save(LS.news, a); toast("عضو شدید"); return false; },
+  };
+
+  window.addEventListener("hashchange", route);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", route);
+  else route();
+})();
+
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a370a951cd1a3d01',t:'MTc4ODczMTEzMw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script id="ZIBAKALA-COMPLETE-VISUAL-FALLBACK">
+(function(){
+  const IMAGES = [
+    "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1556229010-aa3e5a45e5b9?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=900&q=88",
+    "https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=900&q=88"
+  ];
+  let n=0;
+  function pick(){ return IMAGES[(n++) % IMAGES.length]; }
+
+  function fix(){
+    document.querySelectorAll("img").forEach(img=>{
+      img.loading="lazy";
+      img.decoding="async";
+      if(!img.getAttribute("src") || img.getAttribute("src")==="#" || img.getAttribute("src").trim()===""){
+        img.src=pick();
+      }
+      img.addEventListener("error", function once(){
+        img.removeEventListener("error", once);
+        img.src=pick();
+      });
+    });
+
+    document.querySelectorAll("[data-image]").forEach(el=>{
+      if(!el.style.backgroundImage || el.style.backgroundImage==="none"){
+        const u=el.getAttribute("data-image") || pick();
+        el.style.backgroundImage="url('"+u+"')";
+      }
+    });
+
+    // Give empty visual boxes a polished beauty background.
+    document.querySelectorAll(".pic,.thumb,.gallery-item,.brand-card,.category-card,.cat-card,.banner,.tile").forEach(el=>{
+      const hasImg=el.querySelector("img");
+      const bg=getComputedStyle(el).backgroundImage;
+      if(!hasImg && (!bg || bg==="none")){
+        el.style.backgroundImage="linear-gradient(180deg,rgba(20,10,15,.02),rgba(20,10,15,.18)),url('"+pick()+"')";
+        el.style.backgroundSize="cover";
+        el.style.backgroundPosition="center";
+      }
+    });
+  }
+
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",fix);
+  else fix();
+  new MutationObserver(fix).observe(document.documentElement,{subtree:true,childList:true});
+})();
+</script>
+
+</body>
+</html>
