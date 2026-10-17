@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#2563eb">
 <title>پست‌یار | سامانه جامع کدگذاری پستی</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -332,7 +332,42 @@ img{display:block;max-width:100%}
 .pdf-save-panel{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:18px 0 6px;padding:16px 18px;border:1px solid #dce9df;border-radius:20px;background:linear-gradient(135deg,#f4fff7 0%,#f7faff 100%);box-shadow:0 10px 28px rgba(24,100,58,.07)}
 .pdf-save-copy{display:flex;align-items:center;gap:12px;min-width:0}.pdf-save-icon{width:44px;height:44px;flex:0 0 44px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,#d9fbe5,#e7f0ff);color:#16834b}.pdf-save-copy strong{display:block;font-size:14px;color:#203449;margin-bottom:3px}.pdf-save-copy small{display:block;font-size:11px;line-height:1.8;color:#718096}.pdf-save-button{flex:0 0 auto;min-width:150px;justify-content:center;border-radius:14px!important;box-shadow:0 6px 16px rgba(25,135,84,.16)}.pdf-save-button:disabled{opacity:.58;cursor:not-allowed;box-shadow:none}.pdf-save-button.is-saved{background:#e9f9ef!important;color:#167443!important;border:1px solid #b9e8ca!important;box-shadow:none}
 @media(max-width:640px){.pdf-save-panel{align-items:stretch;flex-direction:column;padding:13px;border-radius:17px;gap:12px}.pdf-save-copy{align-items:flex-start}.pdf-save-icon{width:40px;height:40px;flex-basis:40px;border-radius:13px}.pdf-save-button{width:100%;min-width:0;min-height:46px}.pdf-faithful-toolbar .btn{min-height:40px}}
-@media(max-width:640px){.pdf-faithful-page-inner{padding:7px}.pdf-extracted-sheet{padding:0;border-radius:13px;overflow-x:auto}.pdf-extracted-row{min-width:620px}.pdf-extracted-cell{padding:9px 8px;font-size:13px;min-height:42px;line-height:1.8}.pdf-faithful-page-label{padding:11px 12px}}
+@media(max-width:640px){
+  .pdf-faithful-pages{gap:18px;margin-top:14px}
+  .pdf-faithful-page{border-radius:18px;box-shadow:0 7px 22px rgba(28,44,70,.075)}
+  .pdf-faithful-page-label{padding:13px 14px;font-size:14px;min-height:48px;gap:8px}
+  .pdf-faithful-page-label small{font-size:12px}
+  .pdf-faithful-page-inner{padding:10px;background:#f6f8fc;line-height:1.9}
+  .pdf-extracted-help{font-size:13px;line-height:1.9;margin:0 0 10px;padding:3px 2px}
+  .pdf-extracted-sheet{position:relative;padding:0;border-radius:14px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;scrollbar-width:none;border:1px solid #dce4ef;background:#fff}
+  .pdf-extracted-sheet::-webkit-scrollbar{display:none}
+  /* Mobile: keep familiar, normal typography and give the original table more horizontal room. */
+  .pdf-extracted-row{min-width:1040px}
+  .pdf-extracted-cell{padding:8px 8px;font-size:12px;min-height:40px;line-height:1.65;overflow-wrap:normal;word-break:normal}
+  .pdf-extracted-cell.locked{font-size:12px;background:#edf2f8;color:#43536b}
+  .pdf-extracted-cell[contenteditable="true"]{font-size:12px;min-height:40px}
+  .pdf-page-actions{padding:12px;gap:10px}
+  .pdf-page-actions span{font-size:12px;line-height:1.8}
+  .pdf-page-action-buttons{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .pdf-page-actions .btn{font-size:14px;min-height:48px;border-radius:14px}
+  .pdf-page-actions .icn{width:18px;height:18px}
+  .pdf-faithful-toolbar{gap:9px}
+  .pdf-faithful-toolbar .btn{font-size:14px;min-height:46px;padding:10px 13px;border-radius:14px}
+  .pdf-faithful-note{font-size:13px;line-height:1.95;padding:13px 14px;border-radius:15px}
+  .pdf-save-panel{align-items:stretch;flex-direction:column;padding:15px;border-radius:17px;gap:12px}
+  .pdf-save-copy{align-items:flex-start;gap:11px}
+  .pdf-save-copy strong{font-size:15px}
+  .pdf-save-copy small{font-size:12px;line-height:1.9}
+  .pdf-save-icon{width:42px;height:42px;flex-basis:42px;border-radius:13px}
+  .pdf-save-button{width:100%;min-width:0;min-height:48px;font-size:14px}
+}
+@media(max-width:380px){
+  .pdf-faithful-page-inner{padding:7px}
+  .pdf-extracted-row{min-width:1040px}
+  .pdf-extracted-cell{font-size:12px;padding:8px 7px;min-height:40px;line-height:1.65}
+  .pdf-extracted-cell[contenteditable="true"]{font-size:12px;min-height:40px}
+  .pdf-page-actions .btn{font-size:13px;padding-inline:8px}
+}
 @media print{body.pdf-faithful-print{display:block!important;background:#fff!important;padding:0!important}.pdf-faithful-page{box-shadow:none;border:0;border-radius:0;break-after:page;page-break-after:always}.pdf-faithful-page-label,.pdf-faithful-toolbar,.pdf-faithful-note,.pdf-extracted-help,.pdf-page-actions{display:none!important}.pdf-faithful-pages{gap:0;margin:0}.pdf-faithful-page-inner{padding:8px!important}.pdf-extracted-cell{color:#000!important;background:#fff!important;box-shadow:none!important}}
 
 .hidden{display:none!important}
