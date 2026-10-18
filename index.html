@@ -303,11 +303,11 @@ img{display:block;max-width:100%}
 /* PDF import: extracted text is organized into elegant, editable page-by-page grids */
 .pdf-faithful-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
 .pdf-faithful-note{font-size:12px;line-height:1.85;color:#52627a;background:#f7f9fc;border:1px solid #e3e9f2;border-radius:16px;padding:11px 14px;margin:10px 0}
-.pdf-faithful-pages{display:flex;flex-direction:column;gap:16px;margin-top:12px}
-.pdf-faithful-page{position:relative;width:100%;background:#fff;border:1px solid #e3e9f2;border-radius:20px;overflow:hidden;box-shadow:0 8px 24px rgba(28,44,70,.055);direction:rtl}
+.pdf-faithful-pages{display:flex;flex-direction:column;gap:0;margin-top:12px}
+.pdf-faithful-page{position:relative;width:100%;background:#fff;border:0;border-radius:0;overflow:hidden;box-shadow:none;direction:rtl;break-after:page}
 .pdf-faithful-page-label{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f5f7fb;color:#24334b;border-bottom:1px solid #e6ebf3;font:800 12px var(--font);padding:12px 15px;direction:rtl;text-align:right}
 .pdf-faithful-page-label small{font-weight:500;color:#78869b}
-.pdf-faithful-page-inner{padding:12px;background:#fbfcfe;direction:rtl;line-height:1.9}
+.pdf-faithful-page-inner{padding:0;background:#fff;direction:rtl;line-height:1.4;overflow:auto;-webkit-overflow-scrolling:touch}.pdf-original-page{position:relative;margin:0 auto;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none}.pdf-original-page canvas{display:block;width:100%;height:auto}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;margin:0;padding:0;border:0;border-radius:0;background:rgba(255,255,255,0);color:transparent;caret-color:#1d4ed8;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:pre;overflow:hidden;direction:rtl;text-align:right;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none}.pdf-original-field:focus{background:rgba(255,255,255,.96);color:#111827;box-shadow:0 0 0 1px #2563eb!important;z-index:3}.pdf-original-field.edited{background:rgba(255,249,210,.35)}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
 .pdf-extracted-sheet{background:#fff;border:1px solid #e0e6ef;border-radius:16px;padding:0;overflow:hidden;box-shadow:0 3px 12px rgba(20,35,60,.035);direction:rtl}
 .pdf-extracted-row{display:grid;grid-template-columns:var(--source-columns, minmax(0,1fr));gap:0;margin:0;align-items:stretch;direction:rtl;position:relative}
 .pdf-extracted-row + .pdf-extracted-row{margin-top:0}
@@ -333,11 +333,9 @@ img{display:block;max-width:100%}
 .pdf-save-copy{display:flex;align-items:center;gap:12px;min-width:0}.pdf-save-icon{width:44px;height:44px;flex:0 0 44px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,#d9fbe5,#e7f0ff);color:#16834b}.pdf-save-copy strong{display:block;font-size:14px;color:#203449;margin-bottom:3px}.pdf-save-copy small{display:block;font-size:11px;line-height:1.8;color:#718096}.pdf-save-button{flex:0 0 auto;min-width:150px;justify-content:center;border-radius:14px!important;box-shadow:0 6px 16px rgba(25,135,84,.16)}.pdf-save-button:disabled{opacity:.58;cursor:not-allowed;box-shadow:none}.pdf-save-button.is-saved{background:#e9f9ef!important;color:#167443!important;border:1px solid #b9e8ca!important;box-shadow:none}
 @media(max-width:640px){.pdf-save-panel{align-items:stretch;flex-direction:column;padding:13px;border-radius:17px;gap:12px}.pdf-save-copy{align-items:flex-start}.pdf-save-icon{width:40px;height:40px;flex-basis:40px;border-radius:13px}.pdf-save-button{width:100%;min-width:0;min-height:46px}.pdf-faithful-toolbar .btn{min-height:40px}}
 @media(max-width:640px){
-  .pdf-faithful-pages{gap:18px;margin-top:14px}
-  .pdf-faithful-page{border-radius:18px;box-shadow:0 7px 22px rgba(28,44,70,.075)}
-  .pdf-faithful-page-label{padding:13px 14px;font-size:14px;min-height:48px;gap:8px}
-  .pdf-faithful-page-label small{font-size:12px}
-  .pdf-faithful-page-inner{padding:10px;background:#f6f8fc;line-height:1.9}
+  .pdf-faithful-pages{gap:0;margin-top:14px}
+  .pdf-faithful-page{border-radius:0;box-shadow:none}
+  .pdf-faithful-page-inner{padding:0;background:#fff;line-height:1.4}
   .pdf-extracted-help{font-size:13px;line-height:1.9;margin:0 0 10px;padding:3px 2px}
   .pdf-extracted-sheet{position:relative;padding:0;border-radius:14px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;scrollbar-width:none;border:1px solid #dce4ef;background:#fff}
   .pdf-extracted-sheet::-webkit-scrollbar{display:none}
@@ -362,7 +360,7 @@ img{display:block;max-width:100%}
   .pdf-save-button{width:100%;min-width:0;min-height:48px;font-size:14px}
 }
 @media(max-width:380px){
-  .pdf-faithful-page-inner{padding:7px}
+  .pdf-faithful-page-inner{padding:0}
   .pdf-extracted-row{min-width:1040px}
   .pdf-extracted-cell{font-size:12px;padding:8px 7px;min-height:40px;line-height:1.65}
   .pdf-extracted-cell[contenteditable="true"]{font-size:12px;min-height:40px}
@@ -744,13 +742,13 @@ img{display:block;max-width:100%}
     <!-- IMPORT/EXPORT -->
     <section class="page" id="page-import">
       <div class="section">
-        <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-upload"/></svg> مرحله ۱ — آپلود فایل</h2></div>
+        <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-upload"/></svg> انتخاب فایل اصلی PDF</h2></div>
         <div class="drop-zone" id="dropZone">
           <svg class="icn"><use href="#i-upload"/></svg>
-          <h3>فایل را انتخاب کنید</h3>
-          <p>PDF · XLSX · XLS · CSV<br>یا فایل را اینجا رها کنید</p>
+          <h3>فایل واقعی اداره پست را انتخاب کنید</h3>
+          <p>همان PDF مورد استفاده کارفرما را بارگذاری کنید؛ فایل نمونه یا صفحه‌بندی نمایشی در برنامه وجود ندارد.</p>
           <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()"><svg class="icn"><use href="#i-file"/></svg> انتخاب فایل</button>
-          <input type="file" id="fileInput" accept=".pdf,.xlsx,.xls,.csv" hidden>
+          <input type="file" id="fileInput" accept=".pdf,application/pdf" hidden>
         </div>
         <div class="hidden" id="filePreview" style="margin-top:14px;padding:14px;background:#fff;border-radius:var(--radius-md);border:1px solid var(--border);box-shadow:var(--shadow-md)">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
@@ -763,20 +761,20 @@ img{display:block;max-width:100%}
           </div>
           <div class="progress"><span id="progressBar"></span></div>
           <div id="extractStatus" style="font-size:12px;color:var(--muted);margin-bottom:12px">آماده پردازش</div>
-          <button class="btn btn-primary btn-block" onclick="extractFile(event)"><svg class="icn"><use href="#i-bolt"/></svg> استخراج اطلاعات</button>
+          <button class="btn btn-primary btn-block" onclick="extractFile(event)"><svg class="icn"><use href="#i-file"/></svg> باز کردن PDF برای ویرایش</button>
         </div>
       </div>
       <div id="editSection" class="hidden">
         <div class="section">
-          <div class="section-heading"><h2 class="section-title">مرحله ۲ — ویرایش جدول</h2><span class="btn btn-sm btn-ghost" id="editCount">۰</span></div>
+          <div class="section-heading"><h2 class="section-title">ویرایش مستقیم فایل PDF بارگذاری‌شده</h2><span class="btn btn-sm btn-ghost" id="editCount">PDF اصلی</span></div>
           <div class="field"><label>پروژه مقصد</label><select id="importProject"></select></div>
           <div id="pdfFaithfulEditor" class="hidden">
-            <div class="pdf-faithful-note">عنوان‌ها و سرستون‌ها قفل هستند؛ فقط مقدارهای داخل فیلدها را ویرایش کنید. برای فیلدهای متنی صفحه‌کلید کامل و برای فیلدهای عددی صفحه‌کلید عددی باز می‌شود.</div>
+            <div class="pdf-faithful-note">این بخش فقط PDF واقعی‌ای را نشان می‌دهد که همین‌جا انتخاب کرده‌اید؛ هیچ PDF نمونه، جدول جایگزین یا صفحه‌بندی تازه‌ای ساخته نمی‌شود. متن‌های قابل‌ویرایش در جای خودشان قرار می‌گیرند و خروجی از بایت‌های همان فایل بارگذاری‌شده ساخته می‌شود. اگر PDF اسکن‌شده و فاقد متن قابل‌انتخاب باشد، برای ویرایش متن به OCR نیاز دارد.</div>
             <div class="pdf-faithful-toolbar">
               <span class="btn btn-sm btn-ghost" id="pdfPageCount">—</span>
-              <button class="btn btn-outline btn-sm" type="button" onclick="downloadPdfEdits()">دانلود اطلاعات ویرایش‌شده (JSON)</button>
+              <button class="btn btn-outline btn-sm" type="button" onclick="downloadPdfEdits()">دانلود PDF ویرایش‌شده</button>
               <button class="btn btn-outline btn-sm" type="button" onclick="printFaithfulPdf()">چاپ صفحات</button>
-              <button class="btn btn-primary btn-sm" type="button" onclick="shareFaithfulPdfAndText()"><svg class="icn"><use href="#i-share"/></svg> اشتراک‌گذاری PDF و متن</button>
+              <button class="btn btn-primary btn-sm" type="button" onclick="shareFaithfulPdfAndText()"><svg class="icn"><use href="#i-share"/></svg> اشتراک‌گذاری PDF ویرایش‌شده</button>
               <button class="btn btn-outline btn-sm" type="button" onclick="resetPdfEdits()">بازگردانی متن‌های ویرایش‌شده</button>
             </div>
             <div id="pdfFaithfulPages" class="pdf-faithful-pages"></div>
@@ -952,6 +950,7 @@ img{display:block;max-width:100%}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tokml@0.4.0/tokml.min.js"></script>
 
@@ -1539,6 +1538,7 @@ function exportKML(){
 var selectedFile=null;
 var editingRows=[];
 var faithfulPdf=null;
+var faithfulPdfOriginalBytes=null;
 var faithfulPdfName='';
 var faithfulPdfEdits={};
 var faithfulPdfRendered={};
@@ -1557,20 +1557,26 @@ if(dropZone){
 if(fileInput)fileInput.onchange=function(){if(fileInput.files[0])selectFile(fileInput.files[0])};
 
 function selectFile(f){
-  var ext=f.name.split('.').pop().toLowerCase();
-  if(['pdf','xlsx','xls','csv'].indexOf(ext)===-1){toast('فرمت پشتیبانی نمی‌شود','error');return}
+  if(!f)return;
+  var ext=String(f.name||'').split('.').pop().toLowerCase();
+  // This workflow is deliberately for the actual PDF supplied by the post office.
+  // Never substitute a bundled sample or convert the PDF into a custom page layout.
+  if(ext!=='pdf'&&f.type!=='application/pdf'){toast('فقط فایل PDF واقعی اداره پست را انتخاب کنید','error');return}
+  if(ext!=='pdf'){toast('فرمت فایل باید PDF باشد','error');return}
+  if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}
+  faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfName='';faithfulPdfEdits={};faithfulPdfRendered={};faithfulPdfPageData={};faithfulPdfDirty=false;faithfulPdfSavedSnapshot='{}';
   selectedFile=f;
   $('#filePreview').classList.remove('hidden');
   $('#fileName').textContent=f.name;
   $('#fileSize').textContent=(f.size/1024).toFixed(1)+' KB';
   $('#progressBar').style.width='0';
-  $('#extractStatus').textContent='آماده پردازش';
+  $('#extractStatus').textContent='PDF انتخاب شد؛ آماده بازکردن فایل اصلی';
   $('#editSection').classList.add('hidden');
   $('#pdfFaithfulEditor').classList.add('hidden');
   $('#pdfFaithfulPages').innerHTML='';
   $('#genericGridArea');
 }
-function cancelFile(){selectedFile=null;fileInput.value='';$('#filePreview').classList.add('hidden');$('#editSection').classList.add('hidden');$('#pdfFaithfulEditor').classList.add('hidden');if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}faithfulPdf=null;faithfulPdfEdits={};faithfulPdfRendered={};faithfulPdfPageData={}}
+function cancelFile(){selectedFile=null;fileInput.value='';$('#filePreview').classList.add('hidden');$('#editSection').classList.add('hidden');$('#pdfFaithfulEditor').classList.add('hidden');if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfEdits={};faithfulPdfRendered={};faithfulPdfPageData={}}
 
 async function extractFile(event){
   if(!selectedFile)return;
@@ -1599,7 +1605,8 @@ async function extractFile(event){
       if(!window.pdfjsLib)throw new Error('کتابخانه PDF بارگذاری نشد');
       pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
       var buf2=await selectedFile.arrayBuffer();
-      faithfulPdf=await pdfjsLib.getDocument({data:buf2}).promise;
+      faithfulPdfOriginalBytes=buf2.slice(0);
+      faithfulPdf=await pdfjsLib.getDocument({data:buf2.slice(0)}).promise;
       faithfulPdfName=selectedFile.name;
       faithfulPdfEdits={};
       faithfulPdfRendered={};
@@ -1614,11 +1621,13 @@ async function extractFile(event){
       updatePdfSaveUI(true);
       editingRows=[];
       $('#progressBar').style.width='100%';
-      $('#extractStatus').textContent='فایل PDF آماده شد؛ '+fa(faithfulPdf.numPages)+' صفحه';
+      $('#extractStatus').textContent='PDF اصلی آماده و قابل ویرایش است؛ '+fa(faithfulPdf.numPages)+' صفحه';
       $('#editSection').classList.remove('hidden');
+      // PDF workflow edits the uploaded document itself; project/table mapping is irrelevant here.
+      var projectField=$('#importProject')&&$('#importProject').closest('.field');if(projectField)projectField.classList.add('hidden');
       $('#pdfFaithfulEditor').classList.remove('hidden');
       $('#pdfPageCount').textContent=fa(faithfulPdf.numPages)+' صفحه';
-      $('#pdfFaithfulStatus').textContent='در حال آماده‌سازی صفحه‌ها…';
+      $('#pdfFaithfulStatus').textContent='در حال باز کردن صفحه‌های خود PDF…';
       // The original PDF is displayed page-by-page; do not flatten it into a generic table.
       var grid=$('.edit-grid-wrap');if(grid)grid.classList.add('hidden');
       $$('#editSection .btn-row').forEach(function(el){el.classList.add('hidden')});
@@ -1626,11 +1635,12 @@ async function extractFile(event){
       var headings=$$('#editSection .section-heading');if(headings.length>1)headings[1].classList.add('hidden');
       fillProjectSelect('#importProject');
       setupFaithfulPdfPages();
-      toast(fa(faithfulPdf.numPages)+' صفحه PDF بارگذاری شد','success');
+      toast('فایل PDF اصلی برای ویرایش باز شد','success');
       setTimeout(function(){$('#pdfFaithfulEditor').scrollIntoView({behavior:'smooth'})},200);
       return;
     }
     $('#pdfFaithfulEditor').classList.add('hidden');
+    var projectFieldNormal=$('#importProject')&&$('#importProject').closest('.field');if(projectFieldNormal)projectFieldNormal.classList.remove('hidden');
     var gridNormal=$('.edit-grid-wrap');if(gridNormal)gridNormal.classList.remove('hidden');
     $$('#editSection .btn-row').forEach(function(el){el.classList.remove('hidden')});
     var successNormal=$('#editSection .btn-success');if(successNormal)successNormal.classList.remove('hidden');
@@ -1679,8 +1689,10 @@ function setupFaithfulPdfPages(){
   host.innerHTML='';faithfulPdfRendered={};faithfulPdfPageData={};
   var frag=document.createDocumentFragment();
   for(var i=1;i<=faithfulPdf.numPages;i++){
-    var page=document.createElement('section');page.className='pdf-faithful-page';page.dataset.page=String(i);
-    page.innerHTML='<div class="pdf-faithful-page-label"><span>صفحه '+fa(i)+' از '+fa(faithfulPdf.numPages)+'</span><small>شبکهٔ اطلاعات قابل ویرایش</small></div><div class="pdf-faithful-page-inner" data-inner="'+i+'"><div class="pdf-extracted-empty">اطلاعات این صفحه هنگام نمایش استخراج می‌شود…</div></div><div class="pdf-page-actions"><span>تغییرات این صفحه هم همراه فایل ذخیره می‌شوند.</span><div class="pdf-page-action-buttons"><button class="btn btn-primary btn-sm" type="button" onclick="saveFaithfulPdfEdits()"><svg class="icn"><use href="#i-save"/></svg> ذخیره فایل</button><button class="btn btn-secondary btn-sm" type="button" onclick="shareFaithfulPdfAndText()"><svg class="icn"><use href="#i-share"/></svg> اشتراک‌گذاری</button></div></div>';
+    var page=document.createElement('section');
+    page.className='pdf-faithful-page';page.dataset.page=String(i);
+    // No custom page template: the only visible page content is the original PDF page.
+    page.innerHTML='<div class="pdf-faithful-page-inner" data-inner="'+i+'"><div class="pdf-extracted-empty">در حال نمایش صفحهٔ اصلی PDF…</div></div>';
     frag.appendChild(page);
   }
   host.appendChild(frag);
@@ -1690,7 +1702,7 @@ function setupFaithfulPdfPages(){
   }else{
     $$('#pdfFaithfulPages .pdf-faithful-page').forEach(function(el){renderFaithfulPdfPage(Number(el.dataset.page))});
   }
-  $('#pdfFaithfulStatus').textContent='روی هر خانه کلیک کنید و متن همان بخش را ویرایش کنید. تعداد صفحه‌ها: '+fa(faithfulPdf.numPages);
+  $('#pdfFaithfulStatus').textContent='نمایش مستقیم PDF اصلی · '+fa(faithfulPdf.numPages)+' صفحه · بدون بازصفحه‌بندی';
 }
 function cleanPdfText(value){
   var text=String(value==null?'':value);
@@ -1722,7 +1734,7 @@ function markPdfEditsDirty(){updatePdfSaveUI(false)}
 function saveFaithfulPdfEdits(){
   if(!faithfulPdf||!faithfulPdfStorageKey)return toast('ابتدا یک فایل PDF استخراج کنید','error');
   // Capture any cell that is still focused before committing the edits.
-  $$('#pdfFaithfulPages .pdf-extracted-cell[contenteditable="true"]').forEach(function(cell){faithfulPdfEdits[cell.dataset.editKey]=cleanPdfText(cell.textContent.trim())});
+  $$('#pdfFaithfulPages .pdf-original-field:not(.locked)').forEach(function(field){faithfulPdfEdits[field.dataset.editKey]=cleanPdfText(field.value.trim())});
   var payload={sourceFile:faithfulPdfName,totalPages:faithfulPdf.numPages,savedAt:new Date().toISOString(),edits:faithfulPdfEdits};
   try{
     localStorage.setItem(faithfulPdfStorageKey,JSON.stringify(payload));
@@ -1745,186 +1757,182 @@ async function renderFaithfulPdfPage(pageNo){
   if(!inner)return;
   try{
     var page=await faithfulPdf.getPage(pageNo);
-    var viewport=page.getViewport({scale:1});
-    var textContent=await page.getTextContent();
+    var baseViewport=page.getViewport({scale:1});
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    var available=Math.max(260,(inner.clientWidth||window.innerWidth)-2);
+    var displayScale=Math.min(1.35,Math.max(0.25,available/baseViewport.width));
+    var viewport=page.getViewport({scale:displayScale});
+    var canvas=document.createElement('canvas');
+    canvas.width=Math.ceil(viewport.width*dpr);canvas.height=Math.ceil(viewport.height*dpr);
+    canvas.style.width=viewport.width+'px';canvas.style.height=viewport.height+'px';
+    var ctx=canvas.getContext('2d',{alpha:false});
+    await page.render({canvasContext:ctx,viewport:page.getViewport({scale:displayScale*dpr}),background:'rgb(255,255,255)'}).promise;
+    var wrap=document.createElement('div');wrap.className='pdf-original-page';wrap.style.width=viewport.width+'px';wrap.style.height=viewport.height+'px';
+    canvas.style.width='100%';canvas.style.height='100%';wrap.appendChild(canvas);
+    var overlay=document.createElement('div');overlay.className='pdf-original-overlay';wrap.appendChild(overlay);
+    var content=await page.getTextContent();
     var items=[];
-    textContent.items.forEach(function(item,index){
-      var extracted=cleanPdfText(item.str||'');
-      if(!extracted.trim())return;
-      var tx=pdfjsLib.Util.transform(viewport.transform,item.transform);
-      var fontHeight=Math.max(7,Math.hypot(tx[2],tx[3]));
-      items.push({index:index,text:extracted,x:tx[4],y:tx[5],top:tx[5]-fontHeight,height:fontHeight,width:Math.max(Number(item.width)||0,fontHeight*.5)});
+    content.items.forEach(function(item,index){
+      var text=cleanPdfText(item.str||'');if(!text.trim())return;
+      var tx=pdfjsLib.Util.transform(baseViewport.transform,item.transform);
+      var h=Math.max(5,Math.hypot(tx[2],tx[3]));
+      var width=Math.max(Number(item.width)||0,h*.45);
+      items.push({key:pageNo+':'+index,index:index,text:text,original:text,x:tx[4],y:tx[5],top:tx[5]-h,width:width,height:h,locked:false});
     });
-    if(!items.length){inner.innerHTML='<div class="pdf-extracted-empty">در این صفحه متن قابل استخراج پیدا نشد. ممکن است صفحه اسکن تصویری باشد و برای استخراج نوشته‌ها به OCR نیاز داشته باشد.</div>';faithfulPdfPageData[pageNo]=[];return}
-    // Group text fragments by their visual baseline, then combine nearby fragments into editable cells.
-    items.sort(function(a,b){return a.top-b.top||a.x-b.x});
-    var lines=[];
+    if(!items.length){
+      inner.innerHTML='';inner.style.padding='0';inner.appendChild(wrap);
+      faithfulPdfPageData[pageNo]={items:[],width:baseViewport.width,height:baseViewport.height,rotation:page.rotate||0};
+      var noText=document.createElement('div');noText.className='pdf-faithful-page-label';noText.innerHTML='<small>این صفحه از فایل اصلی نمایش داده شده است؛ متن قابل‌انتخاب پیدا نشد و برای ویرایش متن به OCR نیاز است.</small>';section.appendChild(noText);
+      $('#pdfFaithfulStatus').textContent='PDF اصلی نمایش داده می‌شود؛ بعضی صفحه‌ها ممکن است اسکن تصویری باشند و برای ویرایش متن به OCR نیاز داشته باشند.';
+      return;
+    }
+    var norm=function(v){var t=String(v||'');try{t=t.normalize('NFKC')}catch(e){}return t.replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[ۀة]/g,'ه').replace(/[إأ]/g,'ا').replace(/[ؤ]/g,'و').replace(/[\u200B-\u200F\u2060\uFEFF\u00AD]/g,'').replace(/[\u200C\sـ:：،,؛;()（）.\-]/g,'').toLowerCase()};
+    var labels=['کد گشت نامه رسانی','شماره گشت نامه رسانی','شرکت ملی پست جمهوری اسلامی ایران','اداره کل جغرافیایی و اطلاعات مکانی کشور','شرکت ملی پست جمهوری اسلامی ایران-اداره کل جغرافیایی و اطلاعات مکانی کشور','فهرست مکان های مسکونی و کسب','تعداد صفحات گزارش','آدرس','تاریخ','صفحه','ردیف واحد','بلوک/ورودی','پلاک','طبقه','واحد','نام خانوادگی/نوع فعالیت','نام/نام کارگاه','کد فعالیت','نوع مکان','کد شناسایی','وضعیت','ردیف اصلی','بلوک','ساختمان','محله','شناسایی','بلوار اصلی'];
+    items.forEach(function(it){it.locked=labels.some(function(label){return norm(it.text)===norm(label)});});
+    // Lock values immediately adjacent to date/page labels, plus route-code values paired with the route label.
+    items.forEach(function(it,idx){
+      if(it.locked)return;
+      var sameLine=items.filter(function(other){return Math.abs(other.top-it.top)<=Math.max(4,it.height*.65)});
+      var hasDatePage=sameLine.some(function(other){var n=norm(other.text);return n===norm('تاریخ')||n===norm('صفحه')});
+      if(hasDatePage&&/^[0-9۰-۹٠-٩]{1,4}(?:[\/\-.][0-9۰-۹٠-٩]{1,4}){0,2}$/.test(it.text.trim()))it.locked=true;
+      var hasRoute=sameLine.some(function(other){return ['کد گشت نامه رسانی','شماره گشت نامه رسانی','۳۳۷۸۱کد گشت نامه رسانی'].some(function(label){return norm(other.text)===norm(label)})});
+      if(hasRoute&&/^[0-9۰-۹٠-٩]{3,8}$/.test(it.text.trim()))it.locked=true;
+    });
+    // Determine the identification-code column from the actual header location, not from number shape alone.
+    var idHeaders=items.filter(function(it){return norm(it.text)===norm('کد شناسایی')});
+    if(idHeaders.length){items.forEach(function(it){if(it.locked)return;var center=it.x+it.width/2;if(idHeaders.some(function(h){return Math.abs(center-(h.x+h.width/2))<Math.max(10,baseViewport.width*.025)}))it.locked=true;});}
+    var scale=displayScale;
     items.forEach(function(it){
-      var line=null;
-      for(var li=Math.max(0,lines.length-4);li<lines.length;li++){
-        if(Math.abs(lines[li].top-it.top)<=Math.max(3.5,Math.min(it.height,lines[li].height)*.48)){line=lines[li];break}
+      var field=document.createElement('textarea');field.className='pdf-original-field'+(it.locked?' locked':'');
+      field.value=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)?faithfulPdfEdits[it.key]:it.text;
+      field.readOnly=!!it.locked;field.setAttribute('aria-label',it.locked?'متن ثابت PDF':'ویرایش متن در محل اصلی PDF');field.dataset.editKey=it.key;field.dataset.page=pageNo;
+      field.spellcheck=false;field.wrap='off';field.rows=1;field.autocapitalize='off';field.autocomplete='off';
+      var left=it.x*scale,top=it.top*scale,w=Math.max(2,it.width*scale),h=Math.max(5,it.height*scale*1.25);
+      // Keep overlay tight to the glyphs so nearby borders and neighbouring fields remain visible.
+      field.style.left=left+'px';field.style.top=top+'px';field.style.width=Math.min(w+2,Math.max(2,viewport.width-left))+'px';field.style.height=h+'px';
+      field.style.fontSize=Math.max(5,it.height*scale*.9)+'px';field.style.direction=/[\u0600-\u06FF]/.test(it.text)?'rtl':'ltr';field.style.textAlign=field.style.direction==='rtl'?'right':'left';
+      if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)){field.classList.add('edited');field.style.color='#111827';field.style.background='rgba(255,249,210,.98)';}
+      if(!it.locked){
+        field.addEventListener('focus',function(){field.style.color='#111827';field.style.background='rgba(255,255,255,.97)'});
+        field.addEventListener('input',function(){faithfulPdfEdits[it.key]=cleanPdfText(field.value);field.classList.add('edited');markPdfEditsDirty()});
+        field.addEventListener('blur',function(){faithfulPdfEdits[it.key]=cleanPdfText(field.value.trim());field.value=faithfulPdfEdits[it.key];var changed=faithfulPdfEdits[it.key]!==it.text;field.style.color=changed?'#111827':'transparent';field.style.background=changed?'rgba(255,249,210,.98)':'transparent';field.classList.toggle('edited',changed);markPdfEditsDirty()});
       }
-      if(!line){line={top:it.top,height:it.height,items:[]};lines.push(line)}
-      line.items.push(it);line.top=(line.top*(line.items.length-1)+it.top)/line.items.length;line.height=Math.max(line.height,it.height);
+      overlay.appendChild(field);
+      it.displayScale=scale;
     });
-    lines.sort(function(a,b){return a.top-b.top});
-    var structured=[];
-    var pageWidth=viewport.width||595;
-    lines.forEach(function(line){
-      line.items.sort(function(a,b){return a.x-b.x});
-      var blocks=[],block=null;
-      line.items.forEach(function(it){
-        var right=it.x+it.width;
-        var gap=block?it.x-block.right:Infinity;
-        var joinThreshold=Math.max(7,line.height*1.35, pageWidth*.006);
-        if(!block||gap>joinThreshold){
-          block={items:[it],x:it.x,right:right,text:it.text,height:it.height,firstIndex:it.index};blocks.push(block);
-        }else{
-          block.items.push(it);block.right=Math.max(block.right,right);block.text+=it.text;block.height=Math.max(block.height,it.height);
-        }
-      });
-      // Persian documents are read from right to left; place the rightmost cell first.
-      blocks.sort(function(a,b){return b.x-a.x});
-      if(blocks.length)structured.push({top:line.top,cells:blocks.map(function(b){return {key:pageNo+':'+b.firstIndex,indices:b.items.map(function(it){return it.index}),original:b.text,text:b.text,x:b.x,width:b.right-b.x}})});
-    });
-    faithfulPdfPageData[pageNo]=structured;
-    // Lock only the exact fixed labels requested by the user. Do not lock whole rows,
-    // columns, or values merely because they look like codes/numbers.
-    var normPdf=function(v){var t=String(v||'');try{t=t.normalize('NFKC')}catch(e){}return t.replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[ۀة]/g,'ه').replace(/[إأ]/g,'ا').replace(/[ؤ]/g,'و').replace(/[\u200B-\u200F\u2060\uFEFF\u00AD]/g,'').replace(/[\u200C\sـ:：،,؛;()（）.\-]/g,'').toLowerCase()};
-    var lockedPhrases=[
-      'کد گشت نامه رسانی','شماره گشت نامه رسانی',
-      'شرکت ملی پست جمهوری اسلامی ایران','اداره کل جغرافیایی و اطلاعات مکانی کشور',
-      'شرکت ملی پست جمهوری اسلامی ایران-اداره کل جغرافیایی و اطلاعات مکانی کشور',
-      'فهرست مکان های مسکونی و کسب','تعداد صفحات گزارش','آدرس',
-      'تاریخ','صفحه','ردیف واحد','بلوک/ورودی','پلاک','طبقه','واحد',
-      'نام خانوادگی/نوع فعالیت','نام/نام کارگاه','کدفعالیت','نوع مکان','کد شناسایی','وضعیت',
-      'ردیف اصلی','بلوک','ساختمان','محله','شناسایی','بلوار اصلی'
-    ];
-    var exactLocked=function(text){
-      var n=normPdf(text);
-      return lockedPhrases.some(function(w){return n===normPdf(w)});
-    };
-    // Lock identification-code cells only when they belong to the actual identification-code column.
-    // Do not lock every five-digit value: unrelated numbers and other codes must remain editable.
-    // The route code is locked only when it is the value paired with the route-code label in that row.
-    var idCodeHeaderCenters=[];
-    structured.forEach(function(r){
-      r.cells.forEach(function(c){
-        if(normPdf(c.text)===normPdf('کد شناسایی')) idCodeHeaderCenters.push(c.x+c.width/2);
-      });
-    });
-    var isRouteCodeValue=function(row,cell){
-      var hasRouteLabel=row.cells.some(function(c){var n=normPdf(c.text);return n===normPdf('کد گشت نامه رسانی')||n===normPdf('شماره گشت نامه رسانی')||n===normPdf('۳۳۷۸۱کد گشت نامه رسانی')});
-      var value=String(cell.text||'').trim();
-      return hasRouteLabel && /^[0-9۰-۹٠-٩]{3,8}$/.test(value);
-    };
-    var isInIdentificationCodeColumn=function(cell){
-      var center=cell.x+cell.width/2;
-      return idCodeHeaderCenters.some(function(h){return Math.abs(center-h)<=Math.max(10,pageWidth*.025)});
-    };
-    var isDateOrPageValue=function(text){
-      var t=String(text||'').trim();
-      return /^(?:[0-9۰-۹٠-٩]{1,4}[\/\-.][0-9۰-۹٠-٩]{1,2}(?:[\/\-.][0-9۰-۹٠-٩]{1,4})?|[0-9۰-۹٠-٩]{1,4})$/.test(t);
-    };
-    var html='<div class="pdf-extracted-help"><span>●</span><span>'+fa(structured.length)+' ردیف استخراج شد. عنوان‌ها و برچسب‌ها قفل‌اند؛ خانه‌های اطلاعاتی قابل ویرایش‌اند.</span></div><div class="pdf-extracted-sheet">';
-    structured.forEach(function(row,ri){
-      var cells=row.cells;
-      var centers=cells.map(function(c){return c.x+c.width/2});
-      var trackWidths=cells.map(function(c,ci){
-        var right=ci===0?pageWidth:(centers[ci-1]+centers[ci])/2;
-        var left=ci===cells.length-1?0:(centers[ci]+centers[ci+1])/2;
-        return Math.max(1,right-left);
-      });
-      var trackTotal=trackWidths.reduce(function(a,b){return a+b},0)||pageWidth;
-      var columnTemplate=trackWidths.map(function(w){return (w/trackTotal*100).toFixed(3)+'%'}).join(' ');
-      html+='<div class="pdf-extracted-row" style="--source-columns:'+columnTemplate+'">';
-      cells.forEach(function(cell,ci){
-        var shown=cleanPdfText(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,cell.key)?faithfulPdfEdits[cell.key]:cell.text);
-        var txt=String(cell.text||'').trim();
-        var normalized=normPdf(txt);
-        // Only exact label cells are locked. Values in the same table/column remain editable.
-        var locked=exactLocked(txt);
-        // Keep the requested date/page values locked, but leave other ordinary values editable.
-        var rowHasDateOrPage=cells.some(function(c){var n=normPdf(c.text);return n===normPdf('تاریخ')||n===normPdf('صفحه')});
-        if(!locked&&rowHasDateOrPage&&isDateOrPageValue(txt))locked=true;
-        // Lock the route-code value only when paired with its own route-code label.
-        if(!locked&&isRouteCodeValue(row,cell))locked=true;
-        // Identification codes are locked only in the actual identification-code column.
-        if(!locked&&isInIdentificationCodeColumn(cell))locked=true;
-        var inputMode='text';
-        if(/^[\d۰-۹٠-٩.,٫/\-]+$/.test(txt))inputMode='decimal';
-        var editAttr=locked?' contenteditable="false" tabindex="-1"':' contenteditable="true" inputmode="'+inputMode+'" autocapitalize="off" autocomplete="off"';
-        html+='<div class="pdf-extracted-cell'+(locked?' locked':'')+(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,cell.key)?' edited':'')+'"'+editAttr+' spellcheck="false" role="'+(locked?'cell':'textbox')+'" aria-label="صفحه '+pageNo+'، ردیف '+(ri+1)+'، خانه '+(ci+1)+(locked?'، قفل':'، قابل ویرایش')+'" data-edit-key="'+esc(cell.key)+'" data-page="'+pageNo+'">'+esc(shown)+'</div>';
-      });
-      html+='</div>';
-    });
-    html+='</div>';
-    inner.innerHTML=html;
-    $$('.pdf-extracted-cell[data-page="'+pageNo+'"][contenteditable="true"]').forEach(function(cell){
-      cell.addEventListener('input',function(){var key=cell.dataset.editKey;faithfulPdfEdits[key]=cleanPdfText(cell.textContent);cell.classList.add('edited');markPdfEditsDirty()});
-      cell.addEventListener('blur',function(){faithfulPdfEdits[cell.dataset.editKey]=cleanPdfText(cell.textContent.trim());cell.textContent=faithfulPdfEdits[cell.dataset.editKey];markPdfEditsDirty()});
-      cell.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();var all=$$('.pdf-extracted-cell[data-page="'+pageNo+'"][contenteditable="true"]');var idx=all.indexOf(cell);if(all[idx+1])all[idx+1].focus()}});
-    });
+    inner.innerHTML='';inner.style.padding='0';inner.appendChild(wrap);
+    faithfulPdfPageData[pageNo]={items:items,width:baseViewport.width,height:baseViewport.height,rotation:page.rotate||0};
+    var label=section.querySelector('.pdf-faithful-page-label small');if(label)label.textContent='صفحه اصلی PDF؛ روی متن مجاز ضربه بزنید';
   }catch(err){
     faithfulPdfRendered[pageNo]=false;
-    inner.innerHTML='<div class="pdf-extracted-empty" style="color:#b91c1c">خطا در استخراج صفحه '+fa(pageNo)+': '+esc(err.message||'خطای نامشخص')+'</div>';
+    inner.innerHTML='<div class="pdf-extracted-empty" style="color:#b91c1c">خطا در نمایش صفحه '+fa(pageNo)+': '+esc(err.message||'خطای نامشخص')+'</div>';
   }
 }
-function downloadPdfEdits(){
+async function makeEditedOriginalPdf(){
+  if(!faithfulPdf||!faithfulPdfOriginalBytes)throw new Error('ابتدا PDF اصلی را بارگذاری کنید');
+  if(!window.PDFLib||!window.PDFLib.PDFDocument)throw new Error('کتابخانه ویرایش PDF بارگذاری نشده؛ اتصال اینترنت را بررسی کنید');
+  var PDFDocument=window.PDFLib.PDFDocument;
+  // Load the actual uploaded PDF, not a newly-created document. The edited copy keeps the
+  // original page boxes, order, dimensions, vector artwork and unedited content. Changed text
+  // is visually replaced at its original coordinates because browser PDF libraries do not
+  // reliably rewrite arbitrary existing PDF text streams in place.
+  var out=await PDFDocument.load(faithfulPdfOriginalBytes.slice(0));
+  var outPages=out.getPages();
+  var changedByPage={};
+  Object.keys(faithfulPdfEdits).forEach(function(key){
+    var m=key.match(/^(\d+):(\d+)$/);if(!m)return;
+    var pageNo=Number(m[1]),index=Number(m[2]);
+    var data=faithfulPdfPageData[pageNo];if(!data||!data.items)return;
+    var it=data.items.find(function(x){return x.index===index});if(!it||it.locked)return;
+    var value=cleanPdfText(faithfulPdfEdits[key]);if(value===it.text)return;
+    if(!changedByPage[pageNo])changedByPage[pageNo]=[];
+    changedByPage[pageNo].push({item:it,value:value});
+  });
+  var pageNos=Object.keys(changedByPage).map(Number).sort(function(a,b){return a-b});
+  for(var pi=0;pi<pageNos.length;pi++){
+    var pageNo=pageNos[pi],srcPage=await faithfulPdf.getPage(pageNo),data=faithfulPdfPageData[pageNo];
+    var vp=srcPage.getViewport({scale:3});
+    var baseCanvas=document.createElement('canvas');baseCanvas.width=Math.ceil(vp.width);baseCanvas.height=Math.ceil(vp.height);
+    var baseCtx=baseCanvas.getContext('2d',{alpha:false});
+    await srcPage.render({canvasContext:baseCtx,viewport:vp,background:'rgb(255,255,255)'}).promise;
+    var pdfPage=outPages[pageNo-1];
+    var pdfW=pdfPage.getWidth(),pdfH=pdfPage.getHeight();
+    var scaleX=vp.width/pdfW,scaleY=vp.height/pdfH;
+    for(var ci=0;ci<changedByPage[pageNo].length;ci++){
+      var change=changedByPage[pageNo][ci],it=change.item,value=change.value;
+      var x=Math.max(0,Math.floor(it.x*scaleX));
+      var y=Math.max(0,Math.floor(it.top*scaleY));
+      var w=Math.max(3,Math.ceil(it.width*scaleX));
+      var h=Math.max(5,Math.ceil(it.height*scaleY*1.28));
+      var pad=3;
+      var sx=Math.max(0,x-pad),sy=Math.max(0,y-pad);
+      var sw=Math.min(baseCanvas.width-sx,w+pad*2),sh=Math.min(baseCanvas.height-sy,h+pad*2);
+      if(sw<1||sh<1)continue;
+      // Build a small replacement patch from the original rendered pixels. This keeps
+      // nearby rules/background intact and avoids rasterizing the rest of the PDF page.
+      var patch=document.createElement('canvas');patch.width=sw;patch.height=sh;
+      var pc=patch.getContext('2d');pc.drawImage(baseCanvas,sx,sy,sw,sh,0,0,sw,sh);
+      var localX=x-sx,localY=y-sy;
+      pc.save();pc.fillStyle='#ffffff';pc.fillRect(localX,localY,Math.min(w,sw-localX),Math.min(h,sh-localY));
+      if(value){
+        pc.fillStyle='#111111';pc.textBaseline='alphabetic';
+        var fontSize=Math.max(8,it.height*scaleY*.93);
+        pc.font=fontSize+'px Arial, Tahoma, sans-serif';
+        var rtl=/[\u0600-\u06FF]/.test(value);pc.direction=rtl?'rtl':'ltr';pc.textAlign=rtl?'right':'left';
+        // Keep the replacement inside the original text run's width; don't push the
+        // neighbouring PDF columns around or change any page dimensions.
+        var baseline=localY+it.height*scaleY*.96;
+        pc.fillText(value,rtl?localX+w:localX,baseline,Math.max(2,w));
+      }
+      pc.restore();
+      var png=await out.embedPng(patch.toDataURL('image/png'));
+      var drawX=sx/scaleX;
+      var drawY=pdfH-(sy+sh)/scaleY;
+      pdfPage.drawImage(png,{x:drawX,y:drawY,width:sw/scaleX,height:sh/scaleY});
+      patch.width=1;patch.height=1;
+    }
+    baseCanvas.width=1;baseCanvas.height=1;
+  }
+  return new Blob([await out.save({useObjectStreams:true})],{type:'application/pdf'});
+}
+async function downloadPdfEdits(){
   if(!faithfulPdf)return toast('ابتدا یک فایل PDF استخراج کنید','error');
-  // Ensure every page's extracted content is included; unvisited pages will be extracted on demand before export.
-  var missing=[];for(var i=1;i<=faithfulPdf.numPages;i++)if(!faithfulPdfPageData[i])missing.push(i);
-  var chain=Promise.resolve();missing.forEach(function(n){chain=chain.then(function(){return renderFaithfulPdfPage(n)})});
-  chain.then(function(){
-    var pages={};Object.keys(faithfulPdfPageData).forEach(function(p){pages[p]=faithfulPdfPageData[p].map(function(row){return {cells:row.cells.map(function(c){return {original:c.original,text:Object.prototype.hasOwnProperty.call(faithfulPdfEdits,c.key)?faithfulPdfEdits[c.key]:c.text,sourceItemIndexes:c.indices}})}})});
-    var data={sourceFile:faithfulPdfName,totalPages:faithfulPdf.numPages,exportedAt:new Date().toISOString(),pages:pages,edits:faithfulPdfEdits,notice:'اطلاعات استخراج‌شده به تفکیک صفحه و ردیف متنی ذخیره شده است. مرزبندی سلول‌ها از موقعیت متن در PDF تخمین زده شده؛ PDFهای اسکن‌شده برای استخراج متن به OCR نیاز دارند.'};
-    var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'});
-    var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=(faithfulPdfName.replace(/\.pdf$/i,'')||'pdf')+'-extracted-edited.json';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);
-    toast('اطلاعات استخراج‌شده و ویرایش‌ها دانلود شد','success');
-  }).catch(function(err){toast('خروجی کامل نشد: '+(err.message||''),'error')});
+  var btn=document.querySelector('.pdf-faithful-toolbar button[onclick="downloadPdfEdits()"]');if(btn){btn.disabled=true;btn.dataset.oldText=btn.textContent;btn.textContent='در حال ساخت PDF…'}
+  try{
+    for(var p=1;p<=faithfulPdf.numPages;p++)if(!faithfulPdfPageData[p])await renderFaithfulPdfPage(p);
+    var blob=await makeEditedOriginalPdf();var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=(faithfulPdfName.replace(/\.pdf$/i,'')||'postyar')+'-edited.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},2500);
+    toast('PDF ویرایش‌شده دانلود شد','success');
+  }catch(err){toast('ساخت PDF ناموفق بود: '+(err.message||'خطای نامشخص'),'error')}
+  finally{if(btn){btn.disabled=false;btn.textContent=btn.dataset.oldText||'دانلود PDF ویرایش‌شده'}}
 }
 function buildFaithfulShareText(){
   var out=['فایل: '+(faithfulPdfName||'PDF'),'تعداد صفحات: '+(faithfulPdf?faithfulPdf.numPages:0),''];
   for(var p=1;faithfulPdf&&p<=faithfulPdf.numPages;p++){
-    out.push('========== صفحه '+p+' ==========');
-    (faithfulPdfPageData[p]||[]).forEach(function(row){out.push(row.cells.map(function(c){return cleanPdfText(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,c.key)?faithfulPdfEdits[c.key]:c.text)}).join(' | '))});
+    out.push('========== صفحه '+p+' ==========');var data=faithfulPdfPageData[p];
+    if(data&&data.items)data.items.forEach(function(it){out.push(cleanPdfText(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)?faithfulPdfEdits[it.key]:it.text))});
     out.push('');
   }
   return out.join('\n');
 }
 async function shareFaithfulPdfAndText(){
-  if(!faithfulPdf)return toast('ابتدا یک فایل PDF استخراج کنید','error');
+  if(!faithfulPdf)return toast('ابتدا یک فایل PDF بارگذاری کنید','error');
   var btn=document.querySelector('.pdf-faithful-toolbar button[onclick="shareFaithfulPdfAndText()"]');
-  if(btn){btn.disabled=true;btn.dataset.old=btn.textContent;btn.textContent='در حال آماده‌سازی فایل‌ها…'}
+  if(btn){btn.disabled=true;btn.dataset.oldText=btn.textContent;btn.textContent='در حال آماده‌سازی…'}
   try{
-    // Render every page before making the shareable text/PDF, including pages not yet scrolled into view.
     for(var p=1;p<=faithfulPdf.numPages;p++)if(!faithfulPdfPageData[p])await renderFaithfulPdfPage(p);
-    var text=buildFaithfulShareText();
     var base=(faithfulPdfName||'postyar').replace(/\.pdf$/i,'')||'postyar';
-    var textFile=new File([text],base+'-edited.txt',{type:'text/plain;charset=utf-8'});
-    var files=[textFile];
-    if(window.html2pdf){
-      var temp=document.createElement('div');temp.dir='rtl';temp.style.cssText='position:fixed;left:-100000px;top:0;width:190mm;background:#fff;color:#111;font-family:Tahoma,Arial,sans-serif;padding:8mm;direction:rtl';
-      var pagesHtml='';
-      for(var pn=1;pn<=faithfulPdf.numPages;pn++){
-        var rows=faithfulPdfPageData[pn]||[];
-        pagesHtml+='<section style="page-break-after:always;break-after:page;padding:5mm 0"><h3 style="font-size:14px;border-bottom:1px solid #ddd;padding:0 0 8px">صفحه '+pn+' از '+faithfulPdf.numPages+'</h3><table style="width:100%;border-collapse:collapse;table-layout:auto">'+rows.map(function(row){return '<tr>'+row.cells.map(function(c){var v=cleanPdfText(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,c.key)?faithfulPdfEdits[c.key]:c.text);return '<td style="border:1px solid #d5dbe5;padding:5px;font-size:9px;line-height:1.7;vertical-align:top">'+esc(v)+'</td>'}).join('')+'</tr>'}).join('')+'</table></section>';
-      }
-      temp.innerHTML='<h2 style="font-size:17px">'+esc(base)+'</h2>'+pagesHtml;document.body.appendChild(temp);
-      var pdfBlob=await html2pdf().set({margin:7, image:{type:'jpeg',quality:.94},html2canvas:{scale:1.4,useCORS:true,logging:false},jsPDF:{unit:'mm',format:'a4',orientation:'landscape'}}).from(temp).outputPdf('blob');
-      temp.remove();files.unshift(new File([pdfBlob],base+'-edited.pdf',{type:'application/pdf'}));
-    }
-    if(navigator.share&&navigator.canShare&&navigator.canShare({files:files})){
-      await navigator.share({title:'فایل ویرایش‌شده پست‌یار',text:'نسخه PDF و متن استخراج‌شده ویرایش‌شده',files:files});
+    var pdfBlob=await makeEditedOriginalPdf();
+    var pdfFile=new File([pdfBlob],base+'-edited.pdf',{type:'application/pdf'});
+    if(navigator.share&&navigator.canShare&&navigator.canShare({files:[pdfFile]})){
+      await navigator.share({title:'پست‌یار؛ PDF ویرایش‌شده',text:'PDF اصلی با تغییرات اعمال‌شده',files:[pdfFile]});
       toast('پنجره اشتراک‌گذاری باز شد','success');
     }else{
-      files.forEach(function(f,idx){var url=URL.createObjectURL(f);var a=document.createElement('a');a.href=url;a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},2000)});
-      toast('اشتراک‌گذاری مستقیم پشتیبانی نشد؛ فایل‌های PDF و متنی دانلود شدند تا ارسالشان کنید','success');
+      var url=URL.createObjectURL(pdfBlob),a=document.createElement('a');a.href=url;a.download=pdfFile.name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},2500);
+      toast('PDF ویرایش‌شده دانلود شد','success');
     }
-  }catch(err){toast('آماده‌سازی فایل‌ها ناموفق بود: '+(err&&err.message?err.message:'خطای نامشخص'),'error')}
-  finally{if(btn){btn.disabled=false;btn.textContent=btn.dataset.old||'اشتراک‌گذاری PDF و متن'}}
+  }catch(err){toast('آماده‌سازی PDF ناموفق بود: '+(err&&err.message?err.message:'خطای نامشخص'),'error')}
+  finally{if(btn){btn.disabled=false;btn.textContent=btn.dataset.oldText||'اشتراک‌گذاری PDF ویرایش‌شده'}}
 }
-
 function resetPdfEdits(){
   if(!faithfulPdf)return;
   if(!confirm('تمام ویرایش‌های متن PDF بازگردانی شوند؟'))return;
