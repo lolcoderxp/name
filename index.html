@@ -304,11 +304,11 @@ img{display:block;max-width:100%}
 .pdf-faithful-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
 .pdf-faithful-note{font-size:12px;line-height:1.85;color:#52627a;background:#f7f9fc;border:1px solid #e3e9f2;border-radius:16px;padding:11px 14px;margin:10px 0}
 .pdf-faithful-pages{display:flex;flex-direction:column;gap:0;margin-top:12px}
-.pdf-faithful-page{position:relative;width:100%;background:#fff;border:0;border-radius:0;overflow:hidden;box-shadow:none;direction:rtl;break-after:page}
+.pdf-faithful-page{position:relative;width:100%;background:#fff;border:0;border-radius:0;overflow:visible;box-shadow:none;direction:rtl;break-after:page}
 .pdf-faithful-page-label{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f5f7fb;color:#24334b;border-bottom:1px solid #e6ebf3;font:800 12px var(--font);padding:12px 15px;direction:rtl;text-align:right}
 .pdf-faithful-page-label small{font-weight:500;color:#78869b}
-.pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:auto;overflow-anchor:none;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-x pan-y;position:relative;max-width:100%}.pdf-original-zoom-frame{position:relative;margin:0;flex:none;transform-origin:top left}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;transform-origin:top left;will-change:transform}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 1px;border:1px solid transparent;border-radius:3px;background:rgba(255,255,255,0);color:transparent;caret-color:#1d4ed8;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:pre;overflow:hidden;direction:rtl;text-align:right;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:rgba(255,255,255,.98);color:#111827;border-color:#6d9eff;box-shadow:0 0 0 1px rgba(37,99,235,.14),0 2px 7px rgba(37,99,235,.12)!important;z-index:3}.pdf-original-field.edited{background:rgba(255,249,210,.72);border-color:rgba(202,157,36,.55)}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
-.pdf-extracted-sheet{background:#fff;border:1px solid #e0e6ef;border-radius:16px;padding:0;overflow:hidden;box-shadow:0 3px 12px rgba(20,35,60,.035);direction:rtl}
+.pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:visible;overflow-anchor:none;position:relative;max-width:100%;touch-action:auto;overscroll-behavior:auto}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 1px;border:1px solid transparent;border-radius:3px;background:rgba(255,255,255,0);color:transparent;caret-color:#1d4ed8;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:pre;overflow:hidden;direction:rtl;text-align:right;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:rgba(255,255,255,.98);color:#111827;border-color:#6d9eff;box-shadow:0 0 0 1px rgba(37,99,235,.14),0 2px 7px rgba(37,99,235,.12)!important;z-index:3}.pdf-original-field.edited{background:rgba(255,249,210,.72);border-color:rgba(202,157,36,.55)}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
+.pdf-extracted-sheet{background:#fff;border:1px solid #e0e6ef;border-radius:16px;padding:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;box-shadow:0 3px 12px rgba(20,35,60,.035);direction:rtl;max-width:100%}
 .pdf-extracted-row{display:grid;grid-template-columns:var(--source-columns, minmax(0,1fr));gap:0;margin:0;align-items:stretch;direction:rtl;position:relative}
 .pdf-extracted-row + .pdf-extracted-row{margin-top:0}
 .pdf-extracted-cell{display:flex;align-items:center;justify-content:center;min-width:0;min-height:42px;padding:9px 10px;border:0;border-left:1px solid #e1e7f0;border-bottom:1px solid #e1e7f0;border-radius:0;background:#fff;color:#263449;font:500 13px/1.85 var(--font, Tahoma, sans-serif);letter-spacing:0;white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal;direction:auto;unicode-bidi:plaintext;text-align:center;transition:background .16s,box-shadow .16s;position:relative;outline:none}
@@ -769,7 +769,7 @@ img{display:block;max-width:100%}
           <div class="section-heading"><h2 class="section-title">ویرایش مستقیم فایل PDF بارگذاری‌شده</h2><span class="btn btn-sm btn-ghost" id="editCount">PDF اصلی</span></div>
           <div class="field"><label>پروژه مقصد</label><select id="importProject"></select></div>
           <div id="pdfFaithfulEditor" class="hidden">
-            <div class="pdf-faithful-note">این بخش فقط PDF واقعی‌ای را نشان می‌دهد که همین‌جا انتخاب کرده‌اید؛ هیچ PDF نمونه، جدول جایگزین یا صفحه‌بندی تازه‌ای ساخته نمی‌شود. متن‌های قابل‌ویرایش در جای خودشان قرار می‌گیرند. برای بزرگ‌نمایی فقط PDF از دو انگشت استفاده کنید؛ کل سایت بزرگ نمی‌شود. فیلدهای عددی روی موبایل صفحه‌کلید عددی باز می‌کنند. اگر PDF اسکن‌شده و فاقد متن قابل‌انتخاب باشد، برای ویرایش متن به OCR نیاز دارد.</div>
+            <div class="pdf-faithful-note">این بخش فقط PDF واقعی‌ای را نشان می‌دهد که همین‌جا انتخاب کرده‌اید؛ هیچ PDF نمونه، جدول جایگزین یا صفحه‌بندی تازه‌ای ساخته نمی‌شود. متن‌های قابل‌ویرایش در جای خودشان قرار می‌گیرند. فیلدهای عددی روی موبایل صفحه‌کلید عددی باز می‌کنند. اگر PDF اسکن‌شده و فاقد متن قابل‌انتخاب باشد، برای ویرایش متن به OCR نیاز دارد.</div>
             <div class="pdf-faithful-toolbar">
               <span class="btn btn-sm btn-ghost" id="pdfPageCount">—</span>
               <button class="btn btn-outline btn-sm" type="button" onclick="downloadPdfEdits()">دانلود PDF ویرایش‌شده</button>
@@ -1749,32 +1749,6 @@ function saveFaithfulPdfEdits(){
   }
 }
 
-function installPdfPinchZoom(scroller,frame,page,baseWidth,baseHeight){
-  if(!scroller||!frame||!page||scroller.dataset.pinchReady==='1')return;
-  scroller.dataset.pinchReady='1';
-  var zoom=1,startZoom=1,startDistance=0,active=false;
-  function distance(t1,t2){var dx=t2.clientX-t1.clientX,dy=t2.clientY-t1.clientY;return Math.sqrt(dx*dx+dy*dy)}
-  function apply(next){
-    zoom=Math.max(1,Math.min(4,next));
-    frame.style.width=(baseWidth*zoom)+'px';frame.style.height=(baseHeight*zoom)+'px';
-    page.style.transform='scale('+zoom+')';
-    page.style.transformOrigin='top left';
-    frame.dataset.zoom=zoom.toFixed(3);
-  }
-  scroller.addEventListener('touchstart',function(e){
-    if(e.touches&&e.touches.length===2){active=true;startZoom=zoom;startDistance=distance(e.touches[0],e.touches[1]);}
-  },{passive:true});
-  scroller.addEventListener('touchmove',function(e){
-    if(!active||!e.touches||e.touches.length!==2)return;
-    e.preventDefault();
-    var now=distance(e.touches[0],e.touches[1]);if(startDistance>0)apply(startZoom*(now/startDistance));
-  },{passive:false});
-  function end(e){if(!e.touches||e.touches.length<2){active=false;startDistance=0;}}
-  scroller.addEventListener('touchend',end,{passive:true});scroller.addEventListener('touchcancel',end,{passive:true});
-  // Desktop trackpads/mouse users can also zoom only the PDF with Ctrl/Command + wheel.
-  scroller.addEventListener('wheel',function(e){if(!(e.ctrlKey||e.metaKey))return;e.preventDefault();apply(zoom*(e.deltaY<0?1.12:.89));},{passive:false});
-}
-
 async function renderFaithfulPdfPage(pageNo){
   if(!faithfulPdf||faithfulPdfRendered[pageNo])return;
   faithfulPdfRendered[pageNo]=true;
@@ -1784,7 +1758,7 @@ async function renderFaithfulPdfPage(pageNo){
   try{
     var page=await faithfulPdf.getPage(pageNo);
     var baseViewport=page.getViewport({scale:1});
-    var dpr=Math.min(window.devicePixelRatio||1,2);
+    var dpr=Math.min(window.devicePixelRatio||1,3);
     var available=Math.max(260,(inner.clientWidth||window.innerWidth)-2);
     var displayScale=Math.min(1.35,Math.max(0.25,available/baseViewport.width));
     var viewport=page.getViewport({scale:displayScale});
@@ -1796,8 +1770,6 @@ async function renderFaithfulPdfPage(pageNo){
     var wrap=document.createElement('div');wrap.className='pdf-original-page';wrap.style.width=viewport.width+'px';wrap.style.height=viewport.height+'px';
     canvas.style.width='100%';canvas.style.height='100%';wrap.appendChild(canvas);
     var overlay=document.createElement('div');overlay.className='pdf-original-overlay';wrap.appendChild(overlay);
-    var zoomFrame=document.createElement('div');zoomFrame.className='pdf-original-zoom-frame';zoomFrame.style.width=viewport.width+'px';zoomFrame.style.height=viewport.height+'px';zoomFrame.appendChild(wrap);
-    installPdfPinchZoom(inner,zoomFrame,wrap,viewport.width,viewport.height);
     var content=await page.getTextContent();
     var items=[];
     content.items.forEach(function(item,index){
@@ -1808,7 +1780,7 @@ async function renderFaithfulPdfPage(pageNo){
       items.push({key:pageNo+':'+index,index:index,text:text,original:text,x:tx[4],y:tx[5],top:tx[5]-h,width:width,height:h,locked:false});
     });
     if(!items.length){
-      inner.innerHTML='';inner.style.padding='0';inner.appendChild(zoomFrame);
+      inner.innerHTML='';inner.style.padding='0';inner.appendChild(wrap);
       faithfulPdfPageData[pageNo]={items:[],width:baseViewport.width,height:baseViewport.height,rotation:page.rotate||0};
       var noText=document.createElement('div');noText.className='pdf-faithful-page-label';noText.innerHTML='<small>این صفحه از فایل اصلی نمایش داده شده است؛ متن قابل‌انتخاب پیدا نشد و برای ویرایش متن به OCR نیاز است.</small>';section.appendChild(noText);
       $('#pdfFaithfulStatus').textContent='PDF اصلی نمایش داده می‌شود؛ بعضی صفحه‌ها ممکن است اسکن تصویری باشند و برای ویرایش متن به OCR نیاز داشته باشند.';
@@ -1852,7 +1824,7 @@ async function renderFaithfulPdfPage(pageNo){
       overlay.appendChild(field);
       it.displayScale=scale;
     });
-    inner.innerHTML='';inner.style.padding='0';inner.appendChild(zoomFrame);
+    inner.innerHTML='';inner.style.padding='0';inner.appendChild(wrap);
     faithfulPdfPageData[pageNo]={items:items,width:baseViewport.width,height:baseViewport.height,rotation:page.rotate||0};
     var label=section.querySelector('.pdf-faithful-page-label small');if(label)label.textContent='صفحه اصلی PDF؛ روی متن مجاز ضربه بزنید';
   }catch(err){
