@@ -267,7 +267,8 @@ img{display:block;max-width:100%}
 .label-card .barcode{font-family:'Courier New',monospace;font-size:18px;letter-spacing:2px;line-height:1}
 
 /* Edit Grid */
-.edit-grid-wrap{overflow:auto;border-radius:var(--radius-sm);background:#fff;border:1px solid var(--border);max-height:60vh;box-shadow:var(--shadow-md)}
+.edit-grid-wrap{display:block;width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-x pan-y;overflow-anchor:none;border-radius:var(--radius-sm);background:#fff;border:1px solid var(--border);max-height:60vh;box-shadow:var(--shadow-md)}
+.edit-grid-wrap .edit-grid{touch-action:pan-x pan-y}.edit-grid-wrap .edit-grid td[contenteditable="true"]{touch-action:pan-x pan-y;-webkit-user-select:text;user-select:text}
 .edit-grid{width:100%;border-collapse:collapse;min-width:900px;font-size:11.5px}
 .edit-grid th{background:var(--surface-2);border:1px solid var(--border);padding:10px 6px;font-weight:700;color:var(--text-2);font-size:11px;position:sticky;top:0;z-index:5;text-align:center;white-space:nowrap}
 .edit-grid td{border:1px solid var(--border);padding:0;text-align:center;height:42px;background:#fff}
@@ -307,7 +308,7 @@ img{display:block;max-width:100%}
 .pdf-faithful-page{position:relative;width:100%;background:#fff;border:0;border-radius:0;overflow:visible;box-shadow:none;direction:rtl;break-after:page}
 .pdf-faithful-page-label{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f5f7fb;color:#24334b;border-bottom:1px solid #e6ebf3;font:800 12px var(--font);padding:12px 15px;direction:rtl;text-align:right}
 .pdf-faithful-page-label small{font-weight:500;color:#78869b}
-.pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:visible;overflow-anchor:none;position:relative;max-width:100%;touch-action:auto;overscroll-behavior:auto}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 1px;border:1px solid transparent;border-radius:3px;background:rgba(255,255,255,0);color:transparent;caret-color:#1d4ed8;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:pre;overflow:hidden;direction:rtl;text-align:right;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:rgba(255,255,255,.98);color:#111827;border-color:#6d9eff;box-shadow:0 0 0 1px rgba(37,99,235,.14),0 2px 7px rgba(37,99,235,.12)!important;z-index:3}.pdf-original-field.edited{background:rgba(255,249,210,.72);border-color:rgba(202,157,36,.55)}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
+.pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:visible;overflow-anchor:none;position:relative;max-width:100%;touch-action:auto;overscroll-behavior:auto}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 1px;border:1px solid transparent;border-radius:3px;background:rgba(255,255,255,0);color:transparent;caret-color:#1d4ed8;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:pre;overflow:hidden;direction:rtl;text-align:right;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:#fff;color:#111827;border-color:#4f7ee8;box-shadow:0 8px 26px rgba(25,55,105,.22)!important;z-index:20}.pdf-original-field.is-editing{white-space:pre;overflow:hidden;border-radius:3px}.pdf-original-field.edited{background:rgba(255,249,210,.72);border-color:rgba(202,157,36,.55)}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
 .pdf-extracted-sheet{background:#fff;border:1px solid #e0e6ef;border-radius:16px;padding:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;box-shadow:0 3px 12px rgba(20,35,60,.035);direction:rtl;max-width:100%}
 .pdf-extracted-row{display:grid;grid-template-columns:var(--source-columns, minmax(0,1fr));gap:0;margin:0;align-items:stretch;direction:rtl;position:relative}
 .pdf-extracted-row + .pdf-extracted-row{margin-top:0}
@@ -319,7 +320,7 @@ img{display:block;max-width:100%}
 .pdf-extracted-row:first-child .pdf-extracted-cell:last-child{border-top-left-radius:12px}
 .pdf-extracted-row:last-child .pdf-extracted-cell:first-child{border-bottom-right-radius:12px}
 .pdf-extracted-row:last-child .pdf-extracted-cell:last-child{border-bottom-left-radius:12px}
-.pdf-extracted-cell[contenteditable="true"]{cursor:text;-webkit-user-select:text;user-select:text;touch-action:manipulation}
+.pdf-extracted-cell[contenteditable="true"]{cursor:text;-webkit-user-select:text;user-select:text;touch-action:pan-x pan-y}
 .pdf-extracted-cell.locked{background:#f5f7fa;color:#65738a;font-weight:700;cursor:default;user-select:text}
 .pdf-extracted-cell.locked:after{content:"";position:absolute;inset:4px;border:1px solid rgba(215,222,232,.45);border-radius:6px;pointer-events:none}
 .pdf-extracted-cell[contenteditable="true"]:hover{background:#f4f8ff;box-shadow:inset 0 0 0 1px #b7c9e7;z-index:1}
@@ -327,7 +328,7 @@ img{display:block;max-width:100%}
 .pdf-extracted-cell.edited{background:#fff9e5;box-shadow:inset 0 0 0 1px #e6c66a}
 .pdf-extracted-empty{padding:28px 16px;text-align:center;color:#64748b;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px;font-size:13px}
 .pdf-extracted-help{display:flex;align-items:center;gap:7px;color:#7b8798;font-size:11px;line-height:1.7;margin:0 0 9px;padding:0 3px}
-.pdf-page-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;background:#f8fafc;border-top:1px solid #e5eaf2}.pdf-page-actions span{font-size:11px;line-height:1.7;color:#748198}.pdf-page-action-buttons{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.pdf-page-actions .btn{border-radius:12px;white-space:nowrap;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:6px}.pdf-page-actions .icn{width:15px;height:15px}@media(max-width:640px){.pdf-page-actions{align-items:stretch;flex-direction:column}.pdf-page-action-buttons{display:grid;grid-template-columns:1fr 1fr}.pdf-page-actions .btn{width:100%;min-height:44px}}
+.pdf-page-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;background:#f8fafc;border-top:1px solid #e5eaf2}.pdf-page-actions span{font-size:11px;line-height:1.7;color:#748198}.pdf-page-action-buttons{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.pdf-page-actions .btn{border-radius:12px;white-space:nowrap;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:6px}.pdf-page-actions .icn{width:15px;height:15px}@media(max-width:640px){.edit-grid-wrap{max-width:100%;overflow-x:auto;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}.pdf-extracted-sheet{touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch}.pdf-page-actions{align-items:stretch;flex-direction:column}.pdf-page-action-buttons{display:grid;grid-template-columns:1fr 1fr}.pdf-page-actions .btn{width:100%;min-height:44px}}
 .pdf-faithful-page-status{font-size:11px;color:var(--muted);padding:8px 10px;direction:rtl}
 .pdf-save-panel{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:18px 0 6px;padding:16px 18px;border:1px solid #dce9df;border-radius:20px;background:linear-gradient(135deg,#f4fff7 0%,#f7faff 100%);box-shadow:0 10px 28px rgba(24,100,58,.07)}
 .pdf-save-copy{display:flex;align-items:center;gap:12px;min-width:0}.pdf-save-icon{width:44px;height:44px;flex:0 0 44px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,#d9fbe5,#e7f0ff);color:#16834b}.pdf-save-copy strong{display:block;font-size:14px;color:#203449;margin-bottom:3px}.pdf-save-copy small{display:block;font-size:11px;line-height:1.8;color:#718096}.pdf-save-button{flex:0 0 auto;min-width:150px;justify-content:center;border-radius:14px!important;box-shadow:0 6px 16px rgba(25,135,84,.16)}.pdf-save-button:disabled{opacity:.58;cursor:not-allowed;box-shadow:none}.pdf-save-button.is-saved{background:#e9f9ef!important;color:#167443!important;border:1px solid #b9e8ca!important;box-shadow:none}
@@ -1802,6 +1803,17 @@ async function renderFaithfulPdfPage(pageNo){
     var idHeaders=items.filter(function(it){return norm(it.text)===norm('کد شناسایی')});
     if(idHeaders.length){items.forEach(function(it){if(it.locked)return;var center=it.x+it.width/2;if(idHeaders.some(function(h){return Math.abs(center-(h.x+h.width/2))<Math.max(10,baseViewport.width*.025)}))it.locked=true;});}
     var scale=displayScale;
+    // Infer the full editable cell from text neighbors on the same line, so tapping the blank
+    // portion of a boxed field can also activate editing instead of only the printed glyphs.
+    items.forEach(function(it){
+      var sameRow=items.filter(function(other){return Math.abs(other.top-it.top)<=Math.max(4,it.height*.7);}).sort(function(a,b){return a.x-b.x;});
+      var index=sameRow.indexOf(it), prev=index>0?sameRow[index-1]:null, next=index>=0&&index<sameRow.length-1?sameRow[index+1]:null;
+      var textRight=it.x+it.width;
+      var defaultPad=Math.max(it.width*1.5,baseViewport.width*.012);
+      var cellLeft=prev?((prev.x+prev.width+it.x)/2):Math.max(0,it.x-defaultPad);
+      var cellRight=next?((textRight+next.x)/2):Math.min(baseViewport.width,textRight+Math.max(it.width*2,baseViewport.width*.07));
+      it.cellX=cellLeft;it.cellWidth=Math.max(it.width,cellRight-cellLeft);
+    });
     items.forEach(function(it){
       var field=document.createElement('textarea');field.className='pdf-original-field'+(it.locked?' locked':'');
       field.value=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)?faithfulPdfEdits[it.key]:it.text;
@@ -1811,15 +1823,54 @@ async function renderFaithfulPdfPage(pageNo){
       field.inputMode=/^[0-9۰-۹٠-٩]+$/.test(it.text.trim())?'numeric':(/^[0-9۰-۹٠-٩\s.,،/\-]+$/.test(it.text.trim())?'decimal':'text');
       if(field.inputMode==='numeric')field.setAttribute('pattern','[0-9۰-۹٠-٩]*');
       else if(field.inputMode==='decimal')field.setAttribute('pattern','[0-9۰-۹٠-٩.,،/\-]*');
-      var left=it.x*scale,top=it.top*scale,w=Math.max(2,it.width*scale),h=Math.max(5,it.height*scale*1.25);
-      // Keep overlay tight to the glyphs so nearby borders and neighbouring fields remain visible.
-      field.style.left=left+'px';field.style.top=top+'px';field.style.width=Math.min(w+2,Math.max(2,viewport.width-left))+'px';field.style.height=h+'px';
+      var left=(typeof it.cellX==='number'?it.cellX:it.x)*scale,top=it.top*scale,w=Math.max(2,(typeof it.cellWidth==='number'?it.cellWidth:it.width)*scale),h=Math.max(5,it.height*scale*1.5);
+      // The editable overlay occupies the inferred cell in-place; it never expands into a modal.
+      field.style.left=left+'px';field.style.top=top+'px';field.style.width=Math.min(w,Math.max(2,viewport.width-left))+'px';field.style.height=h+'px';
       field.style.fontSize=Math.max(5,it.height*scale*.9)+'px';field.style.direction=/[\u0600-\u06FF]/.test(it.text)?'rtl':'ltr';field.style.textAlign=field.style.direction==='rtl'?'right':'left';
+      field.dataset.baseLeft=left;field.dataset.baseTop=top;field.dataset.baseWidth=Math.min(w,Math.max(2,viewport.width-left));field.dataset.baseHeight=h;field.dataset.baseFont=field.style.fontSize;
       if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)){field.classList.add('edited');field.style.color='#111827';field.style.background='rgba(255,249,210,.98)';}
       if(!it.locked){
-        field.addEventListener('focus',function(){field.style.color='#111827';field.style.background='rgba(255,255,255,.97)'});
+        field.addEventListener('focus',function(){
+          // Edit directly on top of the original PDF text: never move, resize, or enlarge the field.
+          field.classList.add('is-editing');
+          field.style.left=field.dataset.baseLeft+'px';
+          field.style.top=field.dataset.baseTop+'px';
+          field.style.width=field.dataset.baseWidth+'px';
+          field.style.height=field.dataset.baseHeight+'px';
+          field.style.fontSize=field.dataset.baseFont;
+          field.style.padding='0 1px';
+          field.style.whiteSpace='pre';
+          field.style.overflow='hidden';
+          field.style.color='#111827';
+          field.style.background='#fff';
+          field.style.border='1px solid #4f7ee8';
+          field.style.borderRadius='3px';
+          field.style.boxShadow='inset 0 0 0 1px rgba(79,126,232,.12)';
+          field.style.zIndex='20';
+        });
         field.addEventListener('input',function(){faithfulPdfEdits[it.key]=cleanPdfText(field.value);field.classList.add('edited');markPdfEditsDirty()});
-        field.addEventListener('blur',function(){faithfulPdfEdits[it.key]=cleanPdfText(field.value.trim());field.value=faithfulPdfEdits[it.key];var changed=faithfulPdfEdits[it.key]!==it.text;field.style.color=changed?'#111827':'transparent';field.style.background=changed?'rgba(255,249,210,.98)':'transparent';field.classList.toggle('edited',changed);markPdfEditsDirty()});
+        field.addEventListener('blur',function(){
+          faithfulPdfEdits[it.key]=cleanPdfText(field.value.trim());
+          field.value=faithfulPdfEdits[it.key];
+          var changed=faithfulPdfEdits[it.key]!==it.text;
+          field.classList.remove('is-editing');
+          field.style.left=field.dataset.baseLeft+'px';
+          field.style.top=field.dataset.baseTop+'px';
+          field.style.width=field.dataset.baseWidth+'px';
+          field.style.height=field.dataset.baseHeight+'px';
+          field.style.fontSize=field.dataset.baseFont;
+          field.style.padding='0 1px';
+          field.style.whiteSpace='pre';
+          field.style.overflow='hidden';
+          field.style.border='1px solid transparent';
+          field.style.borderRadius='3px';
+          field.style.boxShadow='none';
+          field.style.zIndex='';
+          field.style.color=changed?'#111827':'transparent';
+          field.style.background=changed?'rgba(255,249,210,.98)':'transparent';
+          field.classList.toggle('edited',changed);
+          markPdfEditsDirty();
+        });
       }
       overlay.appendChild(field);
       it.displayScale=scale;
