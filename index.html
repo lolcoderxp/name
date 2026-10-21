@@ -1,3 +1,5 @@
+[file name]: !doctype html.txt
+[file content begin]
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
@@ -344,6 +346,13 @@ img{display:block;max-width:100%}
 .pdf-faithful-page-label{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f5f7fb;color:#24334b;border-bottom:1px solid #e6ebf3;font:800 12px var(--font);padding:12px 15px;direction:rtl;text-align:right}
 .pdf-faithful-page-label small{font-weight:500;color:#78869b}
 .pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:visible;overflow-anchor:none;position:relative;max-width:100%;touch-action:auto;overscroll-behavior:auto}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 2px;border:1px solid transparent;border-radius:3px;background:transparent;color:transparent;caret-color:#2563eb;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:pre;overflow:hidden;direction:rtl;text-align:center;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:rgba(239,246,255,.42);color:#2563eb;border-color:#3b82f6;box-shadow:none!important;z-index:4}.pdf-original-field.is-editing{white-space:pre;overflow:hidden;border-radius:3px}.pdf-original-field.edited{background:rgba(239,246,255,.97);border-color:rgba(37,99,235,.34);color:#2563eb}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
+.pdf-section-menu{position:absolute;z-index:8;width:25px;height:25px;border:1px solid #dbeafe;border-radius:9px;background:rgba(255,255,255,.96);color:#475569;box-shadow:0 2px 8px rgba(15,23,42,.12);font-size:18px;line-height:18px;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto}
+.pdf-section-menu:active{transform:scale(.96)}
+.pdf-section-pop{position:absolute;z-index:12;min-width:145px;padding:6px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 10px 28px rgba(15,23,42,.18);direction:rtl;pointer-events:auto}
+.pdf-section-pop button{display:block;width:100%;border:0;background:#fff;color:#b91c1c;border-radius:8px;padding:10px 12px;text-align:right;font-size:12px}
+.pdf-section-pop button:active{background:#fef2f2}
+.pdf-original-field.section-deleted{color:#dc2626!important;background:transparent!important;border-color:transparent!important}
+
 .pdf-extracted-sheet{background:#fff;border:1px solid #e0e6ef;border-radius:16px;padding:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;box-shadow:0 3px 12px rgba(20,35,60,.035);direction:rtl;max-width:100%}
 .pdf-extracted-row{display:grid;grid-template-columns:var(--source-columns, minmax(0,1fr));gap:0;margin:0;align-items:stretch;direction:rtl;position:relative}
 .pdf-extracted-row + .pdf-extracted-row{margin-top:0}
@@ -1577,6 +1586,7 @@ var faithfulPdf=null;
 var faithfulPdfOriginalBytes=null;
 var faithfulPdfName='';
 var faithfulPdfEdits={};
+var deletedPdfSections={};
 var faithfulPdfRendered={};
 var faithfulPdfPageData={};
 var faithfulPdfObserver=null;
@@ -1600,7 +1610,7 @@ function selectFile(f){
   if(ext!=='pdf'&&f.type!=='application/pdf'){toast('فقط فایل PDF واقعی اداره پست را انتخاب کنید','error');return}
   if(ext!=='pdf'){toast('فرمت فایل باید PDF باشد','error');return}
   if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}
-  faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfName='';faithfulPdfEdits={};faithfulPdfRendered={};faithfulPdfPageData={};faithfulPdfDirty=false;faithfulPdfSavedSnapshot='{}';
+  faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfName='';faithfulPdfEdits={};deletedPdfSections={};faithfulPdfRendered={};faithfulPdfPageData={};faithfulPdfDirty=false;faithfulPdfSavedSnapshot='{}';
   selectedFile=f;
   $('#filePreview').classList.remove('hidden');
   $('#fileName').textContent=f.name;
@@ -1612,7 +1622,7 @@ function selectFile(f){
   $('#pdfFaithfulPages').innerHTML='';
   $('#genericGridArea');
 }
-function cancelFile(){selectedFile=null;if(fileInput)fileInput.value='';$('#filePreview').classList.add('hidden');$('#editSection').classList.add('hidden');$('#pdfFaithfulEditor').classList.add('hidden');$('#pdfFaithfulPages').innerHTML='';if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfName='';faithfulPdfEdits={};faithfulPdfRendered={};faithfulPdfPageData={};faithfulPdfDirty=false;faithfulPdfSavedSnapshot='{}';faithfulPdfStorageKey='';var status=$('#extractStatus');if(status)status.textContent='فایلی انتخاب نشده است';}
+function cancelFile(){selectedFile=null;if(fileInput)fileInput.value='';$('#filePreview').classList.add('hidden');$('#editSection').classList.add('hidden');$('#pdfFaithfulEditor').classList.add('hidden');$('#pdfFaithfulPages').innerHTML='';if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfName='';faithfulPdfEdits={};deletedPdfSections={};faithfulPdfRendered={};faithfulPdfPageData={};faithfulPdfDirty=false;faithfulPdfSavedSnapshot='{}';faithfulPdfStorageKey='';var status=$('#extractStatus');if(status)status.textContent='فایلی انتخاب نشده است';}
 
 async function extractFile(event){
   if(!selectedFile)return;
@@ -1785,6 +1795,20 @@ function saveFaithfulPdfEdits(){
   }
 }
 
+function pdfSectionGroups(items){
+  var rows=[];items.forEach(function(it){var y=Math.round(it.top/4)*4;var row=rows.find(function(r){return Math.abs(r.y-y)<=Math.max(3,it.height*.35)});if(!row){row={y:y,items:[]};rows.push(row)}row.items.push(it)});
+  rows.sort(function(a,b){return a.y-b.y});if(!rows.length)return [];
+  var gaps=[];for(var i=1;i<rows.length;i++){var g=rows[i].y-rows[i-1].y;if(g>0)gaps.push(g)}
+  gaps.sort(function(a,b){return a-b});var med=gaps.length?gaps[Math.floor(gaps.length/2)]:12;var groups=[],cur={start:rows[0].y,rows:[rows[0]]};
+  for(var j=1;j<rows.length;j++){if(rows[j].y-rows[j-1].y>Math.max(med*2.25,24)){groups.push(cur);cur={start:rows[j].y,rows:[]}}cur.rows.push(rows[j])}groups.push(cur);
+  return groups.map(function(g,idx){var all=[];g.rows.forEach(function(r){all=all.concat(r.items)});return {id:String(all[0].index),start:g.start,end:g.rows[g.rows.length-1].y+Math.max.apply(null,g.rows[g.rows.length-1].items.map(function(x){return x.height})),items:all,index:idx}});
+}
+function toggleDeletedPdfSection(pageNo,groupId,groupItems){
+  var key=pageNo+':'+groupId;
+  if(deletedPdfSections[key]){if(!confirm('این بخش قبلاً علامت‌گذاری شده است. علامت حذف‌شده برداشته شود؟'))return;delete deletedPdfSections[key];}
+  else {if(!confirm('مطمئنی این بخش علامت‌گذاری شود؟ متن‌های این بخش قرمز می‌شوند و در PDF دانلودشده هم قرمز خواهند بود؛ محتوای اصلی حذف نمی‌شود.'))return;deletedPdfSections[key]={page:pageNo,keys:groupItems.map(function(it){return it.key}),statusKey:(groupItems.find(function(it){return /ردیف اصلی/.test(it.text)})||{}).key||''};}
+  faithfulPdfRendered[pageNo]=false;renderFaithfulPdfPage(pageNo).then(function(){markPdfEditsDirty();});
+}
 async function renderFaithfulPdfPage(pageNo){
   if(!faithfulPdf||faithfulPdfRendered[pageNo])return;
   faithfulPdfRendered[pageNo]=true;
@@ -1816,14 +1840,22 @@ async function renderFaithfulPdfPage(pageNo){
       items.push({key:pageNo+':'+index,index:index,text:text,original:text,x:tx[4],y:tx[5],top:tx[5]-h,width:width,height:h,locked:false});
     });
     if(!items.length){
-      inner.innerHTML='';inner.style.padding='0';inner.appendChild(wrap);
+      // Small three-dot controls for visually separated content blocks on the original PDF page.
+    var groups=pdfSectionGroups(items);
+    groups.forEach(function(g){
+      var btn=document.createElement('button');btn.type='button';btn.className='pdf-section-menu';btn.textContent='⋮';btn.title='گزینه‌های این بخش';
+      btn.style.left='2px';btn.style.top=Math.max(2,g.start*scale)+'px';
+      btn.addEventListener('click',function(ev){ev.stopPropagation();var old=overlay.querySelector('.pdf-section-pop');if(old)old.remove();var pop=document.createElement('div');pop.className='pdf-section-pop';pop.style.left='28px';pop.style.top=Math.max(2,g.start*scale)+'px';var act=document.createElement('button');act.type='button';act.textContent='🔴 علامت‌گذاری حذف‌شده';act.addEventListener('click',function(e){e.stopPropagation();pop.remove();toggleDeletedPdfSection(pageNo,g.id,g.items)});pop.appendChild(act);overlay.appendChild(pop);});
+      overlay.appendChild(btn);
+    });
+    inner.innerHTML='';inner.style.padding='0';inner.appendChild(wrap);
       faithfulPdfPageData[pageNo]={items:[],width:baseViewport.width,height:baseViewport.height,rotation:page.rotate||0};
       var noText=document.createElement('div');noText.className='pdf-faithful-page-label';noText.innerHTML='<small>این صفحه از فایل اصلی نمایش داده شده است؛ متن قابل‌انتخاب پیدا نشد و برای ویرایش متن به OCR نیاز است.</small>';section.appendChild(noText);
       $('#pdfFaithfulStatus').textContent='PDF اصلی نمایش داده می‌شود؛ بعضی صفحه‌ها ممکن است اسکن تصویری باشند و برای ویرایش متن به OCR نیاز داشته باشند.';
       return;
     }
     var norm=function(v){var t=String(v||'');try{t=t.normalize('NFKC')}catch(e){}return t.replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[ۀة]/g,'ه').replace(/[إأ]/g,'ا').replace(/[ؤ]/g,'و').replace(/[\u200B-\u200F\u2060\uFEFF\u00AD]/g,'').replace(/[\u200C\sـ:：،,؛;()（）.\-]/g,'').toLowerCase()};
-    var labels=['کد گشت نامه رسانی','شماره گشت نامه رسانی','شرکت ملی پست جمهوری اسلامی ایران','اداره کل جغرافیایی و اطلاعات مکانی کشور','شرکت ملی پست جمهوری اسلامی ایران-اداره کل جغرافیایی و اطلاعات مکانی کشور','فهرست مکان های مسکونی و کسب','تعداد صفحات گزارش','آدرس','تاریخ','صفحه','ردیف واحد','بلوک/ورودی','پلاک','طبقه','واحد','نام خانوادگی/نوع فعالیت','نام/نام کارگاه','کد فعالیت','نوع مکان','کد شناسایی','وضعیت','ردیف اصلی','بلوک','ساختمان','محله','شناسایی','بلوار اصلی'];
+    var labels=['کد گشت نامه رسانی','شماره گشت نامه رسانی','شرکت ملی پست جمهوری اسلامی ایران','اداره کل جغرافیایی و اطلاعات مکانی کشور','شرکت ملی پست جمهوری اسلامی ایران-اداره کل جغرافیایی و اطلاعات مکانی کشور','فهرست مکان های مسکونی و کسب','تعداد صفحات گزارش','آدرس','تاریخ','صفحه','ردیف واحد','بلوک/ورودی','پلاک','طبقه','واحد','نام خانوادگی/نوع فعالیت','نام/نام کارگاه','کد فعالیت','نوع مکان','کد شناسایی','وضعیت','بلوک','ساختمان','محله','شناسایی','بلوار اصلی'];
     items.forEach(function(it){it.locked=labels.some(function(label){return norm(it.text)===norm(label)});});
     // Lock values immediately adjacent to date/page labels, plus route-code values paired with the route label.
     items.forEach(function(it,idx){
@@ -1875,6 +1907,7 @@ async function renderFaithfulPdfPage(pageNo){
       field.style.fontSize=Math.max(7,it.height*scale*.9)+'px';field.style.direction=/[\u0600-\u06FF]/.test(it.text)?'rtl':'ltr';field.style.textAlign='center';
       field.dataset.baseLeft=left;field.dataset.baseTop=top;field.dataset.baseWidth=Math.min(w,Math.max(2,viewport.width-left));field.dataset.baseHeight=h;field.dataset.baseFont=field.style.fontSize;
       if(it.locked){field.style.color='transparent';field.style.background='transparent';}else if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)){field.classList.add('edited');field.style.color='#2563eb';field.style.background='rgba(239,246,255,.97)';}else{field.style.color='transparent';field.style.background='transparent';}
+      var deletedHere=Object.keys(deletedPdfSections).some(function(k){return deletedPdfSections[k].page===pageNo&&deletedPdfSections[k].keys.indexOf(it.key)>=0});if(deletedHere){field.classList.add('section-deleted');field.style.color='#dc2626';field.style.background='transparent';}
       if(!it.locked){
         field.addEventListener('focus',function(){
           // Edit directly on top of the original PDF text: never move, resize, or enlarge the field.
@@ -1956,6 +1989,7 @@ async function makeEditedOriginalPdf(){
     if(!changedByPage[pageNo])changedByPage[pageNo]=[];
     changedByPage[pageNo].push({item:it,value:value});
   });
+  Object.keys(deletedPdfSections).forEach(function(sectionKey){var sec=deletedPdfSections[sectionKey];(sec.keys||[]).forEach(function(key){var m=key.match(/^(\d+):(\d+)$/);if(!m)return;var pn=Number(m[1]),ix=Number(m[2]),data=faithfulPdfPageData[pn];if(!data)return;var it=data.items.find(function(x){return x.index===ix});if(!it||it.locked)return;if(!changedByPage[pn])changedByPage[pn]=[];if(!changedByPage[pn].some(function(c){return c.item.key===key}))changedByPage[pn].push({item:it,value:(sec.statusKey===key?'حذف شده':(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,key)?faithfulPdfEdits[key]:it.text)),deleted:true});});});
   var pageNos=Object.keys(changedByPage).map(Number).sort(function(a,b){return a-b});
   for(var pi=0;pi<pageNos.length;pi++){
     var pageNo=pageNos[pi],srcPage=await faithfulPdf.getPage(pageNo),data=faithfulPdfPageData[pageNo];
@@ -1983,7 +2017,7 @@ async function makeEditedOriginalPdf(){
       var localX=x-sx,localY=y-sy;
       pc.save();
       if(value){
-        pc.fillStyle='#2563eb';pc.textBaseline='alphabetic';
+        pc.fillStyle=change.deleted?'#dc2626':'#2563eb';pc.textBaseline='alphabetic';
         var fontSize=Math.max(8,it.height*scaleY*.93);
         pc.font=fontSize+'px Arial, Tahoma, sans-serif';
         var rtl=/[\u0600-\u06FF]/.test(value);pc.direction=rtl?'rtl':'ltr';pc.textAlign=rtl?'right':'left';
@@ -2436,3 +2470,4 @@ window.addEventListener('resize',function(){if(map)setTimeout(function(){map.inv
 </script>
 </body>
 </html>
+[file content end]
