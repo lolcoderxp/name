@@ -301,6 +301,41 @@ img{display:block;max-width:100%}
 .postal-form .sig div{text-align:center;width:45%}
 .postal-form .sig .ln{border-top:1px solid #333;margin-top:32px;padding-top:4px}
 
+/* PDF upload workspace: the uploaded document itself is the editor, never a reconstructed form */
+#page-import .drop-zone{
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:30px 22px 26px;border:1.5px dashed #c8d4e5;border-radius:24px;
+  background:linear-gradient(145deg,#f8fbff 0%,#eef4fc 100%);
+  box-shadow:0 10px 28px rgba(32,65,115,.055);text-align:center;
+}
+#page-import .drop-zone:before{
+  content:"PDF";position:absolute;z-index:-1;left:-10px;bottom:-28px;
+  font:900 112px/1 Arial,sans-serif;letter-spacing:-8px;color:rgba(37,99,235,.045);
+  transform:rotate(-12deg);pointer-events:none;
+}
+#page-import .drop-zone.drag{border-color:#2563eb;background:#eaf2ff;box-shadow:0 0 0 4px rgba(37,99,235,.08)}
+#page-import .drop-zone>.icn{width:54px;height:54px;padding:14px;color:#fff;background:linear-gradient(145deg,#f59e0b,#d97706);border-radius:18px;box-shadow:0 9px 20px rgba(217,119,6,.22)}
+#page-import .drop-zone h3{font-size:15px;font-weight:800;margin-top:12px}
+#page-import .drop-zone p{max-width:390px;margin:7px auto 18px;font-size:12px;line-height:1.95}
+#page-import #filePreview{border-radius:20px!important;border-color:#dce5f1!important;background:linear-gradient(180deg,#fff,#f9fbff)!important}
+#page-import #filePreview .progress{height:7px;border-radius:99px;background:#e8edf5}
+#page-import #filePreview #extractStatus{line-height:1.9}
+#page-import #pdfFaithfulEditor{margin-top:16px}
+#page-import .pdf-faithful-note{background:#f7faff;border-color:#dfe8f5;color:#4c5e78}
+#page-import .pdf-faithful-pages{gap:18px;padding:12px;background:#edf1f7;border:1px solid #e0e6ef;border-radius:20px}
+#page-import .pdf-faithful-page{background:#fff;border:1px solid #dce3ed;border-radius:10px;overflow:hidden;box-shadow:0 8px 24px rgba(24,39,65,.09)}
+#page-import .pdf-faithful-page-label{position:relative;top:auto;background:#f8fafc;padding:10px 13px;font-size:11px}
+#page-import .pdf-faithful-page-inner{display:flex;justify-content:center;align-items:flex-start;background:#e9edf4;padding:12px!important;overflow-x:auto;overflow-y:hidden}
+#page-import .pdf-original-page{flex:0 0 auto;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,.15)}
+#page-import .pdf-original-field:focus{outline:0!important;background:rgba(239,246,255,.98);border:1px solid #2563eb;box-shadow:none!important;border-radius:4px}
+#page-import .pdf-original-field.edited{background:rgba(239,246,255,.94);border-color:rgba(37,99,235,.34);color:#2563eb!important}
+#page-import .pdf-faithful-toolbar{padding:10px;background:#f8fafc;border:1px solid #e5eaf2;border-radius:16px}
+@media(max-width:640px){
+  #page-import .drop-zone{padding:25px 15px 22px;border-radius:20px}
+  #page-import .pdf-faithful-pages{padding:7px;gap:12px;border-radius:15px}
+  #page-import .pdf-faithful-page{border-radius:7px}
+  #page-import .pdf-faithful-page-inner{padding:5px!important;justify-content:flex-start}
+}
 /* PDF import: extracted text is organized into elegant, editable page-by-page grids */
 .pdf-faithful-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
 .pdf-faithful-note{font-size:12px;line-height:1.85;color:#52627a;background:#f7f9fc;border:1px solid #e3e9f2;border-radius:16px;padding:11px 14px;margin:10px 0}
@@ -308,7 +343,7 @@ img{display:block;max-width:100%}
 .pdf-faithful-page{position:relative;width:100%;background:#fff;border:0;border-radius:0;overflow:visible;box-shadow:none;direction:rtl;break-after:page}
 .pdf-faithful-page-label{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f5f7fb;color:#24334b;border-bottom:1px solid #e6ebf3;font:800 12px var(--font);padding:12px 15px;direction:rtl;text-align:right}
 .pdf-faithful-page-label small{font-weight:500;color:#78869b}
-.pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:visible;overflow-anchor:none;position:relative;max-width:100%;touch-action:auto;overscroll-behavior:auto}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 1px;border:1px solid transparent;border-radius:3px;background:rgba(255,255,255,0);color:transparent;caret-color:#1d4ed8;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:pre;overflow:hidden;direction:rtl;text-align:right;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:#fff;color:#111827;border-color:#4f7ee8;box-shadow:0 8px 26px rgba(25,55,105,.22)!important;z-index:20}.pdf-original-field.is-editing{white-space:pre;overflow:hidden;border-radius:3px}.pdf-original-field.edited{background:rgba(255,249,210,.72);border-color:rgba(202,157,36,.55)}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
+.pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:visible;overflow-anchor:none;position:relative;max-width:100%;touch-action:auto;overscroll-behavior:auto}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 2px;border:1px solid transparent;border-radius:3px;background:transparent;color:transparent;caret-color:#2563eb;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:pre;overflow:hidden;direction:rtl;text-align:center;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:rgba(239,246,255,.42);color:#2563eb;border-color:#3b82f6;box-shadow:none!important;z-index:4}.pdf-original-field.is-editing{white-space:pre;overflow:hidden;border-radius:3px}.pdf-original-field.edited{background:rgba(239,246,255,.97);border-color:rgba(37,99,235,.34);color:#2563eb}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
 .pdf-extracted-sheet{background:#fff;border:1px solid #e0e6ef;border-radius:16px;padding:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;box-shadow:0 3px 12px rgba(20,35,60,.035);direction:rtl;max-width:100%}
 .pdf-extracted-row{display:grid;grid-template-columns:var(--source-columns, minmax(0,1fr));gap:0;margin:0;align-items:stretch;direction:rtl;position:relative}
 .pdf-extracted-row + .pdf-extracted-row{margin-top:0}
@@ -747,7 +782,7 @@ img{display:block;max-width:100%}
         <div class="drop-zone" id="dropZone">
           <svg class="icn"><use href="#i-upload"/></svg>
           <h3>فایل واقعی اداره پست را انتخاب کنید</h3>
-          <p>همان PDF مورد استفاده کارفرما را بارگذاری کنید؛ فایل نمونه یا صفحه‌بندی نمایشی در برنامه وجود ندارد.</p>
+          <p>فایل اصلی را انتخاب کنید. بعد از باز کردن، هر صفحه با همان چیدمان، جدول‌ها، خطوط و اندازه‌های خود PDF نمایش داده می‌شود و ویرایش روی همان محل انجام می‌گیرد؛ نه داخل فرم جداگانه.</p>
           <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()"><svg class="icn"><use href="#i-file"/></svg> انتخاب فایل</button>
           <input type="file" id="fileInput" accept=".pdf,application/pdf" hidden>
         </div>
@@ -770,7 +805,7 @@ img{display:block;max-width:100%}
           <div class="section-heading"><h2 class="section-title">ویرایش مستقیم فایل PDF بارگذاری‌شده</h2><span class="btn btn-sm btn-ghost" id="editCount">PDF اصلی</span></div>
           <div class="field"><label>پروژه مقصد</label><select id="importProject"></select></div>
           <div id="pdfFaithfulEditor" class="hidden">
-            <div class="pdf-faithful-note">این بخش فقط PDF واقعی‌ای را نشان می‌دهد که همین‌جا انتخاب کرده‌اید؛ هیچ PDF نمونه، جدول جایگزین یا صفحه‌بندی تازه‌ای ساخته نمی‌شود. متن‌های قابل‌ویرایش در جای خودشان قرار می‌گیرند. فیلدهای عددی روی موبایل صفحه‌کلید عددی باز می‌کنند. اگر PDF اسکن‌شده و فاقد متن قابل‌انتخاب باشد، برای ویرایش متن به OCR نیاز دارد.</div>
+            <div class="pdf-faithful-note">نمایش زیر از خود فایل PDF بارگذاری‌شده ساخته می‌شود؛ صفحه‌ها، جدول‌ها، خطوط و ترتیب اصلی حفظ می‌شوند. روی متن یا محدودهٔ قابل‌ویرایش همان قسمت بزنید تا در همان محل و با همان اندازه ویرایش شود؛ پنجره یا فرم جداگانه باز نمی‌شود. اگر فایل اسکن تصویری باشد و متن قابل‌انتخاب نداشته باشد، برای ویرایش متن آن صفحه به OCR نیاز است.</div>
             <div class="pdf-faithful-toolbar">
               <span class="btn btn-sm btn-ghost" id="pdfPageCount">—</span>
               <button class="btn btn-outline btn-sm" type="button" onclick="downloadPdfEdits()">دانلود PDF ویرایش‌شده</button>
@@ -1577,7 +1612,7 @@ function selectFile(f){
   $('#pdfFaithfulPages').innerHTML='';
   $('#genericGridArea');
 }
-function cancelFile(){selectedFile=null;fileInput.value='';$('#filePreview').classList.add('hidden');$('#editSection').classList.add('hidden');$('#pdfFaithfulEditor').classList.add('hidden');if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfEdits={};faithfulPdfRendered={};faithfulPdfPageData={}}
+function cancelFile(){selectedFile=null;if(fileInput)fileInput.value='';$('#filePreview').classList.add('hidden');$('#editSection').classList.add('hidden');$('#pdfFaithfulEditor').classList.add('hidden');$('#pdfFaithfulPages').innerHTML='';if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfName='';faithfulPdfEdits={};faithfulPdfRendered={};faithfulPdfPageData={};faithfulPdfDirty=false;faithfulPdfSavedSnapshot='{}';faithfulPdfStorageKey='';var status=$('#extractStatus');if(status)status.textContent='فایلی انتخاب نشده است';}
 
 async function extractFile(event){
   if(!selectedFile)return;
@@ -1823,30 +1858,42 @@ async function renderFaithfulPdfPage(pageNo){
       field.inputMode=/^[0-9۰-۹٠-٩]+$/.test(it.text.trim())?'numeric':(/^[0-9۰-۹٠-٩\s.,،/\-]+$/.test(it.text.trim())?'decimal':'text');
       if(field.inputMode==='numeric')field.setAttribute('pattern','[0-9۰-۹٠-٩]*');
       else if(field.inputMode==='decimal')field.setAttribute('pattern','[0-9۰-۹٠-٩.,،/\-]*');
+      // Numeric PDF fields always use Persian digits, even when the phone keyboard inserts Latin digits.
+      if(field.inputMode==='numeric'||field.inputMode==='decimal'){
+        field.addEventListener('input',function(){
+          var start=field.selectionStart,end=field.selectionEnd,old=field.value;
+          var converted=old.replace(/[0-9٠-٩]/g,function(d){
+            if(d>='0'&&d<='9')return '۰۱۲۳۴۵۶۷۸۹'.charAt(d.charCodeAt(0)-48);
+            return '۰۱۲۳۴۵۶۷۸۹'.charAt('٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+          });
+          if(converted!==old){field.value=converted;try{field.setSelectionRange(start,end)}catch(e){}}
+        });
+      }
       var left=(typeof it.cellX==='number'?it.cellX:it.x)*scale,top=it.top*scale,w=Math.max(2,(typeof it.cellWidth==='number'?it.cellWidth:it.width)*scale),h=Math.max(5,it.height*scale*1.5);
       // The editable overlay occupies the inferred cell in-place; it never expands into a modal.
       field.style.left=left+'px';field.style.top=top+'px';field.style.width=Math.min(w,Math.max(2,viewport.width-left))+'px';field.style.height=h+'px';
-      field.style.fontSize=Math.max(5,it.height*scale*.9)+'px';field.style.direction=/[\u0600-\u06FF]/.test(it.text)?'rtl':'ltr';field.style.textAlign=field.style.direction==='rtl'?'right':'left';
+      field.style.fontSize=Math.max(7,it.height*scale*.9)+'px';field.style.direction=/[\u0600-\u06FF]/.test(it.text)?'rtl':'ltr';field.style.textAlign='center';
       field.dataset.baseLeft=left;field.dataset.baseTop=top;field.dataset.baseWidth=Math.min(w,Math.max(2,viewport.width-left));field.dataset.baseHeight=h;field.dataset.baseFont=field.style.fontSize;
-      if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)){field.classList.add('edited');field.style.color='#111827';field.style.background='rgba(255,249,210,.98)';}
+      if(it.locked){field.style.color='transparent';field.style.background='transparent';}else if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)){field.classList.add('edited');field.style.color='#2563eb';field.style.background='rgba(239,246,255,.97)';}else{field.style.color='transparent';field.style.background='transparent';}
       if(!it.locked){
         field.addEventListener('focus',function(){
           // Edit directly on top of the original PDF text: never move, resize, or enlarge the field.
           field.classList.add('is-editing');
-          field.style.left=field.dataset.baseLeft+'px';
-          field.style.top=field.dataset.baseTop+'px';
-          field.style.width=field.dataset.baseWidth+'px';
-          field.style.height=field.dataset.baseHeight+'px';
+          field.style.left=(Number(field.dataset.baseLeft)+1)+'px';
+          field.style.top=(Number(field.dataset.baseTop)+1)+'px';
+          field.style.width=Math.max(2,Number(field.dataset.baseWidth)-2)+'px';
+          field.style.height=Math.max(5,Number(field.dataset.baseHeight)-2)+'px';
           field.style.fontSize=field.dataset.baseFont;
           field.style.padding='0 1px';
           field.style.whiteSpace='pre';
           field.style.overflow='hidden';
-          field.style.color='#111827';
-          field.style.background='#fff';
-          field.style.border='1px solid #4f7ee8';
-          field.style.borderRadius='3px';
-          field.style.boxShadow='inset 0 0 0 1px rgba(79,126,232,.12)';
-          field.style.zIndex='20';
+          field.style.color='#2563eb';
+          field.style.background='rgba(239,246,255,.98)';
+          field.style.border='1px solid #3b82f6';
+          field.style.borderRadius='4px';
+          field.style.boxShadow='none';
+          field.style.textAlign='center';
+          field.style.zIndex='4';
         });
         field.addEventListener('input',function(){faithfulPdfEdits[it.key]=cleanPdfText(field.value);field.classList.add('edited');markPdfEditsDirty()});
         field.addEventListener('blur',function(){
@@ -1866,8 +1913,14 @@ async function renderFaithfulPdfPage(pageNo){
           field.style.borderRadius='3px';
           field.style.boxShadow='none';
           field.style.zIndex='';
-          field.style.color=changed?'#111827':'transparent';
-          field.style.background=changed?'rgba(255,249,210,.98)':'transparent';
+          field.style.textAlign='center';
+          field.style.color=changed?'#2563eb':'transparent';
+          field.style.background=changed?'rgba(239,246,255,.97)':'transparent';
+          field.style.borderColor=changed?'rgba(37,99,235,.34)':'transparent';
+          field.style.left=changed?(Number(field.dataset.baseLeft)+1)+'px':field.dataset.baseLeft+'px';
+          field.style.top=changed?(Number(field.dataset.baseTop)+1)+'px':field.dataset.baseTop+'px';
+          field.style.width=changed?Math.max(2,Number(field.dataset.baseWidth)-2)+'px':field.dataset.baseWidth+'px';
+          field.style.height=changed?Math.max(5,Number(field.dataset.baseHeight)-2)+'px':field.dataset.baseHeight+'px';
           field.classList.toggle('edited',changed);
           markPdfEditsDirty();
         });
@@ -1928,16 +1981,20 @@ async function makeEditedOriginalPdf(){
       var patch=document.createElement('canvas');patch.width=sw;patch.height=sh;
       var pc=patch.getContext('2d');pc.drawImage(baseCanvas,sx,sy,sw,sh,0,0,sw,sh);
       var localX=x-sx,localY=y-sy;
-      pc.save();pc.fillStyle='#ffffff';pc.fillRect(localX,localY,Math.min(w,sw-localX),Math.min(h,sh-localY));
+      pc.save();
       if(value){
-        pc.fillStyle='#111111';pc.textBaseline='alphabetic';
+        pc.fillStyle='#2563eb';pc.textBaseline='alphabetic';
         var fontSize=Math.max(8,it.height*scaleY*.93);
         pc.font=fontSize+'px Arial, Tahoma, sans-serif';
         var rtl=/[\u0600-\u06FF]/.test(value);pc.direction=rtl?'rtl':'ltr';pc.textAlign=rtl?'right':'left';
         // Keep the replacement inside the original text run's width; don't push the
         // neighbouring PDF columns around or change any page dimensions.
         var baseline=localY+it.height*scaleY*.96;
-        pc.fillText(value,rtl?localX+w:localX,baseline,Math.max(2,w));
+        var tx=rtl?localX+w:localX;
+        // Mask only the old printed glyphs (white outline), never paint over the whole cell;
+        // this keeps the original black table borders/rules intact in the downloaded PDF.
+        pc.lineJoin='round';pc.lineWidth=Math.max(2,fontSize*.22);pc.strokeStyle='#ffffff';pc.strokeText(value,tx,baseline,Math.max(2,w));
+        pc.fillText(value,tx,baseline,Math.max(2,w));
       }
       pc.restore();
       var png=await out.embedPng(patch.toDataURL('image/png'));
