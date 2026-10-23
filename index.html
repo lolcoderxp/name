@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
@@ -922,13 +921,13 @@ img{display:block;max-width:100%}
         <div class="qr-project-card">
           <div class="qr-card-heading"><span class="qr-heading-icon">▦</span><div><strong>پروژهٔ فعال</strong><small>برای شروع اسکن، انتخاب پروژه الزامی است</small></div><span class="qr-required">ضروری</span></div>
           <div class="field qr-project-field"><label for="labelProject">انتخاب پروژه</label><select id="labelProject" onchange="qrProjectChanged()"><option value="">ابتدا یک پروژه انتخاب کنید</option></select></div>
-          <div id="qrProjectSummary" class="qr-project-summary"><span class="qr-summary-icon">⌂</span><span>پس از انتخاب پروژه، اطلاعات آن اینجا نمایش داده می‌شود.</span></div>
+          <div id="qrProjectSummary" class="qr-project-summary"><span class="qr-summary-icon">⌂</span><span>پروژه را انتخاب کن تا دکمهٔ اسکن فعال شود.</span></div>
         </div>
         <div class="qr-scanner-card">
           <div class="qr-scanner-heading"><div><strong>اسکنر دوربین</strong><small>دوربین دستگاه برای خواندن QR استفاده می‌شود</small></div><span id="qrCameraStatus" class="qr-status-pill">آمادهٔ شروع</span></div>
           <div class="qr-camera-stage" id="qrCameraStage">
             <video id="qrVideo" playsinline muted aria-label="تصویر زنده دوربین برای اسکن QR"></video>
-            <div class="qr-camera-placeholder" id="qrCameraPlaceholder"><div class="qr-placeholder-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 22V12h10M42 12h10v10M52 42v10H42M22 52H12V42"/><path d="M20 25h24v14H20zM25 20v5M39 20v5M25 39v5M39 39v5"/></svg></div><strong>آمادهٔ اسکن QR</strong><span>پس از انتخاب پروژه، دکمهٔ شروع دوربین را بزنید.</span></div>
+            <div class="qr-camera-placeholder" id="qrCameraPlaceholder"><div class="qr-placeholder-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 22V12h10M42 12h10v10M52 42v10H42M22 52H12V42"/><path d="M20 25h24v14H20zM25 20v5M39 20v5M25 39v5M39 39v5"/></svg></div><strong>آمادهٔ اسکن QR</strong><span>پروژه را انتخاب کن، سپس دکمهٔ شروع اسکن را بزن.</span></div>
             <div class="qr-viewfinder" id="qrViewfinder" aria-hidden="true"><i class="qr-corner tl"></i><i class="qr-corner tr"></i><i class="qr-corner bl"></i><i class="qr-corner br"></i><span class="qr-scan-line"></span><span class="qr-focus-badge">در حال جست‌وجوی کد…</span></div>
             <div class="qr-camera-shade"></div>
           </div>
@@ -2819,28 +2818,43 @@ function qrFaDigits(v){return String(v).replace(/[0-9]/g,function(d){return '۰�
 function qrGetProject(){var id=(document.getElementById('labelProject')||{}).value||'';return state.projects.find(function(p){return p.id===id})||null}
 function qrProjectChanged(){
   var p=qrGetProject(), summary=document.getElementById('qrProjectSummary'), start=document.getElementById('qrStartBtn'), msg=document.getElementById('qrScannerMessage');
-  if(summary){summary.innerHTML=p?'<span class="qr-summary-icon">✓</span><span><b>'+esc(p.name)+'</b><small>شناسه: '+esc(p.id||'—')+(p.area?' · '+esc(p.area):'')+'</small></span><span class="qr-selected-check">✓</span>':'<span class="qr-summary-icon">⌂</span><span>پس از انتخاب پروژه، اطلاعات آن اینجا نمایش داده می‌شود.</span>';summary.classList.toggle('selected',!!p)}
+  if(summary){summary.innerHTML=p?'<span class="qr-summary-icon">✓</span><span><b>'+esc(p.name)+'</b><small>شناسه: '+esc(p.id||'—')+(p.area?' · '+esc(p.area):'')+'</small></span><span class="qr-selected-check">✓</span>':'<span class="qr-summary-icon">⌂</span><span>پروژه را انتخاب کن تا دکمهٔ اسکن فعال شود.</span>';summary.classList.toggle('selected',!!p)}
   if(start)start.disabled=!p||qrScanning;
-  if(msg&&!qrScanning)msg.textContent=p?'پروژه انتخاب شد؛ حالا دوربین را روشن کنید.':'برای فعال شدن دوربین، ابتدا پروژه را انتخاب کنید.';
+  if(msg&&!qrScanning)msg.textContent=p?'پروژه انتخاب شد؛ برای باز شدن دوربین، دکمهٔ شروع اسکن را بزنید.':'برای فعال شدن دوربین، ابتدا پروژه را انتخاب کنید.';
   var resultProject=document.getElementById('qrResultProject');if(resultProject&&p)resultProject.textContent='پروژه: '+p.name;
+  try{var saved=JSON.parse(localStorage.getItem('postyar_qr_project_codes_v1')||'{}');qrHistory=p?(saved[String(p.id)]||[]):[];renderQrHistory()}catch(e){qrHistory=[];renderQrHistory()}
+  if(!p&&qrScanning)stopQrScanner();
+}
+async function qrLoadJsQR(){
+  if(window.jsQR)return true;
+  if(window.__postyarJsQrLoading)return window.__postyarJsQrLoading;
+  window.__postyarJsQrLoading=new Promise(function(resolve){
+    var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';s.onload=function(){resolve(!!window.jsQR)};s.onerror=function(){resolve(false)};document.head.appendChild(s);
+  });return window.__postyarJsQrLoading;
 }
 async function startQrScanner(){
-  var p=qrGetProject();if(!p){toast('ابتدا یک پروژه انتخاب کنید','error');document.getElementById('labelProject').focus();return}
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){qrScannerError('مرورگر یا آدرس فعلی امکان دسترسی به دوربین را ندارد. صفحه را با HTTPS و مرورگر به‌روز باز کنید.');return}
-  if(!('BarcodeDetector' in window)){qrScannerError('این مرورگر اسکن مستقیم QR را پشتیبانی نمی‌کند. لطفاً از Chrome یا مرورگر به‌روز روی HTTPS استفاده کنید.');return}
+  var p=qrGetProject();if(!p){toast('ابتدا یک پروژه انتخاب کنید','error');var sel=document.getElementById('labelProject');if(sel)sel.focus();return}
+  if(qrScanning)return;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){qrScannerError('دوربین در این آدرس قابل دسترسی نیست. برنامه را با HTTPS باز کنید و مجوز دوربین را فعال کنید.');return}
   try{
-    qrDetector=new BarcodeDetector({formats:['qr_code']});
+    var supported=('BarcodeDetector' in window);
+    if(supported){try{qrDetector=new BarcodeDetector({formats:['qr_code']})}catch(_){qrDetector=null}}
+    if(!qrDetector){var ok=await qrLoadJsQR();if(!ok)throw new Error('QR_LIB_LOAD')}
     qrStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
-    var video=document.getElementById('qrVideo');video.srcObject=qrStream;await video.play();qrScanning=true;
+    var video=document.getElementById('qrVideo');video.setAttribute('playsinline','');video.muted=true;video.srcObject=qrStream;await video.play();qrScanning=true;
     document.getElementById('qrCameraPlaceholder').hidden=true;document.getElementById('qrViewfinder').classList.add('active');document.getElementById('qrCameraStage').classList.add('is-live');
-    document.getElementById('qrCameraStatus').textContent='دوربین روشن';document.getElementById('qrCameraStatus').classList.add('live');document.getElementById('qrStartBtn').disabled=true;document.getElementById('qrStopBtn').disabled=false;document.getElementById('qrScannerMessage').textContent='دوربین فعال است؛ QR را داخل کادر قرار دهید.';
+    document.getElementById('qrCameraStatus').textContent='دوربین روشن';document.getElementById('qrCameraStatus').classList.remove('success');document.getElementById('qrCameraStatus').classList.add('live');document.getElementById('qrStartBtn').disabled=true;document.getElementById('qrStopBtn').disabled=false;document.getElementById('qrScannerMessage').textContent='دوربین فعال است؛ QR را داخل کادر قرار دهید.';
     qrScanLoop();
-  }catch(e){stopQrScanner();qrScannerError(e&&e.name==='NotAllowedError'?'اجازهٔ دسترسی به دوربین داده نشد. مجوز Camera را در مرورگر فعال کنید.':e&&e.name==='NotFoundError'?'دوربینی روی دستگاه پیدا نشد.':'باز کردن دوربین ممکن نشد. مجوز دوربین و اتصال HTTPS را بررسی کنید.')}
+  }catch(e){stopQrScanner();var m='باز کردن دوربین ممکن نشد. ';if(e&&e.name==='NotAllowedError')m='اجازهٔ دوربین رد شده است؛ مجوز Camera را در تنظیمات مرورگر فعال کنید.';else if(e&&e.name==='NotFoundError')m='دوربینی روی دستگاه پیدا نشد.';else if(e&&e.name==='NotReadableError')m='دوربین مشغول استفاده توسط برنامهٔ دیگری است.';else if(e&&e.message==='QR_LIB_LOAD')m='کتابخانهٔ خواندن QR بارگیری نشد؛ اتصال اینترنت را بررسی کنید.';else m+='مطمئن شوید برنامه با HTTPS باز شده و مجوز دوربین فعال است.';qrScannerError(m)}
 }
+var qrCanvas=null,qrCanvasContext=null,qrDetectorBusy=false;
 async function qrScanLoop(){
   if(!qrScanning)return;var video=document.getElementById('qrVideo');
-  if(video&&video.readyState>=2&&qrDetector){try{var codes=await qrDetector.detect(video);if(codes&&codes.length){var value=(codes[0].rawValue||'').trim();if(value){handleQrScan(value);return}}}catch(e){/* camera frames can be temporarily unreadable */}}
-  if(qrScanning)qrScanFrame=requestAnimationFrame(qrScanLoop);
+  if(video&&video.readyState>=2&&!qrDetectorBusy){qrDetectorBusy=true;try{
+    if(qrDetector){var codes=await qrDetector.detect(video);if(codes&&codes.length){var value=(codes[0].rawValue||'').trim();if(value){handleQrScan(value);return}}}
+    else if(window.jsQR){if(!qrCanvas){qrCanvas=document.createElement('canvas');qrCanvasContext=qrCanvas.getContext('2d',{willReadFrequently:true})}var w=video.videoWidth,h=video.videoHeight;if(w&&h){qrCanvas.width=w;qrCanvas.height=h;qrCanvasContext.drawImage(video,0,0,w,h);var image=qrCanvasContext.getImageData(0,0,w,h);var result=window.jsQR(image.data,w,h,{inversionAttempts:'attemptBoth'});if(result&&result.data){handleQrScan(result.data);return}}}
+  }catch(e){}finally{qrDetectorBusy=false}}
+  if(qrScanning)qrScanFrame=setTimeout(qrScanLoop,120);
 }
 function handleQrScan(raw){
   if(!qrScanning||raw===qrLastValue)return;
@@ -2849,7 +2863,10 @@ function handleQrScan(raw){
   if(!code){document.getElementById('qrScannerMessage').textContent='QR خوانده شد، اما مقدار آن یک عدد ۱۰ رقمی نیست. کد صحیح را اسکن کنید.';document.getElementById('qrCameraStatus').textContent='کد نامعتبر';setTimeout(function(){if(qrScanning)document.getElementById('qrCameraStatus').textContent='دوربین روشن'},1800);return}
   qrLastValue=raw;stopQrScanner();var p=qrGetProject();
   document.getElementById('qrNumber').textContent=qrFaDigits(code);document.getElementById('qrRawValue').textContent=raw;document.getElementById('qrResultProject').textContent='پروژه: '+(p?p.name:'—');document.getElementById('qrResultCard').hidden=false;document.getElementById('qrScannerMessage').textContent='کد ۱۰ رقمی با موفقیت شناسایی شد.';document.getElementById('qrCameraStatus').textContent='اسکن موفق';document.getElementById('qrCameraStatus').classList.add('success');
-  qrHistory.unshift({code:code,raw:raw,project:p?p.name:'—',time:new Date()});renderQrHistory();toast('QR با موفقیت اسکن شد','success');
+  var record={code:code,raw:raw,projectId:p?p.id:'',project:p?p.name:'—',time:new Date().toISOString()};qrHistory.unshift(record);
+  try{var all=JSON.parse(localStorage.getItem('postyar_qr_project_codes_v1')||'{}');var key=String(record.projectId||'unknown');if(!Array.isArray(all[key]))all[key]=[];all[key].unshift(record);localStorage.setItem('postyar_qr_project_codes_v1',JSON.stringify(all));window.postyarQrProjectCodes=all;}
+  catch(storageError){console.warn('QR project save failed',storageError);}
+  renderQrHistory();toast('کد در پروژه ذخیره شد','success');
 }
 function qrScannerError(message){var msg=document.getElementById('qrScannerMessage');if(msg)msg.textContent=message;var status=document.getElementById('qrCameraStatus');if(status)status.textContent='نیاز به بررسی';toast(message,'error')}
 function stopQrScanner(){qrScanning=false;if(qrScanFrame)cancelAnimationFrame(qrScanFrame);qrScanFrame=0;if(qrStream){qrStream.getTracks().forEach(function(t){t.stop()});qrStream=null}var video=document.getElementById('qrVideo');if(video){video.pause();video.srcObject=null}var stage=document.getElementById('qrCameraStage'),placeholder=document.getElementById('qrCameraPlaceholder'),vf=document.getElementById('qrViewfinder');if(stage)stage.classList.remove('is-live');if(placeholder)placeholder.hidden=false;if(vf)vf.classList.remove('active');var stop=document.getElementById('qrStopBtn'),start=document.getElementById('qrStartBtn'),status=document.getElementById('qrCameraStatus');if(stop)stop.disabled=true;if(start)start.disabled=!qrGetProject();if(status){status.classList.remove('live');if(status.textContent==='دوربین روشن')status.textContent='دوربین متوقف شد'}}
@@ -2933,3 +2950,14 @@ function scanAnotherQr(){qrLastValue='';document.getElementById('qrResultCard').
 /* Stop camera if the user leaves the QR scanner page. */
 (function(){var pages=document.querySelectorAll('.page');if(!('MutationObserver'in window))return;var observer=new MutationObserver(function(){var page=document.getElementById('page-labels');if(page&&!page.classList.contains('active')&&window.stopQrScanner)stopQrScanner()});pages.forEach(function(p){observer.observe(p,{attributes:true,attributeFilter:['class']})})})();
 </script>
+
+<style id="postyar-qr-button-mode">
+#page-labels #qrStartBtn{width:100%;min-height:56px;border:0;border-radius:16px;background:linear-gradient(135deg,#facc15 0%,#fbbf24 100%);color:#172033;font-size:16px;font-weight:850;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 5px 0 #d6a900,0 8px 18px rgba(30,64,175,.10);transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease}
+#page-labels #qrStartBtn:not(:disabled):active{transform:translateY(3px);box-shadow:0 2px 0 #d6a900}
+#page-labels #qrStartBtn:disabled{opacity:.48;box-shadow:none;cursor:not-allowed}
+#page-labels #qrStartBtn svg{width:23px;height:23px}
+#page-labels #qrStopBtn{min-height:48px;border-radius:14px}
+#page-labels .qr-camera-actions{display:grid;grid-template-columns:1fr;gap:10px}
+#page-labels .qr-camera-actions #qrStopBtn:disabled{display:none}
+@media(prefers-reduced-motion:reduce){#page-labels #qrStartBtn{transition:none}}
+</style>
