@@ -7,7 +7,7 @@
 <title>پست‌یار | بازسازی خروجی PDF و صفحه‌بندی</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
@@ -583,6 +583,26 @@ img{display:block;max-width:100%}
 }
 @media (max-width: 999px) { .desktop-sidebar { display:none !important; } }
 
+
+/* Elegant in-place business-activity picker */
+.activity-picker-backdrop{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(15,23,42,.42);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.activity-picker-backdrop.open{display:flex}.activity-picker{width:min(460px,100%);max-height:min(82dvh,720px);display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid rgba(255,255,255,.8);border-radius:24px;box-shadow:0 24px 80px rgba(15,23,42,.24);direction:rtl;color:#172033;font-family:Tahoma,Arial,sans-serif}
+.activity-picker-head{padding:20px 20px 14px;background:linear-gradient(135deg,#fff9e9,#fff 72%);border-bottom:1px solid #f0f0f0}.activity-picker-title{font-size:17px;font-weight:900;display:flex;align-items:center;gap:10px}.activity-picker-title span{width:36px;height:36px;display:grid;place-items:center;background:#ffedb5;border-radius:13px;font-size:19px}.activity-picker-subtitle{font-size:11px;color:#7b8494;margin-top:7px}.activity-picker-search{margin-top:14px;position:relative}.activity-picker-search input{width:100%;box-sizing:border-box;border:1px solid #e4e7ec;background:#f8fafc;border-radius:14px;padding:13px 40px 13px 12px;font:13px Tahoma,Arial;outline:none;color:#111827}.activity-picker-search input:focus{border-color:#eab308;box-shadow:0 0 0 3px rgba(234,179,8,.14)}.activity-picker-search:before{content:'⌕';position:absolute;right:14px;top:7px;font-size:24px;color:#8a94a6}.activity-picker-list{overflow:auto;padding:9px;overscroll-behavior:contain}.activity-picker-option{width:100%;display:flex;align-items:center;gap:10px;text-align:right;border:1px solid transparent;background:#fff;border-radius:13px;padding:12px 11px;margin:2px 0;color:#263244;font:12px/1.8 Tahoma,Arial;cursor:pointer}.activity-picker-option:before{content:'›';width:26px;height:26px;flex:0 0 26px;display:grid;place-items:center;border-radius:9px;background:#f4f6f8;color:#7c8798;font-size:19px}.activity-picker-option:hover,.activity-picker-option:focus{background:#fff9e8;border-color:#f6df8a;outline:0}.activity-picker-option:hover:before{background:#ffedb5;color:#854d0e}.activity-picker-empty{padding:24px 12px;text-align:center;color:#8992a2;font-size:12px}.activity-picker-foot{padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;color:#7b8494;font-size:10px}.activity-picker-close{border:0;border-radius:11px;background:#f1f3f6;color:#374151;font:12px Tahoma;padding:10px 15px;cursor:pointer}
+.activity-picker-choice-view,.activity-picker-text-view,.activity-picker-category-view{padding:16px;min-height:120px}
+.activity-picker-mode{width:100%;display:flex;align-items:center;gap:12px;text-align:right;padding:15px;margin:0 0 10px;border:1px solid #e8ebf0;border-radius:17px;background:linear-gradient(135deg,#fff,#fbfcfe);cursor:pointer;color:#172033;transition:.16s}
+.activity-picker-mode:hover,.activity-picker-mode:focus{outline:0;border-color:#f0cc48;background:#fffaf0;transform:translateY(-1px)}
+.activity-picker-mode>span:nth-child(2){display:flex;flex-direction:column;gap:5px;flex:1}.activity-picker-mode b{font:900 14px Tahoma,Arial}.activity-picker-mode small{font:11px/1.8 Tahoma,Arial;color:#7b8494}.activity-picker-mode i{font:normal 27px Tahoma;color:#9aa3b2}
+.activity-mode-icon{width:43px;height:43px;border-radius:14px;background:#eef2ff;color:#4338ca;display:grid;place-items:center;font:bold 20px Arial;flex-shrink:0}.activity-mode-icon.category{background:#fff1bd;color:#8a5b00}
+.activity-picker-text-view label{display:block;font:800 12px Tahoma;color:#475569;margin-bottom:9px}
+.activity-picker-text-view textarea{box-sizing:border-box;width:100%;resize:vertical;min-height:100px;border:1px solid #dbe1e8;border-radius:14px;background:#f8fafc;padding:13px;font:14px/1.9 Tahoma,Arial;color:#172033;outline:none}
+.activity-picker-text-view textarea:focus{border-color:#eab308;box-shadow:0 0 0 3px #eab30820;background:white}
+.activity-picker-actions{display:flex;gap:9px;justify-content:space-between;margin-top:12px}.activity-picker-actions button{border:0;border-radius:12px;padding:11px 16px;font:800 12px Tahoma;cursor:pointer}
+.activity-picker-back{background:#f1f5f9;color:#475569}.activity-picker-apply{background:#eab308;color:#422006;margin-right:auto}
+.activity-picker-category-view{display:flex;flex-direction:column;min-height:0}.activity-picker-category-view .activity-picker-list{max-height:min(48dvh,420px);overflow:auto}
+.activity-picker-choice-view[hidden],.activity-picker-text-view[hidden],.activity-picker-category-view[hidden]{display:none!important}
+@media(max-width:560px){.activity-picker{border-radius:20px}.activity-picker-mode{padding:13px}.activity-picker-choice-view,.activity-picker-text-view,.activity-picker-category-view{padding:12px}}
+
+
 </style>
 <style>
 /* PostYar — polished create-row interaction. The added record is a single blank row,
@@ -605,6 +625,19 @@ img{display:block;max-width:100%}
 </style>
 </head>
 <body>
+<div class="activity-picker-backdrop" id="activityPickerBackdrop" role="dialog" aria-modal="true" aria-labelledby="activityPickerTitle">
+ <div class="activity-picker">
+  <div class="activity-picker-head"><div class="activity-picker-title" id="activityPickerTitle"><span>✦</span>ویرایش نوع فعالیت</div><div class="activity-picker-subtitle" id="activityPickerSubtitle">روش وارد کردن مقدار این خانه را انتخاب کن.</div></div>
+  <div class="activity-picker-choice-view" id="activityPickerChoiceView">
+   <button type="button" class="activity-picker-mode" id="activityPickerTextMode"><span class="activity-mode-icon">T</span><span><b>Text</b><small>نوشتن متن دلخواه در همین خانه</small></span><i>‹</i></button>
+   <button type="button" class="activity-picker-mode" id="activityPickerCategoryMode"><span class="activity-mode-icon category">▦</span><span><b>دسته‌ها</b><small>انتخاب از فهرست فعالیت‌های مجاز</small></span><i>‹</i></button>
+  </div>
+  <div class="activity-picker-text-view" id="activityPickerTextView" hidden><label for="activityPickerTextInput">متن فعالیت</label><textarea id="activityPickerTextInput" rows="3" placeholder="متن دلخواه را بنویسید…"></textarea><div class="activity-picker-actions"><button type="button" class="activity-picker-back" id="activityPickerBackFromText">بازگشت</button><button type="button" class="activity-picker-apply" id="activityPickerApplyText">ثبت متن</button></div></div>
+  <div class="activity-picker-category-view" id="activityPickerCategoryView" hidden><div class="activity-picker-search"><input id="activityPickerSearch" type="search" placeholder="جست‌وجوی فعالیت…" autocomplete="off"></div><div class="activity-picker-list" id="activityPickerList"></div><div class="activity-picker-actions"><button type="button" class="activity-picker-back" id="activityPickerBackFromCategories">بازگشت</button></div></div>
+  <div class="activity-picker-foot"><span>تغییر فقط روی همین خانه اعمال می‌شود.</span><button class="activity-picker-close" type="button" id="activityPickerClose">بستن</button></div>
+ </div>
+</div>
+
 <div id="postyarFormDialog" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pyFormTitle">
  <div class="py-form-panel">
   <div class="py-form-head"><div><h3 id="pyFormTitle">ثبت فرم جدید پستی</h3><p>اطلاعات را وارد کنید؛ پیش‌نمایش نهایی با قالب جدول پستی ساخته می‌شود.</p></div><button type="button" class="py-form-close" id="pyFormClose" aria-label="بستن">×</button></div>
@@ -815,6 +848,7 @@ img{display:block;max-width:100%}
           <button class="map-tool" onclick="finishDrawing()"><svg class="icn"><use href="#i-check"/></svg> پایان</button>
           <button class="map-tool" onclick="undoDraw()"><svg class="icn"><use href="#i-undo"/></svg></button>
           <button class="map-tool" onclick="clearDraw()"><svg class="icn"><use href="#i-close"/></svg></button>
+          <button class="map-tool" id="locationBtn" onclick="getMyLocation()"><svg class="icn"><use href="#i-location"/></svg> مکان من</button>
           <button class="map-tool" onclick="exportKML()"><svg class="icn"><use href="#i-download"/></svg> KML</button>
         </div>
         <div id="map"></div>
@@ -1073,7 +1107,7 @@ img{display:block;max-width:100%}
   </div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
@@ -1556,13 +1590,13 @@ var tool='select',draftPoints=[],draftLayer=null;
 
 function initMap(){
   if(mapReady){if(map)setTimeout(function(){map.invalidateSize()},100);return}
-  if(!window.L)return;
+  if(!window.L){var ms=$('#mapStatus');if(ms)ms.textContent='کتابخانهٔ نقشه بارگذاری نشد؛ اتصال اینترنت یا CDN را بررسی کنید';toast('نقشه بارگذاری نشد؛ لینک کتابخانهٔ Leaflet در دسترس نیست','error');return;}
   var mapEl=document.getElementById('map');
   if(!mapEl)return;
   if(mapEl.offsetHeight<50){setTimeout(initMap,200);return}
   try{
-    map=L.map('map',{zoomControl:false}).setView([35.700,51.400],12);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+    map=L.map('map',{zoomControl:false,maxZoom:22}).setView([35.700,51.400],12);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:22,maxNativeZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
     L.control.zoom({position:'topleft'}).addTo(map);
     drawLayer=L.featureGroup().addTo(map);
     savedLayer=L.featureGroup().addTo(map);
@@ -1642,22 +1676,90 @@ window.__delDraw=function(id){
   state.drawings=state.drawings.filter(function(d){return d.id!==id});
   save();renderDrawings();updateStats();
 };
+var myLocationWatchId=null;
+var myLocationFirstFix=true;
+function getMyLocation(){
+  if(!mapReady||!map){toast('ابتدا صفحه نقشه را باز کنید و چند لحظه صبر کنید','error');return;}
+  if(!window.isSecureContext && location.hostname!=='localhost' && location.hostname!=='127.0.0.1'){
+    var secureMsg='برای مکان‌یابی، سایت باید با HTTPS باز شود؛ آدرس فعلی امن نیست';
+    var secureStatus=$('#mapStatus');if(secureStatus)secureStatus.textContent=secureMsg;
+    toast(secureMsg,'error');return;
+  }
+  if(!navigator.geolocation){
+    toast('مکان‌یابی در این مرورگر فعال نیست؛ با Chrome و HTTPS امتحان کنید','error');return;
+  }
+  var btn=$('#locationBtn');
+  var status=$('#mapStatus');
+  if(myLocationWatchId!==null){
+    navigator.geolocation.clearWatch(myLocationWatchId);
+    myLocationWatchId=null;
+    myLocationFirstFix=true;
+    if(btn){btn.innerHTML='<svg class="icn"><use href="#i-location"/></svg> مکان من';btn.classList.remove('active');}
+    if(status)status.textContent='ردیابی موقعیت متوقف شد';
+    toast('ردیابی زنده موقعیت متوقف شد','success');
+    return;
+  }
+  myLocationFirstFix=true;
+  if(status)status.textContent='در حال دریافت موقعیت GPS…';
+  if(btn){btn.innerHTML='<svg class="icn"><use href="#i-location"/></svg> توقف مکان‌یابی';btn.classList.add('active');}
+  myLocationWatchId=navigator.geolocation.watchPosition(function(pos){
+    var lat=pos.coords.latitude,lng=pos.coords.longitude;
+    var point=[lat,lng];
+    if(window.__myLocationLayer){map.removeLayer(window.__myLocationLayer);}
+    window.__myLocationLayer=L.layerGroup([
+      L.circle(point,{radius:Math.max(pos.coords.accuracy||0,10),color:'#2563eb',weight:2,fillColor:'#60a5fa',fillOpacity:.15}),
+      L.circleMarker(point,{radius:7,color:'#fff',weight:3,fillColor:'#2563eb',fillOpacity:1})
+        .bindPopup('موقعیت فعلی شما')
+    ]).addTo(map);
+    if(myLocationFirstFix){map.setView(point,19,{animate:true});myLocationFirstFix=false;}
+    else {map.panTo(point,{animate:true,duration:.5});}
+    var coord=$('#coordStatus');
+    if(coord)coord.textContent=lat.toFixed(6)+', '+lng.toFixed(6)+' · دقت '+Math.round(pos.coords.accuracy||0)+' متر';
+    if(status)status.textContent='موقعیت زنده فعال است';
+  },function(err){
+    var msg=err&&err.code===1?'اجازه دسترسی به مکان را بدهید':err&&err.code===2?'موقعیت GPS در دسترس نیست':'دریافت مکان زمان‌بر شد؛ دوباره تلاش کنید';
+    if(status)status.textContent=msg;
+    if(myLocationWatchId!==null){navigator.geolocation.clearWatch(myLocationWatchId);myLocationWatchId=null;}
+    if(btn){btn.innerHTML='<svg class="icn"><use href="#i-location"/></svg> مکان من';btn.classList.remove('active');}
+    myLocationFirstFix=true;
+    toast(msg,'error');
+  },{enableHighAccuracy:true,timeout:20000,maximumAge:2000});
+  toast('در حال پیدا کردن موقعیت شما…','success');
+}
 function exportKML(){
-  if(!state.drawings.length)return toast('پارسانی برای خروجی نیست','error');
-  if(!window.toKML)return toast('کتابخانه KML بارگذاری نشد','error');
-  var features=state.drawings.filter(function(d){return d.kind==='polygon'}).map(function(d){
-    return {type:'Feature',properties:{name:d.name,created:d.created},geometry:{type:'Polygon',coordinates:[d.coords.map(function(c){return [c[1],c[0]]})]}};
+  var projectSelect=$('#mapProject');
+  var projectId=projectSelect?projectSelect.value:'';
+  if(!projectId){toast('اول پروژهٔ موردنظر را از فهرست پروژه‌ها انتخاب کنید','error');return;}
+  // Export the exact saved polygon vertices from state.drawings; no generated/sample geometry.
+  var projectDrawings=state.drawings.filter(function(d){
+    return d.projectId===projectId && d.kind==='polygon' && Array.isArray(d.coords) && d.coords.length>=3 &&
+      d.coords.every(function(c){return Array.isArray(c)&&Number.isFinite(Number(c[0]))&&Number.isFinite(Number(c[1]));});
   });
-  if(!features.length)return toast('پارسل چندضلعی وجود ندارد','error');
-  var fc={type:'FeatureCollection',features:features};
-  var kml=toKML(fc,{name:'PostYar-Parcels'});
-  var blob=new Blob([kml],{type:'application/vnd.google-earth.kml+xml'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;a.download='postyar-parcels-'+Date.now()+'.kml';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  toast('فایل KML برای گوگل ارث دانلود شد','success');
+  if(!projectDrawings.length){toast('برای این پروژه پارسل ذخیره‌شده‌ای وجود ندارد؛ ابتدا پارسل را با دکمه «پایان/ذخیره ترسیم» ذخیره کنید','error');return;}
+  function xmlEscape(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;')}
+  var project=state.projects.find(function(p){return p.id===projectId});
+  var projectName=project?(project.name||project.title||'پروژه پست‌یار'):'پروژه پست‌یار';
+  var placemarks=projectDrawings.map(function(d){
+    var points=d.coords.map(function(c){return Number(c[1])+','+Number(c[0])+',0'});
+    // KML rings must be closed. Preserve all original vertices and append the first only if needed.
+    var first=d.coords[0],last=d.coords[d.coords.length-1];
+    if(Number(first[0])!==Number(last[0]) || Number(first[1])!==Number(last[1])){
+      points.push(Number(first[1])+','+Number(first[0])+',0');
+    }
+    return '<Placemark><name>'+xmlEscape(d.name||'پارسل')+'</name><description>'+xmlEscape(d.created||'')+'</description><Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>'+points.join(' ')+'</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>';
+  }).join('');
+  var kml='<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>'+xmlEscape(projectName)+'</name>'+placemarks+'</Document></kml>';
+  try{
+    var blob=new Blob([kml],{type:'application/vnd.google-earth.kml+xml;charset=utf-8'});
+    var url=URL.createObjectURL(blob);var a=document.createElement('a');
+    a.href=url;a.download=(String(projectName).replace(/[^\w\u0600-\u06FF-]+/g,'-')||'postyar')+'-parcels.kml';
+    a.style.position='fixed';a.style.left='-9999px';document.body.appendChild(a);a.click();
+    setTimeout(function(){if(a.parentNode)a.parentNode.removeChild(a);URL.revokeObjectURL(url)},10000);
+    toast('فایل KML شامل '+fa(projectDrawings.length)+' پارسل واقعیِ ذخیره‌شدهٔ همین پروژه آماده شد','success');
+  }catch(err){
+    console.error('KML export failed',err);
+    toast('دانلود توسط مرورگر مسدود شد؛ اجازهٔ دانلود سایت را فعال کنید و دوباره بزنید','error');
+  }
 }
 
 /* ===== IMPORT / EXPORT ===== */
@@ -2875,6 +2977,14 @@ async function copyQrNumber(){var code=(document.getElementById('qrNumber').text
 function copyQrHistory(i){var item=qrHistory[i];if(item){var el=document.getElementById('qrNumber');el.textContent=qrFaDigits(item.code);copyQrNumber()}}
 function scanAnotherQr(){qrLastValue='';document.getElementById('qrResultCard').hidden=true;document.getElementById('qrCameraStatus').classList.remove('success');document.getElementById('qrCameraStatus').textContent='آمادهٔ شروع';document.getElementById('qrScannerMessage').textContent='برای اسکن بعدی، دوربین را دوباره روشن کنید.';qrProjectChanged();}
 
+/* Expose functions used by inline HTML event handlers. */
+window.qrProjectChanged=qrProjectChanged;
+window.startQrScanner=startQrScanner;
+window.stopQrScanner=stopQrScanner;
+window.scanAnotherQr=scanAnotherQr;
+window.copyQrNumber=copyQrNumber;
+window.copyQrHistory=copyQrHistory;
+
 })();
 </script>
 <style id="postyar-qr-simple-override">
@@ -2911,6 +3021,119 @@ function scanAnotherQr(){qrLastValue='';document.getElementById('qrResultCard').
 #page-labels .qr-history-card{display:none!important}
 @media(max-width:560px){#page-labels .qr-shell{gap:10px;padding:0 0 18px}#page-labels .qr-hero{padding:15px;border-radius:14px}#page-labels .qr-project-card,#page-labels .qr-scanner-card,#page-labels .qr-result-card{padding:12px;border-radius:13px}#page-labels .qr-camera-stage{aspect-ratio:4/3;min-height:210px;max-height:320px}#page-labels .qr-camera-actions{flex-direction:row}#page-labels .qr-result-actions{flex-direction:row}#page-labels .qr-number{letter-spacing:2px}}
 </style>
+
+<script>
+(function(){
+'use strict';
+var locationTypes=[
+'کد 1) مسکونی و دارای سکنه',
+'کد _1) مسکونی و فاقد سکنه',
+'کد 2) کارگاه خدمات دولتی',
+'کد _2) کارگاه خدمات دولتی و مسکونی توام',
+'کد 3) کارگاه بخش خصوصی',
+'کد _3) کارگاه بخش خصوصی و مسکونی توام',
+'کد 4) سایر کارگاه ها',
+'کد 5) کارگاه خالی',
+'کد _5) کارگاه خالی و مسکونی توام',
+'کد 6) مخروبه یا در دست تخریب',
+'کد _6) در حال ساخت',
+'کد 7) زمین محصور',
+'کد 8) درب فرعی',
+'کد _8) پارکینگ',
+'کد 9) سایر',
+'کد 12) سازه های خارج از بلوک دولتی',
+'کد 13) سازه های خارج از بلوک خصوصی',
+'کد 15) سازه های خارج از بلوک غیر فعال',
+'کد 16) مکان های ساخته نشده(پیش فروش)'
+];
+var activities=[
+'خدمات املاک و مستغلات','فروش مواد غذایی','خدمات آرایشی و پیرایش بانوان یا مردانه','پرورش دام صنعتی یا سنتی','باغداری و زراعت','آموزش و پرورش','فروش پوشاک زنانه یا مردانه','تهیه و فروش نان','تهیه و عرضه غذا','فروش داروهای گیاهی','خدمات خرید و فروش اتومبیل','خدمات تعمیر خودرو سبک و سنگین','فروش ابزارآلات ساختمانی','تهیه و فروش شیرینی','فروش مصالح ساختمانی',
+'فروش موبایل','خدمات تعمیر موبایل','فروش آبمیوه و بستنی','خدمات آموزشی','خدمات تعمیر موتور سیکلت','خدمات تعمیر برق خودرو سبک و سنگین','فروش وسایل خرازی','خدمات دوخت لباس مردانه یا زنانه','خدمات بخش دولتی و عمومی','فروش میوه و تره بار','فروش مواد غذایی و غیره در فروشگاه‌ها','خدمات تاسیسات ساختمان','فروش وسایل منزل','خدمات شستشوی لباس','خدمات شستشوی ماشینی',
+'املاک','سوپر مارکت','آرایشگاه زنانه یا مردانه','دامداری','باغ','مدرسه ابتدایی یا دبیرستان','فروش پوشاک تک لباس','نانوایی','رستوران یا ساندویچی','عطاری','اتو گالری','مکانیکی','ابزار فروشی','قنادی','مصالح فروشی',
+'موبایل فروشی','تعمیرات موبایل','آبمیوه و بستنی فروشی','مدارس یا آموزشگاه‌های غیر دولتی','تعمیرگاه موتور سیکلت','باتری‌سازی','خرازی','خیاطی','دفتر پیشخوان دولت','میوه یا سبزی فروشی','فروشگاه‌های زنجیره‌ای','تاسیسات ساختمان','فروش وسایل خانگی','خشکشویی','کارواش'
+];
+activities=Array.from(new Set(activities));
+var $=function(id){return document.getElementById(id)};
+var backdrop=$('activityPickerBackdrop'),list=$('activityPickerList'),search=$('activityPickerSearch'),close=$('activityPickerClose'),activeField=null;
+var choice=$('activityPickerChoiceView'),textView=$('activityPickerTextView'),categoryView=$('activityPickerCategoryView'),textInput=$('activityPickerTextInput'),subtitle=$('activityPickerSubtitle'),activeListType='activity';
+if(!backdrop||!list||!search)return;
+function norm(v){return String(v||'').normalize('NFKC').replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[ۀة]/g,'ه').replace(/[إأ]/g,'ا').replace(/[ؤ]/g,'و').replace(/[\u200B-\u200F\u2060\uFEFF\u00AD]/g,'').replace(/[\sـ:：،,؛;()（）.\-]/g,'').toLowerCase()}
+var activityNorms=activities.map(function(a){return {label:a,n:norm(a)}});
+function isActivityField(field){
+ if(!field||field.classList.contains('locked'))return false;
+ var v=norm(field.value||field.textContent); if(!v)return false;
+ return activityNorms.some(function(a){return a.n===v||a.n.indexOf(v)>=0||v.indexOf(a.n)>=0});
+}
+function showView(which){
+ choice.hidden=which!=='choice';textView.hidden=which!=='text';categoryView.hidden=which!=='categories';
+ subtitle.textContent=which==='choice'?'روش وارد کردن مقدار این خانه را انتخاب کن.':which==='text'?'متن دلخواه را وارد کن؛ در همان خانه ثبت می‌شود.':(activeListType==='location'?'کد نوع مکان را انتخاب کن؛ مقدار دقیقاً در همین خانه ثبت می‌شود.':'از فهرست زیر یک فعالیت انتخاب کن.');
+ if(which==='text')setTimeout(function(){textInput.focus({preventScroll:true})},30);
+ if(which==='categories'){search.value='';render();setTimeout(function(){search.focus({preventScroll:true})},30)}
+}
+function open(field,kind){activeField=field;activeListType=kind||'activity';$('activityPickerTitle').innerHTML='<span>✦</span>'+(activeListType==='location'?'انتخاب نوع مکان':'ویرایش اطلاعات خانه');$('activityPickerTextInput').previousElementSibling.textContent=activeListType==='location'?'متن نوع مکان':'متن دلخواه';showView('choice');backdrop.classList.add('open')}
+function commit(value){
+ if(!activeField)return;
+ var f=activeField,val=String(value||'').trim();
+ if('value' in f)f.value=val;else f.textContent=val;
+ f.dispatchEvent(new Event('input',{bubbles:true}));f.dispatchEvent(new Event('change',{bubbles:true}));
+ f.blur();backdrop.classList.remove('open');activeField=null;
+}
+function render(){
+ var source=activeListType==='location'?locationTypes:activities;var q=norm(search.value),matches=source.filter(function(a){return !q||norm(a).indexOf(q)>=0});list.innerHTML='';
+ if(!matches.length){var empty=document.createElement('div');empty.className='activity-picker-empty';empty.textContent=activeListType==='location'?'کدی با این عبارت پیدا نشد.':'فعالیتی با این عبارت پیدا نشد.';list.appendChild(empty);return}
+ matches.forEach(function(a){var b=document.createElement('button');b.type='button';b.className='activity-picker-option';b.textContent=a;b.addEventListener('click',function(){commit(a)});list.appendChild(b)})
+}
+function sameVisualRow(a,b){
+ if(!a||!b||a===b)return a===b;
+ var ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
+ if(!ra.width||!rb.width)return false;
+ var ca=ra.top+ra.height/2,cb=rb.top+rb.height/2;
+ return Math.abs(ca-cb)<=Math.max(5,Math.min(ra.height,rb.height)*0.8);
+}
+function isActivityRowField(field){
+ if(!field||field.classList.contains('locked'))return false;
+ var page=field.closest('.pdf-original-page');
+ if(!page)return false;
+ var fields=page.querySelectorAll('.pdf-original-field:not(.locked)');
+ for(var i=0;i<fields.length;i++){
+  var anchor=fields[i];
+  if(isActivityField(anchor)&&sameVisualRow(anchor,field))return true;
+ }
+ return false;
+}
+function isLocationTypeField(field){
+ if(!field||field.classList.contains('locked'))return false;
+ var page=field.closest('.pdf-original-page');if(!page)return false;
+ var fr=field.getBoundingClientRect(),fc=fr.left+fr.width/2;
+ var labels=page.querySelectorAll('.pdf-original-field.locked');
+ for(var i=0;i<labels.length;i++){
+  var t=norm(labels[i].value||labels[i].textContent);
+  if(t.indexOf(norm('نوع مکان'))===-1)continue;
+  var r=labels[i].getBoundingClientRect(),c=r.left+r.width/2;
+  if(Math.abs(fc-c)<=Math.max(fr.width*1.5,r.width*1.5,12))return true;
+ }
+ return false;
+}
+document.addEventListener('click',function(ev){
+ var field=ev.target.closest&&ev.target.closest('.pdf-original-field:not(.locked)');
+ // The chooser belongs to the whole data row containing a recognized activity value,
+ // not just the activity cell. Headers/locked fields and other rows remain untouched.
+ var locationCell=isLocationTypeField(field);
+ if(!field||(!locationCell&&!isActivityRowField(field)))return;
+ ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();open(field,locationCell?'location':'activity')
+},true);
+$('activityPickerTextMode').addEventListener('click',function(){textInput.value=('value' in activeField?activeField.value:activeField.textContent)||'';showView('text')});
+$('activityPickerCategoryMode').addEventListener('click',function(){showView('categories')});
+$('activityPickerApplyText').addEventListener('click',function(){commit(textInput.value)});
+$('activityPickerBackFromText').addEventListener('click',function(){showView('choice')});
+$('activityPickerBackFromCategories').addEventListener('click',function(){showView('choice')});
+search.addEventListener('input',render);
+function dismiss(){backdrop.classList.remove('open');activeField=null}
+close.addEventListener('click',dismiss);
+backdrop.addEventListener('click',function(ev){if(ev.target===backdrop)dismiss()});
+document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&backdrop.classList.contains('open'))dismiss();if(ev.key==='Enter'&&ev.target===textInput&&!ev.shiftKey){ev.preventDefault();commit(textInput.value)}});
+})();
+</script>
 </body>
 </html>
 <style id="postyar-new-form-placeholder-fix">
