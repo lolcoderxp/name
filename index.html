@@ -343,8 +343,8 @@ img{display:block;max-width:100%}
 :is(#page-import,#page-postal) .pdf-faithful-page-label{position:relative;top:auto;background:#f8fafc;padding:10px 13px;font-size:11px}
 :is(#page-import,#page-postal) .pdf-faithful-page-inner{display:flex;justify-content:center;align-items:flex-start;background:#e9edf4;padding:12px!important;overflow-x:auto;overflow-y:hidden}
 :is(#page-import,#page-postal) .pdf-original-page{flex:0 0 auto;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,.15)}
-:is(#page-import,#page-postal) .pdf-original-field:focus{outline:0!important;background:rgba(239,246,255,.98);border:1px solid #2563eb;box-shadow:none!important;border-radius:4px}
-:is(#page-import,#page-postal) .pdf-original-field.edited{background:rgba(239,246,255,.94);border-color:rgba(37,99,235,.34);color:#2563eb!important}
+:is(#page-import,#page-postal) .pdf-original-field:focus{outline:0!important;background:transparent!important;border:1px solid #2563eb;box-shadow:none!important;border-radius:2px}
+:is(#page-import,#page-postal) .pdf-original-field.edited{background:transparent!important;border-color:transparent!important;color:transparent!important;-webkit-text-stroke:0!important;paint-order:normal!important;text-shadow:none!important}
 :is(#page-import,#page-postal) .pdf-faithful-toolbar{padding:10px;background:#f8fafc;border:1px solid #e5eaf2;border-radius:16px}
 @media (min-width:641px) and (max-width:999px){
   :is(#page-import,#page-postal) .drop-zone{padding:22px 18px;border-radius:19px}
@@ -384,7 +384,7 @@ img{display:block;max-width:100%}
 .pdf-faithful-page{position:relative;width:100%;background:#fff;border:0;border-radius:0;overflow:visible;box-shadow:none;direction:rtl;break-after:page}
 .pdf-faithful-page-label{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f5f7fb;color:#24334b;border-bottom:1px solid #e6ebf3;font:800 12px var(--font);padding:12px 15px;direction:rtl;text-align:right}
 .pdf-faithful-page-label small{font-weight:500;color:#78869b}
-.pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:visible;overflow-anchor:none;position:relative;max-width:100%;touch-action:auto;overscroll-behavior:auto}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 2px;border:1px solid transparent;border-radius:3px;background:transparent;color:transparent;caret-color:#2563eb;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:nowrap;overflow:hidden;direction:rtl;text-align:center;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:rgba(239,246,255,.42);color:#2563eb;border-color:#3b82f6;box-shadow:none!important;z-index:4}.pdf-original-field.is-editing{white-space:nowrap;overflow:hidden;border-radius:3px;line-height:1.1;text-overflow:clip}.pdf-original-field.edited{background:rgba(239,246,255,.97);border-color:rgba(37,99,235,.34);color:#2563eb}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
+.pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:visible;overflow-anchor:none;position:relative;max-width:100%;touch-action:auto;overscroll-behavior:auto}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 2px;border:1px solid transparent;border-radius:3px;background:transparent;color:transparent;caret-color:#2563eb;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:nowrap;overflow:hidden;direction:rtl;text-align:center;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:transparent!important;color:#2563eb;border-color:#3b82f6;box-shadow:none!important;z-index:4}.pdf-original-field.is-editing{white-space:nowrap!important;overflow:hidden!important;border-radius:3px;line-height:1!important;text-overflow:clip;overflow-wrap:normal;word-break:keep-all;font-size:calc(var(--pdf-edit-font-size, 1em) * .78)}.pdf-original-field.edited{background:transparent!important;border-color:transparent!important;color:transparent!important;-webkit-text-stroke:0!important;paint-order:normal!important;text-shadow:none!important}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
 
 /* Section deletion controls, anchored to the original PDF page */
 
@@ -638,14 +638,6 @@ img{display:block;max-width:100%}
  </div>
 </div>
 
-<div id="postyarFormDialog" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pyFormTitle">
- <div class="py-form-panel">
-  <div class="py-form-head"><div><h3 id="pyFormTitle">ثبت فرم جدید پستی</h3><p>اطلاعات را وارد کنید؛ پیش‌نمایش نهایی با قالب جدول پستی ساخته می‌شود.</p></div><button type="button" class="py-form-close" id="pyFormClose" aria-label="بستن">×</button></div>
-  <form id="postyarFormEntryForm"><div class="py-form-body"><div class="py-form-note"><span>ⓘ</span><span>فیلدهای ثابت و قفل‌شده قابل تغییر نیستند. برای ثبت چند ردیف مرتبط، «افزودن ردیف زیرمجموعه» را بزنید؛ همه ردیف‌ها با همان اندازه و خطوط جدول اصلی ساخته می‌شوند.</span></div><div id="pyFormRows"></div></div>
-   <div class="py-form-actions"><div class="left"><button class="py-form-btn subtle-green" type="button" id="pyAddSubrow">＋ افزودن ردیف زیرمجموعه</button></div><div class="right"><button class="py-form-btn" type="button" id="pyFormCancel">انصراف</button><button class="py-form-btn primary" type="submit">✓ ثبت فرم و ساخت جدول</button></div></div>
-  </form>
- </div>
-</div>
 
 <!-- SVG Icons -->
 <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
@@ -2083,52 +2075,6 @@ function createSubrowForAddedTable(pageNo,parent,overlay,items,scale){
   if(!addedPdfTables[pageNo])addedPdfTables[pageNo]=[];addedPdfTables[pageNo].push(row);
   faithfulPdfRendered[pageNo]=false;renderFaithfulPdfPage(pageNo).then(function(){markPdfEditsDirty();if(nextY+row.rowHeight>data.height-4)toast('زیرردیف ثبت شد؛ در خروجی PDF در صفحهٔ ادامه درج می‌شود.','success')});
 }
-var pendingPostalForm=null;
-function openPostalFormDialog(pageNo,group,overlay,items,scale,geom){
-  pendingPostalForm={pageNo:pageNo,group:group,overlay:overlay,items:items,scale:scale,geom:geom};
-  var dialog=document.getElementById('postyarFormDialog'),rowsHost=document.getElementById('pyFormRows');
-  rowsHost.innerHTML='';addPostalEntryRow(rowsHost,0);
-  dialog.classList.add('open');dialog.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
-  setTimeout(function(){var first=rowsHost.querySelector('input:not([readonly])');if(first)first.focus();},80);
-}
-function closePostalFormDialog(){var dialog=document.getElementById('postyarFormDialog');if(dialog){dialog.classList.remove('open');dialog.setAttribute('aria-hidden','true')}document.body.style.overflow='';pendingPostalForm=null;}
-function addPostalEntryRow(host,index){
-  var wrap=document.createElement('section');wrap.className='py-form-row';wrap.dataset.entryIndex=index;
-  var title=document.createElement('div');title.className='py-form-row-title';title.innerHTML='<span>'+ (index===0?'فرم اصلی':'ردیف زیرمجموعه '+fa(index)) +'</span><span style="color:#15803d">● '+(index===0?'فرم جدید':'مرتبط')+'</span>';wrap.appendChild(title);
-  var grid=document.createElement('div');grid.className='py-form-grid';
-  POSTAL_TABLE_HEADERS.forEach(function(label,ci){var field=document.createElement('div');field.className='py-form-field';var lab=document.createElement('label');lab.textContent=label;var input=document.createElement('input');input.type='text';input.autocomplete='off';input.spellcheck=false;input.dataset.col=ci;input.setAttribute('aria-label',label);input.placeholder='';
-    if(ci===9){input.value='';input.readOnly=true;input.placeholder='قفل‌شده';input.title='این فیلد طبق ساختار پستی قفل است';}
-    else{input.addEventListener('input',function(){if([0,1,2,3,4,7].indexOf(ci)>=0){var st=input.selectionStart,en=input.selectionEnd;input.value=input.value.replace(/[0-9٠-٩]/g,function(d){return d>='0'&&d<='9'?'۰۱۲۳۴۵۶۷۸۹'.charAt(+d):'۰۱۲۳۴۵۶۷۸۹'.charAt('٠١٢٣٤٥٦٧٨٩'.indexOf(d))});try{input.setSelectionRange(st,en)}catch(e){}}});}
-    field.appendChild(lab);field.appendChild(input);grid.appendChild(field);
-  });wrap.appendChild(grid);host.appendChild(wrap);
-}
-function createAddedPdfTable(pageNo,group,overlay,items,scale){
-  var data=faithfulPdfPageData[pageNo];if(!data)return;
-  var rows=group.items||[];var endTop=rows.reduce(function(m,it){return Math.max(m,it.top+it.height*1.5)},group.start||0);group.endTop=endTop;
-  var geom=getPdfTableGeometry(group,items,data.width,scale);geom.y=endTop+Math.max(3,geom.rowHeight*.2);
-  var related=(addedPdfTables[pageNo]||[]).filter(function(t){return t.groupId===group.id||t.parentGroupId===group.id;});related.forEach(function(t){geom.y=Math.max(geom.y,t.y+t.rowHeight)});
-  openPostalFormDialog(pageNo,group,overlay,items,scale,geom);
-}
-function commitPostalEntryRows(){
-  if(!pendingPostalForm)return;
-  var ctx=pendingPostalForm,host=document.getElementById('pyFormRows'),entryRows=Array.prototype.slice.call(host.querySelectorAll('.py-form-row'));
-  var values=entryRows.map(function(row){return Array.prototype.map.call(row.querySelectorAll('input'),function(input){return input.readOnly?'':String(input.value||'').replace(/[\r\n]+/g,' ').trim()})});
-  if(!values.some(function(row){return row.some(function(v){return !!v})})){toast('لطفاً دست‌کم یک فیلد را تکمیل کنید','error');return;}
-  var pageNo=ctx.pageNo,geom=ctx.geom,data=faithfulPdfPageData[pageNo],rowHeight=geom.rowHeight;
-  // Overflow is retained in the document model; the PDF export places rows that do not fit on dedicated continuation pages.
-  if(!addedPdfTables[pageNo])addedPdfTables[pageNo]=[];
-  var parentId='form-'+Date.now()+'-'+Math.random().toString(36).slice(2,7);
-  values.forEach(function(rowValues,i){var table={id:parentId+'-'+i,groupId:ctx.group.id,parentGroupId:ctx.group.id,parentId:i?parentId+'-0':null,x:geom.x,y:geom.y+i*rowHeight,width:geom.width,rowHeight:rowHeight,colWidths:geom.colWidths.slice(),values:rowValues,formIndex:i,formParent:parentId};addedPdfTables[pageNo].push(table)});
-  closePostalFormDialog();faithfulPdfRendered[pageNo]=false;renderFaithfulPdfPage(pageNo).then(function(){markPdfEditsDirty();toast('فرم ثبت شد؛ برای جلوگیری از هم‌پوشانی، ردیف‌های جدید در صفحهٔ ادامهٔ رسمی درج می‌شوند','success')});
-}
-(function bindPostalFormDialog(){
-  var close=document.getElementById('pyFormClose'),cancel=document.getElementById('pyFormCancel'),add=document.getElementById('pyAddSubrow'),form=document.getElementById('postyarFormEntryForm'),dialog=document.getElementById('postyarFormDialog'),host=document.getElementById('pyFormRows');
-  if(close)close.addEventListener('click',closePostalFormDialog);if(cancel)cancel.addEventListener('click',closePostalFormDialog);
-  if(add)add.addEventListener('click',function(){var count=host.querySelectorAll('.py-form-row').length;addPostalEntryRow(host,count)});
-  if(form)form.addEventListener('submit',function(e){e.preventDefault();commitPostalEntryRows()});
-  if(dialog)dialog.addEventListener('click',function(e){if(e.target===dialog)closePostalFormDialog()});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&dialog&&dialog.classList.contains('open'))closePostalFormDialog()});
-})();
 function addPdfSectionMenus(overlay,pageNo,items,scale){
   var groups=pdfDeletionGroups(items);
   groups.forEach(function(group){
@@ -2141,10 +2087,7 @@ function addPdfSectionMenus(overlay,pageNo,items,scale){
       var pop=document.createElement('div');pop.className='pdf-section-pop';pop.style.left='31px';pop.style.top=Math.max(2,group.start*scale)+'px';
       var action=document.createElement('button');action.type='button';action.textContent=deletedPdfSections[pageNo+':'+group.id]?'↩ برداشتن علامت حذف':'🔴 حذف این بخش';
       action.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();pop.remove();toggleDeletedPdfSection(pageNo,group,group.items);});
-      pop.appendChild(action);
-      var addAction=document.createElement('button');addAction.type='button';addAction.textContent='＋ افزودن فرم ۱';addAction.style.color='#15803d';
-      addAction.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();pop.remove();createAddedPdfTable(pageNo,group,overlay,items,scale);});
-      pop.appendChild(addAction);overlay.appendChild(pop);
+      pop.appendChild(action);overlay.appendChild(pop);
     });
     overlay.appendChild(btn);
   });
@@ -2238,6 +2181,24 @@ async function renderFaithfulPdfPage(pageNo){
     var idHeaders=items.filter(function(it){return norm(it.text)===norm('کد شناسایی')});
     if(idHeaders.length){items.forEach(function(it){if(it.locked)return;var center=it.x+it.width/2;if(idHeaders.some(function(h){return Math.abs(center-(h.x+h.width/2))<Math.max(10,baseViewport.width*.025)}))it.locked=true;});}
     var scale=displayScale;
+    // Identify the actual table columns from their printed headers, preserving the source PDF layout.
+    var columnHeaders=[];
+    [['پلاک','plaque',4],['طبقه','floor',3],['واحد','unit',3],['بلوک/ورودی','block',null]].forEach(function(def){
+      items.filter(function(it){return norm(it.text)===norm(def[0]);}).forEach(function(h){
+        columnHeaders.push({label:def[0],type:def[1],maxLength:def[2],x:h.x+h.width/2,y:h.top});
+      });
+    });
+    items.forEach(function(it){
+      it.numericColumn=null;
+      var center=it.x+it.width/2;
+      var nearby=columnHeaders.filter(function(h){return Math.abs(center-h.x)<=Math.max(10,baseViewport.width*.025);});
+      if(nearby.length){
+        nearby.sort(function(a,b){return Math.abs(center-a.x)-Math.abs(center-b.x);});
+        // A value belongs to a column only when it is below the corresponding header.
+        var candidate=nearby.find(function(h){return it.top>h.y+Math.max(2,it.height*.25);});
+        if(candidate)it.numericColumn=candidate;
+      }
+    });
     // Infer the full editable cell from text neighbors on the same line, so tapping the blank
     // portion of a boxed field can also activate editing instead of only the printed glyphs.
     items.forEach(function(it){
@@ -2249,32 +2210,65 @@ async function renderFaithfulPdfPage(pageNo){
       var cellRight=next?((textRight+next.x)/2):Math.min(baseViewport.width,textRight+Math.max(it.width*2,baseViewport.width*.07));
       it.cellX=cellLeft;it.cellWidth=Math.max(it.width,cellRight-cellLeft);
     });
+    // Add one genuinely empty editable slot in the unit column only when the first data row has an empty unit cell.
+    // This is an overlay field: it does not draw over, repaint, or alter the original PDF table/grid.
+    (function addOneEmptyUnitField(){
+      var unitHeader=columnHeaders.filter(function(h){return h.type==='unit';}).find(function(h){
+        return columnHeaders.some(function(p){return p.type==='plaque'&&Math.abs(p.y-h.y)<=Math.max(8,baseViewport.height*.012);}) &&
+               columnHeaders.some(function(f){return f.type==='floor'&&Math.abs(f.y-h.y)<=Math.max(8,baseViewport.height*.012);});
+      });
+      if(!unitHeader)return;
+      var rowTolerance=Math.max(3,baseViewport.height*.004);
+      var rows=[];
+      items.forEach(function(it){
+        if(it.top<=unitHeader.y+rowTolerance||it.locked)return;
+        var row=rows.find(function(r){return Math.abs(r.top-it.top)<=Math.max(rowTolerance,it.height*.45);});
+        if(!row){row={top:it.top,height:it.height,items:[]};rows.push(row);}row.items.push(it);row.height=Math.max(row.height,it.height);
+      });
+      rows.sort(function(a,b){return a.top-b.top;});
+      var target=rows.find(function(r){return r.items.some(function(it){return ['plaque','floor','block'].some(function(type){return columnHeaders.filter(function(h){return h.type===type;}).some(function(h){return Math.abs((it.x+it.width/2)-h.x)<=Math.max(10,baseViewport.width*.025);});});});});
+      if(!target)return;
+      var unitHasValue=target.items.some(function(it){return Math.abs((it.x+it.width/2)-unitHeader.x)<=Math.max(10,baseViewport.width*.025);});
+      if(unitHasValue)return;
+      var unitHeaders=columnHeaders.filter(function(h){return ['plaque','floor','unit','block'].indexOf(h.type)>=0;}).sort(function(a,b){return a.x-b.x;});
+      var pos=unitHeaders.indexOf(unitHeader),leftEdge=pos>0?(unitHeaders[pos-1].x+unitHeader.x)/2:unitHeader.x-baseViewport.width*.025;
+      var rightEdge=pos>=0&&pos<unitHeaders.length-1?(unitHeader.x+unitHeaders[pos+1].x)/2:unitHeader.x+baseViewport.width*.025;
+      var syntheticIndex=items.reduce(function(max,it){return Math.max(max,Number(it.index)||0);},0)+1;
+      var emptyItem={key:pageNo+':'+syntheticIndex,index:syntheticIndex,text:'',original:'',x:Math.max(0,leftEdge),y:target.top+target.height,top:target.top,width:Math.max(8,rightEdge-leftEdge),height:target.height,locked:false,cellX:Math.max(0,leftEdge),cellWidth:Math.max(8,rightEdge-leftEdge),numericColumn:{label:'واحد',type:'unit',maxLength:3,x:unitHeader.x,y:unitHeader.y}};
+      items.push(emptyItem);
+    })();
     items.forEach(function(it){
       var field=document.createElement('input');field.type='text';field.className='pdf-original-field'+(it.locked?' locked':'');
       field.value=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)?faithfulPdfEdits[it.key]:it.text;
       field.readOnly=!!it.locked;field.setAttribute('aria-label',it.locked?'متن ثابت PDF':'ویرایش متن در محل اصلی PDF');field.dataset.editKey=it.key;field.dataset.page=pageNo;
-      field.spellcheck=false;field.autocapitalize='off';field.autocomplete='off';field.enterKeyHint='done';field.setAttribute('enterkeyhint','done');field.setAttribute('inputmode',field.inputMode||'text');field.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();field.blur();}});
-      // Use the mobile numeric keypad for fields whose source value is numeric, without forcing it on names/addresses.
-      field.inputMode=/^[0-9۰-۹٠-٩]+$/.test(it.text.trim())?'numeric':(/^[0-9۰-۹٠-٩\s.,،/\-]+$/.test(it.text.trim())?'decimal':'text');
+      field.spellcheck=false;field.autocapitalize='off';field.autocomplete='off';field.enterKeyHint='done';field.setAttribute('enterkeyhint','done');
+      field.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();field.blur();}});
+      // Numeric columns are detected from the original PDF headers, so even blank/empty cells get a numeric keypad.
+      var numericColumn=it.numericColumn;
+      var sourceLooksNumeric=/^[0-9۰-۹٠-٩]+$/.test(it.text.trim());
+      var sourceLooksDecimal=/^[0-9۰-۹٠-٩\s.,،/\-]+$/.test(it.text.trim());
+      field.inputMode=(numericColumn&&numericColumn.type!=='block')?'numeric':(numericColumn&&numericColumn.type==='block'?'decimal':(sourceLooksNumeric?'numeric':(sourceLooksDecimal?'decimal':'text')));
+      if(numericColumn&&numericColumn.maxLength)field.maxLength=numericColumn.maxLength;
       if(field.inputMode==='numeric')field.setAttribute('pattern','[0-9۰-۹٠-٩]*');
       else if(field.inputMode==='decimal')field.setAttribute('pattern','[0-9۰-۹٠-٩.,،/\-]*');
-      // Numeric PDF fields always use Persian digits, even when the phone keyboard inserts Latin digits.
-      if(field.inputMode==='numeric'||field.inputMode==='decimal'){
-        field.addEventListener('input',function(){
-          var start=field.selectionStart,end=field.selectionEnd,old=field.value;
-          var converted=old.replace(/[0-9٠-٩]/g,function(d){
-            if(d>='0'&&d<='9')return '۰۱۲۳۴۵۶۷۸۹'.charAt(d.charCodeAt(0)-48);
-            return '۰۱۲۳۴۵۶۷۸۹'.charAt('٠١٢٣٤٥٦٧٨٩'.indexOf(d));
-          });
-          if(converted!==old){field.value=converted;try{field.setSelectionRange(start,end)}catch(e){}}
+      // Always convert digits to Persian; numeric columns also reject non-numeric characters and enforce their length.
+      field.addEventListener('input',function(){
+        var start=field.selectionStart,end=field.selectionEnd,old=field.value;
+        var converted=old.replace(/[0-9٠-٩]/g,function(d){
+          if(d>='0'&&d<='9')return '۰۱۲۳۴۵۶۷۸۹'.charAt(d.charCodeAt(0)-48);
+          return '۰۱۲۳۴۵۶۷۸۹'.charAt('٠١٢٣٤٥٦٧٨٩'.indexOf(d));
         });
-      }
+        if(field.inputMode==='numeric')converted=converted.replace(/[^۰-۹]/g,'');
+        else if(field.inputMode==='decimal')converted=converted.replace(/[^۰-۹.,،/\-]/g,'');
+        if(field.maxLength>0)converted=converted.slice(0,field.maxLength);
+        if(converted!==old){field.value=converted;try{field.setSelectionRange(Math.min(start,converted.length),Math.min(end,converted.length))}catch(e){}}
+      });
       var left=(typeof it.cellX==='number'?it.cellX:it.x)*scale,top=it.top*scale,w=Math.max(2,(typeof it.cellWidth==='number'?it.cellWidth:it.width)*scale),h=Math.max(5,it.height*scale*1.5);
       // The editable overlay occupies the inferred cell in-place; it never expands into a modal.
       field.style.left=left+'px';field.style.top=top+'px';field.style.width=Math.min(w,Math.max(2,viewport.width-left))+'px';field.style.height=h+'px';
       field.style.fontSize=Math.max(7,it.height*scale*.9)+'px';field.style.direction=/[\u0600-\u06FF]/.test(it.text)?'rtl':'ltr';field.style.textAlign='center';
       field.dataset.baseLeft=left;field.dataset.baseTop=top;field.dataset.baseWidth=Math.min(w,Math.max(2,viewport.width-left));field.dataset.baseHeight=h;field.dataset.baseFont=field.style.fontSize;
-      if(it.locked){field.style.color='transparent';field.style.background='transparent';}else if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)){field.classList.add('edited');field.style.color='#2563eb';field.style.background='rgba(239,246,255,.97)';}else{field.style.color='transparent';field.style.background='transparent';}
+      if(it.locked){field.style.color='transparent';field.style.background='transparent';}else if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)){field.classList.add('edited');field.style.color='transparent';field.style.background='transparent';}else{field.style.color='transparent';field.style.background='transparent';}
       if(!it.locked){
         field.addEventListener('focus',function(){
           // Edit directly on top of the original PDF text: never move, resize, or enlarge the field.
@@ -2283,14 +2277,14 @@ async function renderFaithfulPdfPage(pageNo){
           field.style.top=(Number(field.dataset.baseTop)+1)+'px';
           field.style.width=Math.max(2,Number(field.dataset.baseWidth)-2)+'px';
           field.style.height=Math.max(5,Number(field.dataset.baseHeight)-2)+'px';
-          field.style.fontSize=field.dataset.baseFont;
+          field.style.fontSize=(parseFloat(field.dataset.baseFont)*.78)+'px';
           field.style.padding='0 1px';
           field.style.whiteSpace='pre';
           field.style.overflow='hidden';
           field.style.color='#2563eb';
-          field.style.background='rgba(239,246,255,.98)';
+          field.style.background='transparent';
           field.style.border='1px solid #3b82f6';
-          field.style.borderRadius='4px';
+          field.style.borderRadius='2px';
           field.style.boxShadow='none';
           field.style.textAlign='center';
           field.style.zIndex='4';
@@ -2314,13 +2308,13 @@ async function renderFaithfulPdfPage(pageNo){
           field.style.boxShadow='none';
           field.style.zIndex='';
           field.style.textAlign='center';
-          field.style.color=changed?'#2563eb':'transparent';
-          field.style.background=changed?'rgba(239,246,255,.97)':'transparent';
-          field.style.borderColor=changed?'rgba(37,99,235,.34)':'transparent';
-          field.style.left=changed?(Number(field.dataset.baseLeft)+1)+'px':field.dataset.baseLeft+'px';
-          field.style.top=changed?(Number(field.dataset.baseTop)+1)+'px':field.dataset.baseTop+'px';
-          field.style.width=changed?Math.max(2,Number(field.dataset.baseWidth)-2)+'px':field.dataset.baseWidth+'px';
-          field.style.height=changed?Math.max(5,Number(field.dataset.baseHeight)-2)+'px':field.dataset.baseHeight+'px';
+          field.style.color='transparent';
+          field.style.background='transparent';
+          field.style.borderColor='transparent';
+          field.style.left=field.dataset.baseLeft+'px';
+          field.style.top=field.dataset.baseTop+'px';
+          field.style.width=field.dataset.baseWidth+'px';
+          field.style.height=field.dataset.baseHeight+'px';
           field.classList.toggle('edited',changed);
           markPdfEditsDirty();
         });
@@ -3142,18 +3136,7 @@ document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&backdrop.
 .pdf-added-table{outline:1px solid rgba(202,138,4,.28);outline-offset:1px;}
 @media(max-width:640px){.pdf-added-table-cell{padding:1px;font-size:7px!important}.pdf-added-table-cell.is-empty:empty::before{font-size:6px}}
 
-/* Polished data-entry sheet for new postal forms */
-#postyarFormDialog{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(15,23,42,.56);backdrop-filter:blur(7px)}
-#postyarFormDialog.open{display:flex}
-.py-form-panel{width:min(820px,100%);max-height:min(92dvh,900px);overflow:auto;background:#fff;border:1px solid #e2e8f0;border-radius:24px;box-shadow:0 28px 90px rgba(15,23,42,.28);direction:rtl}
-.py-form-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:19px 22px;background:linear-gradient(135deg,#f0fdf4,#f8fafc);border-bottom:1px solid #e2e8f0}
-.py-form-head h3{font-size:17px;font-weight:900;color:#14532d}.py-form-head p{font-size:12px;color:#64748b;margin-top:4px;line-height:1.8}
-.py-form-close{width:40px;height:40px;border:1px solid #dbe4ee;border-radius:13px;background:#fff;font-size:22px;color:#475569;flex-shrink:0}
-.py-form-body{padding:20px 22px}.py-form-note{display:flex;gap:9px;align-items:flex-start;padding:11px 13px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:13px;color:#475569;font-size:12px;line-height:1.8;margin-bottom:16px}
-.py-form-row{border:1px solid #dbe4ee;border-radius:17px;margin:0 0 14px;overflow:hidden;background:#fff}.py-form-row-title{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:800;color:#334155}
-.py-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:14px}
-.py-form-field{display:flex;flex-direction:column;gap:6px;min-width:0}.py-form-field label{font-size:11px;font-weight:800;color:#475569}.py-form-field input,.py-form-field select{width:100%;min-width:0;height:43px;border:1px solid #dbe3ec;border-radius:11px;background:#fff;padding:0 11px;font-size:13px;color:#0f172a;transition:border-color .15s,box-shadow .15s}.py-form-field input:focus,.py-form-field select:focus{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.1)}.py-form-field input[readonly]{background:#f1f5f9;color:#94a3b8;cursor:not-allowed}.py-form-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:15px 22px;border-top:1px solid #e2e8f0;background:#fbfdff}.py-form-actions .left,.py-form-actions .right{display:flex;gap:8px;flex-wrap:wrap}.py-form-btn{min-height:43px;padding:0 16px;border-radius:12px;font-size:12px;font-weight:800;border:1px solid #dbe3ec;background:#fff;color:#334155}.py-form-btn.primary{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border-color:#15803d}.py-form-btn.subtle-green{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
-@media(max-width:600px){#postyarFormDialog{padding:8px;align-items:flex-end}.py-form-panel{max-height:94dvh;border-radius:22px 22px 14px 14px}.py-form-head{padding:15px}.py-form-head h3{font-size:15px}.py-form-body{padding:13px}.py-form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:11px}.py-form-field input,.py-form-field select{height:44px;font-size:16px}.py-form-actions{padding:12px;align-items:stretch}.py-form-actions .left,.py-form-actions .right{width:100%}.py-form-actions .py-form-btn{flex:1}}
+
 
 </style>
 
