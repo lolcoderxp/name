@@ -343,8 +343,8 @@ img{display:block;max-width:100%}
 :is(#page-import,#page-postal) .pdf-faithful-page-label{position:relative;top:auto;background:#f8fafc;padding:10px 13px;font-size:11px}
 :is(#page-import,#page-postal) .pdf-faithful-page-inner{display:flex;justify-content:center;align-items:flex-start;background:#e9edf4;padding:12px!important;overflow-x:auto;overflow-y:hidden}
 :is(#page-import,#page-postal) .pdf-original-page{flex:0 0 auto;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,.15)}
-:is(#page-import,#page-postal) .pdf-original-field:focus{outline:0!important;background:transparent!important;border:1px solid #2563eb;box-shadow:none!important;border-radius:2px}
-:is(#page-import,#page-postal) .pdf-original-field.edited{background:transparent!important;border-color:transparent!important;color:transparent!important;-webkit-text-stroke:0!important;paint-order:normal!important;text-shadow:none!important}
+:is(#page-import,#page-postal) .pdf-original-field:focus{outline:0!important;background:#fff!important;border:1px solid #2563eb;box-shadow:none!important;border-radius:2px}
+:is(#page-import,#page-postal) .pdf-original-field.edited{background:#fff!important;border-color:transparent!important;color:#2563eb!important;-webkit-text-stroke:0!important;paint-order:normal!important;text-shadow:none!important}
 :is(#page-import,#page-postal) .pdf-faithful-toolbar{padding:10px;background:#f8fafc;border:1px solid #e5eaf2;border-radius:16px}
 @media (min-width:641px) and (max-width:999px){
   :is(#page-import,#page-postal) .drop-zone{padding:22px 18px;border-radius:19px}
@@ -384,7 +384,7 @@ img{display:block;max-width:100%}
 .pdf-faithful-page{position:relative;width:100%;background:#fff;border:0;border-radius:0;overflow:visible;box-shadow:none;direction:rtl;break-after:page}
 .pdf-faithful-page-label{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f5f7fb;color:#24334b;border-bottom:1px solid #e6ebf3;font:800 12px var(--font);padding:12px 15px;direction:rtl;text-align:right}
 .pdf-faithful-page-label small{font-weight:500;color:#78869b}
-.pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:visible;overflow-anchor:none;position:relative;max-width:100%;touch-action:auto;overscroll-behavior:auto}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 2px;border:1px solid transparent;border-radius:3px;background:transparent;color:transparent;caret-color:#2563eb;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:nowrap;overflow:hidden;direction:rtl;text-align:center;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:transparent!important;color:#2563eb;border-color:#3b82f6;box-shadow:none!important;z-index:4}.pdf-original-field.is-editing{white-space:nowrap!important;overflow:hidden!important;border-radius:3px;line-height:1!important;text-overflow:clip;overflow-wrap:normal;word-break:keep-all;font-size:calc(var(--pdf-edit-font-size, 1em) * .78)}.pdf-original-field.edited{background:transparent!important;border-color:transparent!important;color:transparent!important;-webkit-text-stroke:0!important;paint-order:normal!important;text-shadow:none!important}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
+.pdf-faithful-page-inner{padding:0;background:#fff;direction:ltr;line-height:1.4;overflow:visible;overflow-anchor:none;position:relative;max-width:100%;touch-action:auto;overscroll-behavior:auto}.pdf-original-page{position:relative;margin:0;background:#fff;box-shadow:0 2px 14px rgba(15,23,42,.12);line-height:0;max-width:none;}.pdf-original-page canvas{display:block;width:100%;height:100%;max-width:none}.pdf-original-overlay{position:absolute;inset:0;pointer-events:none}.pdf-original-field{position:absolute;display:block;box-sizing:border-box;margin:0;padding:0 2px;border:1px solid transparent;border-radius:3px;background:transparent;color:transparent;caret-color:#2563eb;outline:0!important;box-shadow:none!important;min-width:2px;max-width:none;min-height:2px;line-height:1.15;white-space:nowrap;overflow:hidden;direction:rtl;text-align:center;pointer-events:auto;font-family:Arial,Tahoma,sans-serif;resize:none;appearance:none;-webkit-appearance:none;touch-action:manipulation;font-variant-numeric:normal}.pdf-original-field:focus{background:transparent!important;color:#2563eb;border-color:#3b82f6;box-shadow:none!important;z-index:4}.pdf-original-field{white-space:nowrap!important;overflow:hidden!important;text-overflow:clip}.pdf-original-field.is-editing{white-space:nowrap!important;overflow:hidden!important;border-radius:3px;line-height:1!important;text-overflow:clip;overflow-wrap:normal;word-break:keep-all;font-size:calc(var(--pdf-edit-font-size, 1em) * .78)}.pdf-original-field.edited{background:#fff!important;border-color:transparent!important;color:#2563eb!important;-webkit-text-stroke:0!important;paint-order:normal!important;text-shadow:none!important}.pdf-original-field.locked{pointer-events:none;caret-color:transparent}.pdf-original-field.locked:focus{background:transparent;box-shadow:none!important}
 
 /* Section deletion controls, anchored to the original PDF page */
 
@@ -615,13 +615,25 @@ img{display:block;max-width:100%}
 .pdf-added-table-cell[contenteditable="true"]{cursor:text;caret-color:#16834b}
 .pdf-added-table-cell[contenteditable="true"]:focus{background:#f4fff7;box-shadow:inset 0 0 0 1px rgba(22,131,75,.45);position:relative;z-index:1}
 .pdf-added-table-cell.has-value{color:#16834b}
-.pdf-section-menu{width:28px;height:28px;border:1px solid #e7d58a;border-radius:10px;background:rgba(255,255,255,.98);color:#66500a;box-shadow:0 5px 15px rgba(15,23,42,.12);font-size:19px;line-height:1;transition:transform .16s,box-shadow .16s,border-color .16s}
+.pdf-section-menu{width:22px;height:22px;border:1px solid #e7d58a;border-radius:7px;background:rgba(255,255,255,.98);color:#66500a;box-shadow:0 3px 9px rgba(15,23,42,.10);font-size:15px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;transition:transform .16s,box-shadow .16s,border-color .16s}
 .pdf-section-menu:hover{transform:translateY(-1px);border-color:#d4a400;box-shadow:0 7px 18px rgba(15,23,42,.16)}
 .pdf-section-pop{min-width:174px;padding:6px;border:1px solid #e7eaf0;border-radius:14px;background:rgba(255,255,255,.98);box-shadow:0 16px 38px rgba(15,23,42,.17);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .pdf-section-pop button{display:flex;align-items:center;gap:8px;width:100%;border:0;border-radius:9px;background:transparent;padding:10px 11px;text-align:right;font:700 12px/1.5 Tahoma,sans-serif;transition:background .15s}
 .pdf-section-pop button:hover{background:#f8fafc}
 .pdf-section-pop button[style*="21, 128, 61"],.pdf-section-pop button[style*="15803d"]{color:#16834b!important}
-@media(max-width:640px){.pdf-section-menu{width:27px;height:27px}.pdf-section-pop{min-width:158px}.pdf-added-table-cell{padding:0 1px}}
+@media(max-width:640px){.pdf-section-menu{width:20px;height:20px;min-width:20px;min-height:20px;border-radius:6px;font-size:14px}.pdf-section-pop{min-width:0;width:min(220px,calc(100vw - 76px));max-width:220px;padding:7px;border-radius:13px;max-height:42vh;overflow:auto;box-shadow:0 12px 30px rgba(15,23,42,.2)}.pdf-section-pop button{font-size:12px;line-height:1.5;padding:10px;border-radius:9px;white-space:normal}.pdf-added-table-cell{padding:0 1px}}
+.pdf-delete-picker{display:grid;gap:8px;padding:5px}
+.pdf-delete-picker label{font-size:11px;font-weight:800;color:#475569}
+.pdf-delete-picker select{width:100%;min-width:0;height:42px;border:1px solid #dbe3ee;border-radius:10px;background:#f8fafc;padding:0 10px;font:12px var(--font);color:#1e293b}
+.pdf-delete-picker .pdf-delete-confirm{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;text-align:center;justify-content:center;font-weight:800}
+.pdf-delete-picker .pdf-delete-cancel{background:#f1f5f9;color:#475569;text-align:center;justify-content:center}
+
+</style>
+
+<style id="pdf-native-delete-picker-style">
+.pdf-section-menu{width:17px!important;height:17px!important;min-width:17px!important;min-height:17px!important;padding:0!important;border-radius:4px!important;font-size:12px!important;line-height:15px!important;box-shadow:0 1px 4px rgba(15,23,42,.12)!important;opacity:.92}
+.pdf-native-delete-select{position:fixed!important;z-index:2147483000!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;width:min(88vw,340px)!important;height:46px!important;min-width:220px!important;max-width:88vw!important;opacity:1!important;visibility:visible!important;padding:8px 12px!important;border:1px solid #cbd5e1!important;border-radius:10px!important;background:#fff!important;color:#111827!important;pointer-events:auto!important;font-size:16px!important;box-shadow:0 8px 28px rgba(0,0,0,.2)!important;direction:rtl!important}
+@media(max-width:640px){.pdf-section-menu{width:15px!important;height:15px!important;min-width:15px!important;min-height:15px!important;font-size:11px!important;border-radius:4px!important}.pdf-native-delete-select{font-size:16px!important;min-width:88vw!important;height:48px!important}}
 </style>
 </head>
 <body>
@@ -630,7 +642,7 @@ img{display:block;max-width:100%}
   <div class="activity-picker-head"><div class="activity-picker-title" id="activityPickerTitle"><span>✦</span>ویرایش نوع فعالیت</div><div class="activity-picker-subtitle" id="activityPickerSubtitle">روش وارد کردن مقدار این خانه را انتخاب کن.</div></div>
   <div class="activity-picker-choice-view" id="activityPickerChoiceView">
    <button type="button" class="activity-picker-mode" id="activityPickerTextMode"><span class="activity-mode-icon">T</span><span><b>Text</b><small>نوشتن متن دلخواه در همین خانه</small></span><i>‹</i></button>
-   <button type="button" class="activity-picker-mode" id="activityPickerCategoryMode"><span class="activity-mode-icon category">▦</span><span><b>دسته‌ها</b><small>انتخاب از فهرست فعالیت‌های مجاز</small></span><i>‹</i></button>
+   <button type="button" class="activity-picker-mode" id="activityPickerCategoryMode"><span class="activity-mode-icon category">⌕</span><span><b>Search</b><small>جست‌وجو و انتخاب فعالیت از فهرست</small></span><i>‹</i></button>
   </div>
   <div class="activity-picker-text-view" id="activityPickerTextView" hidden><label for="activityPickerTextInput">متن فعالیت</label><textarea id="activityPickerTextInput" rows="3" placeholder="متن دلخواه را بنویسید…"></textarea><div class="activity-picker-actions"><button type="button" class="activity-picker-back" id="activityPickerBackFromText">بازگشت</button><button type="button" class="activity-picker-apply" id="activityPickerApplyText">ثبت متن</button></div></div>
   <div class="activity-picker-category-view" id="activityPickerCategoryView" hidden><div class="activity-picker-search"><input id="activityPickerSearch" type="search" placeholder="جست‌وجوی فعالیت…" autocomplete="off"></div><div class="activity-picker-list" id="activityPickerList"></div><div class="activity-picker-actions"><button type="button" class="activity-picker-back" id="activityPickerBackFromCategories">بازگشت</button></div></div>
@@ -1978,29 +1990,85 @@ function saveFaithfulPdfEdits(){
 }
 
 function pdfDeletionGroups(items){
-  // Build visual text rows using PDF coordinates. An address row starts a logical building section;
-  // all record rows below it belong to that section until the next address row.
+  // Read the printed row labels and unit numbers from the source PDF text layer.
+  // A row is identified by "ردیف اصلی" plus the four-digit "ردیف واحد" value
+  // (e.g. 1111, 1113, 1115); five-digit identification codes are ignored.
+  function norm(t){
+    return cleanPdfText(String(t||''))
+      .replace(/[۰-۹]/g,function(d){return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d));})
+      .replace(/[٠-٩]/g,function(d){return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d));})
+      .replace(/[يى]/g,'ی').replace(/ك/g,'ک')
+      .replace(/[\u200B-\u200F\uFEFF]/g,'').replace(/\s+/g,'').replace(/[：:،,؛;]/g,'');
+  }
+  var sorted=(items||[]).slice().sort(function(a,b){return (Number(a.top)||0)-(Number(b.top)||0);});
   var rows=[];
-  items.forEach(function(it){
-    var row=rows.find(function(r){return Math.abs(r.top-it.top)<=Math.max(3,Math.min(6,it.height*.55));});
-    if(!row){row={top:it.top,items:[]};rows.push(row);}row.items.push(it);
+  sorted.forEach(function(it){
+    var top=Number(it.top)||0;
+    // PDF.js may split a printed line into many text items with slightly
+    // different top coordinates. Use a tight but tolerant baseline grouping.
+    var row=rows.find(function(r){return Math.abs(r.top-top)<=3.5;});
+    if(!row){row={top:top,items:[]};rows.push(row);}
+    row.items.push(it);
+    row.top=row.items.reduce(function(sum,x){return sum+(Number(x.top)||0);},0)/row.items.length;
   });
   rows.sort(function(a,b){return a.top-b.top;});
-  function norm(t){return String(t||'').replace(/[\u200B-\u200F\uFEFF]/g,'').replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/\s+/g,'').replace(/[：:،,؛;]/g,'');}
-  rows.forEach(function(r){r.text=r.items.map(function(i){return i.text;}).join(' ');r.isAddress=/آدرس/.test(r.text)&&(/محله|بلوک|ساختمان/.test(r.text)||r.items.length>=3);r.isPrimary=/ردیف\s*اصلی/.test(norm(r.text));});
-  var addressRows=rows.filter(function(r){return r.isAddress;});
-  var starts=addressRows.length?addressRows:rows.filter(function(r){return r.isPrimary;});
-  if(!starts.length)return [];
-  var groups=[];
-  starts.forEach(function(start,idx){
-    var end=idx+1<starts.length?starts[idx+1].top:Infinity;
-    var chosen=items.filter(function(it){return it.top>=start.top-2&&it.top<end;});
-    if(!chosen.length)return;
-    var statusItem=chosen.find(function(it){return /ردیف\s*اصلی/.test(norm(it.text));});
-    groups.push({id:String(chosen[0].index),start:start.top,items:chosen,statusKey:statusItem?statusItem.key:''});
+  rows.forEach(function(r){
+    r.text=r.items.map(function(i){return i.text||'';}).join(' ');
+    var n=norm(r.text);
+    r.isAddress=n.indexOf('آدرس')!==-1 && (n.indexOf('محله')!==-1 || n.indexOf('بلوک')!==-1 || n.indexOf('ساختمان')!==-1);
+    r.isPrimaryLabel=n.indexOf('ردیفاصلی')!==-1 || (n.indexOf('ردیف')!==-1 && n.indexOf('اصلی')!==-1);
+    r.recordNo='';
+    // The unit row is four digits. Ignore five-digit code fields and report year.
+    r.items.forEach(function(it){
+      var raw=norm(it.text||'');
+      (raw.match(/\d+/g)||[]).forEach(function(v){
+        if(!r.recordNo && v.length===4 && v!=='1405' && Number(v)>=1000)r.recordNo=v;
+      });
+    });
   });
-  // On continuation pages without a repeated address line, each primary row becomes a section.
-  return groups;
+  // Pair label and unit number even when PDF.js places them in separate
+  // neighboring text fragments/lines. Prefer the closest unique 4-digit value.
+  var recordRows=[];
+  rows.forEach(function(labelRow){
+    if(!labelRow.isPrimaryLabel)return;
+    var candidates=rows.filter(function(r){
+      return !!r.recordNo && Math.abs(r.top-labelRow.top)<=22;
+    }).sort(function(a,b){
+      return Math.abs(a.top-labelRow.top)-Math.abs(b.top-labelRow.top);
+    });
+    var numberRow=(labelRow.recordNo?labelRow:candidates[0]);
+    if(!numberRow)return;
+    var no=numberRow.recordNo;
+    if(!no || no==='1405')return;
+    if(recordRows.some(function(x){return x.label===no && Math.abs(x.top-labelRow.top)<5;}))return;
+    var recItems=labelRow===numberRow?labelRow.items:labelRow.items.concat(numberRow.items);
+    var recTop=(labelRow.top+numberRow.top)/2;
+    recordRows.push({top:recTop,items:recItems,label:no,
+      id:String(Math.round(recTop*100))+'-'+no,
+      statusKey:(recItems.find(function(it){return /ردیف\s*اصلی/.test(cleanPdfText(it.text));})||{}).key||''});
+  });
+  recordRows.sort(function(a,b){return a.top-b.top;});
+  if(!recordRows.length)return [];
+  // Keep whole-table deletion, and expose every printed record as an individual
+  // native mobile select option. Address headers are not required for detection.
+  var addressRows=rows.filter(function(r){return r.isAddress;});
+  var sections=[];
+  if(addressRows.length){
+    addressRows.forEach(function(a,idx){
+      var next=idx+1<addressRows.length?addressRows[idx+1].top:Infinity;
+      var sectionRecords=recordRows.filter(function(r){return r.top>a.top-4 && r.top<next;});
+      if(sectionRecords.length){
+        var sectionItems=items.filter(function(it){return Number(it.top)>=a.top-4 && Number(it.top)<next;});
+        sections.push({id:String((sectionItems[0]||a.items[0]).index),start:a.top,items:sectionItems,rows:sectionRecords});
+      }
+    });
+  }
+  // Some pages have no repeated address header (continuation pages).
+  if(!sections.length){
+    sections.push({id:String((items[0]||{}).index||0),start:recordRows[0].top,
+      items:(items||[]).slice(),rows:recordRows});
+  }
+  return sections;
 }
 function toggleDeletedPdfSection(pageNo,group,items){
   var key=pageNo+':'+group.id;
@@ -2058,7 +2126,6 @@ function renderAddedPdfTables(overlay,pageNo,scale,items){
       ev.preventDefault();ev.stopPropagation();
       var old=overlay.querySelector('.pdf-section-pop');if(old)old.remove();
       var pop=document.createElement('div');pop.className='pdf-section-pop';pop.style.position='relative';pop.style.left='0';pop.style.top='0';pop.style.zIndex='20';
-      var add=document.createElement('button');add.type='button';add.textContent='＋ افزودن زیرردیف';add.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();pop.remove();createSubrowForAddedTable(pageNo,table,overlay,items,scale);});pop.appendChild(add);
       var del=document.createElement('button');del.type='button';del.textContent='حذف این ردیف';del.style.color='#b91c1c';del.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(confirm('این ردیف جدید حذف شود؟')){addedPdfTables[pageNo]=(addedPdfTables[pageNo]||[]).filter(function(t){return t.id!==table.id});faithfulPdfRendered[pageNo]=false;renderFaithfulPdfPage(pageNo).then(markPdfEditsDirty)}pop.remove()});pop.appendChild(del);overlay.appendChild(pop);
     });
     overlay.appendChild(el);overlay.appendChild(menu);
@@ -2076,39 +2143,77 @@ function createSubrowForAddedTable(pageNo,parent,overlay,items,scale){
   faithfulPdfRendered[pageNo]=false;renderFaithfulPdfPage(pageNo).then(function(){markPdfEditsDirty();if(nextY+row.rowHeight>data.height-4)toast('زیرردیف ثبت شد؛ در خروجی PDF در صفحهٔ ادامه درج می‌شود.','success')});
 }
 function addPdfSectionMenus(overlay,pageNo,items,scale){
+  // بستن منوی سه‌نقطه با اولین کلیک بیرون از منو یا دکمه آن.
+  if(!window.__postyarSectionMenuOutsideClose){
+    window.__postyarSectionMenuOutsideClose=true;
+    document.addEventListener('click',function(ev){
+      if(ev.target.closest&& (ev.target.closest('.pdf-section-pop')||ev.target.closest('.pdf-section-menu')))return;
+      document.querySelectorAll('.pdf-section-pop').forEach(function(menu){menu.remove()});
+    },true);
+  }
   var groups=pdfDeletionGroups(items);
   groups.forEach(function(group){
-    var btn=document.createElement('button');btn.type='button';btn.className='pdf-section-menu';btn.textContent='⋮';btn.title='گزینه‌های این بخش';
-    btn.style.left='3px';btn.style.top=Math.max(2,group.start*scale)+'px';
-    btn.setAttribute('aria-label','گزینه‌های بخش PDF');
+    var btn=document.createElement('button');btn.type='button';btn.className='pdf-section-menu';btn.textContent='⋮';btn.title='گزینه‌های این جدول';
+    btn.style.left='1px';btn.style.top=Math.max(2,group.start*scale)+'px';
+    btn.setAttribute('aria-label','گزینه‌های جدول PDF');
     btn.addEventListener('click',function(ev){
       ev.preventDefault();ev.stopPropagation();
       var existing=overlay.querySelector('.pdf-section-pop');if(existing)existing.remove();
-      var pop=document.createElement('div');pop.className='pdf-section-pop';pop.style.left='31px';pop.style.top=Math.max(2,group.start*scale)+'px';
-      var action=document.createElement('button');action.type='button';action.textContent=deletedPdfSections[pageNo+':'+group.id]?'↩ برداشتن علامت حذف':'🔴 حذف این بخش';
-      action.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();pop.remove();toggleDeletedPdfSection(pageNo,group,group.items);});
-      pop.appendChild(action);overlay.appendChild(pop);
+      var pop=document.createElement('div');pop.className='pdf-section-pop';
+      pop.style.left='20px';pop.style.top=Math.max(2,group.start*scale)+'px';pop.style.zIndex='40';
+
+      // Keep the original whole-table action available, as in the earlier version.
+      var whole=document.createElement('button');whole.type='button';
+      whole.textContent=deletedPdfSections[pageNo+':'+group.id]?'↩ برداشتن علامت حذف از کل جدول':'🔴 علامت‌گذاری کل جدول';
+      whole.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();pop.remove();toggleDeletedPdfSection(pageNo,group,group.items);});
+      pop.appendChild(whole);
+
+      // Optional per-record picker; selecting one record still affects only that record.
+      if(group.rows&&group.rows.length){
+        var one=document.createElement('button');one.type='button';one.textContent='انتخاب یک ردیف';one.style.color='#334155';
+        one.addEventListener('click',function(e){
+          e.preventDefault();e.stopPropagation();pop.remove();
+          var select=document.createElement('select');select.className='pdf-native-delete-select';
+          select.setAttribute('aria-label','انتخاب ردیف برای علامت‌گذاری');
+          select.style.left='20px';select.style.top=Math.max(2,group.start*scale)+'px';
+          var placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='انتخاب ردیف…';placeholder.selected=true;select.appendChild(placeholder);
+          if(!group.rows || !group.rows.length){
+            toast('ردیف‌های این جدول شناسایی نشدند؛ لطفاً فایل PDF را دوباره باز کنید.','error');
+            return;
+          }
+          group.rows.forEach(function(row,idx){
+            var rowKey=pageNo+':'+group.id+':'+row.id;
+            var option=document.createElement('option');option.value=String(idx);
+            option.textContent=(deletedPdfSections[rowKey]?'✓ ':'')+'ردیف '+fa(String(row.label));select.appendChild(option);
+          });
+          select.addEventListener('change',function(){
+            if(select.value==='')return;
+            var row=group.rows[Number(select.value)];if(!row)return;
+            var rowGroup={id:group.id+':'+row.id,start:row.top,items:row.items,statusKey:row.statusKey||''};
+            select.remove();toggleDeletedPdfSection(pageNo,rowGroup,row.items);
+          });
+          overlay.appendChild(select);
+          select.focus();
+          if(typeof select.showPicker==='function'){try{select.showPicker()}catch(_){}}
+        });
+        pop.appendChild(one);
+      }
+      overlay.appendChild(pop);
     });
     overlay.appendChild(btn);
   });
-  // Mark deleted text in-place. Use the exact source text-run bounds (not the inferred whole-cell
-  // bounds) and an opaque white backing so the original black glyphs cannot show through in red.
-  // Narrow text-run bounds keep the white patch away from the table's cell borders.
+  // Apply red styling only to the text runs saved in each deletion record.
   Object.keys(deletedPdfSections).forEach(function(k){
     var sec=deletedPdfSections[k];if(sec.page!==pageNo)return;
     (sec.keys||[]).forEach(function(key){
       var field=Array.prototype.find.call(overlay.querySelectorAll('.pdf-original-field'),function(el){return el.dataset.editKey===key;});
       if(!field)return;
       var item=(items||[]).find(function(it){return it.key===key;});if(!item)return;
-      var scale=Number(item.displayScale)||1;
-      field.classList.add('section-deleted');
-      field.style.left=(item.x*scale)+'px';
-      field.style.top=(item.top*scale)+'px';
-      field.style.width=Math.max(3,item.width*scale)+'px';
-      field.style.height=Math.max(5,item.height*scale*1.18)+'px';
+      var itemScale=Number(item.displayScale)||1;
+      field.classList.add('section-deleted');field.style.left=(item.x*itemScale)+'px';field.style.top=(item.top*itemScale)+'px';
+      field.style.width=Math.max(3,item.width*itemScale)+'px';field.style.height=Math.max(5,item.height*itemScale*1.18)+'px';
       field.style.padding='0';field.style.margin='0';field.style.whiteSpace='nowrap';field.style.overflow='hidden';
-      field.style.fontSize=Math.max(7,item.height*scale*.9)+'px';
-      field.style.textAlign='center';field.style.border='0';field.style.borderRadius='0';field.style.boxShadow='none';field.style.zIndex='3';
+      field.style.fontSize=Math.max(7,item.height*itemScale*.9)+'px';field.style.textAlign='center';field.style.border='0';field.style.borderRadius='0';field.style.boxShadow='none';field.style.zIndex='3';
       field.style.color='#dc2626';field.style.background='#fff';field.style.textShadow='none';field.style.webkitTextStroke='0';
       if(sec.statusKey===key){field.value='حذف شده';field.classList.add('section-status');}
       else{field.value=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,key)?cleanPdfText(faithfulPdfEdits[key]):item.text;}
@@ -2128,6 +2233,12 @@ function filterFaithfulPdfPages(query){
   var count=$('#pdfFilterCount');if(count)count.textContent=query?(fa(shown)+' صفحهٔ مطابق'):'همهٔ صفحه‌ها';
 }
 function clearFaithfulPdfFilter(){var input=$('#pdfPageFilter');if(input)input.value='';filterFaithfulPdfPages('');}
+
+// No extra canvas/text-mask layers are added over the source PDF.
+// The editable input itself covers only the source text glyph bounds while editing.
+function restorePdfRulePixels(ctx, sourceImage, width, height, region){ return; }
+function createPdfOriginalTextMask(overlay, sourceCanvas, item, scale){ return null; }
+
 async function renderFaithfulPdfPage(pageNo){
   if(!faithfulPdf||faithfulPdfRendered[pageNo])return;
   faithfulPdfRendered[pageNo]=true;
@@ -2242,7 +2353,7 @@ async function renderFaithfulPdfPage(pageNo){
       field.value=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)?faithfulPdfEdits[it.key]:it.text;
       field.readOnly=!!it.locked;field.setAttribute('aria-label',it.locked?'متن ثابت PDF':'ویرایش متن در محل اصلی PDF');field.dataset.editKey=it.key;field.dataset.page=pageNo;
       field.spellcheck=false;field.autocapitalize='off';field.autocomplete='off';field.enterKeyHint='done';field.setAttribute('enterkeyhint','done');
-      field.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();field.blur();}});
+      field.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();field.blur();}if(ev.key==='\n'||ev.key==='\r'){ev.preventDefault();}});
       // Numeric columns are detected from the original PDF headers, so even blank/empty cells get a numeric keypad.
       var numericColumn=it.numericColumn;
       var sourceLooksNumeric=/^[0-9۰-۹٠-٩]+$/.test(it.text.trim());
@@ -2263,37 +2374,53 @@ async function renderFaithfulPdfPage(pageNo){
         if(field.maxLength>0)converted=converted.slice(0,field.maxLength);
         if(converted!==old){field.value=converted;try{field.setSelectionRange(Math.min(start,converted.length),Math.min(end,converted.length))}catch(e){}}
       });
-      var left=(typeof it.cellX==='number'?it.cellX:it.x)*scale,top=it.top*scale,w=Math.max(2,(typeof it.cellWidth==='number'?it.cellWidth:it.width)*scale),h=Math.max(5,it.height*scale*1.5);
+      var left=it.x*scale,top=it.top*scale,w=Math.max(3,it.width*scale),h=Math.max(5,it.height*scale*1.25);
       // The editable overlay occupies the inferred cell in-place; it never expands into a modal.
       field.style.left=left+'px';field.style.top=top+'px';field.style.width=Math.min(w,Math.max(2,viewport.width-left))+'px';field.style.height=h+'px';
       field.style.fontSize=Math.max(7,it.height*scale*.9)+'px';field.style.direction=/[\u0600-\u06FF]/.test(it.text)?'rtl':'ltr';field.style.textAlign='center';
       field.dataset.baseLeft=left;field.dataset.baseTop=top;field.dataset.baseWidth=Math.min(w,Math.max(2,viewport.width-left));field.dataset.baseHeight=h;field.dataset.baseFont=field.style.fontSize;
-      if(it.locked){field.style.color='transparent';field.style.background='transparent';}else if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)){field.classList.add('edited');field.style.color='transparent';field.style.background='transparent';}else{field.style.color='transparent';field.style.background='transparent';}
+      field.dataset.sourceX=it.x;field.dataset.sourceTop=it.top;field.dataset.sourceWidth=it.width;field.dataset.sourceHeight=it.height;field.dataset.displayScale=scale;field.dataset.baseText=it.text;
+      var originalText=cleanPdfText(it.text);
+      var hasSavedEdit=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key) && cleanPdfText(faithfulPdfEdits[it.key])!==originalText;
+      if(it.locked){field.style.color='transparent';field.style.background='transparent';}
+      else if(hasSavedEdit){field.classList.add('edited');field.style.color='#2563eb';field.style.background='#fff';}
+      else{field.classList.remove('edited');field.style.color='transparent';field.style.background='transparent';}
       if(!it.locked){
         field.addEventListener('focus',function(){
-          // Edit directly on top of the original PDF text: never move, resize, or enlarge the field.
+          // The input itself becomes the only visible copy while editing.
+          // Its measured text-run bounds keep the white cover away from table rules.
           field.classList.add('is-editing');
           field.style.left=(Number(field.dataset.baseLeft)+1)+'px';
           field.style.top=(Number(field.dataset.baseTop)+1)+'px';
           field.style.width=Math.max(2,Number(field.dataset.baseWidth)-2)+'px';
           field.style.height=Math.max(5,Number(field.dataset.baseHeight)-2)+'px';
-          field.style.fontSize=(parseFloat(field.dataset.baseFont)*.78)+'px';
+          field.style.fontSize=(parseFloat(field.dataset.baseFont)*.68)+'px';
           field.style.padding='0 1px';
           field.style.whiteSpace='pre';
           field.style.overflow='hidden';
           field.style.color='#2563eb';
-          field.style.background='transparent';
+          field.style.background='#fff';
           field.style.border='1px solid #3b82f6';
           field.style.borderRadius='2px';
           field.style.boxShadow='none';
           field.style.textAlign='center';
           field.style.zIndex='4';
         });
-        field.addEventListener('input',function(){faithfulPdfEdits[it.key]=cleanPdfText(field.value);field.classList.add('edited');markPdfEditsDirty()});
+        field.addEventListener('input',function(){
+          var next=cleanPdfText(field.value);
+          var previous=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)?cleanPdfText(faithfulPdfEdits[it.key]):originalText;
+          if(next===originalText) delete faithfulPdfEdits[it.key];
+          else faithfulPdfEdits[it.key]=next;
+          field.classList.toggle('edited',next!==originalText);
+          if(next!==previous) markPdfEditsDirty();
+        });
         field.addEventListener('blur',function(){
-          faithfulPdfEdits[it.key]=cleanPdfText(field.value.trim());
-          field.value=faithfulPdfEdits[it.key];
-          var changed=faithfulPdfEdits[it.key]!==it.text;
+          var next=cleanPdfText(field.value.trim());
+          var previous=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)?cleanPdfText(faithfulPdfEdits[it.key]):originalText;
+          var changed=next!==originalText;
+          if(changed) faithfulPdfEdits[it.key]=next;
+          else delete faithfulPdfEdits[it.key];
+          field.value=changed?next:it.text;
           field.classList.remove('is-editing');
           field.style.left=field.dataset.baseLeft+'px';
           field.style.top=field.dataset.baseTop+'px';
@@ -2308,18 +2435,15 @@ async function renderFaithfulPdfPage(pageNo){
           field.style.boxShadow='none';
           field.style.zIndex='';
           field.style.textAlign='center';
-          field.style.color='transparent';
-          field.style.background='transparent';
+          field.style.color=changed?'#2563eb':'transparent';
+          field.style.background=changed?'#fff':'transparent';
           field.style.borderColor='transparent';
-          field.style.left=field.dataset.baseLeft+'px';
-          field.style.top=field.dataset.baseTop+'px';
-          field.style.width=field.dataset.baseWidth+'px';
-          field.style.height=field.dataset.baseHeight+'px';
           field.classList.toggle('edited',changed);
-          markPdfEditsDirty();
+          if(previous!== (changed?next:originalText)) markPdfEditsDirty();
         });
       }
       overlay.appendChild(field);
+      if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)&&cleanPdfText(faithfulPdfEdits[it.key])!==cleanPdfText(it.text)&&!it.locked){field.style.color='#2563eb';field.style.background='#fff';}
       it.displayScale=scale;
     });
     addPdfSectionMenus(overlay,pageNo,items,scale);
@@ -2404,6 +2528,7 @@ async function makeEditedOriginalPdf(){
       // nearby rules/background intact and avoids rasterizing the rest of the PDF page.
       var patch=document.createElement('canvas');patch.width=sw;patch.height=sh;
       var pc=patch.getContext('2d');pc.drawImage(baseCanvas,sx,sy,sw,sh,0,0,sw,sh);
+      var originalPatchPixels=pc.getImageData(0,0,sw,sh);
       var localX=x-sx,localY=y-sy;
       pc.save();
       if(value){
@@ -2424,6 +2549,8 @@ async function makeEditedOriginalPdf(){
         var tx=localX+w/2;
         pc.lineJoin='round';pc.lineWidth=Math.max(1,fontSize*.06);pc.strokeStyle=change.deleted?'#dc2626':'#2563eb';pc.strokeText(value,tx,baseline,Math.max(2,w));
         pc.fillText(value,tx,baseline,Math.max(2,w));
+        // Restore only long original grid-rule pixels after text replacement; never leave white breaks in table borders.
+        restorePdfRulePixels(pc,originalPatchPixels,sw,sh,{x:Math.max(0,localX-2),y:Math.max(0,localY-2),width:Math.min(sw,Math.max(2,w+4)),height:Math.min(sh,Math.max(3,h+4))});
       }
       pc.restore();
       var png=await out.embedPng(patch.toDataURL('image/png'));
@@ -3019,27 +3146,8 @@ window.copyQrHistory=copyQrHistory;
 <script>
 (function(){
 'use strict';
-var locationTypes=[
-'کد 1) مسکونی و دارای سکنه',
-'کد _1) مسکونی و فاقد سکنه',
-'کد 2) کارگاه خدمات دولتی',
-'کد _2) کارگاه خدمات دولتی و مسکونی توام',
-'کد 3) کارگاه بخش خصوصی',
-'کد _3) کارگاه بخش خصوصی و مسکونی توام',
-'کد 4) سایر کارگاه ها',
-'کد 5) کارگاه خالی',
-'کد _5) کارگاه خالی و مسکونی توام',
-'کد 6) مخروبه یا در دست تخریب',
-'کد _6) در حال ساخت',
-'کد 7) زمین محصور',
-'کد 8) درب فرعی',
-'کد _8) پارکینگ',
-'کد 9) سایر',
-'کد 12) سازه های خارج از بلوک دولتی',
-'کد 13) سازه های خارج از بلوک خصوصی',
-'کد 15) سازه های خارج از بلوک غیر فعال',
-'کد 16) مکان های ساخته نشده(پیش فروش)'
-];
+// مقدار نوع مکان فقط کد عددی است؛ کدهای دارای زیرخط در فرم به‌صورت عدد منفی ثبت می‌شوند.
+var locationTypes=['1','-1','2','-2','3','-3','4','5','-5','6','-6','7','8','-8','9','12','13','15','16'];
 var activities=[
 'خدمات املاک و مستغلات','فروش مواد غذایی','خدمات آرایشی و پیرایش بانوان یا مردانه','پرورش دام صنعتی یا سنتی','باغداری و زراعت','آموزش و پرورش','فروش پوشاک زنانه یا مردانه','تهیه و فروش نان','تهیه و عرضه غذا','فروش داروهای گیاهی','خدمات خرید و فروش اتومبیل','خدمات تعمیر خودرو سبک و سنگین','فروش ابزارآلات ساختمانی','تهیه و فروش شیرینی','فروش مصالح ساختمانی',
 'فروش موبایل','خدمات تعمیر موبایل','فروش آبمیوه و بستنی','خدمات آموزشی','خدمات تعمیر موتور سیکلت','خدمات تعمیر برق خودرو سبک و سنگین','فروش وسایل خرازی','خدمات دوخت لباس مردانه یا زنانه','خدمات بخش دولتی و عمومی','فروش میوه و تره بار','فروش مواد غذایی و غیره در فروشگاه‌ها','خدمات تاسیسات ساختمان','فروش وسایل منزل','خدمات شستشوی لباس','خدمات شستشوی ماشینی',
@@ -3064,7 +3172,31 @@ function showView(which){
  if(which==='text')setTimeout(function(){textInput.focus({preventScroll:true})},30);
  if(which==='categories'){search.value='';render();setTimeout(function(){search.focus({preventScroll:true})},30)}
 }
-function open(field,kind){activeField=field;activeListType=kind||'activity';$('activityPickerTitle').innerHTML='<span>✦</span>'+(activeListType==='location'?'انتخاب نوع مکان':'ویرایش اطلاعات خانه');$('activityPickerTextInput').previousElementSibling.textContent=activeListType==='location'?'متن نوع مکان':'متن دلخواه';showView('choice');backdrop.classList.add('open')}
+function open(field,kind){
+ activeField=field;activeListType=kind||'activity';
+ // نوع مکان از انتخاب‌گر بومی سیستم‌عامل استفاده می‌کند؛ دقیقاً مانند انتخاب ردیف برای حذف.
+ if(activeListType==='location'){
+  var nativeSelect=document.createElement('select');nativeSelect.className='pdf-native-delete-select';nativeSelect.setAttribute('aria-label','انتخاب کد نوع مکان');
+  var placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='انتخاب نوع مکان…';placeholder.selected=true;nativeSelect.appendChild(placeholder);
+  var locationTypeLabels={
+   '1':'۱ — مسکونی دارای سکنه','-1':'−۱ — مسکونی بدون سکنه',
+   '2':'۲ — کارگاه خدماتی دولتی','-2':'−۲ — دولتی و مسکونی',
+   '3':'۳ — کارگاه خصوصی','-3':'−۳ — خصوصی و مسکونی',
+   '4':'۴ — سایر کارگاه‌ها','5':'۵ — کارگاه خالی','-5':'−۵ — خالی و مسکونی',
+   '6':'۶ — مخروبه یا در حال تخریب','-6':'−۶ — در حال ساخت',
+   '7':'۷ — زمین محصور','8':'۸ — درِ جانبی','-8':'−۸ — پارکینگ',
+   '9':'۹ — سایر','12':'۱۲ — سازه دولتی خارج از بلوک',
+   '13':'۱۳ — سازه خصوصی خارج از بلوک','15':'۱۵ — غیرفعال خارج از بلوک',
+   '16':'۱۶ — نوساز / پیش‌فروش'
+  };
+  locationTypes.forEach(function(code){var option=document.createElement('option');option.value=code;option.textContent=locationTypeLabels[code]||code;nativeSelect.appendChild(option)});
+  nativeSelect.addEventListener('change',function(){if(nativeSelect.value!==''){var chosen=nativeSelect.value.replace(/\d/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)]});nativeSelect.remove();commit(chosen)}else{nativeSelect.remove();activeField=null}});
+  nativeSelect.addEventListener('blur',function(){setTimeout(function(){if(nativeSelect.isConnected){nativeSelect.remove();activeField=null}},250)});
+  document.body.appendChild(nativeSelect);nativeSelect.focus();if(typeof nativeSelect.showPicker==='function'){try{nativeSelect.showPicker()}catch(_){}}
+  return;
+ }
+ $('activityPickerTitle').innerHTML='<span>✦</span>ویرایش اطلاعات خانه';$('activityPickerTextInput').previousElementSibling.textContent='متن دلخواه';showView('choice');backdrop.classList.add('open')
+}
 function commit(value){
  if(!activeField)return;
  var f=activeField,val=String(value||'').trim();
@@ -3084,36 +3216,54 @@ function sameVisualRow(a,b){
  var ca=ra.top+ra.height/2,cb=rb.top+rb.height/2;
  return Math.abs(ca-cb)<=Math.max(5,Math.min(ra.height,rb.height)*0.8);
 }
-function isActivityRowField(field){
+function isActivityColumnField(field){
  if(!field||field.classList.contains('locked'))return false;
  var page=field.closest('.pdf-original-page');
  if(!page)return false;
- var fields=page.querySelectorAll('.pdf-original-field:not(.locked)');
- for(var i=0;i<fields.length;i++){
-  var anchor=fields[i];
-  if(isActivityField(anchor)&&sameVisualRow(anchor,field))return true;
+ var fr=field.getBoundingClientRect();
+ if(!fr.width||!fr.height)return false;
+ var fc=fr.left+fr.width/2;
+ // فقط ستون «نام خانوادگی/نوع فعالیت»؛ ستون «نام/نام کارگاه» و سایر ستون‌ها مستثنا هستند.
+ var labels=page.querySelectorAll('.pdf-original-field.locked');
+ for(var i=0;i<labels.length;i++){
+  var label=labels[i];
+  var title=norm(label.value||label.textContent);
+  if(title!==norm('نام خانوادگی/نوع فعالیت'))continue;
+  var r=label.getBoundingClientRect();
+  if(!r.width)continue;
+  var center=r.left+r.width/2;
+  var tolerance=Math.max(6,Math.min(18,(r.width+fr.width)*0.16));
+  if(Math.abs(fc-center)<=tolerance)return true;
  }
  return false;
 }
+function toLatinDigits(value){return String(value||'').replace(/[۰-۹٠-٩]/g,function(d){var fa='۰۱۲۳۴۵۶۷۸۹',ar='٠١٢٣٤٥٦٧٨٩';var i=fa.indexOf(d);return String(i>=0?i:ar.indexOf(d))})}
 function isLocationTypeField(field){
  if(!field||field.classList.contains('locked'))return false;
+ // فقط خانه‌ای که همین حالا یکی از کدهای معتبر نوع مکان را دارد؛
+ // متن‌های عادی و اعداد ستون‌های دیگر هرگز انتخاب‌گر نوع مکان را باز نمی‌کنند.
+ var raw=('value' in field?field.value:field.textContent)||'';
+ var code=toLatinDigits(raw).trim().replace(/[−–]/g,'-');
+ if(locationTypes.indexOf(code)===-1)return false;
  var page=field.closest('.pdf-original-page');if(!page)return false;
  var fr=field.getBoundingClientRect(),fc=fr.left+fr.width/2;
  var labels=page.querySelectorAll('.pdf-original-field.locked');
  for(var i=0;i<labels.length;i++){
   var t=norm(labels[i].value||labels[i].textContent);
-  if(t.indexOf(norm('نوع مکان'))===-1)continue;
+  if(t!==norm('نوع مکان'))continue;
   var r=labels[i].getBoundingClientRect(),c=r.left+r.width/2;
-  if(Math.abs(fc-c)<=Math.max(fr.width*1.5,r.width*1.5,12))return true;
+  // تطبیق ستونی سخت‌گیرانه: مرکز خانه باید نزدیک مرکز عنوان ستون باشد.
+  var tolerance=Math.max(7,Math.min(15,(r.width+fr.width)*0.18));
+  if(Math.abs(fc-c)<=tolerance)return true;
  }
  return false;
 }
 document.addEventListener('click',function(ev){
  var field=ev.target.closest&&ev.target.closest('.pdf-original-field:not(.locked)');
- // The chooser belongs to the whole data row containing a recognized activity value,
- // not just the activity cell. Headers/locked fields and other rows remain untouched.
+ // Activity picker is restricted to the exact activity column; it never opens on workshop-name cells.
  var locationCell=isLocationTypeField(field);
- if(!field||(!locationCell&&!isActivityRowField(field)))return;
+ var activityCell=isActivityColumnField(field);
+ if(!field||(!locationCell&&!activityCell))return;
  ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();open(field,locationCell?'location':'activity')
 },true);
 $('activityPickerTextMode').addEventListener('click',function(){textInput.value=('value' in activeField?activeField.value:activeField.textContent)||'';showView('text')});
