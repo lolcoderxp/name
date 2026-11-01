@@ -635,6 +635,11 @@ img{display:block;max-width:100%}
 .pdf-native-delete-select{position:fixed!important;z-index:2147483000!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;width:min(88vw,340px)!important;height:46px!important;min-width:220px!important;max-width:88vw!important;opacity:1!important;visibility:visible!important;padding:8px 12px!important;border:1px solid #cbd5e1!important;border-radius:10px!important;background:#fff!important;color:#111827!important;pointer-events:auto!important;font-size:16px!important;box-shadow:0 8px 28px rgba(0,0,0,.2)!important;direction:rtl!important}
 @media(max-width:640px){.pdf-section-menu{width:15px!important;height:15px!important;min-width:15px!important;min-height:15px!important;font-size:11px!important;border-radius:4px!important}.pdf-native-delete-select{font-size:16px!important;min-width:88vw!important;height:48px!important}}
 </style>
+
+<style id="postyar-numeric-input-polish">
+.pdf-original-field.is-editing{font-variant-numeric:tabular-nums!important;-webkit-text-size-adjust:100%;}
+.pdf-original-field[inputmode="numeric"],.pdf-original-field[inputmode="decimal"]{font-variant-numeric:tabular-nums!important;}
+</style>
 </head>
 <body>
 <div class="activity-picker-backdrop" id="activityPickerBackdrop" role="dialog" aria-modal="true" aria-labelledby="activityPickerTitle">
@@ -2312,13 +2317,15 @@ async function renderFaithfulPdfPage(pageNo){
         columnHeaders.push({label:def[0],type:def[1],maxLength:def[2],x:h.x+h.width/2,y:h.top});
       });
     });
+    var locationTypeHeaders=items.filter(function(h){return norm(h.text)===norm('نوع مکان')});
     items.forEach(function(it){
-      it.numericColumn=null;
+      it.numericColumn=null;it.locationTypeColumn=false;
       var center=it.x+it.width/2;
+      // The location-type column is special: its valid values include negative codes (-1, -2, ...).
+      it.locationTypeColumn=locationTypeHeaders.some(function(h){return it.top>h.top+Math.max(2,it.height*.25)&&Math.abs(center-(h.x+h.width/2))<=Math.max(10,baseViewport.width*.025)});
       var nearby=columnHeaders.filter(function(h){return Math.abs(center-h.x)<=Math.max(10,baseViewport.width*.025);});
       if(nearby.length){
         nearby.sort(function(a,b){return Math.abs(center-a.x)-Math.abs(center-b.x);});
-        // A value belongs to a column only when it is below the corresponding header.
         var candidate=nearby.find(function(h){return it.top>h.y+Math.max(2,it.height*.25);});
         if(candidate)it.numericColumn=candidate;
       }
@@ -2371,10 +2378,29 @@ async function renderFaithfulPdfPage(pageNo){
       var numericColumn=it.numericColumn;
       var sourceLooksNumeric=/^[0-9۰-۹٠-٩]+$/.test(it.text.trim());
       var sourceLooksDecimal=/^[0-9۰-۹٠-٩\s.,،/\-]+$/.test(it.text.trim());
-      field.inputMode=(numericColumn&&numericColumn.type!=='block')?'numeric':(numericColumn&&numericColumn.type==='block'?'decimal':(sourceLooksNumeric?'numeric':(sourceLooksDecimal?'decimal':'text')));
+      field.inputMode=it.locationTypeColumn?'decimal':((numericColumn&&numericColumn.type!=='block')?'numeric':(numericColumn&&numericColumn.type==='block'?'decimal':(sourceLooksNumeric?'numeric':(sourceLooksDecimal?'decimal':'text'))));
+      if(it.locationTypeColumn)field.dataset.locationTypeColumn='1';
       if(numericColumn&&numericColumn.maxLength)field.maxLength=numericColumn.maxLength;
-      if(field.inputMode==='numeric')field.setAttribute('pattern','[0-9۰-۹٠-٩]*');
-      else if(field.inputMode==='decimal')field.setAttribute('pattern','[0-9۰-۹٠-٩.,،/\-]*');
+      if(field.inputMode==='numeric'){
+        field.setAttribute('pattern','[0-9۰-۹٠-٩]*');
+        field.setAttribute('inputmode','numeric');
+        field.setAttribute('autocomplete','off');
+      } else if(field.inputMode==='decimal') {
+        field.setAttribute('pattern','[0-9۰-۹٠-٩.,،/\-]*');
+        field.setAttribute('inputmode','decimal');
+        field.setAttribute('autocomplete','off');
+      }
+      // Prevent non-numeric text from entering numeric PDF cells, including paste and mobile keyboard input.
+      if(field.inputMode==='numeric'||field.inputMode==='decimal'){
+        field.addEventListener('beforeinput',function(ev){
+          if(ev.inputType==='insertText' && ev.data && !(field.inputMode==='numeric'?/^[0-9۰-۹٠-٩]+$/:/^[0-9۰-۹٠-٩.,،/\-]+$/).test(ev.data)) ev.preventDefault();
+        });
+        field.addEventListener('paste',function(ev){
+          var pasted=(ev.clipboardData||window.clipboardData).getData('text');
+          var allowed=field.inputMode==='numeric'?/^[0-9۰-۹٠-٩]+$/:/^[0-9۰-۹٠-٩.,،/\-]+$/;
+          if(pasted&&!allowed.test(pasted))ev.preventDefault();
+        });
+      }
       // Always convert digits to Persian; numeric columns also reject non-numeric characters and enforce their length.
       field.addEventListener('input',function(){
         var start=field.selectionStart,end=field.selectionEnd,old=field.value;
@@ -2448,12 +2474,17 @@ async function renderFaithfulPdfPage(pageNo){
           if(changed){
             try{
               var fitCtx=document.createElement('canvas').getContext('2d');
-              var fitSize=parseFloat(field.dataset.baseFont)||7;
+              var originalSize=parseFloat(field.dataset.baseFont)||7;
               var family=getComputedStyle(field).fontFamily||'Arial,Tahoma,sans-serif';
-              var available=Math.max(4,Number(field.dataset.baseWidth)-4);
-              fitCtx.font='600 '+fitSize+'px '+family;
-              while(fitSize>4.2&&fitCtx.measureText(next).width>available){fitSize-=.25;fitCtx.font='600 '+fitSize+'px '+family;}
-              field.style.fontSize=fitSize+'px';field.title=next;
+              fitCtx.font='600 '+originalSize+'px '+family;
+              var needed=Math.ceil(fitCtx.measureText(next).width+14);
+              var baseWidth=Number(field.dataset.baseWidth)||needed;
+              var displayWidth=Math.min(Math.max(baseWidth,needed),Math.max(baseWidth,window.innerWidth-16));
+              var baseLeft=Number(field.dataset.baseLeft)||0;
+              var center=baseLeft+baseWidth/2;
+              field.style.left=Math.max(0,center-displayWidth/2)+'px';
+              field.style.width=displayWidth+'px';
+              field.style.fontSize=originalSize+'px';field.title=next;
             }catch(_){field.title=next;}
           }
           field.style.whiteSpace='pre';
@@ -2547,7 +2578,15 @@ async function makeEditedOriginalPdf(){
       var x=Math.max(0,Math.floor(it.x*scaleX));
       var y=Math.max(0,Math.floor(it.top*scaleY));
       var w=Math.max(3,Math.ceil(it.width*scaleX));
+      var originalX=x,originalW=w;
       var h=Math.max(5,Math.ceil(it.height*scaleY*1.28));
+      var exportFontSize=Math.max(7,it.height*scaleY*.88);
+      // Keep the original PDF font size. Expand the replacement patch around the original
+      // text center when the new value is longer, instead of squeezing glyphs horizontally.
+      var measureCanvas=document.createElement('canvas'),measureContext=measureCanvas.getContext('2d');
+      measureContext.font=exportFontSize+'px Arial, Tahoma, sans-serif';
+      var measuredTextWidth=Math.ceil(measureContext.measureText(value).width+8);
+      if(measuredTextWidth>w){w=measuredTextWidth;x=Math.max(0,Math.floor(originalX+originalW/2-w/2));}
       var pad=3;
       var sx=Math.max(0,x-pad),sy=Math.max(0,y-pad);
       var sw=Math.min(baseCanvas.width-sx,w+pad*2),sh=Math.min(baseCanvas.height-sy,h+pad*2);
@@ -2565,18 +2604,19 @@ async function makeEditedOriginalPdf(){
         // The patch is limited to the text run (it.x/it.width/it.height), not the whole cell,
         // so table borders and neighbouring columns remain visible.
         pc.fillStyle='#ffffff';
-        var maskX=Math.max(0,localX-2), maskY=Math.max(0,localY-2);
-        var maskW=Math.min(sw-maskX,Math.max(2,w+4)), maskH=Math.min(sh-maskY,Math.max(3,h+4));
+        var originalLocalX=originalX-sx;
+        var maskX=Math.max(0,originalLocalX-2), maskY=Math.max(0,localY-2);
+        var maskW=Math.min(sw-maskX,Math.max(2,originalW+4)), maskH=Math.min(sh-maskY,Math.max(3,h+4));
         pc.fillRect(maskX,maskY,maskW,maskH);
         pc.fillStyle=change.deleted?'#dc2626':'#2563eb';pc.textBaseline='alphabetic';
-        var fontSize=Math.max(7,it.height*scaleY*.88);
+        var fontSize=exportFontSize;
         pc.font=fontSize+'px Arial, Tahoma, sans-serif';
         var rtl=/[\u0600-\u06FF]/.test(value);pc.direction=rtl?'rtl':'ltr';pc.textAlign='center';
         // Center replacement inside the original text run, keep it on one line.
         var baseline=localY+it.height*scaleY*.96;
         var tx=localX+w/2;
-        pc.lineJoin='round';pc.lineWidth=Math.max(1,fontSize*.06);pc.strokeStyle=change.deleted?'#dc2626':'#2563eb';pc.strokeText(value,tx,baseline,Math.max(2,w));
-        pc.fillText(value,tx,baseline,Math.max(2,w));
+        pc.lineJoin='round';pc.lineWidth=Math.max(1,fontSize*.06);pc.strokeStyle=change.deleted?'#dc2626':'#2563eb';pc.strokeText(value,tx,baseline);
+        pc.fillText(value,tx,baseline);
         // Restore only long original grid-rule pixels after text replacement; never leave white breaks in table borders.
         restorePdfRulePixels(pc,originalPatchPixels,sw,sh,{x:Math.max(0,localX-2),y:Math.max(0,localY-2),width:Math.min(sw,Math.max(2,w+4)),height:Math.min(sh,Math.max(3,h+4))});
       }
