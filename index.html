@@ -2143,13 +2143,31 @@ function createSubrowForAddedTable(pageNo,parent,overlay,items,scale){
   faithfulPdfRendered[pageNo]=false;renderFaithfulPdfPage(pageNo).then(function(){markPdfEditsDirty();if(nextY+row.rowHeight>data.height-4)toast('زیرردیف ثبت شد؛ در خروجی PDF در صفحهٔ ادامه درج می‌شود.','success')});
 }
 function addPdfSectionMenus(overlay,pageNo,items,scale){
-  // بستن منوی سه‌نقطه با اولین کلیک بیرون از منو یا دکمه آن.
+  // منوها به بدنه صفحه منتقل می‌شوند تا مستقل از زوم PDF و محدوده canvas باشند.
+  function placeFloatingPanel(panel,anchor){
+    var r=anchor.getBoundingClientRect(),gap=8,pad=12;
+    panel.style.position='fixed';panel.style.left='0px';panel.style.top='0px';
+    panel.style.right='auto';panel.style.bottom='auto';panel.style.zIndex='2147483001';
+    panel.style.maxWidth='calc(100vw - 24px)';panel.style.maxHeight='min(62vh,480px)';
+    panel.style.overflowY='auto';document.body.appendChild(panel);
+    var w=panel.getBoundingClientRect().width,h=panel.getBoundingClientRect().height;
+    var left=Math.max(pad,Math.min(r.right-w,window.innerWidth-w-pad));
+    var top=r.bottom+h+gap<=window.innerHeight-pad?r.bottom+gap:r.top-h-gap;
+    top=Math.max(pad,Math.min(top,window.innerHeight-h-pad));
+    panel.style.left=Math.round(left)+'px';panel.style.top=Math.round(top)+'px';
+  }
+  function makeAction(text,color,handler){
+    var b=document.createElement('button');b.type='button';b.textContent=text;
+    b.style.color=color||'#334155';b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();handler();});return b;
+  }
   if(!window.__postyarSectionMenuOutsideClose){
     window.__postyarSectionMenuOutsideClose=true;
     document.addEventListener('click',function(ev){
       if(ev.target.closest&& (ev.target.closest('.pdf-section-pop')||ev.target.closest('.pdf-section-menu')))return;
       document.querySelectorAll('.pdf-section-pop').forEach(function(menu){menu.remove()});
     },true);
+    window.addEventListener('resize',function(){document.querySelectorAll('.pdf-section-pop').forEach(function(m){m.remove()})},{passive:true});
+    window.addEventListener('scroll',function(){document.querySelectorAll('.pdf-section-pop').forEach(function(m){m.remove()})},{passive:true,capture:true});
   }
   var groups=pdfDeletionGroups(items);
   groups.forEach(function(group){
@@ -2158,47 +2176,42 @@ function addPdfSectionMenus(overlay,pageNo,items,scale){
     btn.setAttribute('aria-label','گزینه‌های جدول PDF');
     btn.addEventListener('click',function(ev){
       ev.preventDefault();ev.stopPropagation();
-      var existing=overlay.querySelector('.pdf-section-pop');if(existing)existing.remove();
+      document.querySelectorAll('.pdf-section-pop').forEach(function(m){m.remove()});
       var pop=document.createElement('div');pop.className='pdf-section-pop';
-      pop.style.left='20px';pop.style.top=Math.max(2,group.start*scale)+'px';pop.style.zIndex='40';
-
-      // Keep the original whole-table action available, as in the earlier version.
-      var whole=document.createElement('button');whole.type='button';
-      whole.textContent=deletedPdfSections[pageNo+':'+group.id]?'↩ برداشتن علامت حذف از کل جدول':'🔴 علامت‌گذاری کل جدول';
-      whole.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();pop.remove();toggleDeletedPdfSection(pageNo,group,group.items);});
-      pop.appendChild(whole);
-
-      // Optional per-record picker; selecting one record still affects only that record.
+      pop.style.width='min(270px,calc(100vw - 24px))';pop.style.boxSizing='border-box';
+      pop.style.padding='9px';pop.style.borderRadius='17px';pop.style.background='rgba(255,255,255,.98)';
+      pop.style.border='1px solid #e6eaf0';pop.style.boxShadow='0 18px 48px rgba(15,23,42,.22)';
+      pop.style.backdropFilter='blur(14px)';pop.style.webkitBackdropFilter='blur(14px)';pop.style.direction='rtl';
+      var head=document.createElement('div');head.textContent='مدیریت جدول';head.style.cssText='font:800 13px Tahoma,sans-serif;color:#1e293b;padding:8px 10px 10px;border-bottom:1px solid #edf0f4;margin-bottom:5px';pop.appendChild(head);
+      var wholeKey=pageNo+':'+group.id;
+      var wholeDeleted=!!deletedPdfSections[wholeKey];
+      var rowsAllDeleted=!!(group.rows&&group.rows.length&&group.rows.every(function(row){return !!deletedPdfSections[pageNo+':'+group.id+':'+row.id]}));
+      var whole=makeAction(wholeDeleted?'↩ لغو حذف کل جدول':(rowsAllDeleted?'↩ لغو حذف همه ردیف‌ها':'🔴 حذف کل جدول'),wholeDeleted||rowsAllDeleted?'#16834b':'#b91c1c',function(){
+        pop.remove();
+        if(wholeDeleted){toggleDeletedPdfSection(pageNo,group,group.items);return;}
+        if(rowsAllDeleted){
+          if(!confirm('حذف همه ردیف‌های این جدول لغو شود؟'))return;
+          group.rows.forEach(function(row){delete deletedPdfSections[pageNo+':'+group.id+':'+row.id]});
+          faithfulPdfRendered[pageNo]=false;renderFaithfulPdfPage(pageNo).then(markPdfEditsDirty);return;
+        }
+        toggleDeletedPdfSection(pageNo,group,group.items);
+      });pop.appendChild(whole);
       if(group.rows&&group.rows.length){
-        var one=document.createElement('button');one.type='button';one.textContent='انتخاب یک ردیف';one.style.color='#334155';
-        one.addEventListener('click',function(e){
-          e.preventDefault();e.stopPropagation();pop.remove();
-          var select=document.createElement('select');select.className='pdf-native-delete-select';
-          select.setAttribute('aria-label','انتخاب ردیف برای علامت‌گذاری');
-          select.style.left='20px';select.style.top=Math.max(2,group.start*scale)+'px';
-          var placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='انتخاب ردیف…';placeholder.selected=true;select.appendChild(placeholder);
-          if(!group.rows || !group.rows.length){
-            toast('ردیف‌های این جدول شناسایی نشدند؛ لطفاً فایل PDF را دوباره باز کنید.','error');
-            return;
-          }
-          group.rows.forEach(function(row,idx){
-            var rowKey=pageNo+':'+group.id+':'+row.id;
-            var option=document.createElement('option');option.value=String(idx);
-            option.textContent=(deletedPdfSections[rowKey]?'✓ ':'')+'ردیف '+fa(String(row.label));select.appendChild(option);
+        var choose=makeAction('مدیریت ردیف‌ها  ›','#334155',function(){
+          pop.innerHTML='';var title=document.createElement('div');title.textContent='مدیریت ردیف‌های جدول';title.style.cssText='font:800 13px Tahoma,sans-serif;color:#1e293b;padding:8px 10px 11px';pop.appendChild(title);
+          var back=makeAction('‹ بازگشت به گزینه‌ها','#64748b',function(){pop.remove();btn.click()});back.style.borderBottom='1px solid #edf0f4';pop.appendChild(back);
+          group.rows.forEach(function(row){
+            var rowKey=pageNo+':'+group.id+':'+row.id, isDeleted=!!deletedPdfSections[rowKey];
+            var label=isDeleted?'↩ لغو حذف ردیف '+fa(String(row.label)):'🔴 حذف ردیف '+fa(String(row.label));
+            var itemBtn=makeAction(label,isDeleted?'#16834b':'#b91c1c',function(){
+              var rowGroup={id:group.id+':'+row.id,start:row.top,items:row.items,statusKey:row.statusKey||''};
+              pop.remove();toggleDeletedPdfSection(pageNo,rowGroup,row.items);
+            });itemBtn.style.borderBottom='1px solid #f1f5f9';pop.appendChild(itemBtn);
           });
-          select.addEventListener('change',function(){
-            if(select.value==='')return;
-            var row=group.rows[Number(select.value)];if(!row)return;
-            var rowGroup={id:group.id+':'+row.id,start:row.top,items:row.items,statusKey:row.statusKey||''};
-            select.remove();toggleDeletedPdfSection(pageNo,rowGroup,row.items);
-          });
-          overlay.appendChild(select);
-          select.focus();
-          if(typeof select.showPicker==='function'){try{select.showPicker()}catch(_){}}
-        });
-        pop.appendChild(one);
+          placeFloatingPanel(pop,btn);
+        });pop.appendChild(choose);
       }
-      overlay.appendChild(pop);
+      placeFloatingPanel(pop,btn);
     });
     overlay.appendChild(btn);
   });
@@ -2390,12 +2403,16 @@ async function renderFaithfulPdfPage(pageNo){
           // The input itself becomes the only visible copy while editing.
           // Its measured text-run bounds keep the white cover away from table rules.
           field.classList.add('is-editing');
-          field.style.left=(Number(field.dataset.baseLeft)+1)+'px';
-          field.style.top=(Number(field.dataset.baseTop)+1)+'px';
-          field.style.width=Math.max(2,Number(field.dataset.baseWidth)-2)+'px';
-          field.style.height=Math.max(5,Number(field.dataset.baseHeight)-2)+'px';
-          field.style.fontSize=(parseFloat(field.dataset.baseFont)*.68)+'px';
-          field.style.padding='0 1px';
+          var mobileEdit=window.matchMedia('(max-width:640px)').matches;
+          var baseL=Number(field.dataset.baseLeft),baseT=Number(field.dataset.baseTop),baseW=Number(field.dataset.baseWidth),baseH=Number(field.dataset.baseHeight);
+          var editW=mobileEdit?Math.min(Math.max(baseW*1.55,baseW+22),Math.max(baseW,window.innerWidth*.72)):baseW;
+          var editH=mobileEdit?Math.max(baseH*1.55,baseH+10):baseH;
+          field.style.left=(baseL+(baseW-editW)/2)+'px';
+          field.style.top=(baseT+(baseH-editH)/2)+'px';
+          field.style.width=Math.max(2,editW-2)+'px';
+          field.style.height=Math.max(5,editH-2)+'px';
+          field.style.fontSize=(parseFloat(field.dataset.baseFont)*(mobileEdit?.66:.72))+'px';
+          field.style.padding=mobileEdit?'2px 5px':'0 2px';
           field.style.whiteSpace='pre';
           field.style.overflow='hidden';
           field.style.color='#2563eb';
@@ -2428,6 +2445,17 @@ async function renderFaithfulPdfPage(pageNo){
           field.style.height=field.dataset.baseHeight+'px';
           field.style.fontSize=field.dataset.baseFont;
           field.style.padding='0 1px';
+          if(changed){
+            try{
+              var fitCtx=document.createElement('canvas').getContext('2d');
+              var fitSize=parseFloat(field.dataset.baseFont)||7;
+              var family=getComputedStyle(field).fontFamily||'Arial,Tahoma,sans-serif';
+              var available=Math.max(4,Number(field.dataset.baseWidth)-4);
+              fitCtx.font='600 '+fitSize+'px '+family;
+              while(fitSize>4.2&&fitCtx.measureText(next).width>available){fitSize-=.25;fitCtx.font='600 '+fitSize+'px '+family;}
+              field.style.fontSize=fitSize+'px';field.title=next;
+            }catch(_){field.title=next;}
+          }
           field.style.whiteSpace='pre';
           field.style.overflow='hidden';
           field.style.border='1px solid transparent';
@@ -3278,6 +3306,26 @@ backdrop.addEventListener('click',function(ev){if(ev.target===backdrop)dismiss()
 document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&backdrop.classList.contains('open'))dismiss();if(ev.key==='Enter'&&ev.target===textInput&&!ev.shiftKey){ev.preventDefault();commit(textInput.value)}});
 })();
 </script>
+
+<style id="postal-mobile-editability-tune">
+/* Mobile: enlarge the active editing target while keeping its center aligned to the original PDF field. */
+@media (max-width: 640px) {
+  .pdf-original-field.is-editing {
+    transform: scale(1.16, 1.32) !important;
+    transform-origin: center center !important;
+    font-size: max(7px, .62em) !important;
+    line-height: 1 !important;
+    padding-inline: 2px !important;
+    border-width: 1px !important;
+    z-index: 30 !important;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: geometricPrecision;
+  }
+  .pdf-original-field:focus {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+</style>
 </body>
 </html>
 <style id="postyar-new-form-placeholder-fix">
@@ -3316,4 +3364,27 @@ document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&backdrop.
 #page-labels .qr-camera-actions{display:grid;grid-template-columns:1fr;gap:10px}
 #page-labels .qr-camera-actions #qrStopBtn:disabled{display:none}
 @media(prefers-reduced-motion:reduce){#page-labels #qrStartBtn{transition:none}}
+</style>
+<style id="postyar-mobile-redesign-v2">
+@media(max-width:640px){
+ .pdf-original-field.is-editing{transform:none!important;min-height:30px!important;line-height:1.15!important;border:1.5px solid #2563eb!important;border-radius:9px!important;background:linear-gradient(180deg,#fff,#f7faff)!important;box-shadow:0 5px 18px rgba(37,99,235,.22),0 0 0 3px rgba(59,130,246,.10)!important;padding:3px 6px!important;z-index:100!important;font-weight:600!important;text-rendering:geometricPrecision;-webkit-text-size-adjust:100%}
+ .pdf-original-field:focus{-webkit-tap-highlight-color:transparent;outline:none!important}
+ .pdf-original-field.edited{font-weight:600;text-rendering:geometricPrecision}
+ .activity-picker-backdrop{align-items:flex-end!important;padding:0!important;background:rgba(10,20,38,.48)!important}
+ .activity-picker{width:100%!important;max-width:none!important;max-height:88dvh!important;border-radius:26px 26px 0 0!important;padding-bottom:env(safe-area-inset-bottom,0px)!important;border:0!important;box-shadow:0 -14px 50px rgba(15,23,42,.22)!important}
+ .activity-picker-head{padding:19px 18px 14px!important}.activity-picker-title{font-size:18px!important}.activity-picker-subtitle{font-size:13px!important;line-height:1.8!important}
+ .activity-picker-choice-view,.activity-picker-text-view,.activity-picker-category-view{padding:14px!important}.activity-picker-mode{min-height:66px!important;padding:15px!important;border-radius:16px!important}
+ .activity-picker-mode b{font-size:15px!important}.activity-picker-mode small{font-size:12px!important;line-height:1.7!important}
+ .activity-picker-list{max-height:48dvh!important;padding:8px 12px!important}.activity-picker-option{min-height:54px!important;padding:12px 13px!important;font-size:14px!important;line-height:1.9!important;border-radius:14px!important}
+ .activity-picker-search input{min-height:50px!important;font-size:16px!important}.activity-picker-text-view textarea{font-size:16px!important;line-height:1.8!important;min-height:110px!important}
+ .activity-picker-actions button,.activity-picker-close{min-height:48px!important;font-size:14px!important;border-radius:13px!important}
+}
+</style>
+
+<style>
+/* منوی سه‌نقطه همیشه کنار دکمه و در محدوده دید باقی می‌ماند؛ مستقل از بزرگنمایی PDF */
+.pdf-section-pop{position:fixed!important;z-index:2147483001!important;min-width:0!important;width:min(270px,calc(100vw - 24px))!important;max-width:calc(100vw - 24px)!important;max-height:min(62vh,480px)!important;overflow-y:auto!important;overscroll-behavior:contain;border:1px solid #e6eaf0!important;border-radius:17px!important;background:rgba(255,255,255,.98)!important;box-shadow:0 18px 48px rgba(15,23,42,.22)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:9px!important}
+.pdf-section-pop button{display:flex!important;align-items:center;justify-content:flex-start;gap:8px;width:100%;min-height:44px;padding:11px 12px!important;border:0;border-radius:11px;background:transparent;text-align:right;white-space:normal;line-height:1.7;font:700 13px/1.7 Tahoma,sans-serif;cursor:pointer}
+.pdf-section-pop button:active{background:#f1f5f9!important}
+@media(max-width:640px){.pdf-section-pop{width:min(290px,calc(100vw - 24px))!important;max-height:58vh!important;border-radius:18px!important;padding:9px!important}.pdf-section-pop button{min-height:48px;font-size:13px;padding:12px!important}}
 </style>
