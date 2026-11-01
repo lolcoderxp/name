@@ -2150,15 +2150,18 @@ function createSubrowForAddedTable(pageNo,parent,overlay,items,scale){
 function addPdfSectionMenus(overlay,pageNo,items,scale){
   // منوها به بدنه صفحه منتقل می‌شوند تا مستقل از زوم PDF و محدوده canvas باشند.
   function placeFloatingPanel(panel,anchor){
-    var r=anchor.getBoundingClientRect(),gap=8,pad=12;
+    var r=anchor.getBoundingClientRect(),gap=8,pad=10,vv=window.visualViewport;
+    var vw=vv?vv.width:window.innerWidth,vh=vv?vv.height:window.innerHeight;
+    var ox=vv?vv.offsetLeft:0,oy=vv?vv.offsetTop:0,visualScale=vv?Math.max(1,vv.scale||1):1;
     panel.style.position='fixed';panel.style.left='0px';panel.style.top='0px';
     panel.style.right='auto';panel.style.bottom='auto';panel.style.zIndex='2147483001';
-    panel.style.maxWidth='calc(100vw - 24px)';panel.style.maxHeight='min(62vh,480px)';
-    panel.style.overflowY='auto';document.body.appendChild(panel);
+    panel.style.width=Math.min(270/visualScale,vw-2*pad)+'px';panel.style.maxWidth=(vw-2*pad)+'px';
+    panel.style.maxHeight=Math.min(vh*.58,440/visualScale)+'px';panel.style.overflowY='auto';
+    panel.style.zoom=String(1/visualScale);document.body.appendChild(panel);
     var w=panel.getBoundingClientRect().width,h=panel.getBoundingClientRect().height;
-    var left=Math.max(pad,Math.min(r.right-w,window.innerWidth-w-pad));
-    var top=r.bottom+h+gap<=window.innerHeight-pad?r.bottom+gap:r.top-h-gap;
-    top=Math.max(pad,Math.min(top,window.innerHeight-h-pad));
+    var left=Math.max(pad,Math.min(r.right-w,ox+vw-w-pad));
+    var top=r.bottom+h+gap<=oy+vh-pad?r.bottom+gap:r.top-h-gap;
+    top=Math.max(oy+pad,Math.min(top,oy+vh-h-pad));
     panel.style.left=Math.round(left)+'px';panel.style.top=Math.round(top)+'px';
   }
   function makeAction(text,color,handler){
@@ -2172,6 +2175,7 @@ function addPdfSectionMenus(overlay,pageNo,items,scale){
       document.querySelectorAll('.pdf-section-pop').forEach(function(menu){menu.remove()});
     },true);
     window.addEventListener('resize',function(){document.querySelectorAll('.pdf-section-pop').forEach(function(m){m.remove()})},{passive:true});
+    if(window.visualViewport){window.visualViewport.addEventListener('resize',function(){document.querySelectorAll('.pdf-section-pop').forEach(function(m){m.remove()})},{passive:true});}
     window.addEventListener('scroll',function(){document.querySelectorAll('.pdf-section-pop').forEach(function(m){m.remove()})},{passive:true,capture:true});
   }
   var groups=pdfDeletionGroups(items);
@@ -2379,7 +2383,7 @@ async function renderFaithfulPdfPage(pageNo){
       var sourceLooksNumeric=/^[0-9۰-۹٠-٩]+$/.test(it.text.trim());
       var sourceLooksDecimal=/^[0-9۰-۹٠-٩\s.,،/\-]+$/.test(it.text.trim());
       field.inputMode=it.locationTypeColumn?'decimal':((numericColumn&&numericColumn.type!=='block')?'numeric':(numericColumn&&numericColumn.type==='block'?'decimal':(sourceLooksNumeric?'numeric':(sourceLooksDecimal?'decimal':'text'))));
-      if(it.locationTypeColumn)field.dataset.locationTypeColumn='1';
+      if(it.locationTypeColumn){field.dataset.locationTypeColumn='1';field.style.direction='ltr';field.style.unicodeBidi='isolate';field.style.fontVariantNumeric='tabular-nums';field.style.letterSpacing='0';}
       if(numericColumn&&numericColumn.maxLength)field.maxLength=numericColumn.maxLength;
       if(field.inputMode==='numeric'){
         field.setAttribute('pattern','[0-9۰-۹٠-٩]*');
@@ -2393,11 +2397,11 @@ async function renderFaithfulPdfPage(pageNo){
       // Prevent non-numeric text from entering numeric PDF cells, including paste and mobile keyboard input.
       if(field.inputMode==='numeric'||field.inputMode==='decimal'){
         field.addEventListener('beforeinput',function(ev){
-          if(ev.inputType==='insertText' && ev.data && !(field.inputMode==='numeric'?/^[0-9۰-۹٠-٩]+$/:/^[0-9۰-۹٠-٩.,،/\-]+$/).test(ev.data)) ev.preventDefault();
+          if(ev.inputType==='insertText' && ev.data && !(field.inputMode==='numeric'?/^[0-9۰-۹٠-٩]+$/:/^[0-9۰-۹٠-٩.,،/\-−–]+$/).test(ev.data)) ev.preventDefault();
         });
         field.addEventListener('paste',function(ev){
           var pasted=(ev.clipboardData||window.clipboardData).getData('text');
-          var allowed=field.inputMode==='numeric'?/^[0-9۰-۹٠-٩]+$/:/^[0-9۰-۹٠-٩.,،/\-]+$/;
+          var allowed=field.inputMode==='numeric'?/^[0-9۰-۹٠-٩]+$/:/^[0-9۰-۹٠-٩.,،/\-−–]+$/;
           if(pasted&&!allowed.test(pasted))ev.preventDefault();
         });
       }
@@ -2409,7 +2413,7 @@ async function renderFaithfulPdfPage(pageNo){
           return '۰۱۲۳۴۵۶۷۸۹'.charAt('٠١٢٣٤٥٦٧٨٩'.indexOf(d));
         });
         if(field.inputMode==='numeric')converted=converted.replace(/[^۰-۹]/g,'');
-        else if(field.inputMode==='decimal')converted=converted.replace(/[^۰-۹.,،/\-]/g,'');
+        else if(field.inputMode==='decimal')converted=converted.replace(/[^۰-۹.,،/\-−–]/g,'');
         if(field.maxLength>0)converted=converted.slice(0,field.maxLength);
         if(converted!==old){field.value=converted;try{field.setSelectionRange(Math.min(start,converted.length),Math.min(end,converted.length))}catch(e){}}
       });
@@ -2437,7 +2441,7 @@ async function renderFaithfulPdfPage(pageNo){
           field.style.top=(baseT+(baseH-editH)/2)+'px';
           field.style.width=Math.max(2,editW-2)+'px';
           field.style.height=Math.max(5,editH-2)+'px';
-          field.style.fontSize=(parseFloat(field.dataset.baseFont)*(mobileEdit?.66:.72))+'px';
+          field.style.fontSize=(parseFloat(field.dataset.baseFont)*(mobileEdit?.56:.66))+'px';
           field.style.padding=mobileEdit?'2px 5px':'0 2px';
           field.style.whiteSpace='pre';
           field.style.overflow='hidden';
@@ -2479,12 +2483,22 @@ async function renderFaithfulPdfPage(pageNo){
               fitCtx.font='600 '+originalSize+'px '+family;
               var needed=Math.ceil(fitCtx.measureText(next).width+14);
               var baseWidth=Number(field.dataset.baseWidth)||needed;
-              var displayWidth=Math.min(Math.max(baseWidth,needed),Math.max(baseWidth,window.innerWidth-16));
               var baseLeft=Number(field.dataset.baseLeft)||0;
-              var center=baseLeft+baseWidth/2;
-              field.style.left=Math.max(0,center-displayWidth/2)+'px';
-              field.style.width=displayWidth+'px';
-              field.style.fontSize=originalSize+'px';field.title=next;
+              if(field.dataset.locationTypeColumn==='1'){
+                // Keep the PDF cell geometry unchanged. Shrink only the glyphs enough
+                // for the full signed code to fit; never paint a white rectangle over neighbours.
+                var measure=fitCtx.measureText(next).width||1;
+                var fitted=Math.min(originalSize,Math.max(5,originalSize*(Math.max(4,baseWidth-4)/measure)));
+                field.style.left=baseLeft+'px';field.style.width=baseWidth+'px';field.style.fontSize=fitted+'px';
+                field.style.direction='ltr';field.style.unicodeBidi='isolate';field.style.textAlign='center';
+              }else{
+                var displayWidth=Math.min(Math.max(baseWidth,needed),Math.max(baseWidth,window.innerWidth-16));
+                var center=baseLeft+baseWidth/2;
+                field.style.left=Math.max(0,center-displayWidth/2)+'px';
+                field.style.width=displayWidth+'px';
+                field.style.fontSize=originalSize+'px';
+              }
+              field.title=next;
             }catch(_){field.title=next;}
           }
           field.style.whiteSpace='pre';
@@ -2494,6 +2508,7 @@ async function renderFaithfulPdfPage(pageNo){
           field.style.boxShadow='none';
           field.style.zIndex='';
           field.style.textAlign='center';
+          if(field.dataset.locationTypeColumn==='1'){field.style.direction='ltr';field.style.unicodeBidi='isolate';field.style.fontVariantNumeric='tabular-nums';field.style.letterSpacing='0';}
           field.style.color=changed?'#2563eb':'transparent';
           field.style.background=changed?'#fff':'transparent';
           field.style.borderColor='transparent';
@@ -2502,7 +2517,7 @@ async function renderFaithfulPdfPage(pageNo){
         });
       }
       overlay.appendChild(field);
-      if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)&&cleanPdfText(faithfulPdfEdits[it.key])!==cleanPdfText(it.text)&&!it.locked){field.style.color='#2563eb';field.style.background='#fff';}
+      if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)&&cleanPdfText(faithfulPdfEdits[it.key])!==cleanPdfText(it.text)&&!it.locked){field.style.color='#2563eb';field.style.background='#fff';if(field.dataset.locationTypeColumn==='1'){field.style.direction='ltr';field.style.unicodeBidi='isolate';field.style.fontVariantNumeric='tabular-nums';}}
       it.displayScale=scale;
     });
     addPdfSectionMenus(overlay,pageNo,items,scale);
@@ -3242,40 +3257,44 @@ function showView(which){
 }
 function open(field,kind){
  activeField=field;activeListType=kind||'activity';
- // نوع مکان از انتخاب‌گر بومی سیستم‌عامل استفاده می‌کند؛ دقیقاً مانند انتخاب ردیف برای حذف.
+ // انتخاب نوع مکان داخل پنل خود برنامه انجام می‌شود تا هیچ کادر سفیدِ شناور روی PDF باقی نماند.
  if(activeListType==='location'){
-  var nativeSelect=document.createElement('select');nativeSelect.className='pdf-native-delete-select';nativeSelect.setAttribute('aria-label','انتخاب کد نوع مکان');
-  var placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='انتخاب نوع مکان…';placeholder.selected=true;nativeSelect.appendChild(placeholder);
-  var locationTypeLabels={
-   '1':'۱ — مسکونی دارای سکنه','-1':'−۱ — مسکونی بدون سکنه',
-   '2':'۲ — کارگاه خدماتی دولتی','-2':'−۲ — دولتی و مسکونی',
-   '3':'۳ — کارگاه خصوصی','-3':'−۳ — خصوصی و مسکونی',
-   '4':'۴ — سایر کارگاه‌ها','5':'۵ — کارگاه خالی','-5':'−۵ — خالی و مسکونی',
-   '6':'۶ — مخروبه یا در حال تخریب','-6':'−۶ — در حال ساخت',
-   '7':'۷ — زمین محصور','8':'۸ — درِ جانبی','-8':'−۸ — پارکینگ',
-   '9':'۹ — سایر','12':'۱۲ — سازه دولتی خارج از بلوک',
-   '13':'۱۳ — سازه خصوصی خارج از بلوک','15':'۱۵ — غیرفعال خارج از بلوک',
-   '16':'۱۶ — نوساز / پیش‌فروش'
-  };
-  locationTypes.forEach(function(code){var option=document.createElement('option');option.value=code;option.textContent=locationTypeLabels[code]||code;nativeSelect.appendChild(option)});
-  nativeSelect.addEventListener('change',function(){if(nativeSelect.value!==''){var chosen=nativeSelect.value.replace(/\d/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)]});nativeSelect.remove();commit(chosen)}else{nativeSelect.remove();activeField=null}});
-  nativeSelect.addEventListener('blur',function(){setTimeout(function(){if(nativeSelect.isConnected){nativeSelect.remove();activeField=null}},250)});
-  document.body.appendChild(nativeSelect);nativeSelect.focus();if(typeof nativeSelect.showPicker==='function'){try{nativeSelect.showPicker()}catch(_){}}
-  return;
+  $('activityPickerTitle').innerHTML='<span>⌖</span>انتخاب نوع مکان';
+  $('activityPickerTextInput').previousElementSibling.textContent='کد نوع مکان';
+  search.value='';search.placeholder='جست‌وجوی کد یا شرح نوع مکان…';
+  showView('categories');backdrop.classList.add('open');return;
  }
- $('activityPickerTitle').innerHTML='<span>✦</span>ویرایش اطلاعات خانه';$('activityPickerTextInput').previousElementSibling.textContent='متن دلخواه';showView('choice');backdrop.classList.add('open')
+ $('activityPickerTitle').innerHTML='<span>✦</span>ویرایش اطلاعات خانه';$('activityPickerTextInput').previousElementSibling.textContent='متن دلخواه';
+ search.placeholder='جست‌وجوی فعالیت…';showView('choice');backdrop.classList.add('open')
 }
 function commit(value){
  if(!activeField)return;
  var f=activeField,val=String(value||'').trim();
+ // Numeric type-of-location codes use an isolated LTR run so the minus sign
+ // always stays before the Persian digits and is never reordered by RTL layout.
+ if(activeListType==='location'){
+  val=val.replace(/-/g,'−').replace(/[0-9٠-٩]/g,function(d){var fa='۰۱۲۳۴۵۶۷۸۹',ar='٠١٢٣٤٥٦٧٨٩';var i=fa.indexOf(d);return fa.charAt(i>=0?i:ar.indexOf(d));});
+  f.style.direction='ltr';f.style.unicodeBidi='isolate';f.style.textAlign='center';f.style.fontVariantNumeric='tabular-nums';f.style.letterSpacing='0';
+ }
  if('value' in f)f.value=val;else f.textContent=val;
  f.dispatchEvent(new Event('input',{bubbles:true}));f.dispatchEvent(new Event('change',{bubbles:true}));
  f.blur();backdrop.classList.remove('open');activeField=null;
 }
+var locationTypeLabels={
+ '1':'۱ — مسکونی دارای سکنه','-1':'−۱ — مسکونی بدون سکنه','2':'۲ — کارگاه خدماتی دولتی','-2':'−۲ — دولتی و مسکونی',
+ '3':'۳ — کارگاه خصوصی','-3':'−۳ — خصوصی و مسکونی','4':'۴ — سایر کارگاه‌ها','5':'۵ — کارگاه خالی','-5':'−۵ — خالی و مسکونی',
+ '6':'۶ — مخروبه یا در حال تخریب','-6':'−۶ — در حال ساخت','7':'۷ — زمین محصور','8':'۸ — درِ جانبی','-8':'−۸ — پارکینگ',
+ '9':'۹ — سایر','12':'۱۲ — سازه دولتی خارج از بلوک','13':'۱۳ — سازه خصوصی خارج از بلوک','15':'۱۵ — غیرفعال خارج از بلوک','16':'۱۶ — نوساز / پیش‌فروش'
+};
 function render(){
- var source=activeListType==='location'?locationTypes:activities;var q=norm(search.value),matches=source.filter(function(a){return !q||norm(a).indexOf(q)>=0});list.innerHTML='';
+ var source=activeListType==='location'?locationTypes:activities;var q=norm(search.value);
+ var matches=source.filter(function(a){return !q||norm(a).indexOf(q)>=0|| (activeListType==='location'&&norm(locationTypeLabels[a]||'').indexOf(q)>=0)});list.innerHTML='';
  if(!matches.length){var empty=document.createElement('div');empty.className='activity-picker-empty';empty.textContent=activeListType==='location'?'کدی با این عبارت پیدا نشد.':'فعالیتی با این عبارت پیدا نشد.';list.appendChild(empty);return}
- matches.forEach(function(a){var b=document.createElement('button');b.type='button';b.className='activity-picker-option';b.textContent=a;b.addEventListener('click',function(){commit(a)});list.appendChild(b)})
+ matches.forEach(function(a){var b=document.createElement('button');b.type='button';b.className='activity-picker-option';
+  if(activeListType==='location'){b.textContent=locationTypeLabels[a]||a;b.dataset.code=a;}
+  else b.textContent=a;
+  b.addEventListener('click',function(){var chosen=activeListType==='location'?String(a).replace(/-/g,'−').replace(/\d/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)]}):a;commit(chosen)});list.appendChild(b)
+ })
 }
 function sameVisualRow(a,b){
  if(!a||!b||a===b)return a===b;
@@ -3340,7 +3359,7 @@ $('activityPickerApplyText').addEventListener('click',function(){commit(textInpu
 $('activityPickerBackFromText').addEventListener('click',function(){showView('choice')});
 $('activityPickerBackFromCategories').addEventListener('click',function(){showView('choice')});
 search.addEventListener('input',render);
-function dismiss(){backdrop.classList.remove('open');activeField=null}
+function dismiss(){backdrop.classList.remove('open');activeField=null;activeListType='activity';search.placeholder='جست‌وجوی فعالیت…'}
 close.addEventListener('click',dismiss);
 backdrop.addEventListener('click',function(ev){if(ev.target===backdrop)dismiss()});
 document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&backdrop.classList.contains('open'))dismiss();if(ev.key==='Enter'&&ev.target===textInput&&!ev.shiftKey){ev.preventDefault();commit(textInput.value)}});
@@ -3366,6 +3385,49 @@ document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&backdrop.
   }
 }
 </style>
+
+<style id="postyar-pdf-only-zoom-and-final-polish">
+@media(max-width:640px){
+  .pdf-faithful-page-inner{display:block!important;position:relative!important;overflow:auto!important;overflow-x:auto!important;overflow-y:auto!important;max-width:100%!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;touch-action:pan-x pan-y!important;}
+  .pdf-faithful-page-inner>.pdf-original-page{transform-origin:top left!important;will-change:transform,width,height;}
+  .pdf-original-field.is-editing{transform:none!important;font-size:inherit!important;}
+  .pdf-section-pop{width:min(250px,calc(100vw - 24px))!important;max-height:55vh!important;border-radius:15px!important;padding:7px!important;}
+  .pdf-section-pop button{min-height:42px!important;font-size:12px!important;padding:9px 10px!important;}
+}
+</style>
+<script id="postyar-pdf-contained-pinch-zoom">
+(function(){
+ 'use strict';
+ var host=document.getElementById('pdfFaithfulPages');if(!host)return;
+ var gesture=null;
+ function distance(a,b){var x=a.clientX-b.clientX,y=a.clientY-b.clientY;return Math.sqrt(x*x+y*y)}
+ function pageAt(t){var p=t&&t.closest?t.closest('.pdf-original-page'):null;return p&&host.contains(p)?p:null}
+ function applyScale(page,scale){
+  var baseW=Number(page.dataset.zoomBaseW)||page.offsetWidth,baseH=Number(page.dataset.zoomBaseH)||page.offsetHeight;
+  if(!baseW||!baseH)return;
+  page.dataset.zoomBaseW=String(baseW);page.dataset.zoomBaseH=String(baseH);page.dataset.zoomScale=String(scale);
+  page.style.transformOrigin='top left';page.style.transform=scale===1?'none':'scale('+scale+')';
+  page.style.width=baseW+'px';page.style.height=baseH+'px';
+  var inner=page.parentElement;if(inner){inner.style.minHeight=(baseH*scale)+'px';inner.style.minWidth='0';}
+  var section=page.closest('.pdf-faithful-page');if(section){section.style.minHeight=(baseH*scale)+'px';}
+  page.style.marginBottom=((scale-1)*baseH)+'px';page.style.marginRight=((scale-1)*baseW)+'px';
+ }
+ host.addEventListener('touchstart',function(ev){
+  if(ev.touches.length!==2)return;var page=pageAt(ev.target);if(!page)return;
+  gesture={page:page,startDistance:distance(ev.touches[0],ev.touches[1]),startScale:Number(page.dataset.zoomScale)||1};
+ },{passive:true});
+ host.addEventListener('touchmove',function(ev){
+  if(!gesture||ev.touches.length!==2)return;ev.preventDefault();
+  var ratio=distance(ev.touches[0],ev.touches[1])/Math.max(1,gesture.startDistance);
+  var next=Math.max(1,Math.min(3.25,gesture.startScale*ratio));applyScale(gesture.page,Math.round(next*100)/100);
+ },{passive:false});
+ function end(ev){if(gesture&&(!ev.touches||ev.touches.length<2))gesture=null}
+ host.addEventListener('touchend',end,{passive:true});host.addEventListener('touchcancel',end,{passive:true});
+ document.addEventListener('gesturestart',function(ev){if(!pageAt(ev.target))ev.preventDefault()},{passive:false});
+ document.addEventListener('gesturechange',function(ev){if(!pageAt(ev.target))ev.preventDefault()},{passive:false});
+ document.addEventListener('gestureend',function(ev){if(!pageAt(ev.target))ev.preventDefault()},{passive:false});
+})();
+</script>
 </body>
 </html>
 <style id="postyar-new-form-placeholder-fix">
