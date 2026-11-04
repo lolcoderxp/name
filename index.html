@@ -3945,3 +3945,315 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
   },{capture:true,passive:false});
 })();
 </script>
+
+<!-- Postyar: شناور جست‌وجوی سریع صفحه در PDF؛ فقط در محیط کدگذاری -->
+<style id="postyar-floating-pdf-search-style">
+  /* نوار پایین و باکس ابزار بالای PDF از pinch zoom مستثنا هستند. */
+  .bottom-nav-wrap,
+  .bottom-nav,
+  .bottom-nav *,
+  #page-postal .pdf-control-box,
+  #page-postal .pdf-control-box * {
+    touch-action: pan-x pan-y !important;
+  }
+
+  /* زوم لمسی در محتوای خود PDF آزاد می‌ماند. */
+  #page-postal .pdf-faithful-pages,
+  #page-postal .pdf-faithful-page,
+  #page-postal .pdf-faithful-page-inner,
+  #page-postal .pdf-original-page,
+  #page-postal .pdf-original-overlay {
+    touch-action: pan-x pan-y pinch-zoom !important;
+  }
+
+  #postyarFloatingPdfSearch {
+    position: fixed;
+    top: calc( max(12px, env(safe-area-inset-top, 0px)) + 8px );
+    right: 14px;
+    z-index: 2147483000;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    direction: rtl;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.85);
+    border-radius: 999px;
+    background: rgba(255,255,255,.94);
+    box-shadow: 0 8px 28px rgba(15,23,42,.19), 0 2px 7px rgba(15,23,42,.08);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px) scale(.92);
+    transition:
+      width .42s cubic-bezier(.2,.85,.2,1),
+      opacity .24s ease,
+      transform .42s cubic-bezier(.2,.85,.2,1),
+      border-radius .3s ease;
+  }
+  #postyarFloatingPdfSearch.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+  #postyarFloatingPdfSearch.is-open {
+    width: min(560px, calc(100vw - 28px));
+    border-radius: 18px;
+  }
+  #postyarFloatingPdfSearch .pfs-toggle {
+    width: 46px;
+    min-width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    color: #2563eb;
+    border-radius: 50%;
+    flex: 0 0 46px;
+    transition: transform .25s ease, background .25s ease;
+  }
+  #postyarFloatingPdfSearch .pfs-toggle:active { transform: scale(.9); }
+  #postyarFloatingPdfSearch .pfs-toggle svg {
+    width: 21px;
+    height: 21px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  #postyarFloatingPdfSearch .pfs-fields {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 1;
+    min-width: 0;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    padding-left: 8px;
+    transition: opacity .2s ease .08s, visibility .2s ease;
+  }
+  #postyarFloatingPdfSearch.is-open .pfs-fields {
+    width: auto;
+    opacity: 1;
+    visibility: visible;
+  }
+  #postyarFloatingPdfSearch input {
+    min-width: 0;
+    width: 100%;
+    height: 40px;
+    border: 0;
+    outline: 0;
+    background: #f1f5f9;
+    border-radius: 12px;
+    padding: 0 13px;
+    color: #1e293b;
+    font: 700 14px Vazirmatn, Tahoma, sans-serif;
+    direction: rtl;
+    text-align: right;
+    touch-action: pan-x pan-y !important;
+  }
+  #postyarFloatingPdfSearch input::placeholder {
+    color: #94a3b8;
+    font-weight: 500;
+  }
+  #postyarFloatingPdfSearch .pfs-go,
+  #postyarFloatingPdfSearch .pfs-close {
+    height: 38px;
+    flex: 0 0 38px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font: 800 12px Vazirmatn, Tahoma, sans-serif;
+  }
+  #postyarFloatingPdfSearch .pfs-go {
+    background: linear-gradient(135deg,#3b82f6,#1d4ed8);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(37,99,235,.23);
+  }
+  #postyarFloatingPdfSearch .pfs-close {
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 20px;
+  }
+  #postyarFloatingPdfSearch .pfs-go:disabled {
+    opacity: .4;
+    box-shadow: none;
+  }
+  @media(max-width:380px) {
+    #postyarFloatingPdfSearch.is-open { width: calc(100vw - 20px); right: 10px; }
+    #postyarFloatingPdfSearch .pfs-toggle { width: 42px; min-width: 42px; flex-basis: 42px; }
+    #postyarFloatingPdfSearch .pfs-go,
+    #postyarFloatingPdfSearch .pfs-close { flex-basis: 34px; width: 34px; }
+  }
+  @media(prefers-reduced-motion:reduce) {
+    #postyarFloatingPdfSearch,
+    #postyarFloatingPdfSearch * { transition-duration: .01ms !important; }
+  }
+</style>
+
+<script id="postyar-floating-pdf-search-script">
+(function () {
+  'use strict';
+
+  function digitsOnly(value) {
+    return String(value || '')
+      .replace(/[۰-۹]/g, function (d) { return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)); })
+      .replace(/[٠-٩]/g, function (d) { return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)); })
+      .replace(/[^0-9]/g, '');
+  }
+
+  function initFloatingPdfSearch() {
+    if (document.getElementById('postyarFloatingPdfSearch')) return;
+
+    var box = document.createElement('div');
+    box.id = 'postyarFloatingPdfSearch';
+    box.setAttribute('aria-label', 'جست‌وجوی شماره صفحه PDF');
+    box.innerHTML =
+      '<button class="pfs-toggle" type="button" aria-label="باز کردن جست‌وجوی صفحه" title="جست‌وجوی صفحه">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>' +
+      '</button>' +
+      '<div class="pfs-fields">' +
+        '<input type="text" inputmode="numeric" pattern="[0-9۰-۹٠-٩]*" autocomplete="off" enterkeyhint="go" maxlength="7" placeholder="شماره صفحه را وارد کنید" aria-label="شماره صفحه">' +
+        '<button class="pfs-go" type="button">برو</button>' +
+        '<button class="pfs-close" type="button" aria-label="بستن جست‌وجو">×</button>' +
+      '</div>';
+
+    document.body.appendChild(box);
+
+    var toggle = box.querySelector('.pfs-toggle');
+    var input = box.querySelector('input');
+    var go = box.querySelector('.pfs-go');
+    var close = box.querySelector('.pfs-close');
+
+    function isPostalPageActive() {
+      var page = document.getElementById('page-postal');
+      return !!(page && page.classList.contains('active') &&
+        document.getElementById('pdfFaithfulEditor') &&
+        !document.getElementById('pdfFaithfulEditor').classList.contains('hidden') &&
+        document.getElementById('pdfFaithfulPages') &&
+        document.getElementById('pdfFaithfulPages').children.length);
+    }
+
+    function updateVisibility() {
+      if (!isPostalPageActive()) {
+        box.classList.remove('is-visible', 'is-open');
+        return;
+      }
+      var pages = document.getElementById('pdfFaithfulPages');
+      if (!pages) {
+        box.classList.remove('is-visible', 'is-open');
+        return;
+      }
+      var rect = pages.getBoundingClientRect();
+      var inPdfArea = rect.bottom > 80 && rect.top < window.innerHeight - 40;
+      var hasScrolledIntoPdf = window.scrollY > Math.max(0, pages.getBoundingClientRect().top + window.scrollY - 110);
+      box.classList.toggle('is-visible', inPdfArea && hasScrolledIntoPdf);
+    }
+
+    function openSearch() {
+      box.classList.add('is-open');
+      toggle.setAttribute('aria-label', 'بستن کادر جست‌وجو');
+      window.setTimeout(function () {
+        input.focus({ preventScroll: true });
+      }, 180);
+    }
+
+    function closeSearch() {
+      box.classList.remove('is-open');
+      toggle.setAttribute('aria-label', 'باز کردن جست‌وجوی صفحه');
+      input.blur();
+    }
+
+    function validate() {
+      var value = digitsOnly(input.value);
+      if (input.value !== value) input.value = value;
+      var count = window.faithfulPdf && window.faithfulPdf.numPages;
+      var valid = !!value && Number(value) >= 1 && (!count || Number(value) <= count);
+      go.disabled = !valid;
+      return valid;
+    }
+
+    async function searchPage() {
+      if (!validate()) {
+        if (typeof window.toast === 'function') window.toast('شماره صفحه معتبر نیست', 'error');
+        return;
+      }
+      var original = document.getElementById('pdfGoPageInput');
+      if (!original) return;
+      original.value = input.value;
+      if (typeof window.validatePdfPageSearch === 'function') window.validatePdfPageSearch();
+      if (typeof window.goToPdfPage === 'function') {
+        await window.goToPdfPage();
+        closeSearch();
+      }
+    }
+
+    toggle.addEventListener('click', function () {
+      if (box.classList.contains('is-open')) closeSearch();
+      else openSearch();
+    });
+    close.addEventListener('click', closeSearch);
+    input.addEventListener('input', validate);
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        searchPage();
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        closeSearch();
+      }
+    });
+    go.addEventListener('click', searchPage);
+
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    window.addEventListener('resize', updateVisibility, { passive: true });
+    document.addEventListener('click', function (event) {
+      var nav = event.target && event.target.closest && event.target.closest('.nav-item');
+      if (nav) window.setTimeout(updateVisibility, 80);
+    });
+    if ('MutationObserver' in window) {
+      var postal = document.getElementById('page-postal');
+      if (postal) new MutationObserver(updateVisibility).observe(postal, {
+        attributes: true, attributeFilter: ['class']
+      });
+      var editor = document.getElementById('pdfFaithfulEditor');
+      if (editor) new MutationObserver(updateVisibility).observe(editor, {
+        attributes: true, attributeFilter: ['class']
+      });
+      var pages = document.getElementById('pdfFaithfulPages');
+      if (pages) new MutationObserver(function () {
+        window.setTimeout(updateVisibility, 100);
+      }).observe(pages, { childList: true, subtree: false });
+    }
+    window.setTimeout(updateVisibility, 300);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFloatingPdfSearch, { once: true });
+  } else {
+    initFloatingPdfSearch();
+  }
+
+  /* جلوگیری قطعی از pinch روی نوار پایین و باکس ابزار بالای PDF */
+  document.addEventListener('touchstart', function (event) {
+    if (!event.touches || event.touches.length < 2) return;
+    var target = event.target;
+    if (target && target.closest &&
+        target.closest('.bottom-nav-wrap, #page-postal .pdf-control-box')) {
+      event.preventDefault();
+    }
+  }, { capture: true, passive: false });
+
+  document.addEventListener('gesturestart', function (event) {
+    var target = event.target;
+    if (target && target.closest &&
+        target.closest('.bottom-nav-wrap, #page-postal .pdf-control-box')) {
+      event.preventDefault();
+    }
+  }, { capture: true, passive: false });
+})();
+</script>
