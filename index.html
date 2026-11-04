@@ -1759,17 +1759,8 @@ function initMap(){
       maxZoom:22,maxNativeZoom:19,
       attribution:'Tiles © Esri — Sources: Esri, Maxar, Earthstar Geographics'
     });
-    // لایه نام خیابان‌ها و عوارض روی تصویر ماهواره‌ای (حالت ترکیبی)
-    var hybridLabels=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',{
-      maxZoom:22,attribution:'© OpenStreetMap contributors © CARTO',
-      pane:'overlayPane',opacity:0.95
-    });
-    var hybridLayer=L.layerGroup([satelliteLayer,hybridLabels]);
+    // فقط لایه تصاویر ماهواره‌ای؛ بدون منوی انتخاب لایه و آیکون سه‌خط
     baseMapLayer=satelliteLayer.addTo(map);
-    L.control.layers({
-      'ماهواره‌ای':satelliteLayer,
-      'ماهواره‌ای + نام معابر':hybridLayer
-    },null,{position:'topleft',collapsed:true}).addTo(map);
     L.control.zoom({position:'topleft'}).addTo(map);
     drawLayer=L.featureGroup().addTo(map);
     savedLayer=L.featureGroup().addTo(map);
