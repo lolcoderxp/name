@@ -932,7 +932,7 @@ img{display:block;max-width:100%}
       <div class="section">
         <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-map"/></svg> نقشه و ترسیم پارسل</h2></div>
         <div class="field"><label>پروژه</label><select id="mapProject" onchange="renderDrawings()"></select></div>
-        <div class="map-layer-note" style="font-size:10px;color:var(--muted);margin:0 0 7px">نقشه خیابانی فعال است؛ برای تصاویر ماهواره‌ای باید کلید سرویس نقشه تهیه و تنظیم شود.</div>
+        <div class="map-layer-note" style="font-size:10px;color:var(--muted);margin:0 0 7px">نمایش نقشه فقط به‌صورت تصاویر ماهواره‌ای است.</div>
         <div class="map-stage" id="mapStage">
           <div class="map-quick-tools" aria-label="ابزارهای پرکاربرد ترسیم">
             <button type="button" class="map-quick-tool" data-tool="polygon">پارسل</button>
@@ -1754,26 +1754,12 @@ function initMap(){
   if(mapEl.offsetHeight<50){setTimeout(initMap,200);return}
   try{
     map=L.map('map',{zoomControl:false,maxZoom:22}).setView([35.700,51.400],12);
-    // نقشه ماهواره‌ای بدون API Key؛ تصاویر ماهواره‌ای Esri
-    var streetLayer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-      maxZoom:22,maxNativeZoom:19,attribution:'© OpenStreetMap contributors'
-    });
+    // فقط تصاویر ماهواره‌ای Esri؛ بدون نقشه خیابانی و بدون لایه نام معابر
     var satelliteLayer=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
       maxZoom:22,maxNativeZoom:19,
       attribution:'Tiles © Esri — Sources: Esri, Maxar, Earthstar Geographics'
     });
-    // لایه نام خیابان‌ها و عوارض روی تصویر ماهواره‌ای (حالت ترکیبی)
-    var hybridLabels=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png',{
-      maxZoom:22,attribution:'© OpenStreetMap contributors © CARTO',
-      pane:'overlayPane',opacity:0.95
-    });
-    var hybridLayer=L.layerGroup([satelliteLayer,hybridLabels]);
     baseMapLayer=satelliteLayer.addTo(map);
-    L.control.layers({
-      'ماهواره‌ای':satelliteLayer,
-      'ماهواره‌ای + نام معابر':hybridLayer,
-      'نقشه خیابانی':streetLayer
-    },null,{position:'topleft',collapsed:true}).addTo(map);
     L.control.zoom({position:'topleft'}).addTo(map);
     drawLayer=L.featureGroup().addTo(map);
     savedLayer=L.featureGroup().addTo(map);
