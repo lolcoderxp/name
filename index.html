@@ -685,6 +685,14 @@ img{display:block;max-width:100%}
 .map-more-menu .map-tool{min-height:34px!important;padding:7px 16px!important}
 @media(max-width:520px){.map-quick-tools{top:10px;left:10px;right:62px;gap:5px;max-width:calc(100% - 72px)}.map-quick-tool{min-height:40px;padding:7px 9px;font-size:10px}.map-more-menu{max-height:min(46vh,340px)!important}.map-menu-content{max-height:calc(min(46vh,340px) - 43px)!important}}
 
+
+/* Project-first workspace and project-owned file library */
+.projects-hero{display:flex;align-items:stretch;justify-content:space-between;gap:14px;margin:14px 0 18px;padding:20px;border:1px solid #e3eaf5;border-radius:22px;background:linear-gradient(135deg,#f8fbff 0%,#eef5ff 58%,#fff9e9 100%)}
+.projects-hero-copy{min-width:0;align-self:center}.projects-hero-kicker{display:inline-block;color:#2563eb;font-size:10px;font-weight:900;margin-bottom:5px}.projects-hero-copy h2{margin:0;color:#172b4d;font-size:20px;font-weight:900}.projects-hero-copy p{margin:5px 0 0;color:#64748b;font-size:11px;line-height:1.8}
+.project-create-hero{display:flex;align-items:center;gap:10px;min-width:190px;padding:12px 14px;border:0;border-radius:17px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;text-align:right;box-shadow:0 9px 22px rgba(37,99,235,.22);cursor:pointer;transition:transform .18s,box-shadow .18s}.project-create-hero:hover{transform:translateY(-2px);box-shadow:0 13px 26px rgba(37,99,235,.28)}.project-create-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:rgba(255,255,255,.18)}.project-create-icon .icn{width:20px;height:20px}.project-create-hero b,.project-create-hero small{display:block}.project-create-hero b{font-size:13px;font-weight:900}.project-create-hero small{margin-top:3px;font-size:9px;color:#dbeafe}.project-create-arrow{width:15px;height:15px;margin-right:auto;opacity:.8}.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.projects-grid .info-card{min-width:0;margin:0;border-radius:17px;cursor:pointer;transition:transform .16s,border-color .16s,box-shadow .16s}.projects-grid .info-card:hover{transform:translateY(-2px);border-color:#bfdbfe;box-shadow:0 9px 22px rgba(37,99,235,.08)}
+.import-project-gate{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(190px,260px);align-items:center;gap:12px;margin:8px 0 14px;padding:15px;border:1px solid #dce7f6;border-radius:18px;background:linear-gradient(135deg,#f8fbff,#fff)}.import-gate-icon{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:#e7f0ff;color:#2563eb}.import-gate-icon .icn{width:22px;height:22px}.import-gate-copy strong,.import-gate-copy small{display:block}.import-gate-copy strong{font-size:12px;color:#1e293b}.import-gate-copy small{font-size:10px;color:#64748b;line-height:1.8;margin-top:3px}.import-project-gate .field{margin:0}.import-project-gate .field label{font-size:10px}.import-file-area.is-locked{opacity:.42;filter:grayscale(.25);pointer-events:none;user-select:none}.project-files-panel{margin:0 0 16px;padding:14px;border:1px solid #e4eaf2;border-radius:17px;background:#fff}.project-files-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.project-files-heading strong{font-size:12px;color:#26364b}.project-files-heading small{font-size:10px;color:#64748b}.project-files-list{display:grid;gap:8px}.project-file-row{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #edf1f6;border-radius:13px;background:#fbfdff}.project-file-icon{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:11px;background:#fff0ef;color:#dc2626}.project-file-meta{flex:1;min-width:0}.project-file-meta strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#25364b}.project-file-meta small{display:block;margin-top:3px;color:#8190a5;font-size:9px}.project-file-row .btn{flex:0 0 auto}.project-files-empty{padding:13px 8px;text-align:center;color:#94a3b8;font-size:10px;line-height:1.8}
+@media(max-width:620px){.projects-hero{display:block;padding:16px;border-radius:18px}.project-create-hero{width:100%;margin-top:13px;justify-content:flex-start}.import-project-gate{grid-template-columns:38px minmax(0,1fr);gap:9px;padding:12px}.import-gate-icon{width:38px;height:38px}.import-project-gate .field{grid-column:1/-1}.projects-grid{grid-template-columns:1fr}}
+
 </style>
 <style>
 /* PostYar — polished create-row interaction. The added record is a single blank row,
@@ -889,8 +897,8 @@ img{display:block;max-width:100%}
     <!-- PROJECTS -->
     <section class="page" id="page-projects">
       <div class="segment" style="margin-top:14px">
-        <button class="active" onclick="switchProjTab('projects',this)">پروژه‌ها</button>
-        <button onclick="switchProjTab('companies',this)">شرکت‌ها</button>
+        <button class="active" type="button" onclick="switchProjTab('projects',this)">پروژه‌ها</button>
+        <button type="button" onclick="openProjectSheet()">ایجاد پروژه</button>
       </div>
       <div id="projTab-projects">
         <div id="projectsList"></div>
@@ -900,15 +908,7 @@ img{display:block;max-width:100%}
           <p>اولین پروژه خود را بسازید</p>
         </div>
       </div>
-      <div id="projTab-companies" class="hidden">
-        <div id="companiesList"></div>
-        <div class="empty" id="companiesEmpty">
-          <svg class="icn"><use href="#i-building"/></svg>
-          <h3>هنوز شرکتی ثبت نشده</h3>
-          <p>شرکت پیمانکاری خود را اضافه کنید</p>
-        </div>
-      </div>
-      <button class="fab" onclick="openProjectSheet()" aria-label="پروژه جدید"><svg class="icn"><use href="#i-plus"/></svg></button>
+      <button class="fab" type="button" onclick="openProjectSheet()" aria-label="پروژه جدید"><svg class="icn"><use href="#i-plus"/></svg></button>
     </section>
 
     <!-- POSTAL CODING: uploaded PDF editor workspace -->
@@ -986,6 +986,13 @@ img{display:block;max-width:100%}
     <!-- IMPORT/EXPORT -->
     <section class="page" id="page-import">
       <div class="section">
+        <div class="import-project-gate">
+          <div class="import-gate-icon"><svg class="icn"><use href="#i-folder"/></svg></div>
+          <div class="import-gate-copy"><strong>ابتدا پروژه را انتخاب کنید</strong><small>تمام فایل‌های واردشده و تغییراتشان داخل همین پروژه نگهداری می‌شوند.</small></div>
+          <div class="field"><label for="importProject">پروژه مقصد</label><select id="importProject" onchange="onImportProjectChange()"><option value="">ابتدا یک پروژه انتخاب کنید</option></select></div>
+        </div>
+        <div id="projectFilesPanel" class="project-files-panel"><div class="project-files-heading"><strong>فایل‌های ذخیره‌شدهٔ پروژه</strong><small id="projectFilesCount">۰ فایل</small></div><div id="projectFilesList" class="project-files-list"><div class="project-files-empty">پس از انتخاب پروژه، فایل‌های آن اینجا نمایش داده می‌شوند.</div></div></div>
+        <div id="importFileArea" class="import-file-area is-locked">
         <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-upload"/></svg> انتخاب فایل اصلی PDF</h2></div>
         <div class="drop-zone" id="dropZone">
           <svg class="icn"><use href="#i-upload"/></svg>
@@ -1007,11 +1014,11 @@ img{display:block;max-width:100%}
           <div id="extractStatus" style="font-size:12px;color:var(--muted);margin-bottom:12px">آماده پردازش</div>
           <button class="btn btn-primary btn-block" onclick="extractFile(event)"><svg class="icn"><use href="#i-file"/></svg> استخراج فایل و ورود به کدگذاری</button>
         </div>
+        </div>
       </div>
       <div id="editSection" class="hidden">
         <div class="section">
           <div class="section-heading"><h2 class="section-title">ویرایش مستقیم فایل PDF بارگذاری‌شده</h2><span class="btn btn-sm btn-ghost" id="editCount">PDF اصلی</span></div>
-          <div class="field"><label>پروژه مقصد</label><select id="importProject"></select></div>
           <div id="pdfFaithfulEditor" class="hidden">
             <div class="pdf-faithful-note">نمایش زیر از خود فایل PDF بارگذاری‌شده ساخته می‌شود؛ صفحه‌ها، جدول‌ها، خطوط و ترتیب اصلی حفظ می‌شوند. روی متن یا محدودهٔ قابل‌ویرایش همان قسمت بزنید تا در همان محل و با همان اندازه ویرایش شود؛ پنجره یا فرم جداگانه باز نمی‌شود. اگر فایل اسکن تصویری باشد و متن قابل‌انتخاب نداشته باشد، برای ویرایش متن آن صفحه به OCR نیاز است.</div>
             <div class="pdf-file-workflow" aria-label="ابزارهای فایل">
@@ -1254,6 +1261,7 @@ var state={
   users:[{id:'U-001',name:'مدیر سیستم',user:'admin',pass:'admin',role:'admin',created:now()}],
   companies:[],
   projects:[],
+  projectFiles:[],
   buildings:[],
   units:[],
   bookletRecords:[],
@@ -1267,7 +1275,7 @@ var state={
 };
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));return true}catch(e){toast('حافظه پر است','error');return false}}
-function load(){try{var x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&Array.isArray(x.projects)){state=Object.assign(state,x);if(!Array.isArray(state.bookletRecords))state.bookletRecords=[];if(!state.bookletMeta)state.bookletMeta={blockCode:'74',routeCode:'33781',province:'تهران - منطقه ۱۸',county:'ورامین',district:'جوادآباد',village:'یوسف‌آباد خالصه',reportDate:'1405/03/30'}}}catch(e){}}
+function load(){try{var x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&Array.isArray(x.projects)){state=Object.assign(state,x);if(!Array.isArray(state.projectFiles))state.projectFiles=[];if(!Array.isArray(state.bookletRecords))state.bookletRecords=[];if(!state.bookletMeta)state.bookletMeta={blockCode:'74',routeCode:'33781',province:'تهران - منطقه ۱۸',county:'ورامین',district:'جوادآباد',village:'یوسف‌آباد خالصه',reportDate:'1405/03/30'}}}catch(e){}}
 
 var toastTimer=null;
 function toast(msg,type){
@@ -1329,6 +1337,7 @@ function showApp(){
   $('#heroRole').textContent=roles[u.role]||'کاربر';
   updateStats();
   renderHome();
+  fillProjectSelect('#importProject');onImportProjectChange();
 }
 
 /* ===== NAV ===== */
@@ -1359,7 +1368,7 @@ function nav(page){
   if(page==='projects')renderProjectsPage();
   if(page==='postal'){/* The coding page is now the original-PDF editing workspace. */}
   if(page==='map'){fillProjectSelect('#mapProject');setTimeout(initMap,150);renderDrawings()}
-  if(page==='import')fillProjectSelect('#importProject');
+  if(page==='import'){fillProjectSelect('#importProject');onImportProjectChange();}
   if(page==='labels'){fillProjectSelect('#labelProject');var qps=$('#labelProject');if(qps){qps.insertAdjacentHTML('afterbegin','<option value="">ابتدا یک پروژه انتخاب کنید</option>');qps.value=''}qrProjectChanged()}
   if(page==='search')fillProjectSelect('#searchProject');
   if(page==='users')renderUsers();
@@ -1405,57 +1414,48 @@ function renderHome(){
 
 /* ===== PROJECTS ===== */
 function switchProjTab(tab,btn){
+  var projectsTab=document.getElementById('projTab-projects');
+  if(projectsTab)projectsTab.classList.toggle('hidden',tab!=='projects');
   $$('#page-projects .segment button').forEach(function(b){b.classList.toggle('active',b===btn)});
-  $('#projTab-projects').classList.toggle('hidden',tab!=='projects');
-  $('#projTab-companies').classList.toggle('hidden',tab!=='companies');
-  if(tab==='companies')renderCompanies();
+  if(tab==='projects')renderProjectsList();
 }
-function renderProjectsPage(){renderProjectsList();renderCompanies();}
+function renderProjectsPage(){renderProjectsList();}
+function renderCompanies(){}
 function renderProjectsList(){
   var list=$('#projectsList');
+  if(!list)return;
   if(!state.projects.length){list.innerHTML='';$('#projectsEmpty').classList.add('visible')}
   else{
     $('#projectsEmpty').classList.remove('visible');
     list.innerHTML=state.projects.map(function(p){
       var cnt=state.buildings.filter(function(x){return x.projectId===p.id}).length;
-      var comp=state.companies.find(function(c){return c.id===p.companyId});
-      return '<div class="info-card" onclick="openProject(\''+p.id+'\')"><div class="info-card-icon bg-yellow"><svg class="icn" style="color:#fff"><use href="#i-folder"/></svg></div><div class="info-card-body"><strong>'+esc(p.name)+'</strong><small>'+esc(p.area||'—')+' · '+fa(cnt)+' ساختمان'+(comp?' · '+esc(comp.name):'')+'</small></div><div class="info-card-arrow"><svg class="icn"><use href="#i-chevron"/></svg></div></div>';
+      return '<div class="info-card" onclick="openProject(\''+p.id+'\')"><div class="info-card-icon bg-yellow"><svg class="icn" style="color:#fff"><use href="#i-folder"/></svg></div><div class="info-card-body"><strong>'+esc(p.name)+'</strong><small>'+esc(p.area||'—')+' · '+fa(cnt)+' ساختمان</small></div><div class="info-card-arrow"><svg class="icn"><use href="#i-chevron"/></svg></div></div>';
     }).join('');
   }
 }
-function renderCompanies(){
-  var list=$('#companiesList');
-  if(!state.companies.length){list.innerHTML='';$('#companiesEmpty').classList.add('visible');return}
-  $('#companiesEmpty').classList.remove('visible');
-  list.innerHTML=state.companies.map(function(c){
-    var pcount=state.projects.filter(function(p){return p.companyId===c.id}).length;
-    return '<div class="info-card" onclick="openCompany(\''+c.id+'\')"><div class="info-card-icon bg-purple"><svg class="icn" style="color:#fff"><use href="#i-building"/></svg></div><div class="info-card-body"><strong>'+esc(c.name)+'</strong><small>'+esc(c.manager||'—')+' · '+fa(pcount)+' پروژه</small></div><div class="info-card-arrow"><svg class="icn"><use href="#i-chevron"/></svg></div></div>';
-  }).join('');
-}
 function openProjectSheet(project){
   var p=project||{};
-  var companiesOpts=state.companies.map(function(c){return '<option value="'+c.id+'" '+(p.companyId===c.id?'selected':'')+'>'+esc(c.name)+'</option>'}).join('')||'<option value="">— شرکتی ثبت نشده —</option>';
   openModal(
     project?'ویرایش پروژه':'پروژه جدید',
     'اطلاعات پروژه',
     '<div class="field"><label>نام پروژه *</label><input id="pName" value="'+esc(p.name||'')+'" placeholder="نام پروژه"></div>'+
-    '<div class="field"><label>شرکت پیمانکاری</label><select id="pCompany">'+companiesOpts+'</select></div>'+
     '<div class="field"><label>منطقه / شهر</label><input id="pArea" value="'+esc(p.area||'')+'" placeholder="منطقه"></div>'+
     '<div class="field"><label>شماره فرم</label><input id="pFormNo" value="'+esc(p.formNo||'')+'" placeholder="۳۲۷۳"></div>'+
     '<div class="field"><label>تاریخ</label><input id="pDate" value="'+esc(p.date||todayJ())+'"></div>',
-    '<button class="btn btn-primary btn-block" onclick="saveProject('+(project?"'"+project.id+"'":'null')+')"><svg class="icn"><use href="#i-save"/></svg> ذخیره</button>',
+    '<button class="btn btn-primary btn-block" type="button" onclick="saveProject('+(project?"'"+project.id+"'":'null')+')"><svg class="icn"><use href="#i-save"/></svg> ذخیره</button>',
     'i-folder'
   );
-  setTimeout(function(){var el=$('#pName');if(el)el.focus()},300);
+  setTimeout(function(){var el=$('#pName');if(el)el.focus()},250);
 }
 function saveProject(id){
   var name=$('#pName').value.trim();
   if(!name)return toast('نام پروژه را وارد کنید','error');
-  var obj={name:name,companyId:$('#pCompany').value,area:$('#pArea').value.trim(),formNo:$('#pFormNo').value.trim(),date:$('#pDate').value.trim()||todayJ(),updated:now()};
+  var obj={name:name,area:$('#pArea').value.trim(),formNo:$('#pFormNo').value.trim(),date:$('#pDate').value.trim()||todayJ(),updated:now()};
   if(id){var p=state.projects.find(function(x){return x.id===id});if(p)Object.assign(p,obj)}
   else{obj.id='PRJ-'+String(state.nextP++).padStart(3,'0');obj.created=now();state.projects.unshift(obj)}
+  if(!Array.isArray(state.projectFiles))state.projectFiles=[];
   save();closeModal();renderProjectsPage();renderHome();updateStats();
-  toast('ذخیره شد','success');
+  toast(id?'تغییرات پروژه ذخیره شد':'پروژه با موفقیت ایجاد شد','success');
 }
 function openProject(id){
   var p=state.projects.find(function(x){return x.id===id});
@@ -1477,6 +1477,9 @@ function deleteProject(id){
   state.projects=state.projects.filter(function(x){return x.id!==id});
   state.buildings=state.buildings.filter(function(x){return x.projectId!==id});
   state.drawings=state.drawings.filter(function(x){return x.projectId!==id});
+  var removedProjectFiles=(state.projectFiles||[]).filter(function(x){return x.projectId===id});
+  state.projectFiles=(state.projectFiles||[]).filter(function(x){return x.projectId!==id});
+  removedProjectFiles.forEach(function(f){deleteProjectAsset(f.id).catch(function(){});try{localStorage.removeItem('postyar-pdf-edits:v2:'+id+':'+f.id)}catch(e){}});
   save();closeModal();renderProjectsPage();renderHome();updateStats();
   toast('حذف شد','success');
 }
@@ -1522,6 +1525,7 @@ function fillProjectSelect(selector){
   var cur=el.value;
   var opts='<option value="">همه پروژه‌ها</option>';
   if(selector==='#postalProject'||selector==='#importProject'||selector==='#labelProject')opts='';
+  if(selector==='#importProject')opts='<option value="">ابتدا یک پروژه انتخاب کنید</option>';
   opts+=state.projects.map(function(p){return '<option value="'+p.id+'">'+esc(p.name)+'</option>'}).join('');
   if(!state.projects.length)opts='<option value="">— پروژه‌ای نیست —</option>';
   el.innerHTML=opts;
@@ -2007,6 +2011,69 @@ else if(point){var ce2=point.getElementsByTagName('coordinates')[0];if(!ce2)retu
 function downloadMapFile(content,name,type){var blob=new Blob([content],{type:type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.style.display='none';document.body.appendChild(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(url)},5000)}
 if($('#mapSearchInput'))$('#mapSearchInput').addEventListener('keydown',function(e){if(e.key==='Enter'&&!$('#mapSearchPanel').hidden)searchMapPlace()});
 
+/* ===== PROJECT FILE STORAGE (IndexedDB) =====
+   File binaries live in IndexedDB; project metadata stays in the app state.
+   This supports many files per project and leaves room for future file types.
+*/
+var projectAssetDbPromise=null;
+var currentImportProjectId='';
+var currentProjectFileId='';
+function openProjectAssetDb(){
+  if(projectAssetDbPromise)return projectAssetDbPromise;
+  projectAssetDbPromise=new Promise(function(resolve,reject){
+    if(!window.indexedDB){reject(new Error('ذخیره‌سازی فایل در این مرورگر پشتیبانی نمی‌شود'));return}
+    var req=indexedDB.open('postyar_project_assets_v1',1);
+    req.onupgradeneeded=function(){var db=req.result;if(!db.objectStoreNames.contains('files'))db.createObjectStore('files',{keyPath:'id'})};
+    req.onsuccess=function(){resolve(req.result)};req.onerror=function(){reject(req.error||new Error('خطا در باز کردن فضای فایل‌ها'))};
+  });
+  return projectAssetDbPromise;
+}
+function putProjectAsset(record,blob){return openProjectAssetDb().then(function(db){return new Promise(function(resolve,reject){var tx=db.transaction('files','readwrite');tx.objectStore('files').put({id:record.id,projectId:record.projectId,blob:blob,name:record.name,type:record.type||'application/pdf',size:record.size,updatedAt:record.updatedAt||new Date().toISOString()});tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error||new Error('ذخیره فایل ناموفق بود'))};tx.onabort=function(){reject(tx.error||new Error('ذخیره فایل لغو شد'))}})});}
+function getProjectAsset(id){return openProjectAssetDb().then(function(db){return new Promise(function(resolve,reject){var req=db.transaction('files','readonly').objectStore('files').get(id);req.onsuccess=function(){resolve(req.result||null)};req.onerror=function(){reject(req.error)}})});}
+function deleteProjectAsset(id){return openProjectAssetDb().then(function(db){return new Promise(function(resolve,reject){var tx=db.transaction('files','readwrite');tx.objectStore('files').delete(id);tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error)}})});}
+function formatProjectFileSize(n){n=Number(n)||0;return n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
+function onImportProjectChange(){
+  var select=document.getElementById('importProject');
+  var nextProjectId=select?select.value:'';
+  var changed=!!currentImportProjectId&&!!nextProjectId&&currentImportProjectId!==nextProjectId;
+  currentImportProjectId=nextProjectId;
+  var area=document.getElementById('importFileArea');
+  if(area)area.classList.toggle('is-locked',!currentImportProjectId);
+  if((!currentImportProjectId||changed)&&selectedFile)cancelFile();
+  renderProjectFiles();
+}
+function renderProjectFiles(){
+  var box=document.getElementById('projectFilesList'),count=document.getElementById('projectFilesCount');
+  if(!box)return;
+  var items=(state.projectFiles||[]).filter(function(f){return f.projectId===currentImportProjectId}).sort(function(a,b){return String(b.updatedAt||b.createdAt||'').localeCompare(String(a.updatedAt||a.createdAt||''))});
+  if(count)count.textContent=fa(items.length)+' فایل';
+  if(!currentImportProjectId){box.innerHTML='<div class="project-files-empty">برای دیدن فایل‌ها، ابتدا یک پروژه انتخاب کنید.</div>';return}
+  if(!items.length){box.innerHTML='<div class="project-files-empty">هنوز فایلی در این پروژه ذخیره نشده است. فایل جدید را از بخش پایین وارد کنید.</div>';return}
+  box.innerHTML=items.map(function(f){return '<div class="project-file-row"><span class="project-file-icon"><svg class="icn"><use href="#i-pdf"/></svg></span><span class="project-file-meta"><strong>'+esc(f.name)+'</strong><small>'+formatProjectFileSize(f.size)+' · '+esc(f.savedAtLabel||'ذخیره‌شده در پروژه')+'</small></span><button type="button" class="btn btn-primary btn-sm" onclick="openProjectFile(\''+f.id+'\')">بازکردن</button></div>'}).join('');
+}
+async function persistProjectFile(file,existingRecord){
+  var pid=currentImportProjectId;
+  if(!pid)throw new Error('ابتدا پروژه مقصد را انتخاب کنید');
+  var record=existingRecord||null;
+  if(!record){record={id:uid('PFILE'),projectId:pid,name:file.name||'فایل.pdf',type:file.type||'application/pdf',size:file.size||0,kind:'pdf',storage:'indexeddb',version:1,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),savedAtLabel:nowFull()}}
+  record.projectId=pid;record.updatedAt=new Date().toISOString();record.size=file.size||record.size||0;record.name=file.name||record.name;record.type=file.type||record.type||'application/pdf';record.kind='pdf';record.storage='indexeddb';record.version=record.version||1;
+  await putProjectAsset(record,file.slice(0,file.size,file.type||'application/pdf'));
+  if(!Array.isArray(state.projectFiles))state.projectFiles=[];
+  var at=state.projectFiles.findIndex(function(x){return x.id===record.id});if(at>=0)state.projectFiles[at]=record;else state.projectFiles.unshift(record);
+  save();currentProjectFileId=record.id;renderProjectFiles();return record;
+}
+async function openProjectFile(fileId){
+  var record=(state.projectFiles||[]).find(function(x){return x.id===fileId});
+  if(!record)return toast('اطلاعات فایل در پروژه پیدا نشد','error');
+  try{
+    var stored=await getProjectAsset(fileId);if(!stored||!stored.blob)throw new Error('بدنه فایل در حافظه پیدا نشد');
+    var file=new File([stored.blob],record.name,{type:record.type||'application/pdf',lastModified:Date.now()});
+    var sel=document.getElementById('importProject');if(sel){sel.value=record.projectId;onImportProjectChange()}
+    await selectFile(file,record);
+    toast('فایل پروژه بارگذاری شد؛ برای بازکردن ویرایش، استخراج را بزنید','success');
+  }catch(e){toast('بازکردن فایل ناموفق بود: '+(e.message||''),'error')}
+}
+
 /* ===== IMPORT / EXPORT ===== */
 var selectedFile=null;
 var editingRows=[];
@@ -2033,28 +2100,29 @@ if(dropZone){
 }
 if(fileInput)fileInput.onchange=function(){if(fileInput.files[0])selectFile(fileInput.files[0])};
 
-function selectFile(f){
+async function selectFile(f,existingRecord){
   if(!f)return;
   var ext=String(f.name||'').split('.').pop().toLowerCase();
-  // This workflow is deliberately for the actual PDF supplied by the post office.
-  // Never substitute a bundled sample or convert the PDF into a custom page layout.
   if(ext!=='pdf'&&f.type!=='application/pdf'){toast('فقط فایل PDF واقعی اداره پست را انتخاب کنید','error');return}
   if(ext!=='pdf'){toast('فرمت فایل باید PDF باشد','error');return}
+  if(!currentImportProjectId){toast('برای واردکردن فایل، ابتدا پروژه مقصد را انتخاب کنید','error');return}
   if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}
   faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfName='';faithfulPdfEdits={};deletedPdfSections={};addedPdfTables={};faithfulPdfRendered={};faithfulPdfPageData={};faithfulPdfDirty=false;faithfulPdfSavedSnapshot='{}';faithfulPdfSavedTablesSnapshot='{}';
-  selectedFile=f;
-  $('#filePreview').classList.remove('hidden');
-  $('#fileName').textContent=f.name;
-  $('#fileSize').textContent=(f.size/1024).toFixed(1)+' KB';
-  $('#progressBar').style.width='0';
-  $('#extractStatus').textContent='PDF انتخاب شد؛ آماده بازکردن فایل اصلی';
-  $('#editSection').classList.add('hidden');
-  $('#pdfFaithfulEditor').classList.add('hidden');
-  var postalEmpty=$('#postalPdfEmpty');if(postalEmpty)postalEmpty.classList.remove('hidden');
-  $('#pdfFaithfulPages').innerHTML='';
-  $('#genericGridArea');
+  try{
+    var record=await persistProjectFile(f,existingRecord);
+    selectedFile=f;currentProjectFileId=record.id;
+    $('#filePreview').classList.remove('hidden');
+    $('#fileName').textContent=f.name;
+    $('#fileSize').textContent=formatProjectFileSize(f.size)+' · ذخیره‌شده در پروژه';
+    $('#progressBar').style.width='0';
+    $('#extractStatus').textContent='فایل در پروژه ذخیره شد؛ آماده بازکردن PDF اصلی';
+    $('#editSection').classList.add('hidden');
+    $('#pdfFaithfulEditor').classList.add('hidden');
+    var postalEmpty=$('#postalPdfEmpty');if(postalEmpty)postalEmpty.classList.remove('hidden');
+    $('#pdfFaithfulPages').innerHTML='';
+  }catch(err){selectedFile=null;toast('ذخیره فایل در پروژه انجام نشد: '+(err.message||''),'error')}
 }
-function cancelFile(){selectedFile=null;if(fileInput)fileInput.value='';$('#filePreview').classList.add('hidden');$('#editSection').classList.add('hidden');$('#pdfFaithfulEditor').classList.add('hidden');var postalEmpty=$('#postalPdfEmpty');if(postalEmpty)postalEmpty.classList.remove('hidden');$('#pdfFaithfulPages').innerHTML='';if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfName='';faithfulPdfEdits={};deletedPdfSections={};addedPdfTables={};faithfulPdfRendered={};faithfulPdfPageData={};faithfulPdfDirty=false;faithfulPdfSavedSnapshot='{}';faithfulPdfStorageKey='';var status=$('#extractStatus');if(status)status.textContent='فایلی انتخاب نشده است';}
+function cancelFile(){selectedFile=null;currentProjectFileId='';if(fileInput)fileInput.value='';$('#filePreview').classList.add('hidden');$('#editSection').classList.add('hidden');$('#pdfFaithfulEditor').classList.add('hidden');var postalEmpty=$('#postalPdfEmpty');if(postalEmpty)postalEmpty.classList.remove('hidden');$('#pdfFaithfulPages').innerHTML='';if(faithfulPdfObserver){faithfulPdfObserver.disconnect();faithfulPdfObserver=null}faithfulPdf=null;faithfulPdfOriginalBytes=null;faithfulPdfName='';faithfulPdfEdits={};deletedPdfSections={};addedPdfTables={};faithfulPdfRendered={};faithfulPdfPageData={};faithfulPdfDirty=false;faithfulPdfSavedSnapshot='{}';faithfulPdfStorageKey='';var status=$('#extractStatus');if(status)status.textContent='فایلی انتخاب نشده است';}
 
 async function extractFile(event){
   if(!selectedFile)return;
@@ -2091,7 +2159,7 @@ async function extractFile(event){
       faithfulPdfRendered={};
       faithfulPdfPageData={};
       faithfulPdfDirty=false;
-      faithfulPdfStorageKey='postyar-pdf-edits:'+String(selectedFile.name||'file')+':'+String(selectedFile.size||0)+':'+String(selectedFile.lastModified||0);
+      faithfulPdfStorageKey='postyar-pdf-edits:v2:'+String(currentImportProjectId||'no-project')+':'+String(currentProjectFileId||'no-file');
       try{
         var previouslySaved=JSON.parse(localStorage.getItem(faithfulPdfStorageKey)||'null');
         if(previouslySaved&&previouslySaved.edits&&typeof previouslySaved.edits==='object')faithfulPdfEdits=previouslySaved.edits;if(previouslySaved&&previouslySaved.deletedPdfSections&&typeof previouslySaved.deletedPdfSections==='object')deletedPdfSections=previouslySaved.deletedPdfSections;if(previouslySaved&&previouslySaved.addedPdfTables&&typeof previouslySaved.addedPdfTables==='object')addedPdfTables=previouslySaved.addedPdfTables;
@@ -2102,8 +2170,7 @@ async function extractFile(event){
       $('#progressBar').style.width='100%';
       $('#extractStatus').textContent='PDF اصلی آماده و قابل ویرایش است؛ '+fa(faithfulPdf.numPages)+' صفحه';
       $('#editSection').classList.remove('hidden');
-      // PDF workflow edits the uploaded document itself; project/table mapping is irrelevant here.
-      var projectField=$('#importProject')&&$('#importProject').closest('.field');if(projectField)projectField.classList.add('hidden');
+      // The selected project remains the owner of this PDF and its saved edits.
       $('#pdfFaithfulEditor').classList.remove('hidden');
       $('#pdfPageCount').textContent=fa(faithfulPdf.numPages)+' صفحه';
       $('#pdfFaithfulStatus').textContent='در حال باز کردن صفحه‌های خود PDF…';
@@ -2112,7 +2179,6 @@ async function extractFile(event){
       $$('#editSection .btn-row').forEach(function(el){el.classList.add('hidden')});
       var success=$('#editSection .btn-success');if(success)success.classList.add('hidden');
       var headings=$$('#editSection .section-heading');if(headings.length>1)headings[1].classList.add('hidden');
-      fillProjectSelect('#importProject');
       setupFaithfulPdfPages();
       var postalEmpty=$('#postalPdfEmpty');if(postalEmpty)postalEmpty.classList.add('hidden');
       nav('postal');
@@ -2121,7 +2187,6 @@ async function extractFile(event){
       return;
     }
     $('#pdfFaithfulEditor').classList.add('hidden');
-    var projectFieldNormal=$('#importProject')&&$('#importProject').closest('.field');if(projectFieldNormal)projectFieldNormal.classList.remove('hidden');
     var gridNormal=$('.edit-grid-wrap');if(gridNormal)gridNormal.classList.remove('hidden');
     $$('#editSection .btn-row').forEach(function(el){el.classList.remove('hidden')});
     var successNormal=$('#editSection .btn-success');if(successNormal)successNormal.classList.remove('hidden');
@@ -2216,14 +2281,15 @@ function saveFaithfulPdfEdits(){
   if(!faithfulPdf||!faithfulPdfStorageKey)return toast('ابتدا یک فایل PDF استخراج کنید','error');
   // Capture any cell that is still focused before committing the edits.
   $$('#pdfFaithfulPages .pdf-original-field:not(.locked)').forEach(function(field){faithfulPdfEdits[field.dataset.editKey]=cleanPdfText(field.value.trim())});
-  var payload={sourceFile:faithfulPdfName,totalPages:faithfulPdf.numPages,savedAt:new Date().toISOString(),edits:faithfulPdfEdits,deletedPdfSections:deletedPdfSections,addedPdfTables:addedPdfTables};
+  var payload={sourceFile:faithfulPdfName,totalPages:faithfulPdf.numPages,projectId:currentImportProjectId,projectFileId:currentProjectFileId,savedAt:new Date().toISOString(),edits:faithfulPdfEdits,deletedPdfSections:deletedPdfSections,addedPdfTables:addedPdfTables};
   try{
     localStorage.setItem(faithfulPdfStorageKey,JSON.stringify(payload));
     var verify=JSON.parse(localStorage.getItem(faithfulPdfStorageKey)||'null');
     if(!verify||JSON.stringify(verify.edits)!==JSON.stringify(faithfulPdfEdits))throw new Error('تأیید ذخیره‌سازی ناموفق بود');
+    var fileMeta=(state.projectFiles||[]).find(function(x){return x.id===currentProjectFileId});if(fileMeta){fileMeta.updatedAt=new Date().toISOString();fileMeta.savedAtLabel='آخرین ذخیره: '+nowFull();save();renderProjectFiles()}
     faithfulPdfSavedSnapshot=JSON.stringify(faithfulPdfEdits);faithfulPdfSavedDeletedSnapshot=JSON.stringify(deletedPdfSections);faithfulPdfSavedTablesSnapshot=JSON.stringify(addedPdfTables);
     updatePdfSaveUI(true);
-    toast('تغییرات با موفقیت روی همین دستگاه ذخیره شد','success');
+    toast('تغییرات این فایل در پروژه ذخیره شد','success');
   }catch(err){
     updatePdfSaveUI(false);
     toast('ذخیره انجام نشد؛ فضای ذخیره‌سازی مرورگر در دسترس نیست','error');
@@ -3279,7 +3345,7 @@ function refreshDb(){
       '<div class="db-stat"><span class="lbl">کاربران</span><span class="val">'+fa(state.users.length)+'</span></div>';
   }
   var view=$('#dbView');
-  if(view)view.textContent=JSON.stringify({projects:state.projects.length,companies:state.companies.length,buildings:state.buildings.length,units:state.units.length,drawings:state.drawings.length,users:state.users.length,sample:{buildings:state.buildings.slice(0,2),units:state.units.slice(0,3)}},null,2);
+  if(view)view.textContent=JSON.stringify({projects:state.projects.length,projectFiles:(state.projectFiles||[]).length,buildings:state.buildings.length,units:state.units.length,drawings:state.drawings.length,users:state.users.length,sample:{buildings:state.buildings.slice(0,2),units:state.units.slice(0,3)}},null,2);
 }
 
 /* ===== INIT ===== */
@@ -3314,11 +3380,12 @@ window.openProjectSheet=openProjectSheet;
 window.saveProject=saveProject;
 window.openProject=openProject;
 window.deleteProject=deleteProject;
+window.onImportProjectChange=onImportProjectChange;
+window.openProjectFile=openProjectFile;
 window.openCompany=openCompany;
 window.openCompanySheet=openCompanySheet;
 window.saveCompany=saveCompany;
 window.deleteCompany=deleteCompany;
-window.switchProjTab=switchProjTab;
 window.closeModal=closeModal;
 window.delRow=delRow;
 window.addRow=addRow;
@@ -3760,3 +3827,38 @@ html, body {
 .pdf-section-pop button:active{background:#f1f5f9!important}
 @media(max-width:640px){.pdf-section-pop{width:min(290px,calc(100vw - 24px))!important;max-height:58vh!important;border-radius:18px!important;padding:9px!important}.pdf-section-pop button{min-height:48px;font-size:13px;padding:12px!important}}
 </style>
+<style id="postyar-modal-and-layout-fix-v3">
+.modal-backdrop{z-index:20000!important;align-items:center!important;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px))!important;}
+.modal{position:relative!important;z-index:20001!important;max-height:calc(100dvh - 28px - env(safe-area-inset-top,0px))!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding-bottom:max(24px,env(safe-area-inset-bottom,0px))!important;}
+#modalActions{position:sticky;bottom:-1px;background:#fff;padding-top:10px;padding-bottom:2px;z-index:3;}
+#modalActions .btn{min-height:48px;position:relative;z-index:4;pointer-events:auto;}
+.page{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px));}
+.bottom-nav-wrap,.bottom-nav,.bottom-nav *{touch-action:pan-x pan-y!important;}
+.bottom-nav-wrap,.bottom-nav{transform:none!important;zoom:1!important;}
+.bottom-nav .nav-item:active,.bottom-nav .nav-item.active svg{transform:none!important;}
+/* Zoom is allowed only inside the postal coding workspace. */
+.page:not(#page-postal),.page:not(#page-postal) *{touch-action:pan-x pan-y!important;}
+body *{touch-action:pan-x pan-y!important;}
+#page-postal,#page-postal *{touch-action:pan-x pan-y pinch-zoom!important;}
+#page-postal .pdf-faithful-page-inner,#page-postal .pdf-original-page,#page-postal .pdf-original-overlay{touch-action:pan-x pan-y pinch-zoom!important;}
+html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
+</style>
+<script id="postyar-zoom-lock-outside-coding-v3">
+(function(){
+  var pinchAllowed=false;
+  document.addEventListener('touchstart',function(e){
+    if(e.touches&&e.touches.length>1){
+      var t=e.target;
+      pinchAllowed=!!(t&&t.closest&&t.closest('#page-postal'));
+      if(t&&t.closest&&t.closest('.bottom-nav-wrap'))pinchAllowed=false;
+    }else if(e.touches&&e.touches.length===1){pinchAllowed=false;}
+  },{capture:true,passive:true});
+  document.addEventListener('touchmove',function(e){
+    if(e.touches&&e.touches.length>1&&!pinchAllowed){e.preventDefault();}
+  },{capture:true,passive:false});
+  document.addEventListener('gesturestart',function(e){
+    var t=e.target;
+    if(!(t&&t.closest&&t.closest('#page-postal'))|| (t&&t.closest&&t.closest('.bottom-nav-wrap')))e.preventDefault();
+  },{capture:true,passive:false});
+})();
+</script>
