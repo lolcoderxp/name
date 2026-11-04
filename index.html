@@ -2378,7 +2378,29 @@ function pdfDeletionGroups(items){
       statusKey:(recItems.find(function(it){return /ردیف\s*اصلی/.test(cleanPdfText(it.text));})||{}).key||''});
   });
   recordRows.sort(function(a,b){return a.top-b.top;});
-  if(!recordRows.length)return [];
+  if(!recordRows.length){
+    // A header alone is NOT a manageable table. Only show the menu when a
+    // real data line exists. This supports both layouts:
+    // (1) a data row printed without column headings, and
+    // (2) a headed table containing one or more data rows.
+    // It deliberately rejects cover/summary pages that merely mention block,
+    // building counts, report date, page number, or table column labels.
+    var addressHints=['آدرس','محله','ساختمان','بلوار','کوچه','خیابان','پلاک','طبقه'];
+    var dataRows=rows.filter(function(r){
+      var t=norm(r.text||'');
+      var hasColumnHeading=POSTAL_TABLE_HEADERS.some(function(h){return t.indexOf(norm(h))!==-1;});
+      if(hasColumnHeading)return false;
+      var shortNumbers=[];
+      (t.match(/\\d+/g)||[]).forEach(function(n){if(n.length>=1&&n.length<=3)shortNumbers.push(n);});
+      var hasAddress=addressHints.some(function(h){return t.indexOf(norm(h))!==-1;});
+      var meaningful=t.replace(/\\d+/g,'').replace(/[\\s:：،,؛;ـ*\\-]/g,'');
+      return shortNumbers.length>=2&&hasAddress&&meaningful.length>=12;
+    });
+    if(!dataRows.length)return [];
+    var topMost=Math.min.apply(null,(items||[]).map(function(it){return Number(it.top)||0}));
+    var endMost=Math.max.apply(null,(items||[]).map(function(it){return Number(it.top)||0}));
+    return [{id:String((items[0]||{}).index||0),start:topMost,endTop:endMost,items:(items||[]).slice(),rows:[],statusKeys:[]}];
+  }
   // Keep whole-table deletion, and expose every printed record as an individual
   // native mobile select option. Address headers are not required for detection.
   var addressRows=rows.filter(function(r){return r.isAddress;});
@@ -2389,14 +2411,14 @@ function pdfDeletionGroups(items){
       var sectionRecords=recordRows.filter(function(r){return r.top>a.top-4 && r.top<next;});
       if(sectionRecords.length){
         var sectionItems=items.filter(function(it){return Number(it.top)>=a.top-4 && Number(it.top)<next;});
-        sections.push({id:String((sectionItems[0]||a.items[0]).index),start:a.top,items:sectionItems,rows:sectionRecords});
+        sections.push({id:String((sectionItems[0]||a.items[0]).index),start:a.top,items:sectionItems,rows:sectionRecords,statusKeys:sectionRecords.map(function(r){return r.statusKey}).filter(Boolean)});
       }
     });
   }
   // Some pages have no repeated address header (continuation pages).
   if(!sections.length){
     sections.push({id:String((items[0]||{}).index||0),start:recordRows[0].top,
-      items:(items||[]).slice(),rows:recordRows});
+      items:(items||[]).slice(),rows:recordRows,statusKeys:recordRows.map(function(r){return r.statusKey}).filter(Boolean)});
   }
   return sections;
 }
@@ -2407,7 +2429,7 @@ function toggleDeletedPdfSection(pageNo,group,items){
     delete deletedPdfSections[key];
   }else{
     if(!confirm('این بخش علامت‌گذاری شود؟ متن‌های مربوط به این بخش قرمز می‌شوند و در PDF خروجی هم قرمز می‌مانند؛ محتوای اصلی به‌صورت فیزیکی پاک نمی‌شود.'))return;
-    deletedPdfSections[key]={page:pageNo,id:group.id,keys:items.map(function(it){return it.key;}),statusKey:group.statusKey||''};
+    deletedPdfSections[key]={page:pageNo,id:group.id,keys:items.map(function(it){return it.key;}),statusKey:group.statusKey||'',statusKeys:group.statusKeys||(group.rows||[]).map(function(r){return r.statusKey}).filter(Boolean)};
   }
   faithfulPdfRendered[pageNo]=false;
   renderFaithfulPdfPage(pageNo).then(function(){markPdfEditsDirty();});
@@ -2475,17 +2497,22 @@ function createSubrowForAddedTable(pageNo,parent,overlay,items,scale){
 function addPdfSectionMenus(overlay,pageNo,items,scale){
   // منوها به بدنه صفحه منتقل می‌شوند تا مستقل از زوم PDF و محدوده canvas باشند.
   function placeFloatingPanel(panel,anchor){
-    var r=anchor.getBoundingClientRect(),gap=8,pad=10,vv=window.visualViewport;
+    var gap=8,pad=10,vv=window.visualViewport;
     var vw=vv?vv.width:window.innerWidth,vh=vv?vv.height:window.innerHeight;
-    var ox=vv?vv.offsetLeft:0,oy=vv?vv.offsetTop:0,visualScale=vv?Math.max(1,vv.scale||1):1;
+    var ox=vv?vv.offsetLeft:0,oy=vv?vv.offsetTop:0;
+    var r=anchor.getBoundingClientRect();
     panel.style.position='fixed';panel.style.left='0px';panel.style.top='0px';
-    panel.style.right='auto';panel.style.bottom='auto';panel.style.zIndex='2147483001';
-    panel.style.width=Math.min(270/visualScale,vw-2*pad)+'px';panel.style.maxWidth=(vw-2*pad)+'px';
-    panel.style.maxHeight=Math.min(vh*.58,440/visualScale)+'px';panel.style.overflowY='auto';
-    panel.style.zoom=String(1/visualScale);document.body.appendChild(panel);
-    var w=panel.getBoundingClientRect().width,h=panel.getBoundingClientRect().height;
-    var left=Math.max(pad,Math.min(r.right-w,ox+vw-w-pad));
-    var top=r.bottom+h+gap<=oy+vh-pad?r.bottom+gap:r.top-h-gap;
+    panel.style.right='auto';panel.style.bottom='auto';panel.style.zIndex='2147483646';
+    panel.style.boxSizing='border-box';
+    panel.style.width=Math.max(180,Math.min(290,vw-2*pad))+'px';
+    panel.style.maxWidth=Math.max(180,vw-2*pad)+'px';
+    panel.style.maxHeight=Math.max(120,Math.min(vh*.68,560))+'px';panel.style.overflowY='auto';
+    panel.style.overflowX='hidden';panel.style.zoom='1';
+    if(panel.parentNode!==document.body)document.body.appendChild(panel);
+    var pr=panel.getBoundingClientRect(),w=pr.width,h=pr.height;
+    var left=Math.max(ox+pad,Math.min(r.right-w,ox+vw-w-pad));
+    var below=oy+vh-pad-r.bottom,above=r.top-(oy+pad);
+    var top=(below>=Math.min(h+gap,180)||below>=above)?r.bottom+gap:r.top-h-gap;
     top=Math.max(oy+pad,Math.min(top,oy+vh-h-pad));
     panel.style.left=Math.round(left)+'px';panel.style.top=Math.round(top)+'px';
   }
@@ -2501,7 +2528,11 @@ function addPdfSectionMenus(overlay,pageNo,items,scale){
     },true);
     window.addEventListener('resize',function(){document.querySelectorAll('.pdf-section-pop').forEach(function(m){m.remove()})},{passive:true});
     if(window.visualViewport){window.visualViewport.addEventListener('resize',function(){document.querySelectorAll('.pdf-section-pop').forEach(function(m){m.remove()})},{passive:true});}
-    window.addEventListener('scroll',function(){document.querySelectorAll('.pdf-section-pop').forEach(function(m){m.remove()})},{passive:true,capture:true});
+    window.addEventListener('scroll',function(){document.querySelectorAll('.pdf-section-pop').forEach(function(m){
+      var vv=window.visualViewport,ox=vv?vv.offsetLeft:0,oy=vv?vv.offsetTop:0,vw=vv?vv.width:window.innerWidth,vh=vv?vv.height:window.innerHeight;
+      var r=m.getBoundingClientRect(),left=Math.max(8,Math.min(r.left,ox+vw-r.width-8)),top=Math.max(oy+8,Math.min(r.top,oy+vh-r.height-8));
+      m.style.left=Math.round(left)+'px';m.style.top=Math.round(top)+'px';
+    })},{passive:true,capture:true});
   }
   var groups=pdfDeletionGroups(items);
   groups.forEach(function(group){
@@ -2562,7 +2593,7 @@ function addPdfSectionMenus(overlay,pageNo,items,scale){
       field.style.padding='0';field.style.margin='0';field.style.whiteSpace='nowrap';field.style.overflow='hidden';
       field.style.fontSize=Math.max(7,item.height*itemScale*.9)+'px';field.style.textAlign='center';field.style.border='0';field.style.borderRadius='0';field.style.boxShadow='none';field.style.zIndex='3';
       field.style.color='#dc2626';field.style.background='#fff';field.style.textShadow='none';field.style.webkitTextStroke='0';
-      if(sec.statusKey===key){field.value='حذف شده';field.classList.add('section-status');}
+      if(sec.statusKey===key||(sec.statusKeys||[]).indexOf(key)!==-1){field.value='حذف شده';field.classList.add('section-status');}
       else{field.value=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,key)?cleanPdfText(faithfulPdfEdits[key]):item.text;}
     });
   });
@@ -2709,7 +2740,7 @@ async function renderFaithfulPdfPage(pageNo){
       var sourceLooksDecimal=/^[0-9۰-۹٠-٩\s.,،/\-]+$/.test(it.text.trim());
       field.inputMode=it.locationTypeColumn?'decimal':((numericColumn&&numericColumn.type!=='block')?'numeric':(numericColumn&&numericColumn.type==='block'?'decimal':(sourceLooksNumeric?'numeric':(sourceLooksDecimal?'decimal':'text'))));
       if(it.locationTypeColumn){field.dataset.locationTypeColumn='1';field.style.direction='ltr';field.style.unicodeBidi='isolate';field.style.fontVariantNumeric='tabular-nums';field.style.letterSpacing='0';}
-      if(numericColumn&&numericColumn.maxLength)field.maxLength=numericColumn.maxLength;
+      if(numericColumn)field.maxLength=4;
       if(field.inputMode==='numeric'){
         field.setAttribute('pattern','[0-9۰-۹٠-٩]*');
         field.setAttribute('inputmode','numeric');
@@ -2880,7 +2911,7 @@ async function makeEditedOriginalPdf(){
     var pageNo=Number(m[1]),index=Number(m[2]);
     var data=faithfulPdfPageData[pageNo];if(!data||!data.items)return;
     var it=data.items.find(function(x){return x.index===index});if(!it||it.locked)return;
-    var value=cleanPdfText(faithfulPdfEdits[key]);if(value===it.text)return;
+    var value=cleanPdfText(faithfulPdfEdits[key]);if(value.length>30)value=value.slice(0,30)+'...';if(value===it.text)return;
     if(!changedByPage[pageNo])changedByPage[pageNo]=[];
     changedByPage[pageNo].push({item:it,value:value});
   });
@@ -2891,7 +2922,7 @@ async function makeEditedOriginalPdf(){
       var it=data.items.find(function(x){return x.index===ix;});if(!it)return;
       if(!changedByPage[pn])changedByPage[pn]=[];
       var existing=changedByPage[pn].find(function(c){return c.item.key===key;});
-      var value=(sec.statusKey===key)?'حذف شده':(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,key)?cleanPdfText(faithfulPdfEdits[key]):it.text);
+      var value=(sec.statusKey===key||(sec.statusKeys||[]).indexOf(key)!==-1)?'حذف شده':(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,key)?cleanPdfText(faithfulPdfEdits[key]):it.text);
       if(existing){existing.value=value;existing.deleted=true;}else changedByPage[pn].push({item:it,value:value,deleted:true});
     });
   });
@@ -3001,7 +3032,7 @@ async function makeEditedOriginalPdf(){
           ctx.fillText(POSTAL_TABLE_HEADERS[hc],headerX+hww/2,y0+rowH*scale/2,Math.max(4,hww-6));headerX+=hww;
         }
         chunks[chunkIndex].forEach(function(t,ri){var yy=y0+(ri+1)*rowH*scale,xx=margin*scale;
-          for(var c=0;c<POSTAL_TABLE_HEADERS.length;c++){var ww=widths[c]||usableW/POSTAL_TABLE_HEADERS.length;ctx.strokeStyle='#111';ctx.lineWidth=1.5;ctx.strokeRect(xx,yy,ww,rowH*scale);var val=(t.values||[])[c]||'';if(val){ctx.fillStyle='#15803d';ctx.font='16px Arial, Tahoma, sans-serif';ctx.textAlign='center';ctx.fillText(val,xx+ww/2,yy+rowH*scale/2,ww-6);}xx+=ww;}
+          for(var c=0;c<POSTAL_TABLE_HEADERS.length;c++){var ww=widths[c]||usableW/POSTAL_TABLE_HEADERS.length;ctx.strokeStyle='#111';ctx.lineWidth=1.5;ctx.strokeRect(xx,yy,ww,rowH*scale);var val=(t.values||[])[c]||'';if(val.length>30)val=val.slice(0,30)+'...';if(val){ctx.fillStyle='#15803d';ctx.font='16px Arial, Tahoma, sans-serif';ctx.textAlign='center';ctx.fillText(val,xx+ww/2,yy+rowH*scale/2,ww-6);}xx+=ww;}
         });
         var png=await out.embedPng(canvas.toDataURL('image/png'));
         var newPage=out.insertPage(sourceNo,[pageW,pageH]);
@@ -3849,6 +3880,105 @@ html, body {
 }
 </style>
 </body>
+
+<!-- POSTYAR PRECISE NOTEBOOK PATCH 2026-11 -->
+<style id="postyar-notebook-refinements">
+/* نوع مکان در حالت ویرایش دقیقاً ظاهر فیلدهای معمولی مثل پلاک را می‌گیرد. */
+#page-postal .pdf-original-field[data-location-type-column="1"].is-editing{
+ box-sizing:border-box!important;min-height:24px!important;padding:2px 5px!important;
+ border:1.5px solid #2563eb!important;border-radius:7px!important;
+ background:#fff!important;color:#1d4ed8!important;box-shadow:0 2px 9px #2563eb20!important;
+ font-family:Tahoma,Arial,sans-serif!important;font-weight:700!important;
+ direction:ltr!important;text-align:center!important;unicode-bidi:isolate!important;
+}
+/* منوی سه‌نقطه و انتخاب‌گرها بالاتر از PDF و داخل ناحیه دید موبایل باقی می‌مانند. */
+.pdf-section-pop{position:fixed!important;z-index:2147483646!important;max-width:calc(100vw - 20px)!important;max-height:68dvh!important;overflow:auto!important;overscroll-behavior:contain!important;touch-action:pan-y!important;}
+.activity-picker-backdrop{position:fixed!important;inset:0!important;z-index:2147483647!important;}
+.activity-picker{max-height:calc(100dvh - 24px)!important;overflow:hidden!important;}
+.activity-picker-list,.activity-picker-category-view{min-height:0!important;overscroll-behavior:contain!important;}
+/* نوار پایین در حالت pinch واقعاً از دید خارج می‌شود؛ پس از بازگشت زوم برمی‌گردد. */
+html.postyar-pdf-pinching .bottom-nav-wrap{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transition:opacity .16s ease,visibility .16s ease!important;}
+.bottom-nav-wrap{transition:opacity .16s ease,visibility .16s ease!important;}
+</style>
+<script id="postyar-notebook-refinements">
+(function(){
+ 'use strict';
+ var MAX_TEXT=80,MAX_NUMBER=4;
+ function faDigits(v){return String(v==null?'':v).replace(/[۰-۹]/g,function(d){return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d));}).replace(/[٠-٩]/g,function(d){return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d));});}
+ function toFaDigits(v){return String(v==null?'':v).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)];});}
+ function isNumericField(el){return el.dataset.locationTypeColumn==='1'||el.inputMode==='numeric'||el.inputMode==='decimal'||el.getAttribute('inputmode')==='numeric'||el.getAttribute('inputmode')==='decimal';}
+ function limitFor(el){return isNumericField(el)?MAX_NUMBER:MAX_TEXT;}
+ function notifyLimit(){if(typeof window.toast==='function')window.toast('تعداد کاراکتر غیرمجاز می‌باشد','error');else{var n=document.getElementById('toast');if(n){n.textContent='تعداد کاراکتر غیرمجاز می‌باشد';n.classList.add('show');setTimeout(function(){n.classList.remove('show')},2600);}}}
+ function normalizeField(el,notify){
+  if(!el||el.classList.contains('locked'))return;
+  var max=limitFor(el),raw=el.value==null?el.textContent:el.value,clean=faDigits(raw);
+  var digits=isNumericField(el)?clean.replace(/[^0-9.-]/g,''):clean;
+  if(digits.length>max){digits=digits.slice(0,max);if(notify)notifyLimit();}
+  var val=toFaDigits(digits);
+  if(el.value!=null){if(el.value!==val)el.value=val;el.maxLength=max;el.setAttribute('maxlength',String(max));}
+  else{if(el.textContent!==val)el.textContent=val;}
+ }
+ document.addEventListener('beforeinput',function(e){var el=e.target;if(!el||!el.matches||!el.matches('#pdfFaithfulPages .pdf-original-field:not(.locked),#pdfFaithfulPages .pdf-added-table-cell'))return;if(e.inputType&&e.inputType.indexOf('delete')===0)return;var max=el.classList.contains('pdf-added-table-cell')?(Number(el.dataset.col)===0||[1,2,3,4,7,8,9].indexOf(Number(el.dataset.col))!==-1?4:80):limitFor(el);var current=el.value!=null?el.value:el.textContent;var selected=el.value!=null?Math.abs((el.selectionEnd||0)-(el.selectionStart||0)):0;if(String(current).length-selected>=max){e.preventDefault();notifyLimit();}},true);
+ document.addEventListener('input',function(e){var el=e.target;if(!el||!el.matches||!el.matches('#pdfFaithfulPages .pdf-original-field:not(.locked)'))return;normalizeField(el,true);},true);
+ document.addEventListener('focusin',function(e){var el=e.target;if(el&&el.matches&&el.matches('#pdfFaithfulPages .pdf-original-field:not(.locked)')){el.maxLength=limitFor(el);el.setAttribute('maxlength',String(limitFor(el)));}},true);
+ // خانه‌های جدول افزوده‌شده نیز همان سقف را رعایت می‌کنند.
+ document.addEventListener('input',function(e){var el=e.target;if(!el||!el.classList||!el.classList.contains('pdf-added-table-cell'))return;var col=Number(el.dataset.col),max=([0,1,2,3,4,7,8,9].indexOf(col)!==-1)?4:80;var value=faDigits(el.textContent);value=([0,1,2,3,4,7,8,9].indexOf(col)!==-1)?value.replace(/[^0-9.-]/g,''):value;if(value.length>max){value=value.slice(0,max);notifyLimit();}el.textContent=toFaDigits(value);},true);
+ // پیش از ذخیره، هیچ فیلد متنی/عددی از سقف مجاز عبور نمی‌کند.
+ if(typeof window.saveFaithfulPdfEdits==='function'){
+  var originalSave=window.saveFaithfulPdfEdits;
+  window.saveFaithfulPdfEdits=function(quiet){var bad=false;document.querySelectorAll('#pdfFaithfulPages .pdf-original-field:not(.locked)').forEach(function(el){var before=String(el.value||'');normalizeField(el,false);if(before!==String(el.value||''))bad=true;});if(bad&&!quiet)notifyLimit();return originalSave.apply(this,arguments);};
+ }
+ // منوی سه‌نقطهٔ جدول‌های بدون ردیف شناسایی‌شده نیز با fallback گروه جدول فعال می‌ماند.
+ // جابه‌جایی پنجره‌های شناور با visualViewport در هر میزان بزرگنمایی.
+ function repositionFloatingMenus(){document.querySelectorAll('.pdf-section-pop').forEach(function(pop){var vv=window.visualViewport,ox=vv?vv.offsetLeft:0,oy=vv?vv.offsetTop:0,w=vv?vv.width:innerWidth,h=vv?vv.height:innerHeight;var r=pop.getBoundingClientRect(),left=Math.max(8,Math.min(r.left,ox+w-r.width-8)),top=Math.max(oy+8,Math.min(r.top,oy+h-r.height-8));pop.style.left=left+'px';pop.style.top=top+'px';});}
+ if(window.visualViewport){visualViewport.addEventListener('resize',repositionFloatingMenus);visualViewport.addEventListener('scroll',repositionFloatingMenus);}
+ // تشخیص pinch از visualViewport؛ فقط هنگام بزرگنمایی واقعی PDF نوار پایین مخفی می‌شود.
+ var zoomTimer=0;
+ function updatePinchState(){var editor=document.getElementById('pdfFaithfulEditor'),page=document.getElementById('page-postal'),active=page&&page.classList.contains('active')&&editor&&!editor.classList.contains('hidden');var scale=window.visualViewport?Number(window.visualViewport.scale||1):1;var pinching=!!(active&&scale>1.03);document.documentElement.classList.toggle('postyar-pdf-pinching',pinching);}
+ if(window.visualViewport){visualViewport.addEventListener('resize',updatePinchState);visualViewport.addEventListener('scroll',updatePinchState);}
+ window.addEventListener('resize',updatePinchState);window.addEventListener('scroll',function(){clearTimeout(zoomTimer);zoomTimer=setTimeout(updatePinchState,80)},{passive:true});
+ var root=document.getElementById('pdfFaithfulPages');if(root&&window.MutationObserver){new MutationObserver(function(){updatePinchState();}).observe(root,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});}
+ document.addEventListener('click',function(e){if(e.target&&e.target.closest&&e.target.closest('.pdf-section-menu'))setTimeout(repositionFloatingMenus,20);},true);
+ updatePinchState();
+})();
+</script>
+
+
+<style id="postyar-final-precision-fixes">
+/* منوی شناور و انتخاب‌گرها در تمام بزرگنمایی‌ها بالاتر از لایه PDF می‌مانند. */
+.pdf-section-pop{position:fixed!important;z-index:2147483646!important;box-sizing:border-box!important;max-width:calc(100vw - 16px)!important;max-height:min(68dvh,560px)!important;overflow:auto!important;overscroll-behavior:contain!important;touch-action:pan-y!important;transform:none!important;zoom:1!important;}
+.pdf-section-pop button{min-height:44px!important;touch-action:manipulation!important;}
+/* حتی با مجاز بودن pinch در صفحه کدگذاری، خود نوار پایین هرگز بزرگ نمی‌شود. */
+#page-postal .bottom-nav-wrap,#page-postal .bottom-nav-wrap *,#page-postal .bottom-nav{touch-action:pan-x pan-y!important;transform:none!important;zoom:1!important;}
+/* نوع مکان هنگام تایپ، هم‌اندازه و هم‌ظاهر فیلد دستی پلاک است. */
+#page-postal .pdf-original-field[data-location-type-column="1"]{box-sizing:border-box!important;min-width:2px!important;max-width:none!important;font-family:Tahoma,Arial,sans-serif!important;}
+#page-postal .pdf-original-field[data-location-type-column="1"].is-editing{min-height:24px!important;padding:2px 5px!important;border:1.5px solid #2563eb!important;border-radius:7px!important;background:#fff!important;color:#1d4ed8!important;box-shadow:0 2px 9px #2563eb20!important;font-weight:700!important;}
+</style>
+<script id="postyar-final-precision-fixes">
+(function(){
+ 'use strict';
+ var MAX_TEXT=80,MAX_NUM=4;
+ var numericCols=[0,1,2,3,4,7,8,9];
+ function persianDigits(v){return String(v==null?'':v).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)];}).replace(/[٠-٩]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'['٠١٢٣٤٥٦٧٨٩'.indexOf(d)];});}
+ function isNum(el){return el.dataset.locationTypeColumn==='1'||el.inputMode==='numeric'||el.inputMode==='decimal'||el.getAttribute('inputmode')==='numeric'||el.getAttribute('inputmode')==='decimal';}
+ function maxFor(el){return isNum(el)?MAX_NUM:MAX_TEXT;}
+ function limitNotice(){if(typeof window.toast==='function')window.toast('تعداد کاراکتر غیرمجاز می‌باشد','error');else{var t=document.getElementById('toast');if(t){t.textContent='تعداد کاراکتر غیرمجاز می‌باشد';t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2600);}}}
+ function normalize(el,notify){if(!el||el.classList.contains('locked'))return;var raw=el.value!=null?el.value:el.textContent;var value=persianDigits(raw);if(isNum(el))value=value.replace(/[^۰-۹.,،/\-−–]/g,'');var max=maxFor(el);if(value.length>max){value=value.slice(0,max);if(notify)limitNotice();}if(el.value!=null){if(el.value!==value)el.value=value;el.maxLength=max;el.setAttribute('maxlength',String(max));}else if(el.textContent!==value)el.textContent=value;}
+ document.addEventListener('focusin',function(e){var el=e.target;if(el&&el.matches&&el.matches('#pdfFaithfulPages .pdf-original-field:not(.locked)')){el.maxLength=maxFor(el);el.setAttribute('maxlength',String(maxFor(el)));}},true);
+ document.addEventListener('input',function(e){var el=e.target;if(!el||!el.matches)return;if(el.matches('#pdfFaithfulPages .pdf-original-field:not(.locked)'))normalize(el,true);else if(el.matches('#pdfFaithfulPages .pdf-added-table-cell')){var col=Number(el.dataset.col),max=numericCols.indexOf(col)!==-1?MAX_NUM:MAX_TEXT,raw=persianDigits(el.textContent);if(numericCols.indexOf(col)!==-1)raw=raw.replace(/[^۰-۹.,،/\-−–]/g,'');if(raw.length>max){raw=raw.slice(0,max);limitNotice();}if(el.textContent!==raw)el.textContent=raw;}},true);
+ document.addEventListener('paste',function(e){var el=e.target;if(!el||!el.matches||!el.matches('#pdfFaithfulPages .pdf-original-field:not(.locked),#pdfFaithfulPages .pdf-added-table-cell'))return;var pasted=(e.clipboardData||window.clipboardData).getData('text')||'';var current=el.value!=null?el.value:el.textContent;var max=el.classList.contains('pdf-added-table-cell')?(numericCols.indexOf(Number(el.dataset.col))!==-1?MAX_NUM:MAX_TEXT):maxFor(el);var selected=el.value!=null?Math.abs((el.selectionEnd||0)-(el.selectionStart||0)):0;if(String(current).length-selected+String(pasted).length>max){e.preventDefault();limitNotice();}},true);
+ // نوار پایین فقط با زوم واقعی مرورگر مخفی می‌شود و با بازگشت مقیاس به ۱ برمی‌گردد.
+ var timer=0;function syncZoom(){var page=document.getElementById('page-postal'),editor=document.getElementById('pdfFaithfulEditor');var active=!!(page&&page.classList.contains('active')&&editor&&!editor.classList.contains('hidden'));var scale=window.visualViewport?Number(window.visualViewport.scale||1):1;document.documentElement.classList.toggle('postyar-pdf-pinching',active&&scale>1.03);}
+ if(window.visualViewport){visualViewport.addEventListener('resize',syncZoom);visualViewport.addEventListener('scroll',syncZoom);}
+ window.addEventListener('resize',syncZoom);window.addEventListener('orientationchange',syncZoom);window.addEventListener('scroll',function(){clearTimeout(timer);timer=setTimeout(syncZoom,100)},{passive:true});
+ // در موبایل، جای پنجره باز بر اساس visual viewport دوباره محاسبه می‌شود؛ خود منو بسته نمی‌شود.
+ function fitMenus(){var vv=window.visualViewport,ox=vv?vv.offsetLeft:0,oy=vv?vv.offsetTop:0,vw=vv?vv.width:innerWidth,vh=vv?vv.height:innerHeight;document.querySelectorAll('.pdf-section-pop').forEach(function(m){var r=m.getBoundingClientRect(),w=Math.min(r.width,vw-16),h=Math.min(r.height,vh-16);m.style.width=w+'px';m.style.maxHeight=Math.max(100,vh-16)+'px';m.style.left=Math.max(ox+8,Math.min(r.left,ox+vw-w-8))+'px';m.style.top=Math.max(oy+8,Math.min(r.top,oy+vh-h-8))+'px';});}
+ if(window.visualViewport){visualViewport.addEventListener('resize',fitMenus);visualViewport.addEventListener('scroll',fitMenus);}window.addEventListener('resize',fitMenus);
+ document.addEventListener('click',function(e){if(e.target&&e.target.closest&&e.target.closest('.pdf-section-menu'))setTimeout(fitMenus,40);},true);
+ syncZoom();
+})();
+</script>
+
 </html>
 <style id="postyar-new-form-placeholder-fix">
 .pdf-added-table-cell.is-empty{position:relative;color:#94a3b8!important;font-size:clamp(6px, .68vw, 9px)!important;}
