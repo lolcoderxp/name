@@ -704,6 +704,10 @@ img{display:block;max-width:100%}
 
 
 
+/* حذف برندینگ Leaflet؛ اعتبار منبع تصاویر ماهواره‌ای به شکل حداقلی باقی می‌ماند. */
+#page-map .leaflet-control-attribution{font-size:9px!important;background:rgba(255,255,255,.65)!important;color:#333!important}
+#page-map .leaflet-control-attribution a{display:none!important}
+
 /* نوار ابزارهای پرکاربرد روی بالای نقشه */
 .map-quick-tools{position:absolute;top:12px;left:12px;right:70px;z-index:640;display:flex;align-items:center;gap:6px;max-width:calc(100% - 82px);overflow-x:auto;scrollbar-width:none;pointer-events:auto}
 .map-quick-tools::-webkit-scrollbar{display:none}
@@ -780,6 +784,19 @@ img{display:block;max-width:100%}
 #page-map .leaflet-container{touch-action:none!important;overscroll-behavior:none!important;}
 #page-map .leaflet-control-zoom a{touch-action:manipulation!important;}
 </style>
+
+<style id="postyar-map-menu-actions-restored-v9">
+  #page-map .map-menu-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important;margin:12px 0 0!important;padding:0!important;overflow:visible!important}
+  #page-map .map-menu-actions .map-tool{justify-content:center;min-height:42px;padding:9px 7px;white-space:normal;text-align:center;font-size:11px}
+  #page-map .map-menu-search{margin:0!important}
+  #page-map .map-search-toggle{width:100%;min-height:42px;border:1px solid #e5eaf1;border-radius:12px;background:#f8fafc;color:#1e293b;font:700 12px Vazirmatn,Tahoma,sans-serif;cursor:pointer}
+  #page-map .map-search-panel{padding-top:10px}
+  #page-map .map-search-panel[hidden]{display:none!important}
+  #page-map .leaflet-control-zoom{z-index:700!important;pointer-events:auto!important;margin:10px!important}
+  #page-map .leaflet-control-zoom a{display:block!important;pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important}
+  #page-map .map-corner-trigger{z-index:1200!important}
+</style>
+
 </head>
 <body>
 <div class="activity-picker-backdrop" id="activityPickerBackdrop" role="dialog" aria-modal="true" aria-labelledby="activityPickerTitle">
@@ -983,35 +1000,31 @@ img{display:block;max-width:100%}
             <button type="button" class="map-quick-tool" data-tool="polygon">پارسل</button>
             <button type="button" class="map-quick-tool" onclick="finishDrawing()">پایان ترسیم</button>
             <button type="button" class="map-quick-tool" onclick="undoDraw()">بازگشت</button>
+            <button type="button" class="map-quick-tool" onclick="clearDraw()">پاک کردن ترسیم</button>
           </div>
           <button type="button" class="map-corner-trigger" id="mapMoreButton" aria-label="بازکردن ابزارهای نقشه" aria-expanded="false" aria-controls="mapMoreMenu" onclick="toggleMapMenu()"><span class="map-more-dots" aria-hidden="true"><i></i><i></i><i></i></span></button>
           <div class="map-drawer-backdrop" id="mapMenuBackdrop" hidden onclick="toggleMapMenu(false)"></div>
           <aside class="map-more-menu" id="mapMoreMenu" aria-hidden="true">
-            <div class="map-menu-heading"><b>ابزارهای نقشه</b></div>
             <div class="map-menu-content">
               <div class="map-menu-search">
                 <button type="button" id="mapSearchToggle" class="map-search-toggle" aria-expanded="false" aria-controls="mapSearchPanel" onclick="toggleMapSearch()">جست‌وجوی مکان</button>
                 <div id="mapSearchPanel" class="map-search-panel" hidden>
-                  <label for="mapSearchInput">نام دقیق مکان را وارد کنید</label>
+                  <label for="mapSearchInput">نام مکان را وارد کنید</label>
                   <div class="map-search-row"><input id="mapSearchInput" type="search" placeholder="نام ساختمان، خیابان یا مکان…"><button class="btn btn-primary" type="button" onclick="searchMapPlace()">جست‌وجو</button></div>
                 </div>
               </div>
-              <div class="map-menu-section-title">حالت نقشه و ترسیم</div>
               <div class="map-tools">
-                <button class="map-tool active" data-tool="select">انتخاب</button>
-                <button class="map-tool" data-tool="marker">نقطه</button>
-                <button class="map-tool" onclick="clearDraw()">پاک‌کردن ترسیم</button>
-                <button class="map-tool" id="loadBuildingsBtn" onclick="loadBuildingsInView()">نمایش ساختمان‌های این محدوده</button>
+                <button type="button" class="map-tool active" data-tool="select">انتخاب</button>
+                <button type="button" class="map-tool" data-tool="marker">نقطه</button>
+                <button type="button" class="map-tool" onclick="clearDraw()">پاک‌کردن ترسیم</button>
               </div>
-              <div class="map-menu-section-title">موقعیت و آدرس</div>
               <div class="map-tools">
-                <button class="map-tool" id="locationBtn" onclick="getMyLocation()">مکان من / GPS</button>
-                <button class="map-tool" onclick="reverseCurrentMapCenter()">آدرس این نقطه</button>
+                <button type="button" class="map-tool" id="locationBtn" onclick="getMyLocation()">مکان من / GPS</button>
+                <button type="button" class="map-tool" onclick="reverseCurrentMapCenter()">آدرس این نقطه</button>
               </div>
-              <div class="map-menu-section-title">ورود و خروجی فایل</div>
               <div class="map-tools">
-                <button class="map-tool" onclick="exportKML()">خروجی KML</button>
-                <button class="map-tool" onclick="document.getElementById('mapKmlInput').click()">ورود KML</button>
+                <button type="button" class="map-tool" onclick="exportKML()">خروجی KML</button>
+                <button type="button" class="map-tool" onclick="document.getElementById('mapKmlInput').click()">ورود KML</button>
               </div>
               <input id="mapKmlInput" type="file" accept=".kml,.xml,application/vnd.google-earth.kml+xml" hidden onchange="importKMLFile(this)">
             </div>
@@ -1797,11 +1810,11 @@ function initMap(){
     // نقشه ماهواره‌ای بدون API Key؛ تصاویر ماهواره‌ای Esri
     var satelliteLayer=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
       maxZoom:22,maxNativeZoom:19,
-      attribution:'Tiles © Esri — Sources: Esri, Maxar, Earthstar Geographics'
+      attribution:'© Esri'
     });
     // فقط لایه تصاویر ماهواره‌ای؛ بدون منوی انتخاب لایه و آیکون سه‌خط
     baseMapLayer=satelliteLayer.addTo(map);
-    L.control.zoom({position:'topleft'}).addTo(map);
+    L.control.zoom({position:'bottomleft'}).addTo(map);
     drawLayer=L.featureGroup().addTo(map);
     savedLayer=L.featureGroup().addTo(map);
     map.on('click',onMapClick);
@@ -2618,18 +2631,26 @@ function createSubrowForAddedTable(pageNo,parent,overlay,items,scale){
 function addPdfSectionMenus(overlay,pageNo,items,scale){
   // منوها به بدنه صفحه منتقل می‌شوند تا مستقل از زوم PDF و محدوده canvas باشند.
   function placeFloatingPanel(panel,anchor){
-    var gap=8,pad=10,vv=window.visualViewport;
+    var gap=8,pad=8,vv=window.visualViewport;
     var vw=vv?vv.width:window.innerWidth,vh=vv?vv.height:window.innerHeight;
-    var ox=vv?vv.offsetLeft:0,oy=vv?vv.offsetTop:0;
+    var ox=vv?vv.offsetLeft:0,oy=vv?vv.offsetTop:0,scale=vv&&vv.scale?vv.scale:1;
     var r=anchor.getBoundingClientRect();
-    panel.style.position='fixed';panel.style.left='0px';panel.style.top='0px';
-    panel.style.right='auto';panel.style.bottom='auto';panel.style.zIndex='2147483646';
-    panel.style.boxSizing='border-box';
+    panel.style.position='fixed';panel.style.right='auto';panel.style.bottom='auto';
+    panel.style.zIndex='2147483647';panel.style.boxSizing='border-box';
+    panel.style.overflowY='auto';panel.style.overflowX='hidden';panel.style.zoom='1';
+    if(panel.parentNode!==document.body)document.body.appendChild(panel);
+    // در زوم لمسی، منو داخل visual viewport باز می‌شود و به مختصات PDF وابسته نیست.
+    var zoomedMobile=window.matchMedia&&window.matchMedia('(max-width: 640px)').matches&&(scale>1.02||(vv&&vv.scale>1.02));
+    if(zoomedMobile){
+      panel.style.left=Math.round(ox+pad)+'px';panel.style.top=Math.round(oy+pad)+'px';
+      panel.style.width=Math.max(1,vw-2*pad)+'px';panel.style.maxWidth=Math.max(1,vw-2*pad)+'px';
+      panel.style.height='auto';panel.style.maxHeight=Math.max(120,vh-2*pad)+'px';
+      panel.style.borderRadius='16px';panel.style.transform='none';return;
+    }
+    panel.style.left='0px';panel.style.top='0px';
     panel.style.width=Math.max(180,Math.min(290,vw-2*pad))+'px';
     panel.style.maxWidth=Math.max(180,vw-2*pad)+'px';
-    panel.style.maxHeight=Math.max(120,Math.min(vh*.68,560))+'px';panel.style.overflowY='auto';
-    panel.style.overflowX='hidden';panel.style.zoom='1';
-    if(panel.parentNode!==document.body)document.body.appendChild(panel);
+    panel.style.height='auto';panel.style.maxHeight=Math.max(120,Math.min(vh*.68,560))+'px';
     var pr=panel.getBoundingClientRect(),w=pr.width,h=pr.height;
     var left=Math.max(ox+pad,Math.min(r.right-w,ox+vw-w-pad));
     var below=oy+vh-pad-r.bottom,above=r.top-(oy+pad);
@@ -3900,10 +3921,10 @@ function isLocationTypeField(field){
 document.addEventListener('click',function(ev){
  var field=ev.target.closest&&ev.target.closest('.pdf-original-field:not(.locked)');
  // Activity picker is restricted to the exact activity column; it never opens on workshop-name cells.
- var locationCell=isLocationTypeField(field);
  var activityCell=isActivityColumnField(field);
- if(!field||(!locationCell&&!activityCell))return;
- ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();open(field,locationCell?'location':'activity')
+ // نوع مکان مانند پلاک مستقیماً داخل همان خانه تایپ می‌شود؛ فقط نوع فعالیت پنجره انتخاب را باز می‌کند.
+ if(!field||!activityCell)return;
+ ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();open(field,'activity')
 },true);
 $('activityPickerTextMode').addEventListener('click',function(){textInput.value=('value' in activeField?activeField.value:activeField.textContent)||'';showView('text')});
 $('activityPickerCategoryMode').addEventListener('click',function(){showView('categories')});
@@ -4508,5 +4529,179 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
       event.preventDefault();
     }
   }, { capture: true, passive: false });
+})();
+</script>
+
+<!-- Fix: keep coding pickers and table menus inside the actually visible phone viewport, even during PDF pinch zoom. -->
+<style id="postyar-coding-viewport-overlays-v7">
+  #activityPickerBackdrop{position:fixed!important;inset:auto!important;box-sizing:border-box!important;overflow:auto!important;overscroll-behavior:contain!important;z-index:2147483647!important;padding:8px!important;}
+  #activityPickerBackdrop .activity-picker{width:min(460px,100%)!important;max-width:100%!important;max-height:100%!important;min-height:0!important;}
+  #activityPickerBackdrop .activity-picker-list{min-height:0!important;max-height:none!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;}
+  #activityPickerBackdrop .activity-picker-category-view{min-height:0!important;overflow:hidden!important;}
+  #activityPickerBackdrop .activity-picker-category-view .activity-picker-list{flex:1 1 auto!important;max-height:none!important;min-height:80px!important;}
+  .pdf-section-pop{box-sizing:border-box!important;max-width:calc(100vw - 16px)!important;max-height:calc(100dvh - 16px)!important;overflow:auto!important;overscroll-behavior:contain!important;}
+  .pdf-section-pop button{white-space:normal!important;overflow-wrap:anywhere!important;}
+</style>
+<script id="postyar-coding-viewport-overlays-v7-js">
+(function(){
+  'use strict';
+  var picker=document.getElementById('activityPickerBackdrop');
+  if(picker&&picker.parentNode!==document.body)document.body.appendChild(picker);
+  function fitPicker(){
+    if(!picker)return;
+    var vv=window.visualViewport;
+    var left=vv?vv.offsetLeft:0,top=vv?vv.offsetTop:0;
+    var width=vv?vv.width:window.innerWidth,height=vv?vv.height:window.innerHeight;
+    picker.style.left=Math.round(left)+'px';picker.style.top=Math.round(top)+'px';
+    picker.style.width=Math.max(1,Math.round(width))+'px';picker.style.height=Math.max(1,Math.round(height))+'px';
+    picker.style.right='auto';picker.style.bottom='auto';
+  }
+  fitPicker();
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',fitPicker,{passive:true});
+    window.visualViewport.addEventListener('scroll',fitPicker,{passive:true});
+  }
+  window.addEventListener('resize',fitPicker,{passive:true});
+  window.addEventListener('orientationchange',function(){setTimeout(fitPicker,100);setTimeout(fitPicker,350)},{passive:true});
+  function fitTableMenus(){
+    var vv=window.visualViewport,ox=vv?vv.offsetLeft:0,oy=vv?vv.offsetTop:0;
+    var vw=vv?vv.width:window.innerWidth,vh=vv?vv.height:window.innerHeight;
+    document.querySelectorAll('.pdf-section-pop').forEach(function(menu){
+      if(!menu.isConnected)return;
+      var zoomed=vv&&vv.scale>1.02&&window.matchMedia('(max-width: 640px)').matches;
+      if(zoomed){
+        menu.style.position='fixed';menu.style.left=Math.round(ox+8)+'px';menu.style.top=Math.round(oy+8)+'px';
+        menu.style.width=Math.max(1,Math.round(vw-16))+'px';menu.style.maxWidth=Math.max(1,Math.round(vw-16))+'px';
+        menu.style.maxHeight=Math.max(120,Math.round(vh-16))+'px';menu.style.zIndex='2147483647';
+      }else{
+        var r=menu.getBoundingClientRect(),w=Math.min(r.width,vw-16),h=Math.min(r.height,vh-16);
+        menu.style.left=Math.round(Math.max(ox+8,Math.min(r.left,ox+vw-w-8)))+'px';
+        menu.style.top=Math.round(Math.max(oy+8,Math.min(r.top,oy+vh-h-8)))+'px';
+      }
+    });
+  }
+  if(window.visualViewport){window.visualViewport.addEventListener('resize',fitTableMenus,{passive:true});window.visualViewport.addEventListener('scroll',fitTableMenus,{passive:true});}
+  window.addEventListener('resize',fitTableMenus,{passive:true});
+})();
+</script>
+
+
+
+<!-- Hotfix v8: restore and pin the map three-dot control above the Leaflet canvas. -->
+<style id="postyar-map-three-dot-hotfix-v8">
+  /* Keep the map control above Leaflet panes and independent from PDF zoom layers. */
+  #page-map #mapStage{
+    position:relative!important;
+    isolation:isolate!important;
+    overflow:visible!important;
+  }
+  #page-map #mapMoreButton.map-corner-trigger{
+    display:grid!important;
+    position:absolute!important;
+    top:10px!important;
+    right:10px!important;
+    left:auto!important;
+    bottom:auto!important;
+    width:46px!important;
+    height:46px!important;
+    min-width:46px!important;
+    min-height:46px!important;
+    padding:0!important;
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    z-index:2147483000!important;
+    background:#fff!important;
+    color:#182230!important;
+    border:1px solid #e5eaf1!important;
+    border-radius:14px!important;
+    box-shadow:0 5px 18px rgba(15,23,42,.24)!important;
+    transform:none!important;
+  }
+  #page-map #mapMoreButton .map-more-dots{
+    display:flex!important;visibility:visible!important;opacity:1!important;
+    align-items:center!important;justify-content:center!important;
+    gap:3px!important;padding:8px!important;background:#fff3c4!important;
+    color:#946200!important;border-radius:10px!important;
+  }
+  #page-map #mapMoreButton .map-more-dots i{
+    display:block!important;width:4px!important;height:4px!important;
+    border-radius:50%!important;background:currentColor!important;
+  }
+  #page-map #mapMoreMenu.map-more-menu{
+    position:fixed!important;
+    top:64px!important;right:10px!important;left:auto!important;bottom:auto!important;
+    width:min(300px,calc(100vw - 20px))!important;
+    max-width:calc(100vw - 20px)!important;
+    max-height:calc(100dvh - 80px)!important;
+    margin:0!important;z-index:2147483001!important;
+    display:block!important;pointer-events:none!important;
+    visibility:hidden!important;opacity:0!important;
+    transform:translateY(-6px)!important;
+  }
+  #page-map #mapMoreMenu.map-more-menu.open{
+    pointer-events:auto!important;visibility:visible!important;opacity:1!important;
+    transform:translateY(0)!important;
+  }
+  #page-map #mapMoreMenu .map-menu-content{
+    max-height:calc(100dvh - 96px)!important;overflow-y:auto!important;
+    overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;
+  }
+  #page-map #mapMenuBackdrop{display:none!important;pointer-events:none!important;}
+  @media(max-width:600px){
+    #page-map #mapMoreButton.map-corner-trigger{top:8px!important;right:8px!important;}
+    #page-map #mapMoreMenu.map-more-menu{right:8px!important;width:min(300px,calc(100vw - 16px))!important;max-width:calc(100vw - 16px)!important;}
+  }
+</style>
+<script id="postyar-map-three-dot-hotfix-v8-js">
+(function(){
+  'use strict';
+  var button=document.getElementById('mapMoreButton');
+  var menu=document.getElementById('mapMoreMenu');
+  if(!button||!menu)return;
+
+  /* Avoid a double toggle: replace the inline handler with one reliable target handler. */
+  button.removeAttribute('onclick');
+  button.addEventListener('click',function(ev){
+    ev.preventDefault();ev.stopPropagation();
+    if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();
+    if(typeof window.toggleMapMenu==='function')window.toggleMapMenu();
+    else{
+      var opening=!menu.classList.contains('open');
+      menu.classList.toggle('open',opening);
+      menu.setAttribute('aria-hidden',opening?'false':'true');
+      button.setAttribute('aria-expanded',opening?'true':'false');
+    }
+    placeMenu();
+  },true);
+
+  function placeMenu(){
+    if(!menu.classList.contains('open'))return;
+    var r=button.getBoundingClientRect();
+    var vv=window.visualViewport;
+    var vw=vv?vv.width:window.innerWidth;
+    var vh=vv?vv.height:window.innerHeight;
+    var ox=vv?vv.offsetLeft:0,oy=vv?vv.offsetTop:0;
+    var width=Math.min(300,Math.max(180,vw-16));
+    var right=Math.max(8,Math.min(vw-(r.right-ox),vw-width-8));
+    var top=r.bottom-oy+8;
+    var maxHeight=Math.max(120,vh-top-8);
+    if(top>vh-140)top=Math.max(8,r.top-oy-Math.min(420,vh-16)-8);
+    menu.style.position='fixed';
+    menu.style.top=Math.round(oy+top)+'px';
+    menu.style.right=Math.round(right)+'px';
+    menu.style.left='auto';menu.style.bottom='auto';
+    menu.style.width=Math.round(width)+'px';
+    menu.style.maxWidth=Math.round(vw-16)+'px';
+    menu.style.maxHeight=Math.round(maxHeight)+'px';
+    menu.style.zIndex='2147483001';
+  }
+  window.addEventListener('resize',placeMenu,{passive:true});
+  window.addEventListener('orientationchange',function(){setTimeout(placeMenu,100);setTimeout(placeMenu,350)},{passive:true});
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',placeMenu,{passive:true});
+    window.visualViewport.addEventListener('scroll',placeMenu,{passive:true});
+  }
+  document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&menu.classList.contains('open')&&typeof window.toggleMapMenu==='function')window.toggleMapMenu(false)});
 })();
 </script>
