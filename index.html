@@ -762,6 +762,24 @@ img{display:block;max-width:100%}
 .pdf-original-field.is-editing{font-variant-numeric:tabular-nums!important;-webkit-text-size-adjust:100%;}
 .pdf-original-field[inputmode="numeric"],.pdf-original-field[inputmode="decimal"]{font-variant-numeric:tabular-nums!important;}
 </style>
+<style id="postyar-map-layout-gesture-fix-v5">
+/* نقشه بدون فضای خالی انتهای صفحه و با ارتفاع کنترل‌شده */
+#page-map{padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;min-height:0!important;}
+#page-map>.section{margin-bottom:0!important;padding-bottom:0!important;}
+#page-map .map-stage{margin-bottom:0!important;}
+#page-map #map{height:clamp(320px,calc(100dvh - 300px),560px)!important;min-height:320px;max-height:560px;touch-action:none!important;overscroll-behavior:contain!important;}
+#page-map .map-quick-tools,#page-map .map-corner-trigger,#page-map .map-tool{touch-action:manipulation!important;}
+#page-map input,#page-map select,#page-map button{font-size:16px;}
+#page-map .map-quick-tool,#page-map .map-tool,#page-map .map-corner-trigger{font-size:11px!important;}
+/* فضای رزرو شدهٔ سراسری برای نوار پایین در صفحه نقشه کمتر شود */
+@supports selector(body:has(#page-map.active)){
+  body:has(#page-map.active) .app{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;}
+}
+/* جلوگیری از زوم ناخواستهٔ مرورگر روی صفحه نقشه؛ زوم نقشه با کنترل‌های Leaflet انجام می‌شود. */
+#page-map,#page-map *{ -webkit-tap-highlight-color:transparent; }
+#page-map .leaflet-container{touch-action:none!important;overscroll-behavior:none!important;}
+#page-map .leaflet-control-zoom a{touch-action:manipulation!important;}
+</style>
 </head>
 <body>
 <div class="activity-picker-backdrop" id="activityPickerBackdrop" role="dialog" aria-modal="true" aria-labelledby="activityPickerTitle">
@@ -993,7 +1011,6 @@ img{display:block;max-width:100%}
               <div class="map-menu-section-title">ورود و خروجی فایل</div>
               <div class="map-tools">
                 <button class="map-tool" onclick="exportKML()">خروجی KML</button>
-                <button class="map-tool" onclick="exportProjectDataJson()">خروجی داده‌های پروژه (JSON)</button>
                 <button class="map-tool" onclick="document.getElementById('mapKmlInput').click()">ورود KML</button>
               </div>
               <input id="mapKmlInput" type="file" accept=".kml,.xml,application/vnd.google-earth.kml+xml" hidden onchange="importKMLFile(this)">
@@ -1005,7 +1022,6 @@ img{display:block;max-width:100%}
           <span id="mapStatus">حالت انتخاب</span>
           <span id="coordStatus">—</span>
         </div>
-        <button class="btn btn-primary btn-block" style="margin-top:10px" onclick="finishDrawing()"><svg class="icn"><use href="#i-save"/></svg> ذخیره ترسیم</button>
         <div id="parcelsList" hidden></div>
       </div>
     </section>
@@ -1777,7 +1793,7 @@ function initMap(){
   if(!mapEl)return;
   if(mapEl.offsetHeight<50){setTimeout(initMap,200);return}
   try{
-    map=L.map('map',{zoomControl:false,maxZoom:22}).setView([35.700,51.400],12);
+    map=L.map('map',{zoomControl:false,maxZoom:22,doubleClickZoom:false,tap:true,scrollWheelZoom:true}).setView([35.700,51.400],12);
     // نقشه ماهواره‌ای بدون API Key؛ تصاویر ماهواره‌ای Esri
     var satelliteLayer=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
       maxZoom:22,maxNativeZoom:19,
@@ -2151,8 +2167,7 @@ async function syncProjectToBackend(projectId){
   if(!POSTYAR_API_BASE)throw new Error('نشانی API هنوز تنظیم نشده است؛ داده‌ها فعلاً به‌صورت محلی و ساختاریافته ذخیره می‌شوند.');
   var payload=buildProjectDataPackage(projectId);var base=POSTYAR_API_BASE+'/api/v1/projects/'+encodeURIComponent(projectId);var response=await fetch(base+'/sync',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify(payload)});if(!response.ok)throw new Error('همگام‌سازی داده‌های پروژه ناموفق بود: HTTP '+response.status);var result=await response.json().catch(function(){return {ok:true}});for(var i=0;i<(state.projectFiles||[]).length;i++){var meta=state.projectFiles[i];if(String(meta.projectId)!==String(projectId))continue;var stored=await getProjectAsset(meta.id);if(!stored||!stored.blob)continue;var form=new FormData();form.append('file',stored.blob,meta.name||'document.pdf');form.append('metadata',JSON.stringify({id:meta.id,projectId:String(projectId),name:meta.name,type:meta.type||'application/pdf',size:meta.size||stored.blob.size,schemaVersion:POSTYAR_DATA_SCHEMA_VERSION}));var upload=await fetch(base+'/files',{method:'POST',body:form,credentials:'include'});if(!upload.ok)throw new Error('بارگذاری فایل PDF '+meta.name+' روی سرور ناموفق بود: HTTP '+upload.status)}return result;
 }
-window.exportProjectDataJson=exportProjectDataJson;
-window.postyarData={schemaVersion:POSTYAR_DATA_SCHEMA_VERSION,buildProjectPackage:buildProjectDataPackage,exportProjectJson:exportProjectDataJson,syncProject:syncProjectToBackend,getParcels:function(projectId){return getAllFromStore('parcels').then(function(a){return a.filter(function(x){return String(x.projectId)===String(projectId)})})},getPdfRecords:function(projectId){return getAllFromStore('pdfRecords').then(function(a){return a.filter(function(x){return String(x.projectId)===String(projectId)})})}};
+window.postyarData={schemaVersion:POSTYAR_DATA_SCHEMA_VERSION,buildProjectPackage:buildProjectDataPackage,syncProject:syncProjectToBackend,getParcels:function(projectId){return getAllFromStore('parcels').then(function(a){return a.filter(function(x){return String(x.projectId)===String(projectId)})})},getPdfRecords:function(projectId){return getAllFromStore('pdfRecords').then(function(a){return a.filter(function(x){return String(x.projectId)===String(projectId)})})}};
 
 function formatProjectFileSize(n){n=Number(n)||0;return n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
 function onImportProjectChange(){
