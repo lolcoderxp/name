@@ -4705,3 +4705,271 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
   document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&menu.classList.contains('open')&&typeof window.toggleMapMenu==='function')window.toggleMapMenu(false)});
 })();
 </script>
+
+
+<!-- POSTYAR FINAL PDF ZOOM ISOLATION + SCALE-AWARE TABLE MENU -->
+<style id="postyar-final-pdf-zoom-isolation">
+  /* Pinch zoom is permitted only on the actual PDF sheet, never on controls,
+     page chrome, menus, or the fixed bottom navigation. */
+  html, body, body *, .app, .pages, .page,
+  #page-postal, #page-postal *,
+  #page-import, #page-import *,
+  .bottom-nav-wrap, .bottom-nav-wrap *,
+  .pdf-control-box, .pdf-control-box *,
+  .pdf-faithful-toolbar, .pdf-faithful-toolbar *,
+  .pdf-section-menu, .pdf-section-pop, .pdf-section-pop * {
+    touch-action: pan-x pan-y !important;
+  }
+  #page-postal,
+  #page-postal #pdfFaithfulEditor,
+  #page-postal #pdfFaithfulPages,
+  #page-postal .pdf-faithful-pages,
+  #page-postal .pdf-faithful-page,
+  #page-postal .pdf-faithful-page-inner,
+  #page-postal .pdf-original-page,
+  #page-postal .pdf-original-overlay {
+    touch-action: pan-x pan-y pinch-zoom !important;
+  }
+  .bottom-nav-wrap, .bottom-nav-wrap *, .bottom-nav {
+    position: relative;
+    transform: none !important;
+    zoom: 1 !important;
+  }
+  .bottom-nav-wrap {
+    position: fixed !important;
+    left: 0 !important; right: 0 !important;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+    top: auto !important;
+    z-index: 2147483000 !important;
+    opacity: 1 !important; visibility: visible !important;
+    pointer-events: auto !important;
+  }
+  html.postyar-pdf-pinching .bottom-nav-wrap {
+    opacity: 1 !important; visibility: visible !important;
+    pointer-events: auto !important;
+  }
+  /* Keep the three-dot popup a normal, compact menu at the current PDF zoom.
+     Do NOT expand it to the whole visual viewport when the user pinches. */
+  .pdf-section-pop {
+    position: fixed !important;
+    box-sizing: border-box !important;
+    width: 270px !important;
+    min-width: 0 !important;
+    max-width: 270px !important;
+    max-height: min(62vh, 480px) !important;
+    overflow: auto !important;
+    overscroll-behavior: contain !important;
+    transform: none !important;
+    zoom: 1 !important;
+    z-index: 2147483647 !important;
+    touch-action: pan-y !important;
+  }
+  .pdf-section-pop button { touch-action: manipulation !important; }
+  @media(max-width:640px) {
+    .pdf-section-pop {
+      width: 270px !important;
+      max-width: 270px !important;
+      max-height: min(62vh, 480px) !important;
+    }
+  }
+</style>
+<script id="postyar-final-pdf-zoom-isolation-js">
+(function(){
+  'use strict';
+  var lastAnchor = null;
+  var placing = false;
+
+  function isPdfZoomTarget(target){
+    return !!(target && target.closest &&
+      target.closest('#page-postal .pdf-faithful-page-inner'));
+  }
+
+  /* Block browser pinch everywhere except the rendered PDF page itself.
+     Menus, toolbar and bottom navigation remain non-zoomable. */
+  document.addEventListener('touchstart', function(ev){
+    if(!ev.touches || ev.touches.length < 2) return;
+    var allowed = isPdfZoomTarget(ev.target) &&
+      !ev.target.closest('.pdf-section-menu,.pdf-section-pop,.pdf-control-box,.pdf-faithful-toolbar,.bottom-nav-wrap');
+    document.documentElement.dataset.postyarPinchAllowed = allowed ? '1' : '0';
+    if(!allowed) ev.preventDefault();
+  }, {capture:true, passive:false});
+
+  document.addEventListener('touchmove', function(ev){
+    if(ev.touches && ev.touches.length > 1 &&
+       document.documentElement.dataset.postyarPinchAllowed !== '1') {
+      ev.preventDefault();
+    }
+  }, {capture:true, passive:false});
+
+  document.addEventListener('touchend', function(ev){
+    if(!ev.touches || ev.touches.length < 2)
+      document.documentElement.dataset.postyarPinchAllowed = '0';
+  }, {capture:true, passive:true});
+
+  document.addEventListener('gesturestart', function(ev){
+    var allowed = isPdfZoomTarget(ev.target) &&
+      !ev.target.closest('.pdf-section-menu,.pdf-section-pop,.pdf-control-box,.pdf-faithful-toolbar,.bottom-nav-wrap');
+    if(!allowed) ev.preventDefault();
+  }, {capture:true, passive:false});
+
+  function placeMenu(){
+    if(placing) return;
+    var menu = document.querySelector('.pdf-section-pop');
+    if(!menu || !menu.isConnected || !lastAnchor || !lastAnchor.isConnected) return;
+    placing = true;
+    try {
+      var vv = window.visualViewport;
+      var ox = vv ? vv.offsetLeft : 0;
+      var oy = vv ? vv.offsetTop : 0;
+      var vw = vv ? vv.width : window.innerWidth;
+      var vh = vv ? vv.height : window.innerHeight;
+      var ar = lastAnchor.getBoundingClientRect();
+
+      /* Fixed CSS-pixel dimensions intentionally remain constant. The browser
+         renders the popup at the same active pinch scale as the PDF beneath it. */
+      var width = Math.min(270, Math.max(170, vw - 16));
+      menu.style.position = 'fixed';
+      menu.style.width = width + 'px';
+      menu.style.minWidth = '0';
+      menu.style.maxWidth = width + 'px';
+      menu.style.maxHeight = Math.max(110, Math.min(vh - 16, 480)) + 'px';
+      menu.style.right = 'auto';
+      menu.style.bottom = 'auto';
+      menu.style.zIndex = '2147483647';
+      menu.style.transform = 'none';
+      menu.style.zoom = '1';
+
+      /* Measure after applying the stable width, then keep the menu beside
+         the exact three-dot button rather than jumping to the top of screen. */
+      menu.style.left = Math.round(ox + 8) + 'px';
+      menu.style.top = Math.round(oy + 8) + 'px';
+      var mr = menu.getBoundingClientRect();
+      var mw = Math.min(mr.width || width, vw - 16);
+      var mh = Math.min(mr.height || 220, vh - 16);
+      var left = ar.left + ox;
+      left = Math.max(ox + 8, Math.min(left, ox + vw - mw - 8));
+
+      var below = ar.bottom + oy + 7;
+      var above = ar.top + oy - mh - 7;
+      var top = (below + mh <= oy + vh - 8) ? below : above;
+      top = Math.max(oy + 8, Math.min(top, oy + vh - mh - 8));
+
+      menu.style.left = Math.round(left) + 'px';
+      menu.style.top = Math.round(top) + 'px';
+    } finally {
+      placing = false;
+    }
+  }
+
+  /* Existing code builds the popup on the button's click. Reposition only
+     after that code has created it; do not replace its actions or contents. */
+  document.addEventListener('click', function(ev){
+    var trigger = ev.target && ev.target.closest && ev.target.closest('.pdf-section-menu');
+    if(trigger){
+      lastAnchor = trigger;
+      requestAnimationFrame(function(){ requestAnimationFrame(placeMenu); });
+      setTimeout(placeMenu, 60);
+    }
+  }, true);
+
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', function(){
+      if(document.querySelector('.pdf-section-pop')) requestAnimationFrame(placeMenu);
+    }, {passive:true});
+    window.visualViewport.addEventListener('scroll', function(){
+      if(document.querySelector('.pdf-section-pop')) requestAnimationFrame(placeMenu);
+    }, {passive:true});
+  }
+  window.addEventListener('resize', function(){
+    if(document.querySelector('.pdf-section-pop')) requestAnimationFrame(placeMenu);
+  }, {passive:true});
+
+  document.addEventListener('click', function(ev){
+    if(ev.target && ev.target.closest &&
+       (ev.target.closest('.pdf-section-pop') || ev.target.closest('.pdf-section-menu'))) return;
+    lastAnchor = null;
+  }, true);
+})();
+</script>
+
+
+
+<!-- Postyar menu zoom-fit v2: menu follows the active PDF pinch scale, then clamps only when needed to remain fully visible. -->
+<style id="postyar-section-menu-zoom-fit-v2">
+  .pdf-section-pop{
+    box-sizing:border-box!important;
+    width:260px!important;
+    min-width:0!important;
+    max-width:calc(100vw - 16px)!important;
+    max-height:calc(100dvh - 16px)!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    transform:none!important;
+    /* Do not counter-scale the popup: native PDF pinch zoom must magnify it too. */
+  }
+  .pdf-section-pop button{box-sizing:border-box!important;white-space:normal!important;overflow-wrap:anywhere!important;}
+</style>
+<script id="postyar-section-menu-zoom-fit-v2-js">
+(function(){
+  'use strict';
+  var activeAnchor=null, raf=0;
+  function viewport(){
+    var vv=window.visualViewport;
+    return {left:vv?vv.offsetLeft:0,top:vv?vv.offsetTop:0,
+      width:vv?vv.width:window.innerWidth,height:vv?vv.height:window.innerHeight,
+      scale:vv&&vv.scale?vv.scale:1};
+  }
+  function fitMenu(){
+    var menu=document.querySelector('.pdf-section-pop');
+    if(!menu||!menu.isConnected)return;
+    var v=viewport(),pad=8;
+    /* Keep a normal menu width at low zoom. As pinch zoom increases, the browser
+       magnifies this same menu with the PDF; only clamp its CSS width if the
+       remaining visual viewport cannot contain it. */
+    var width=Math.min(260,Math.max(1,v.width-pad*2));
+    menu.style.position='fixed';menu.style.right='auto';menu.style.bottom='auto';
+    menu.style.left=Math.round(v.left+pad)+'px';menu.style.top=Math.round(v.top+pad)+'px';
+    menu.style.width=Math.round(width)+'px';menu.style.minWidth='0';
+    menu.style.maxWidth=Math.round(Math.max(1,v.width-pad*2))+'px';
+    menu.style.maxHeight=Math.round(Math.max(80,v.height-pad*2))+'px';
+    menu.style.overflowY='auto';menu.style.overflowX='hidden';
+    menu.style.boxSizing='border-box';menu.style.zIndex='2147483647';
+    menu.style.transform='none';
+    var anchor=activeAnchor&&activeAnchor.isConnected?activeAnchor:null;
+    if(!anchor)return;
+    var a=anchor.getBoundingClientRect();
+    /* Measure after width is applied so wrapped options are included. */
+    var m=menu.getBoundingClientRect();
+    var mw=Math.min(m.width||width,v.width-pad*2);
+    var mh=Math.min(m.height||180,v.height-pad*2);
+    var left=a.left;
+    left=Math.max(v.left+pad,Math.min(left,v.left+v.width-mw-pad));
+    var below=a.bottom+6,above=a.top-mh-6;
+    var top=(below+mh<=v.top+v.height-pad)?below:above;
+    top=Math.max(v.top+pad,Math.min(top,v.top+v.height-mh-pad));
+    menu.style.left=Math.round(left)+'px';menu.style.top=Math.round(top)+'px';
+  }
+  function schedule(){
+    if(raf)cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(function(){raf=0;fitMenu();});
+  }
+  /* Capture the tapped three-dot button; let the existing handler create the
+     original menu and its actions, then only correct its scale-aware geometry. */
+  document.addEventListener('click',function(ev){
+    var trigger=ev.target&&ev.target.closest&&ev.target.closest('.pdf-section-menu');
+    if(trigger){activeAnchor=trigger;requestAnimationFrame(function(){requestAnimationFrame(schedule);});setTimeout(schedule,50);}
+    else if(!(ev.target&&ev.target.closest&&ev.target.closest('.pdf-section-pop'))){activeAnchor=null;}
+  },true);
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',schedule,{passive:true});
+    window.visualViewport.addEventListener('scroll',schedule,{passive:true});
+  }
+  window.addEventListener('resize',schedule,{passive:true});
+  window.addEventListener('orientationchange',function(){setTimeout(schedule,100);setTimeout(schedule,350);},{passive:true});
+  var observer=new MutationObserver(function(records){
+    if(records.some(function(r){return Array.from(r.addedNodes||[]).some(function(n){return n.nodeType===1&&(n.matches&&n.matches('.pdf-section-pop')||(n.querySelector&&n.querySelector('.pdf-section-pop')));});}))schedule();
+  });
+  observer.observe(document.body,{childList:true,subtree:true});
+})();
+</script>
