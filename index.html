@@ -3829,6 +3829,7 @@ function showView(which){
  if(which==='categories'){search.value='';render();setTimeout(function(){search.focus({preventScroll:true})},30)}
 }
 function open(field,kind){
+ if(window.postyarResetPdfZoom && window.postyarGetPdfZoom && window.postyarGetPdfZoom()>1.015){window.postyarResetPdfZoom(function(){open(field,kind)});return;}
  activeField=field;activeListType=kind||'activity';
  // انتخاب نوع مکان داخل پنل خود برنامه انجام می‌شود تا هیچ کادر سفیدِ شناور روی PDF باقی نماند.
  if(activeListType==='location'){
@@ -4898,5 +4899,91 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
   }
   fitActivityPicker();
   schedule();
+})();
+</script>
+
+<!-- POSTYAR: controlled PDF pinch zoom with smooth reset before opening floating tools -->
+<style id="postyar-controlled-pdf-zoom-v1">
+  /* Pinch is handled only inside the PDF viewer; normal one-finger page scrolling remains native. */
+  #page-postal,
+  #page-postal #pdfFaithfulPages,
+  #page-postal #pdfFaithfulPages .pdf-faithful-page,
+  #page-postal #pdfFaithfulPages .pdf-faithful-page-inner,
+  #page-postal #pdfFaithfulPages .pdf-original-page,
+  #page-postal #pdfFaithfulPages canvas,
+  #page-postal #pdfFaithfulPages .pdf-original-overlay {
+    touch-action: pan-x pan-y !important;
+  }
+  #pdfFaithfulPages {
+    transform-origin: top left;
+    transition: zoom .26s cubic-bezier(.22,.75,.25,1);
+    will-change: zoom;
+  }
+  #pdfFaithfulPages .pdf-original-field.is-editing {
+    font-size: .50em !important;
+  }
+</style>
+<script id="postyar-controlled-pdf-zoom-v1-js">
+(function(){
+  'use strict';
+  var root=document.getElementById('pdfFaithfulPages');
+  if(!root)return;
+  var zoom=1, minZoom=1, maxZoom=3.2, pinchStart=1, startDistance=0, startMid={x:0,y:0}, raf=0;
+  var resetting=false;
+  function distance(a,b){var x=b.clientX-a.clientX,y=b.clientY-a.clientY;return Math.sqrt(x*x+y*y)}
+  function midpoint(a,b){return {x:(a.clientX+b.clientX)/2,y:(a.clientY+b.clientY)/2}}
+  function scrollHost(){return document.scrollingElement||document.documentElement}
+  function setZoom(value,anchor){
+    var next=Math.max(minZoom,Math.min(maxZoom,value));
+    if(Math.abs(next-zoom)<.002)return;
+    var host=scrollHost(),old=zoom,rect=root.getBoundingClientRect();
+    var ax=anchor?anchor.x:innerWidth/2, ay=anchor?anchor.y:innerHeight/2;
+    var relX=(ax-rect.left)/old, relY=(ay-rect.top)/old;
+    zoom=next;root.style.zoom=String(zoom);
+    if(anchor){
+      var dx=relX*(zoom-old),dy=relY*(zoom-old);
+      host.scrollLeft+=dx;host.scrollTop+=dy;
+    }
+  }
+  function resetPdfZoom(callback){
+    if(resetting){if(callback)setTimeout(callback,280);return;}
+    if(zoom<=1.015){zoom=1;root.style.zoom='1';if(callback)callback();return;}
+    resetting=true;
+    root.style.transition='zoom .28s cubic-bezier(.22,.75,.25,1)';
+    zoom=1;root.style.zoom='1';
+    setTimeout(function(){resetting=false;root.style.transition='';if(callback)callback();},300);
+  }
+  window.postyarResetPdfZoom=resetPdfZoom;
+  window.postyarGetPdfZoom=function(){return zoom};
+
+  root.addEventListener('touchstart',function(ev){
+    if(ev.touches&&ev.touches.length===2){
+      startDistance=distance(ev.touches[0],ev.touches[1]);pinchStart=zoom;startMid=midpoint(ev.touches[0],ev.touches[1]);
+    }
+  },{passive:true});
+  root.addEventListener('touchmove',function(ev){
+    if(!ev.touches||ev.touches.length!==2||!startDistance)return;
+    ev.preventDefault();
+    var d=distance(ev.touches[0],ev.touches[1]),mid=midpoint(ev.touches[0],ev.touches[1]);
+    if(raf)cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(function(){raf=0;setZoom(pinchStart*(d/startDistance),mid)});
+  },{passive:false});
+  function endPinch(ev){if(!ev.touches||ev.touches.length<2){startDistance=0;}}
+  root.addEventListener('touchend',endPinch,{passive:true});
+  root.addEventListener('touchcancel',endPinch,{passive:true});
+
+  /* Intercept the three-dot action while zoomed, reset smoothly, then replay it. */
+  var replaying=false;
+  document.addEventListener('click',function(ev){
+    if(replaying)return;
+    var trigger=ev.target&&ev.target.closest&&ev.target.closest('.pdf-section-menu');
+    if(!trigger||zoom<=1.015)return;
+    ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();
+    resetPdfZoom(function(){
+      replaying=true;
+      trigger.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window}));
+      replaying=false;
+    });
+  },true);
 })();
 </script>
