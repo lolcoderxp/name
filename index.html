@@ -2927,17 +2927,36 @@ async function renderFaithfulPdfPage(pageNo){
       else if(hasSavedEdit){field.classList.add('edited');field.style.color='#2563eb';field.style.background='#fff';}
       else{field.classList.remove('edited');field.style.color='transparent';field.style.background='transparent';}
       if(!it.locked){
+        function fitEditingBoxToText(){
+          if(!field.classList.contains('is-editing'))return;
+          try{
+            var ctx=document.createElement('canvas').getContext('2d');
+            var fs=parseFloat(field.style.fontSize)||parseFloat(field.dataset.baseFont)||8;
+            var cs=getComputedStyle(field);
+            ctx.font=(cs.fontWeight||'600')+' '+fs+'px '+(cs.fontFamily||'Arial,Tahoma,sans-serif');
+            var text=field.value||'';
+            var measured=ctx.measureText(text).width;
+            var pad=mobileEdit?18:12;
+            var maxWidth=Math.max(28,Math.min(window.innerWidth*.86,Number(field.dataset.baseWidth)*2.5));
+            var target=Math.max(28,Math.min(maxWidth,Math.ceil(measured+pad)));
+            var baseL=Number(field.dataset.baseLeft),baseW=Number(field.dataset.baseWidth);
+            var center=baseL+baseW/2;
+            var pageWidth=field.parentElement ? field.parentElement.clientWidth : window.innerWidth;
+            var left=Math.max(0,Math.min(pageWidth-target,center-target/2));
+            field.style.left=left+'px';
+            field.style.width=target+'px';
+          }catch(_){ }
+        }
         field.addEventListener('focus',function(){
           // The input itself becomes the only visible copy while editing.
           // Its measured text-run bounds keep the white cover away from table rules.
           field.classList.add('is-editing');
           var mobileEdit=window.matchMedia('(max-width:640px)').matches;
           var baseL=Number(field.dataset.baseLeft),baseT=Number(field.dataset.baseTop),baseW=Number(field.dataset.baseWidth),baseH=Number(field.dataset.baseHeight);
-          var editW=mobileEdit?Math.min(Math.max(baseW*1.55,baseW+22),Math.max(baseW,window.innerWidth*.72)):baseW;
           var editH=mobileEdit?Math.max(baseH*1.55,baseH+10):baseH;
-          field.style.left=(baseL+(baseW-editW)/2)+'px';
+          field.style.left=baseL+'px';
           field.style.top=(baseT+(baseH-editH)/2)+'px';
-          field.style.width=Math.max(2,editW-2)+'px';
+          field.style.width=Math.max(2,baseW)+'px';
           field.style.height=Math.max(5,editH-2)+'px';
           field.style.fontSize=(parseFloat(field.dataset.baseFont)*(mobileEdit?.46:.60))+'px';
           field.style.padding=mobileEdit?'2px 5px':'0 2px';
@@ -2950,8 +2969,10 @@ async function renderFaithfulPdfPage(pageNo){
           field.style.boxShadow='none';
           field.style.textAlign='center';
           field.style.zIndex='4';
+          fitEditingBoxToText();
         });
         field.addEventListener('input',function(){
+          fitEditingBoxToText();
           var next=cleanPdfText(field.value);
           var previous=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)?cleanPdfText(faithfulPdfEdits[it.key]):originalText;
           if(next===originalText) delete faithfulPdfEdits[it.key];
@@ -3829,7 +3850,6 @@ function showView(which){
  if(which==='categories'){search.value='';render();setTimeout(function(){search.focus({preventScroll:true})},30)}
 }
 function open(field,kind){
- if(window.postyarResetPdfZoom && window.postyarGetPdfZoom && window.postyarGetPdfZoom()>1.015){window.postyarResetPdfZoom(function(){open(field,kind)});return;}
  activeField=field;activeListType=kind||'activity';
  // انتخاب نوع مکان داخل پنل خود برنامه انجام می‌شود تا هیچ کادر سفیدِ شناور روی PDF باقی نماند.
  if(activeListType==='location'){
@@ -4707,283 +4727,6 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
 })();
 </script>
 
-<!-- POSTYAR HOTFIX: restore native PDF pinch zoom and fit overlays to the live visual viewport. -->
-<style id="postyar-pdf-pinch-and-overlay-hotfix">
-  /* Keep the browser's native pinch gesture available throughout the PDF page.
-     All ancestors in the touch-action chain must allow pinch-zoom. */
-  #page-postal,
-  #page-postal .pdf-faithful-pages,
-  #page-postal .pdf-faithful-page,
-  #page-postal .pdf-faithful-page-inner,
-  #page-postal .pdf-original-page,
-  #page-postal .pdf-original-page canvas,
-  #page-postal .pdf-original-overlay {
-    touch-action: pan-x pan-y pinch-zoom !important;
-  }
-  #page-postal .pdf-faithful-page-inner {
-    overflow: visible !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-  /* Toolbar and bottom navigation stay outside the pinch gesture. */
-  #page-postal .pdf-control-box,
-  #page-postal .pdf-control-box *,
-  .bottom-nav-wrap,
-  .bottom-nav-wrap * {
-    touch-action: pan-x pan-y !important;
-    transform: none !important;
-    zoom: 1 !important;
-  }
-
-  /* Table menu: natural compact width at the current visual zoom; scroll internally
-     when the visual viewport becomes shorter/narrower, never expand to full width. */
-  .pdf-section-pop {
-    box-sizing: border-box !important;
-    min-width: 0 !important;
-    width: min(270px, calc(100vw - 16px)) !important;
-    max-width: calc(100vw - 16px) !important;
-    max-height: calc(100dvh - 16px) !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain !important;
-    -webkit-overflow-scrolling: touch !important;
-    transform: none !important;
-  }
-  .pdf-section-pop button {
-    box-sizing: border-box !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-  }
-
-  /* Activity picker uses the visible viewport after PDF pinch zoom. */
-  #activityPickerBackdrop {
-    position: fixed !important;
-    inset: auto !important;
-    box-sizing: border-box !important;
-    overflow: auto !important;
-    overscroll-behavior: contain !important;
-    padding: 8px !important;
-    z-index: 2147483647 !important;
-  }
-  #activityPickerBackdrop .activity-picker {
-    box-sizing: border-box !important;
-    width: min(460px, 100%) !important;
-    max-width: 100% !important;
-    max-height: calc(100% - 0px) !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-  }
-  #activityPickerBackdrop .activity-picker-list,
-  #activityPickerBackdrop .activity-picker-category-view {
-    min-height: 0 !important;
-    overscroll-behavior: contain !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
-  #activityPickerBackdrop .activity-picker-list {
-    overflow-y: auto !important;
-    max-height: none !important;
-  }
-  @media (max-width: 640px) {
-    #activityPickerBackdrop { align-items: flex-end !important; }
-    #activityPickerBackdrop .activity-picker {
-      width: 100% !important;
-      max-width: 100% !important;
-      border-radius: 22px 22px 16px 16px !important;
-    }
-  }
+<style id="postyar-edit-font-and-content-width-v2">
+.pdf-original-field.is-editing{font-size:.50em!important;}
 </style>
-<script id="postyar-pdf-zoom-overlay-fit-hotfix-js">
-(function(){
-  'use strict';
-  var menuAnchor = null;
-  var raf = 0;
-  var backdrop = document.getElementById('activityPickerBackdrop');
-  if (backdrop && backdrop.parentNode !== document.body) document.body.appendChild(backdrop);
-
-  function viewport(){
-    var vv = window.visualViewport;
-    return {
-      left: vv ? vv.offsetLeft : 0,
-      top: vv ? vv.offsetTop : 0,
-      width: vv ? vv.width : window.innerWidth,
-      height: vv ? vv.height : window.innerHeight
-    };
-  }
-  function fitMenu(menu){
-    if (!menu || !menu.isConnected) return;
-    var v = viewport(), pad = 8;
-    var maxW = Math.max(1, v.width - pad * 2);
-    var width = Math.min(270, maxW);
-    menu.style.position = 'fixed';
-    menu.style.boxSizing = 'border-box';
-    menu.style.width = Math.round(width) + 'px';
-    menu.style.minWidth = '0';
-    menu.style.maxWidth = Math.round(maxW) + 'px';
-    menu.style.maxHeight = Math.round(Math.max(90, v.height - pad * 2)) + 'px';
-    menu.style.overflowX = 'hidden';
-    menu.style.overflowY = 'auto';
-    menu.style.right = 'auto';
-    menu.style.bottom = 'auto';
-    menu.style.transform = 'none';
-    menu.style.zIndex = '2147483647';
-    menu.style.left = Math.round(v.left + pad) + 'px';
-    menu.style.top = Math.round(v.top + pad) + 'px';
-    var mr = menu.getBoundingClientRect();
-    var mw = Math.min(mr.width || width, maxW);
-    var mh = Math.min(mr.height || 180, Math.max(1, v.height - pad * 2));
-    var anchor = menuAnchor && menuAnchor.isConnected ? menuAnchor : null;
-    var left = v.left + pad, top = v.top + pad;
-    if (anchor) {
-      var ar = anchor.getBoundingClientRect();
-      left = ar.left + v.left;
-      left = Math.max(v.left + pad, Math.min(left, v.left + v.width - mw - pad));
-      var below = ar.bottom + v.top + 6;
-      var above = ar.top + v.top - mh - 6;
-      top = (below + mh <= v.top + v.height - pad) ? below : above;
-      top = Math.max(v.top + pad, Math.min(top, v.top + v.height - mh - pad));
-    }
-    menu.style.left = Math.round(left) + 'px';
-    menu.style.top = Math.round(top) + 'px';
-  }
-  function fitAllMenus(){
-    document.querySelectorAll('.pdf-section-pop').forEach(fitMenu);
-  }
-  function fitActivityPicker(){
-    if (!backdrop) return;
-    var v = viewport();
-    backdrop.style.left = Math.round(v.left) + 'px';
-    backdrop.style.top = Math.round(v.top) + 'px';
-    backdrop.style.width = Math.max(1, Math.round(v.width)) + 'px';
-    backdrop.style.height = Math.max(1, Math.round(v.height)) + 'px';
-    backdrop.style.right = 'auto';
-    backdrop.style.bottom = 'auto';
-    backdrop.style.maxHeight = Math.max(1, Math.round(v.height)) + 'px';
-    var picker = backdrop.querySelector('.activity-picker');
-    if (picker) {
-      picker.style.maxHeight = Math.max(90, Math.round(v.height - 16)) + 'px';
-      picker.style.minHeight = '0';
-    }
-  }
-  function schedule(){
-    if (raf) cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(function(){ raf = 0; fitAllMenus(); fitActivityPicker(); });
-  }
-  document.addEventListener('click', function(ev){
-    var trigger = ev.target && ev.target.closest && ev.target.closest('.pdf-section-menu');
-    if (trigger) {
-      menuAnchor = trigger;
-      requestAnimationFrame(function(){ requestAnimationFrame(schedule); });
-      setTimeout(schedule, 60);
-    } else if (!(ev.target && ev.target.closest && ev.target.closest('.pdf-section-pop'))) {
-      menuAnchor = null;
-    }
-    if (ev.target && ev.target.closest && ev.target.closest('.pdf-original-field')) {
-      /* Do not interfere with native PDF pinch or text editing. */
-    }
-  }, true);
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', schedule, {passive:true});
-    window.visualViewport.addEventListener('scroll', schedule, {passive:true});
-  }
-  window.addEventListener('resize', schedule, {passive:true});
-  window.addEventListener('orientationchange', function(){setTimeout(schedule,100);setTimeout(schedule,350);}, {passive:true});
-  if (window.MutationObserver) {
-    var observer = new MutationObserver(function(records){
-      var changed = records.some(function(r){
-        return Array.from(r.addedNodes || []).some(function(n){
-          return n.nodeType === 1 && ((n.matches && (n.matches('.pdf-section-pop') || n.matches('#activityPickerBackdrop'))) || (n.querySelector && (n.querySelector('.pdf-section-pop') || n.querySelector('#activityPickerBackdrop'))));
-        });
-      });
-      if (changed) schedule();
-    });
-    observer.observe(document.body, {childList:true, subtree:true});
-  }
-  fitActivityPicker();
-  schedule();
-})();
-</script>
-
-<!-- POSTYAR: controlled PDF pinch zoom with smooth reset before opening floating tools -->
-<style id="postyar-controlled-pdf-zoom-v1">
-  /* Pinch is handled only inside the PDF viewer; normal one-finger page scrolling remains native. */
-  #page-postal,
-  #page-postal #pdfFaithfulPages,
-  #page-postal #pdfFaithfulPages .pdf-faithful-page,
-  #page-postal #pdfFaithfulPages .pdf-faithful-page-inner,
-  #page-postal #pdfFaithfulPages .pdf-original-page,
-  #page-postal #pdfFaithfulPages canvas,
-  #page-postal #pdfFaithfulPages .pdf-original-overlay {
-    touch-action: pan-x pan-y !important;
-  }
-  #pdfFaithfulPages {
-    transform-origin: top left;
-    transition: zoom .26s cubic-bezier(.22,.75,.25,1);
-    will-change: zoom;
-  }
-  #pdfFaithfulPages .pdf-original-field.is-editing {
-    font-size: .50em !important;
-  }
-</style>
-<script id="postyar-controlled-pdf-zoom-v1-js">
-(function(){
-  'use strict';
-  var root=document.getElementById('pdfFaithfulPages');
-  if(!root)return;
-  var zoom=1, minZoom=1, maxZoom=3.2, pinchStart=1, startDistance=0, startMid={x:0,y:0}, raf=0;
-  var resetting=false;
-  function distance(a,b){var x=b.clientX-a.clientX,y=b.clientY-a.clientY;return Math.sqrt(x*x+y*y)}
-  function midpoint(a,b){return {x:(a.clientX+b.clientX)/2,y:(a.clientY+b.clientY)/2}}
-  function scrollHost(){return document.scrollingElement||document.documentElement}
-  function setZoom(value,anchor){
-    var next=Math.max(minZoom,Math.min(maxZoom,value));
-    if(Math.abs(next-zoom)<.002)return;
-    var host=scrollHost(),old=zoom,rect=root.getBoundingClientRect();
-    var ax=anchor?anchor.x:innerWidth/2, ay=anchor?anchor.y:innerHeight/2;
-    var relX=(ax-rect.left)/old, relY=(ay-rect.top)/old;
-    zoom=next;root.style.zoom=String(zoom);
-    if(anchor){
-      var dx=relX*(zoom-old),dy=relY*(zoom-old);
-      host.scrollLeft+=dx;host.scrollTop+=dy;
-    }
-  }
-  function resetPdfZoom(callback){
-    if(resetting){if(callback)setTimeout(callback,280);return;}
-    if(zoom<=1.015){zoom=1;root.style.zoom='1';if(callback)callback();return;}
-    resetting=true;
-    root.style.transition='zoom .28s cubic-bezier(.22,.75,.25,1)';
-    zoom=1;root.style.zoom='1';
-    setTimeout(function(){resetting=false;root.style.transition='';if(callback)callback();},300);
-  }
-  window.postyarResetPdfZoom=resetPdfZoom;
-  window.postyarGetPdfZoom=function(){return zoom};
-
-  root.addEventListener('touchstart',function(ev){
-    if(ev.touches&&ev.touches.length===2){
-      startDistance=distance(ev.touches[0],ev.touches[1]);pinchStart=zoom;startMid=midpoint(ev.touches[0],ev.touches[1]);
-    }
-  },{passive:true});
-  root.addEventListener('touchmove',function(ev){
-    if(!ev.touches||ev.touches.length!==2||!startDistance)return;
-    ev.preventDefault();
-    var d=distance(ev.touches[0],ev.touches[1]),mid=midpoint(ev.touches[0],ev.touches[1]);
-    if(raf)cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(function(){raf=0;setZoom(pinchStart*(d/startDistance),mid)});
-  },{passive:false});
-  function endPinch(ev){if(!ev.touches||ev.touches.length<2){startDistance=0;}}
-  root.addEventListener('touchend',endPinch,{passive:true});
-  root.addEventListener('touchcancel',endPinch,{passive:true});
-
-  /* Intercept the three-dot action while zoomed, reset smoothly, then replay it. */
-  var replaying=false;
-  document.addEventListener('click',function(ev){
-    if(replaying)return;
-    var trigger=ev.target&&ev.target.closest&&ev.target.closest('.pdf-section-menu');
-    if(!trigger||zoom<=1.015)return;
-    ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();
-    resetPdfZoom(function(){
-      replaying=true;
-      trigger.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window}));
-      replaying=false;
-    });
-  },true);
-})();
-</script>
