@@ -197,6 +197,7 @@ img{display:block;max-width:100%}
 .toast.error .icn{color:#dc2626}
 
 /* Map */
+#parcelsList{display:none!important}
 #map{width:100%;height:clamp(300px,58vh,440px);background:#f8fafc;border-radius:var(--radius-md);z-index:1;box-shadow:0 8px 24px -8px rgba(15,23,42,.12);overflow:hidden;border:1px solid var(--border);position:relative}
 .map-tools{display:flex;gap:6px;overflow-x:auto;padding:10px 0;scrollbar-width:none}
 .map-tools::-webkit-scrollbar{display:none}
@@ -957,7 +958,7 @@ img{display:block;max-width:100%}
     <section class="page" id="page-map">
       <div class="section">
         <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-map"/></svg> نقشه و ترسیم پارسل</h2></div>
-        <div class="field"><label>پروژه</label><select id="mapProject" onchange="renderDrawings()"></select></div>
+        <div class="field"><label>پروژه</label><select id="mapProject" onchange="mapProjectChanged()"></select></div>
         <div class="map-layer-note" style="font-size:10px;color:var(--muted);margin:0 0 7px">نمایش تصاویر ماهواره‌ای فعال است.</div>
         <div class="map-stage" id="mapStage">
           <div class="map-quick-tools" aria-label="ابزارهای پرکاربرد ترسیم">
@@ -992,6 +993,7 @@ img{display:block;max-width:100%}
               <div class="map-menu-section-title">ورود و خروجی فایل</div>
               <div class="map-tools">
                 <button class="map-tool" onclick="exportKML()">خروجی KML</button>
+                <button class="map-tool" onclick="exportProjectDataJson()">خروجی داده‌های پروژه (JSON)</button>
                 <button class="map-tool" onclick="document.getElementById('mapKmlInput').click()">ورود KML</button>
               </div>
               <input id="mapKmlInput" type="file" accept=".kml,.xml,application/vnd.google-earth.kml+xml" hidden onchange="importKMLFile(this)">
@@ -1004,8 +1006,7 @@ img{display:block;max-width:100%}
           <span id="coordStatus">—</span>
         </div>
         <button class="btn btn-primary btn-block" style="margin-top:10px" onclick="finishDrawing()"><svg class="icn"><use href="#i-save"/></svg> ذخیره ترسیم</button>
-        <div class="section-heading" style="margin-top:18px"><h2 class="section-title">پارسل‌های ترسیم‌شده</h2></div>
-        <div id="parcelsList"></div>
+        <div id="parcelsList" hidden></div>
       </div>
     </section>
 
@@ -1293,7 +1294,7 @@ var state={
   nextCompany:1,nextP:1,nextB:1,nextU:1,nextParcel:1,nextUser:2
 };
 
-function save(){try{localStorage.setItem(KEY,JSON.stringify(state));return true}catch(e){toast('حافظه پر است','error');return false}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));if(typeof persistStructuredLocalData==='function')persistStructuredLocalData().catch(function(e){console.warn('Postyar structured storage mirror:',e)});return true}catch(e){toast('حافظه پر است','error');return false}}
 function load(){try{var x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&Array.isArray(x.projects)){state=Object.assign(state,x);if(!Array.isArray(state.projectFiles))state.projectFiles=[];if(!Array.isArray(state.bookletRecords))state.bookletRecords=[];if(!state.bookletMeta)state.bookletMeta={blockCode:'74',routeCode:'33781',province:'تهران - منطقه ۱۸',county:'ورامین',district:'جوادآباد',village:'یوسف‌آباد خالصه',reportDate:'1405/03/30'}}}catch(e){}}
 
 var toastTimer=null;
@@ -1542,8 +1543,9 @@ function fillProjectSelect(selector){
   var el=$(selector);if(!el)return;
   var cur=el.value;
   var opts='<option value="">همه پروژه‌ها</option>';
-  if(selector==='#postalProject'||selector==='#importProject'||selector==='#labelProject')opts='';
+  if(selector==='#postalProject'||selector==='#importProject'||selector==='#labelProject'||selector==='#mapProject')opts='';
   if(selector==='#importProject')opts='<option value="">ابتدا یک پروژه انتخاب کنید</option>';
+  if(selector==='#mapProject')opts='<option value="">ابتدا پروژه را انتخاب کنید</option>';
   opts+=state.projects.map(function(p){return '<option value="'+p.id+'">'+esc(p.name)+'</option>'}).join('');
   if(!state.projects.length)opts='<option value="">— پروژه‌ای نیست —</option>';
   el.innerHTML=opts;
@@ -1788,6 +1790,7 @@ function initMap(){
     savedLayer=L.featureGroup().addTo(map);
     map.on('click',onMapClick);
     map.on('mousemove',function(e){var el=$('#coordStatus');if(el)el.textContent=e.latlng.lat.toFixed(5)+', '+e.latlng.lng.toFixed(5)});
+    ensureParcelCodes();
     renderDrawings();
     mapReady=true;
     setTimeout(function(){if(map)map.invalidateSize()},200);
@@ -1805,8 +1808,9 @@ function onMapClick(e){
   if(!map||tool==='select')return;
   if(tool==='marker'){
     var projectId=$('#mapProject').value;
-    if(!projectId&&!state.projects.length){toast('اول پروژه بسازید','error');return}
-    state.drawings.push({id:uid('DRW'),projectId:projectId||state.projects[0].id,kind:'marker',name:'نقطه '+(state.drawings.length+1),coords:[[e.latlng.lat,e.latlng.lng]],created:now()});
+    if(!projectId){toast('ابتدا پروژهٔ مقصد را انتخاب کنید','error');return}
+    var markerNo=state.drawings.filter(function(d){return d.projectId===projectId&&d.kind==='marker'}).length+1;
+    state.drawings.push({id:uid('DRW'),projectId:projectId,kind:'marker',name:'نقطه '+markerNo,coords:[[e.latlng.lat,e.latlng.lng]],created:now()});
     save();renderDrawings();updateStats();toast('ثبت شد','success');return;
   }
   draftPoints.push([e.latlng.lat,e.latlng.lng]);
@@ -1820,12 +1824,50 @@ function drawDraft(){
   if(draftLayer)draftLayer.addTo(drawLayer);
   var el=$('#mapStatus');if(el)el.textContent=fa(draftPoints.length)+' نقطه';
 }
+function generateParcelCode(){
+  // شناسهٔ داخلی، عددی و دقیقاً ۱۰ رقمی؛ در رابط کاربری نمایش داده نمی‌شود.
+  var used=new Set((state.drawings||[]).map(function(d){return String(d.parcelCode||'')}));
+  var code='';
+  do{code=String(Math.floor(1000000000+Math.random()*9000000000))}while(used.has(code));
+  return code;
+}
+function nextProjectParcelNumber(projectId){
+  var nums=(state.drawings||[]).filter(function(d){return d.kind==='polygon'&&d.projectId===projectId;}).map(function(d){return Number(d.parcelNo)||0;});
+  return (nums.length?Math.max.apply(null,nums):0)+1;
+}
+function ensureParcelCodes(){
+  var changed=false,counters={};
+  (state.drawings||[]).forEach(function(d){
+    if(d.kind!=='polygon')return;
+    if(!/^\\d{10}$/.test(String(d.parcelCode||''))){d.parcelCode=generateParcelCode();changed=true;}
+    var pid=String(d.projectId||'');
+    if(!counters[pid])counters[pid]=0;
+    if(!(Number(d.parcelNo)>0)){d.parcelNo=++counters[pid];changed=true;}
+    else counters[pid]=Math.max(counters[pid],Number(d.parcelNo));
+  });
+  if(changed)save();
+}
+function mapProjectChanged(){
+  draftPoints=[];
+  if(draftLayer&&drawLayer){drawLayer.removeLayer(draftLayer);draftLayer=null;}
+  tool='select';
+  $$('.map-tool[data-tool], .map-quick-tool[data-tool]').forEach(function(b){b.classList.toggle('active',b.dataset.tool==='select')});
+  renderDrawings();
+  var pid=$('#mapProject')?$('#mapProject').value:'';
+  var selected=(state.drawings||[]).filter(function(d){return d.projectId===pid&&Array.isArray(d.coords)&&d.coords.length;});
+  if(mapReady&&map){
+    if(selected.length){var pts=[];selected.forEach(function(d){d.coords.forEach(function(c){pts.push(c)});});try{map.fitBounds(pts,{padding:[28,28],maxZoom:18});}catch(e){map.setView([35.700,51.400],12);}}
+    else map.setView([35.700,51.400],12);
+  }
+  var st=$('#mapStatus');if(st)st.textContent=pid?'پروژه انتخاب شد؛ فقط اطلاعات همین پروژه نمایش داده می‌شود':'برای مشاهده و ترسیم، ابتدا یک پروژه انتخاب کنید';
+}
 function finishDrawing(){
   if(!draftPoints.length){toast('اول نقطه بگذارید','error');return}
   if(tool==='polygon'&&draftPoints.length<3){toast('حداقل ۳ نقطه','error');return}
   var projectId=$('#mapProject').value;
-  if(!projectId&&!state.projects.length){toast('اول پروژه بسازید','error');return}
-  state.drawings.push({id:uid('DRW'),projectId:projectId||state.projects[0].id,kind:'polygon',name:'پارسل '+(state.drawings.length+1),coords:draftPoints.map(function(p){return [p[0],p[1]]}),created:now()});
+  if(!projectId){toast('ابتدا پروژهٔ مقصد را انتخاب کنید','error');return}
+  var parcelNo=nextProjectParcelNumber(projectId);
+  state.drawings.push({id:uid('DRW'),parcelCode:generateParcelCode(),parcelNo:parcelNo,projectId:projectId,kind:'polygon',name:'پارسل '+parcelNo,coords:draftPoints.map(function(p){return [p[0],p[1]]}),created:now()});
   draftPoints=[];
   if(draftLayer){drawLayer.removeLayer(draftLayer);draftLayer=null}
   tool='select';
@@ -1836,32 +1878,33 @@ function undoDraw(){if(draftPoints.length){draftPoints.pop();drawDraft()}}
 function clearDraw(){draftPoints=[];if(draftLayer){drawLayer.removeLayer(draftLayer);draftLayer=null}tool='select';$$('.map-tool[data-tool]').forEach(function(x){x.classList.toggle('active',x.dataset.tool==='select')})}
 function renderDrawings(){
   if(!mapReady||!savedLayer)return;
+  ensureParcelCodes();
   savedLayer.clearLayers();
   var projectId=$('#mapProject')?$('#mapProject').value:'';
-  var drawings=state.drawings.filter(function(d){return !projectId||d.projectId===projectId});
+  var drawings=projectId?state.drawings.filter(function(d){return d.projectId===projectId}):[];
   drawings.forEach(function(d){
     if(!d.coords||!d.coords.length)return;
     try{
       var layer=d.kind==='marker'?L.marker(d.coords[0]):L.polygon(d.coords,{color:'#2563eb',fillColor:'#3b82f6',fillOpacity:.25,weight:2});
       var extra=d.kind==='polygon'?'مساحت تقریبی: '+(L.GeometryUtil&&L.GeometryUtil.geodesicArea?Math.round(L.GeometryUtil.geodesicArea(layer.getLatLngs()[0])).toLocaleString('fa-IR')+' مترمربع':'قابل محاسبه در این نسخه')+'<br>':'مختصات: '+d.coords[0][0].toFixed(6)+', '+d.coords[0][1].toFixed(6)+'<br>';
-      layer.bindPopup('<b>'+esc(d.name)+'</b><br>'+extra+'<button onclick="window.__delDraw(\''+d.id+'\')" style="margin-top:6px;padding:5px 10px;border-radius:6px;background:#dc2626;color:#fff;border:none;font-family:Vazirmatn;cursor:pointer">حذف</button>');
+      layer.bindPopup('<div style="font-family:Vazirmatn,Tahoma;text-align:right;min-width:150px"><b>'+esc(d.name)+'</b><br>'+extra+'<button type="button" data-draw-id="'+esc(d.id)+'" onclick="window.__delDraw(this.dataset.drawId)" style="margin-top:9px;padding:8px 14px;border-radius:9px;background:#dc2626;color:#fff;border:none;font-family:Vazirmatn;cursor:pointer;width:100%">حذف این مورد</button></div>');
       layer.addTo(savedLayer);
     }catch(e){}
   });
   renderParcelsList(drawings);
 }
 function renderParcelsList(drawings){
-  var list=$('#parcelsList');if(!list)return;
-  if(!drawings)drawings=state.drawings;
-  if(!drawings.length){list.innerHTML='<div class="empty visible" style="padding:20px"><svg class="icn"><use href="#i-map"/></svg><h3>پارسلی ترسیم نشده</h3><p>از دکمه «پارسل» بالای نقشه استفاده کنید</p></div>';return}
-  list.innerHTML=drawings.slice(0,30).map(function(d){
-    return '<div class="info-card"><div class="info-card-icon bg-blue"><svg class="icn" style="color:#fff"><use href="#i-map"/></svg></div><div class="info-card-body"><strong>'+esc(d.name)+'</strong><small>'+d.coords.length+' نقطه · '+esc(d.created)+'</small></div><button class="icon-button" onclick="window.__delDraw(\''+d.id+'\')"><svg class="icn"><use href="#i-trash"/></svg></button></div>';
-  }).join('');
+  // فهرست/باکس زیر نقشه عمداً از رابط کاربری حذف شده است.
+  var list=$('#parcelsList');if(list)list.innerHTML='';
 }
 window.__delDraw=function(id){
-  if(!confirm('حذف شود؟'))return;
+  var target=(state.drawings||[]).find(function(d){return d.id===id});
+  if(!target)return;
+  if(!confirm('این مورد از نقشه و اطلاعات پروژه حذف شود؟'))return;
   state.drawings=state.drawings.filter(function(d){return d.id!==id});
   save();renderDrawings();updateStats();
+  if(map)map.closePopup();
+  toast('مورد انتخاب‌شده حذف شد','success');
 };
 var myLocationWatchId=null;
 var myLocationFirstFix=true;
@@ -1899,7 +1942,7 @@ function getMyLocation(){
         .bindPopup('موقعیت فعلی شما')
     ]).addTo(map);
     if(myLocationFirstFix){map.setView(point,19,{animate:true});myLocationFirstFix=false;}
-    else {map.panTo(point,{animate:true,duration:.5});}
+    // پس از اولین تعیین موقعیت، نشانگر به‌روز می‌شود اما نقشه دنبال کاربر حرکت نمی‌کند.
     var coord=$('#coordStatus');
     if(coord)coord.textContent=lat.toFixed(6)+', '+lng.toFixed(6)+' · دقت '+Math.round(pos.coords.accuracy||0)+' متر';
     if(status)status.textContent='موقعیت زنده فعال است';
@@ -1950,7 +1993,7 @@ function exportKML(){
 }
 
 /* ===== MAP SEARCH, REVERSE GEOCODING, GEOJSON & KML IMPORT ===== */
-function mapProjectId(){var x=$('#mapProject');return x&&x.value?x.value:(state.projects[0]&&state.projects[0].id)||''}
+function mapProjectId(){var x=$('#mapProject');return x&&x.value?x.value:''}
 function mapStatusText(t){var e=$('#mapStatus');if(e)e.textContent=t}
 async function searchMapPlace(){
   var input=$('#mapSearchInput'),q=input?input.value.trim():'';
@@ -1973,11 +2016,16 @@ async function searchMapPlace(){
     var pt=[Number(chosen.lat),Number(chosen.lon)];map.setView(pt,18,{animate:true});
     if(window.__mapSearchMarker)map.removeLayer(window.__mapSearchMarker);
     // Keep the exact text typed by the user as the marker label.
-    window.__mapSearchMarker=L.marker(pt).addTo(map).bindPopup(q).openPopup();
+    window.__mapSearchMarker=L.marker(pt).addTo(map)
+      .bindPopup('<div style="font-family:Vazirmatn,Tahoma;text-align:right;min-width:150px"><b>'+esc(q)+'</b><button type="button" onclick="removeMapSearchMarker()" style="display:block;width:100%;margin-top:10px;padding:9px 12px;border:0;border-radius:10px;background:#dc2626;color:#fff;font:700 12px Vazirmatn;cursor:pointer">حذف نقطهٔ جست‌وجو</button></div>')
+      .openPopup();
     mapStatusText('نتیجه جست‌وجو: '+q);toggleMapSearch(false);toggleMapMenu(false);
   }catch(e){console.warn(e);mapStatusText('جست‌وجو ناموفق بود؛ اتصال اینترنت را بررسی کنید');toast('سرویس جست‌وجوی مکان در دسترس نیست','error')}
 }
 
+function removeMapSearchMarker(){
+  if(window.__mapSearchMarker&&map){map.removeLayer(window.__mapSearchMarker);window.__mapSearchMarker=null;map.closePopup();mapStatusText('نقطهٔ جست‌وجوشده حذف شد');toast('نقطهٔ آدرس حذف شد','success')}
+}
 var mapBuildingsLayer=null;
 async function loadBuildingsInView(){
   if(!mapReady||!map){toast('ابتدا صفحه نقشه را باز کنید','error');return}
@@ -2003,17 +2051,42 @@ async function loadBuildingsInView(){
 }
 window.loadBuildingsInView=loadBuildingsInView;
 
-async function reverseGeocode(lat,lng){
-  try{var u='https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+encodeURIComponent(lat)+'&lon='+encodeURIComponent(lng);
-    var r=await fetch(u,{headers:{'Accept':'application/json'}});if(!r.ok)throw new Error('reverse failed');var d=await r.json();
-    var address=d.display_name||'آدرسی پیدا نشد';mapStatusText('آدرس: '+address);return address;
-  }catch(e){console.warn(e);mapStatusText('تبدیل مختصات به آدرس ناموفق بود');toast('سرویس تبدیل مختصات به آدرس در دسترس نیست','error');return ''}
+function renderDrawings(){
+  if(!mapReady||!savedLayer)return;
+  ensureParcelCodes();
+  savedLayer.clearLayers();
+  var projectId=$('#mapProject')?$('#mapProject').value:'';
+  var drawings=projectId?state.drawings.filter(function(d){return d.projectId===projectId}):[];
+  drawings.forEach(function(d){
+    if(!d.coords||!d.coords.length)return;
+    try{
+      var layer=d.kind==='marker'?L.marker(d.coords[0]):L.polygon(d.coords,{color:'#2563eb',fillColor:'#3b82f6',fillOpacity:.25,weight:2});
+      var extra=d.kind==='polygon'?'مساحت تقریبی: '+(L.GeometryUtil&&L.GeometryUtil.geodesicArea?Math.round(L.GeometryUtil.geodesicArea(layer.getLatLngs()[0])).toLocaleString('fa-IR')+' مترمربع':'قابل محاسبه در این نسخه')+'<br>':'مختصات: '+d.coords[0][0].toFixed(6)+', '+d.coords[0][1].toFixed(6)+'<br>';
+      layer.bindPopup('<div style="font-family:Vazirmatn,Tahoma;text-align:right;min-width:150px"><b>'+esc(d.name)+'</b><br>'+extra+'<button type="button" data-draw-id="'+esc(d.id)+'" onclick="window.__delDraw(this.dataset.drawId)" style="margin-top:9px;padding:8px 14px;border-radius:9px;background:#dc2626;color:#fff;border:none;font-family:Vazirmatn;cursor:pointer;width:100%">حذف این مورد</button></div>');
+      layer.addTo(savedLayer);
+    }catch(e){}
+  });
+  renderParcelsList(drawings);
 }
+function renderParcelsList(drawings){
+  // فهرست/باکس زیر نقشه عمداً از رابط کاربری حذف شده است.
+  var list=$('#parcelsList');if(list)list.innerHTML='';
+}
+window.__delDraw=function(id){
+  var target=(state.drawings||[]).find(function(d){return d.id===id});
+  if(!target)return;
+  if(!confirm('این مورد از نقشه و اطلاعات پروژه حذف شود؟'))return;
+  state.drawings=state.drawings.filter(function(d){return d.id!==id});
+  save();renderDrawings();updateStats();
+  if(map)map.closePopup();
+  toast('مورد انتخاب‌شده حذف شد','success');
+};
+
 function reverseCurrentMapCenter(){if(!mapReady||!map)return;var c=map.getCenter();reverseGeocode(c.lat,c.lng)}
 function importGeoJSONFile(input){
   toggleMapMenu(false);var f=input.files&&input.files[0];if(!f)return;var reader=new FileReader();reader.onload=function(){try{var gj=JSON.parse(reader.result);var features=gj.type==='FeatureCollection'?gj.features:[(gj.type==='Feature'?gj:{type:'Feature',properties:{},geometry:gj})];var pid=mapProjectId();if(!pid){toast('ابتدا یک پروژه بسازید','error');return}var count=0;
 features.forEach(function(ft){if(!ft||!ft.geometry)return;var g=ft.geometry,props=ft.properties||{},name=props.name||props.title||'پارسل واردشده';
-function addPoly(ring){if(!Array.isArray(ring)||ring.length<4)return;var coords=ring.map(function(c){return [Number(c[1]),Number(c[0])]});if(coords.length>1&&coords[0][0]===coords[coords.length-1][0]&&coords[0][1]===coords[coords.length-1][1])coords.pop();if(coords.length>=3){state.drawings.push({id:uid('DRW'),projectId:pid,kind:'polygon',name:name,coords:coords,created:now()});count++}}
+function addPoly(ring){if(!Array.isArray(ring)||ring.length<4)return;var coords=ring.map(function(c){return [Number(c[1]),Number(c[0])]});if(coords.length>1&&coords[0][0]===coords[coords.length-1][0]&&coords[0][1]===coords[coords.length-1][1])coords.pop();if(coords.length>=3){var parcelNo=nextProjectParcelNumber(pid);state.drawings.push({id:uid('DRW'),parcelCode:generateParcelCode(),parcelNo:parcelNo,projectId:pid,kind:'polygon',name:name||('پارسل '+parcelNo),coords:coords,created:now()});count++}}
 if(g.type==='Polygon')addPoly(g.coordinates&&g.coordinates[0]);else if(g.type==='MultiPolygon')(g.coordinates||[]).forEach(function(poly){addPoly(poly&&poly[0])});else if(g.type==='Point'&&g.coordinates){state.drawings.push({id:uid('DRW'),projectId:pid,kind:'marker',name:name,coords:[[Number(g.coordinates[1]),Number(g.coordinates[0])]],created:now()});count++}
 });save();renderDrawings();updateStats();if(count&&mapReady){var bounds=[];state.drawings.filter(function(d){return d.projectId===pid}).forEach(function(d){(d.coords||[]).forEach(function(c){bounds.push(c)})});if(bounds.length)map.fitBounds(bounds,{padding:[20,20]})}toast(count+' عارضه GeoJSON وارد شد','success');mapStatusText('ورود GeoJSON کامل شد');
 }catch(e){console.error(e);toast('فایل GeoJSON معتبر نیست','error')}finally{input.value=''}};reader.readAsText(f)}
@@ -2023,7 +2096,7 @@ downloadMapFile(JSON.stringify({type:'FeatureCollection',features:features},null
 function importKMLFile(input){
   toggleMapMenu(false);var f=input.files&&input.files[0];if(!f)return;var reader=new FileReader();reader.onload=function(){try{var xml=new DOMParser().parseFromString(reader.result,'application/xml');if(xml.querySelector('parsererror'))throw new Error('bad xml');var pid=mapProjectId();if(!pid){toast('ابتدا یک پروژه بسازید','error');return}var count=0;
 Array.from(xml.getElementsByTagName('Placemark')).forEach(function(pm){var name=(pm.getElementsByTagName('name')[0]||{}).textContent||'عارضه KML';var poly=pm.getElementsByTagName('Polygon')[0];var point=pm.getElementsByTagName('Point')[0];
-if(poly){var ce=poly.getElementsByTagName('coordinates')[0];if(!ce)return;var raw=ce.textContent.trim().split(/\s+/),coords=raw.map(function(v){var a=v.split(',');return [Number(a[1]),Number(a[0])] }).filter(function(c){return Number.isFinite(c[0])&&Number.isFinite(c[1])});if(coords.length>1&&coords[0][0]===coords[coords.length-1][0]&&coords[0][1]===coords[coords.length-1][1])coords.pop();if(coords.length>=3){state.drawings.push({id:uid('DRW'),projectId:pid,kind:'polygon',name:name,coords:coords,created:now()});count++}}
+if(poly){var ce=poly.getElementsByTagName('coordinates')[0];if(!ce)return;var raw=ce.textContent.trim().split(/\s+/),coords=raw.map(function(v){var a=v.split(',');return [Number(a[1]),Number(a[0])] }).filter(function(c){return Number.isFinite(c[0])&&Number.isFinite(c[1])});if(coords.length>1&&coords[0][0]===coords[coords.length-1][0]&&coords[0][1]===coords[coords.length-1][1])coords.pop();if(coords.length>=3){var parcelNo=nextProjectParcelNumber(pid);state.drawings.push({id:uid('DRW'),parcelCode:generateParcelCode(),parcelNo:parcelNo,projectId:pid,kind:'polygon',name:name||('پارسل '+parcelNo),coords:coords,created:now()});count++}}
 else if(point){var ce2=point.getElementsByTagName('coordinates')[0];if(!ce2)return;var a=ce2.textContent.trim().split(',');if(a.length>=2){state.drawings.push({id:uid('DRW'),projectId:pid,kind:'marker',name:name,coords:[[Number(a[1]),Number(a[0])]],created:now()});count++}}
 });save();renderDrawings();updateStats();toast(count+' عارضه KML وارد شد','success');mapStatusText('ورود KML کامل شد');}catch(e){console.error(e);toast('فایل KML معتبر یا قابل‌خواندن نیست','error')}finally{input.value=''}};reader.readAsText(f)}
 function downloadMapFile(content,name,type){var blob=new Blob([content],{type:type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.style.display='none';document.body.appendChild(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(url)},5000)}
@@ -2040,15 +2113,47 @@ function openProjectAssetDb(){
   if(projectAssetDbPromise)return projectAssetDbPromise;
   projectAssetDbPromise=new Promise(function(resolve,reject){
     if(!window.indexedDB){reject(new Error('ذخیره‌سازی فایل در این مرورگر پشتیبانی نمی‌شود'));return}
-    var req=indexedDB.open('postyar_project_assets_v1',1);
-    req.onupgradeneeded=function(){var db=req.result;if(!db.objectStoreNames.contains('files'))db.createObjectStore('files',{keyPath:'id'})};
+    var req=indexedDB.open('postyar_project_assets_v1',2);
+    req.onupgradeneeded=function(){var db=req.result;if(!db.objectStoreNames.contains('files'))db.createObjectStore('files',{keyPath:'id'});if(!db.objectStoreNames.contains('parcels')){var ps=db.createObjectStore('parcels',{keyPath:'id'});ps.createIndex('projectId','projectId',{unique:false});ps.createIndex('parcelCode','parcelCode',{unique:false})}if(!db.objectStoreNames.contains('pdfRecords')){var fs=db.createObjectStore('pdfRecords',{keyPath:'id'});fs.createIndex('projectId','projectId',{unique:false})}if(!db.objectStoreNames.contains('outbox')){var os=db.createObjectStore('outbox',{keyPath:'id'});os.createIndex('projectId','projectId',{unique:false})}};
     req.onsuccess=function(){resolve(req.result)};req.onerror=function(){reject(req.error||new Error('خطا در باز کردن فضای فایل‌ها'))};
   });
   return projectAssetDbPromise;
 }
-function putProjectAsset(record,blob){return openProjectAssetDb().then(function(db){return new Promise(function(resolve,reject){var tx=db.transaction('files','readwrite');tx.objectStore('files').put({id:record.id,projectId:record.projectId,blob:blob,name:record.name,type:record.type||'application/pdf',size:record.size,updatedAt:record.updatedAt||new Date().toISOString()});tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error||new Error('ذخیره فایل ناموفق بود'))};tx.onabort=function(){reject(tx.error||new Error('ذخیره فایل لغو شد'))}})});}
+function putProjectAsset(record,blob){return openProjectAssetDb().then(function(db){return new Promise(function(resolve,reject){var tx=db.transaction('files','readwrite');tx.objectStore('files').put({id:record.id,schemaVersion:POSTYAR_DATA_SCHEMA_VERSION||1,entityType:'pdfBinary',projectId:String(record.projectId),blob:blob,name:record.name,type:record.type||'application/pdf',size:record.size,storage:'indexeddb-blob',updatedAt:record.updatedAt||new Date().toISOString()});tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error||new Error('ذخیره فایل ناموفق بود'))};tx.onabort=function(){reject(tx.error||new Error('ذخیره فایل لغو شد'))}})});}
 function getProjectAsset(id){return openProjectAssetDb().then(function(db){return new Promise(function(resolve,reject){var req=db.transaction('files','readonly').objectStore('files').get(id);req.onsuccess=function(){resolve(req.result||null)};req.onerror=function(){reject(req.error)}})});}
 function deleteProjectAsset(id){return openProjectAssetDb().then(function(db){return new Promise(function(resolve,reject){var tx=db.transaction('files','readwrite');tx.objectStore('files').delete(id);tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error)}})});}
+
+/* ===== STRUCTURED PROJECT DATA / BACKEND-READY STORAGE =====
+   Geometry is stored as structured parcel records, never as KML text.
+   KML/GeoJSON are interchange formats only. IndexedDB is the local durable
+   repository; the API adapter below can later sync the same JSON records to VPS.
+   Suggested API contract: POST /api/v1/projects/{projectId}/sync with this payload.
+*/
+var POSTYAR_DATA_SCHEMA_VERSION=1;
+var POSTYAR_API_BASE=(window.POSTYAR_API_BASE||'').replace(/\/$/,'');
+function structuredParcelRecord(d){return {id:String(d.id),schemaVersion:POSTYAR_DATA_SCHEMA_VERSION,entityType:'parcel',projectId:String(d.projectId||''),parcelCode:String(d.parcelCode||''),parcelNo:Number(d.parcelNo)||null,geometry:{type:d.kind==='marker'?'Point':'Polygon',coordinates:d.kind==='marker'?[Number(d.coords[0][1]),Number(d.coords[0][0])]:[d.coords.map(function(c){return [Number(c[1]),Number(c[0])]}).concat([[Number(d.coords[0][1]),Number(d.coords[0][0])]])]},kind:d.kind||'polygon',name:String(d.name||''),properties:{},createdAt:d.createdAt||d.created||new Date().toISOString(),updatedAt:d.updatedAt||new Date().toISOString()}}
+function idbPutMany(storeName,records){return openProjectAssetDb().then(function(db){return new Promise(function(resolve,reject){var tx=db.transaction(storeName,'readwrite'),store=tx.objectStore(storeName);records.forEach(function(r){store.put(r)});tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error||new Error('ذخیره داده ساختاریافته ناموفق بود'))};tx.onabort=function(){reject(tx.error||new Error('تراکنش ذخیره‌سازی لغو شد'))}})})}
+function idbReplaceMany(storeName,records){return openProjectAssetDb().then(function(db){return new Promise(function(resolve,reject){var tx=db.transaction(storeName,'readwrite'),store=tx.objectStore(storeName);store.clear();records.forEach(function(r){store.put(r)});tx.oncomplete=function(){resolve(true)};tx.onerror=function(){reject(tx.error||new Error('به‌روزرسانی مجموعه داده ناموفق بود'))};tx.onabort=function(){reject(tx.error||new Error('تراکنش به‌روزرسانی لغو شد'))}})})}
+function persistStructuredLocalData(){
+  var parcels=(state.drawings||[]).filter(function(d){return d&&d.id&&d.projectId&&Array.isArray(d.coords)&&d.coords.length}).map(structuredParcelRecord);
+  var pdfs=(state.projectFiles||[]).filter(function(f){return f&&f.id&&f.projectId}).map(function(f){var editKey='postyar-pdf-edits:v2:'+String(f.projectId)+':'+String(f.id),edits=null;try{edits=JSON.parse(localStorage.getItem(editKey)||'null')}catch(e){}return {id:String(f.id),schemaVersion:POSTYAR_DATA_SCHEMA_VERSION,entityType:'projectPdf',projectId:String(f.projectId),name:f.name,type:f.type||'application/pdf',size:Number(f.size)||0,storageKey:String(f.id),storage:'indexeddb',version:Number(f.version)||1,createdAt:f.createdAt||null,updatedAt:f.updatedAt||new Date().toISOString(),edits:edits||null}});
+  return Promise.all([idbReplaceMany('parcels',parcels),idbReplaceMany('pdfRecords',pdfs)]);
+}
+function getAllFromStore(storeName){return openProjectAssetDb().then(function(db){return new Promise(function(resolve,reject){var req=db.transaction(storeName,'readonly').objectStore(storeName).getAll();req.onsuccess=function(){resolve(req.result||[])};req.onerror=function(){reject(req.error)}})})}
+function buildProjectDataPackage(projectId){
+  var project=state.projects.find(function(p){return String(p.id)===String(projectId)});if(!project)throw new Error('پروژه پیدا نشد');
+  var parcels=(state.drawings||[]).filter(function(d){return String(d.projectId)===String(projectId)}).map(structuredParcelRecord);
+  var pdfs=(state.projectFiles||[]).filter(function(f){return String(f.projectId)===String(projectId)}).map(function(f){var key='postyar-pdf-edits:v2:'+projectId+':'+f.id,edits=null;try{edits=JSON.parse(localStorage.getItem(key)||'null')}catch(e){}return {id:f.id,schemaVersion:POSTYAR_DATA_SCHEMA_VERSION,entityType:'projectPdf',projectId:String(projectId),name:f.name,mimeType:f.type||'application/pdf',size:f.size||0,storageKey:f.id,storage:'indexeddb',version:f.version||1,createdAt:f.createdAt||null,updatedAt:f.updatedAt||null,editData:edits}});
+  return {schema:'postyar.project-data',schemaVersion:POSTYAR_DATA_SCHEMA_VERSION,exportedAt:new Date().toISOString(),project:{id:String(project.id),name:project.name||'',area:project.area||''},collections:{parcels:parcels,pdfs:pdfs},counts:{parcels:parcels.length,pdfs:pdfs.length},note:'PDF binary files are stored separately in IndexedDB/blob storage; this JSON contains metadata and edit records. Upload binary assets separately when syncing to a server.'};
+}
+function exportProjectDataJson(){var pid=mapProjectId()||currentImportProjectId;if(!pid){toast('ابتدا پروژه را انتخاب کنید','error');return}try{var data=buildProjectDataPackage(pid);downloadMapFile(JSON.stringify(data,null,2),'postyar-project-'+pid+'.json','application/json;charset=utf-8');toast('داده ساختاریافته پروژه به‌صورت JSON خروجی گرفته شد','success')}catch(e){toast(e.message||'خروجی JSON ناموفق بود','error')}}
+async function syncProjectToBackend(projectId){
+  if(!POSTYAR_API_BASE)throw new Error('نشانی API هنوز تنظیم نشده است؛ داده‌ها فعلاً به‌صورت محلی و ساختاریافته ذخیره می‌شوند.');
+  var payload=buildProjectDataPackage(projectId);var base=POSTYAR_API_BASE+'/api/v1/projects/'+encodeURIComponent(projectId);var response=await fetch(base+'/sync',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify(payload)});if(!response.ok)throw new Error('همگام‌سازی داده‌های پروژه ناموفق بود: HTTP '+response.status);var result=await response.json().catch(function(){return {ok:true}});for(var i=0;i<(state.projectFiles||[]).length;i++){var meta=state.projectFiles[i];if(String(meta.projectId)!==String(projectId))continue;var stored=await getProjectAsset(meta.id);if(!stored||!stored.blob)continue;var form=new FormData();form.append('file',stored.blob,meta.name||'document.pdf');form.append('metadata',JSON.stringify({id:meta.id,projectId:String(projectId),name:meta.name,type:meta.type||'application/pdf',size:meta.size||stored.blob.size,schemaVersion:POSTYAR_DATA_SCHEMA_VERSION}));var upload=await fetch(base+'/files',{method:'POST',body:form,credentials:'include'});if(!upload.ok)throw new Error('بارگذاری فایل PDF '+meta.name+' روی سرور ناموفق بود: HTTP '+upload.status)}return result;
+}
+window.exportProjectDataJson=exportProjectDataJson;
+window.postyarData={schemaVersion:POSTYAR_DATA_SCHEMA_VERSION,buildProjectPackage:buildProjectDataPackage,exportProjectJson:exportProjectDataJson,syncProject:syncProjectToBackend,getParcels:function(projectId){return getAllFromStore('parcels').then(function(a){return a.filter(function(x){return String(x.projectId)===String(projectId)})})},getPdfRecords:function(projectId){return getAllFromStore('pdfRecords').then(function(a){return a.filter(function(x){return String(x.projectId)===String(projectId)})})}};
+
 function formatProjectFileSize(n){n=Number(n)||0;return n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
 function onImportProjectChange(){
   var select=document.getElementById('importProject');
@@ -2074,7 +2179,7 @@ async function persistProjectFile(file,existingRecord){
   if(!pid)throw new Error('ابتدا پروژه مقصد را انتخاب کنید');
   var record=existingRecord||null;
   if(!record){record={id:uid('PFILE'),projectId:pid,name:file.name||'فایل.pdf',type:file.type||'application/pdf',size:file.size||0,kind:'pdf',storage:'indexeddb',version:1,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),savedAtLabel:nowFull()}}
-  record.projectId=pid;record.updatedAt=new Date().toISOString();record.size=file.size||record.size||0;record.name=file.name||record.name;record.type=file.type||record.type||'application/pdf';record.kind='pdf';record.storage='indexeddb';record.version=record.version||1;
+  record.projectId=pid;record.updatedAt=new Date().toISOString();record.size=file.size||record.size||0;record.name=file.name||record.name;record.type=file.type||record.type||'application/pdf';record.kind='pdf';record.entityType='projectPdf';record.schemaVersion=POSTYAR_DATA_SCHEMA_VERSION;record.storage='indexeddb-blob';record.version=record.version||1;record.updatedAt=record.updatedAt||new Date().toISOString();
   await putProjectAsset(record,file.slice(0,file.size,file.type||'application/pdf'));
   if(!Array.isArray(state.projectFiles))state.projectFiles=[];
   var at=state.projectFiles.findIndex(function(x){return x.id===record.id});if(at>=0)state.projectFiles[at]=record;else state.projectFiles.unshift(record);
@@ -2305,6 +2410,7 @@ function saveFaithfulPdfEdits(quiet){
   var payload={sourceFile:faithfulPdfName,totalPages:faithfulPdf.numPages,projectId:currentImportProjectId,projectFileId:currentProjectFileId,savedAt:new Date().toISOString(),edits:faithfulPdfEdits,deletedPdfSections:deletedPdfSections,addedPdfTables:addedPdfTables};
   try{
     localStorage.setItem(faithfulPdfStorageKey,JSON.stringify(payload));
+    try{var pdfRecord={id:String(currentProjectFileId),schemaVersion:POSTYAR_DATA_SCHEMA_VERSION,entityType:'projectPdf',projectId:String(currentImportProjectId),name:faithfulPdfName,totalPages:faithfulPdf.numPages,updatedAt:payload.savedAt,editData:payload};idbPutMany('pdfRecords',[pdfRecord]).catch(function(e){console.warn('PDF edit IndexedDB mirror:',e)})}catch(pdfDbErr){console.warn(pdfDbErr)}
     var verify=JSON.parse(localStorage.getItem(faithfulPdfStorageKey)||'null');
     if(!verify||JSON.stringify(verify.edits)!==JSON.stringify(faithfulPdfEdits))throw new Error('تأیید ذخیره‌سازی ناموفق بود');
     var fileMeta=(state.projectFiles||[]).find(function(x){return x.id===currentProjectFileId});if(fileMeta){fileMeta.updatedAt=new Date().toISOString();fileMeta.savedAtLabel='آخرین ذخیره: '+nowFull();save();renderProjectFiles()}
@@ -3461,6 +3567,8 @@ function refreshDb(){
   if(editor&&workspace)workspace.appendChild(editor);
 })();
 load();
+// Upgrade/mirror existing local records into the normalized IndexedDB collections.
+setTimeout(function(){if(typeof persistStructuredLocalData==='function')persistStructuredLocalData().catch(function(e){console.warn('Structured data migration:',e)})},0);
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',renderBookletRecords)}else{renderBookletRecords()}
 if(state.auth){showApp()}else{$('#loginScreen').style.display='flex'}
 
