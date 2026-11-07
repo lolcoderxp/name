@@ -2882,11 +2882,10 @@ async function renderFaithfulPdfPage(pageNo){
       var cellRight=next?((textRight+next.x)/2):Math.min(baseViewport.width,textRight+Math.max(it.width*2,baseViewport.width*.07));
       it.cellX=cellLeft;it.cellWidth=Math.max(it.width,cellRight-cellLeft);
     });
-    // Ensure the first data row has a genuinely empty editable numeric field in the printed 'واحد' column
-    // when that cell is blank. It sits beside 'طبقه', uses the same in-place editor, accepts Persian/English
-    // digits (normalized to Persian), and is persisted through faithfulPdfEdits like every other PDF edit.
-    // This is an overlay field: it does not repaint or alter the original PDF table/grid.
-    (function addOneEmptyUnitField(){
+    // Add an editable blank cell for EVERY record row in the printed "واحد" column.
+    // The new inputs form a vertical editable column aligned row-by-row beside "طبقه",
+    // rather than a single field outside the table or one field for the whole table.
+    (function addEmptyUnitFieldsForEveryRecord(){
       var unitHeader=columnHeaders.filter(function(h){return h.type==='unit';}).find(function(h){
         return columnHeaders.some(function(p){return p.type==='plaque'&&Math.abs(p.y-h.y)<=Math.max(8,baseViewport.height*.012);}) &&
                columnHeaders.some(function(f){return f.type==='floor'&&Math.abs(f.y-h.y)<=Math.max(8,baseViewport.height*.012);});
@@ -2897,19 +2896,38 @@ async function renderFaithfulPdfPage(pageNo){
       items.forEach(function(it){
         if(it.top<=unitHeader.y+rowTolerance||it.locked)return;
         var row=rows.find(function(r){return Math.abs(r.top-it.top)<=Math.max(rowTolerance,it.height*.45);});
-        if(!row){row={top:it.top,height:it.height,items:[]};rows.push(row);}row.items.push(it);row.height=Math.max(row.height,it.height);
+        if(!row){row={top:it.top,height:it.height,items:[]};rows.push(row);}
+        row.items.push(it);row.height=Math.max(row.height,it.height);
       });
       rows.sort(function(a,b){return a.top-b.top;});
-      var target=rows.find(function(r){return r.items.some(function(it){return ['plaque','floor','block'].some(function(type){return columnHeaders.filter(function(h){return h.type===type;}).some(function(h){return Math.abs((it.x+it.width/2)-h.x)<=Math.max(10,baseViewport.width*.025);});});});});
-      if(!target)return;
-      var unitHasValue=target.items.some(function(it){return Math.abs((it.x+it.width/2)-unitHeader.x)<=Math.max(10,baseViewport.width*.025);});
-      if(unitHasValue)return;
+      var recordRows=rows.filter(function(r){
+        return r.items.some(function(it){
+          return ['plaque','floor','block'].some(function(type){
+            return columnHeaders.filter(function(h){return h.type===type;}).some(function(h){
+              return Math.abs((it.x+it.width/2)-h.x)<=Math.max(10,baseViewport.width*.025);
+            });
+          });
+        });
+      });
+      if(!recordRows.length)return;
       var unitHeaders=columnHeaders.filter(function(h){return ['plaque','floor','unit','block'].indexOf(h.type)>=0;}).sort(function(a,b){return a.x-b.x;});
-      var pos=unitHeaders.indexOf(unitHeader),leftEdge=pos>0?(unitHeaders[pos-1].x+unitHeader.x)/2:unitHeader.x-baseViewport.width*.025;
+      var pos=unitHeaders.indexOf(unitHeader);
+      var leftEdge=pos>0?(unitHeaders[pos-1].x+unitHeader.x)/2:unitHeader.x-baseViewport.width*.025;
       var rightEdge=pos>=0&&pos<unitHeaders.length-1?(unitHeader.x+unitHeaders[pos+1].x)/2:unitHeader.x+baseViewport.width*.025;
       var syntheticIndex=items.reduce(function(max,it){return Math.max(max,Number(it.index)||0);},0)+1;
-      var emptyItem={key:pageNo+':'+syntheticIndex,index:syntheticIndex,text:'',original:'',x:Math.max(0,leftEdge),y:target.top+target.height,top:target.top,width:Math.max(8,rightEdge-leftEdge),height:target.height,locked:false,cellX:Math.max(0,leftEdge),cellWidth:Math.max(8,rightEdge-leftEdge),numericColumn:{label:'واحد',type:'unit',maxLength:3,x:unitHeader.x,y:unitHeader.y}};
-      items.push(emptyItem);
+      recordRows.forEach(function(row){
+        var unitHasValue=row.items.some(function(it){
+          return Math.abs((it.x+it.width/2)-unitHeader.x)<=Math.max(10,baseViewport.width*.025);
+        });
+        if(unitHasValue)return;
+        var cellLeft=Math.max(0,leftEdge),cellWidth=Math.max(8,rightEdge-leftEdge);
+        items.push({
+          key:pageNo+':'+(syntheticIndex++),index:syntheticIndex-1,text:'',original:'',
+          x:cellLeft,y:row.top+row.height,top:row.top,width:cellWidth,height:row.height,
+          locked:false,cellX:cellLeft,cellWidth:cellWidth,
+          numericColumn:{label:'واحد',type:'unit',maxLength:3,x:unitHeader.x,y:unitHeader.y}
+        });
+      });
     })();
     items.forEach(function(it){
       var field=document.createElement('input');field.type='text';field.className='pdf-original-field'+(it.locked?' locked':'');
