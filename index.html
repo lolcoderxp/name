@@ -2836,7 +2836,7 @@ async function renderFaithfulPdfPage(pageNo){
       return;
     }
     var norm=function(v){var t=String(v||'');try{t=t.normalize('NFKC')}catch(e){}return t.replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[ۀة]/g,'ه').replace(/[إأ]/g,'ا').replace(/[ؤ]/g,'و').replace(/[\u200B-\u200F\u2060\uFEFF\u00AD]/g,'').replace(/[\u200C\sـ:：،,؛;()（）.\-]/g,'').toLowerCase()};
-    var labels=['کد گشت نامه رسانی','شماره گشت نامه رسانی','شرکت ملی پست جمهوری اسلامی ایران','اداره کل جغرافیایی و اطلاعات مکانی کشور','شرکت ملی پست جمهوری اسلامی ایران-اداره کل جغرافیایی و اطلاعات مکانی کشور','فهرست مکان های مسکونی و کسب','تعداد صفحات گزارش','آدرس','تاریخ','صفحه','ردیف واحد','بلوک/ورودی','پلاک','طبقه','واحد','نام خانوادگی/نوع فعالیت','نام/نام کارگاه','کد فعالیت','نوع مکان','کد شناسایی','وضعیت','ردیف اصلی','بلوک','ساختمان','محله','شناسایی','بلوار اصلی'];
+    var labels=['کد گشت نامه رسانی','شماره گشت نامه رسانی','شرکت ملی پست جمهوری اسلامی ایران','اداره کل جغرافیایی و اطلاعات مکانی کشور','شرکت ملی پست جمهوری اسلامی ایران-اداره کل جغرافیایی و اطلاعات مکانی کشور','فهرست مکان های مسکونی و کسب','تعداد صفحات گزارش','آدرس','تاریخ','صفحه','ردیف واحد','بلوک/ورودی','پلاک','طبقه','واحد','نام خانوادگی/نوع فعالیت','نام/نام کارگاه','کد فعالیت','نوع مکان','کد شناسایی','وضعیت','ردیف اصلی','بلوک','ساختمان','محله','شناسایی'];
     items.forEach(function(it){it.locked=labels.some(function(label){return norm(it.text)===norm(label)});});
     // Lock values immediately adjacent to date/page labels, plus route-code values paired with the route label.
     items.forEach(function(it,idx){
@@ -2850,6 +2850,19 @@ async function renderFaithfulPdfPage(pageNo){
     // Determine the identification-code column from the actual header location, not from number shape alone.
     var idHeaders=items.filter(function(it){return norm(it.text)===norm('کد شناسایی')});
     if(idHeaders.length){items.forEach(function(it){if(it.locked)return;var center=it.x+it.width/2;if(idHeaders.some(function(h){return Math.abs(center-(h.x+h.width/2))<Math.max(10,baseViewport.width*.025)}))it.locked=true;});}
+    // Lock the printed record-number values (for example ۱۱۱۲، ۱۱۱۳، ...) under the "ردیف واحد" heading.
+    // These are identifiers, not editable postal data.
+    var recordIndexHeaders=items.filter(function(it){return norm(it.text)===norm('ردیف واحد')});
+    if(recordIndexHeaders.length){
+      items.forEach(function(it){
+        if(it.locked)return;
+        var center=it.x+it.width/2;
+        if(recordIndexHeaders.some(function(h){
+          return it.top>h.top+Math.max(2,h.height*.35) &&
+                 Math.abs(center-(h.x+h.width/2))<=Math.max(10,baseViewport.width*.025);
+        }))it.locked=true;
+      });
+    }
     var scale=displayScale;
     // Identify the actual table columns from their printed headers, preserving the source PDF layout.
     var columnHeaders=[];
@@ -2939,7 +2952,7 @@ async function renderFaithfulPdfPage(pageNo){
       var numericColumn=it.numericColumn;
       var sourceLooksNumeric=/^[0-9۰-۹٠-٩]+$/.test(it.text.trim());
       var sourceLooksDecimal=/^[0-9۰-۹٠-٩\s.,،/\-]+$/.test(it.text.trim());
-      field.inputMode=it.locationTypeColumn?'decimal':((numericColumn&&numericColumn.type!=='block')?'numeric':(numericColumn&&numericColumn.type==='block'?'decimal':(sourceLooksNumeric?'numeric':(sourceLooksDecimal?'decimal':'text'))));
+      field.inputMode=(numericColumn&&numericColumn.type!=='block')?'numeric':(numericColumn&&numericColumn.type==='block'?'decimal':(sourceLooksNumeric?'numeric':(sourceLooksDecimal?'decimal':'text')));
       if(it.locationTypeColumn){field.dataset.locationTypeColumn='1';field.style.direction='ltr';field.style.unicodeBidi='isolate';field.style.fontVariantNumeric='tabular-nums';field.style.letterSpacing='0';}
       // Field-specific limits follow the original Postyar coding rules:
       // plaque = 4 digits; floor/unit = 3 digits; block remains decimal-capable.
@@ -2996,16 +3009,16 @@ async function renderFaithfulPdfPage(pageNo){
           // The input itself becomes the only visible copy while editing.
           // Its measured text-run bounds keep the white cover away from table rules.
           field.classList.add('is-editing');
-          var mobileEdit=window.matchMedia('(max-width:640px)').matches;
           var baseL=Number(field.dataset.baseLeft),baseT=Number(field.dataset.baseTop),baseW=Number(field.dataset.baseWidth),baseH=Number(field.dataset.baseHeight);
-          var editW=mobileEdit?Math.min(Math.max(baseW*1.55,baseW+22),Math.max(baseW,window.innerWidth*.72)):baseW;
-          var editH=mobileEdit?Math.max(baseH*1.55,baseH+10):baseH;
-          field.style.left=(baseL+(baseW-editW)/2)+'px';
-          field.style.top=(baseT+(baseH-editH)/2)+'px';
-          field.style.width=Math.max(2,editW-2)+'px';
-          field.style.height=Math.max(5,editH-2)+'px';
-          field.style.fontSize=(parseFloat(field.dataset.baseFont)*(mobileEdit?.56:.66))+'px';
-          field.style.padding=mobileEdit?'2px 5px':'0 2px';
+          // The field keeps the exact original PDF cell size. A smaller font reveals more characters.
+          field.style.left=baseL+'px';
+          field.style.top=baseT+'px';
+          field.style.width=baseW+'px';
+          field.style.height=baseH+'px';
+          var compactFont=Math.max(4.5,parseFloat(field.dataset.baseFont)*.62);
+          field.style.setProperty('--postyar-edit-font',compactFont+'px');
+          field.style.fontSize=compactFont+'px';
+          field.style.padding='0 1px';
           field.style.whiteSpace='pre';
           field.style.overflow='hidden';
           field.style.color='#2563eb';
@@ -3044,22 +3057,17 @@ async function renderFaithfulPdfPage(pageNo){
               var originalSize=parseFloat(field.dataset.baseFont)||7;
               var family=getComputedStyle(field).fontFamily||'Arial,Tahoma,sans-serif';
               fitCtx.font='600 '+originalSize+'px '+family;
-              var needed=Math.ceil(fitCtx.measureText(next).width+14);
-              var baseWidth=Number(field.dataset.baseWidth)||needed;
+              var measure=Math.max(1,fitCtx.measureText(next).width);
+              var baseWidth=Number(field.dataset.baseWidth)||field.offsetWidth||measure;
               var baseLeft=Number(field.dataset.baseLeft)||0;
+              var fitted=Math.min(originalSize,Math.max(4.2,originalSize*(Math.max(4,baseWidth-4)/measure)));
+              // Never enlarge or shift a PDF field after saving; only reduce its text size.
+              field.style.left=baseLeft+'px';
+              field.style.width=baseWidth+'px';
+              field.style.height=field.dataset.baseHeight+'px';
+              field.style.fontSize=fitted+'px';
               if(field.dataset.locationTypeColumn==='1'){
-                // Keep the PDF cell geometry unchanged. Shrink only the glyphs enough
-                // for the full signed code to fit; never paint a white rectangle over neighbours.
-                var measure=fitCtx.measureText(next).width||1;
-                var fitted=Math.min(originalSize,Math.max(5,originalSize*(Math.max(4,baseWidth-4)/measure)));
-                field.style.left=baseLeft+'px';field.style.width=baseWidth+'px';field.style.fontSize=fitted+'px';
                 field.style.direction='ltr';field.style.unicodeBidi='isolate';field.style.textAlign='center';
-              }else{
-                var displayWidth=Math.min(Math.max(baseWidth,needed),Math.max(baseWidth,window.innerWidth-16));
-                var center=baseLeft+baseWidth/2;
-                field.style.left=Math.max(0,center-displayWidth/2)+'px';
-                field.style.width=displayWidth+'px';
-                field.style.fontSize=originalSize+'px';
               }
               field.title=next;
             }catch(_){field.title=next;}
@@ -4131,7 +4139,7 @@ html.postyar-pdf-pinching .bottom-nav-wrap{opacity:0!important;visibility:hidden
  var MAX_TEXT=80,MAX_NUMBER=4;
  function faDigits(v){return String(v==null?'':v).replace(/[۰-۹]/g,function(d){return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d));}).replace(/[٠-٩]/g,function(d){return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d));});}
  function toFaDigits(v){return String(v==null?'':v).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)];});}
- function isNumericField(el){return el.dataset.locationTypeColumn==='1'||el.inputMode==='numeric'||el.inputMode==='decimal'||el.getAttribute('inputmode')==='numeric'||el.getAttribute('inputmode')==='decimal';}
+ function isNumericField(el){return el.inputMode==='numeric'||el.inputMode==='decimal'||el.getAttribute('inputmode')==='numeric'||el.getAttribute('inputmode')==='decimal';}
  function limitFor(el){return isNumericField(el)?MAX_NUMBER:MAX_TEXT;}
  function notifyLimit(){if(typeof window.toast==='function')window.toast('تعداد کاراکتر غیرمجاز می‌باشد','error');else{var n=document.getElementById('toast');if(n){n.textContent='تعداد کاراکتر غیرمجاز می‌باشد';n.classList.add('show');setTimeout(function(){n.classList.remove('show')},2600);}}}
  function normalizeField(el,notify){
@@ -4185,7 +4193,7 @@ html.postyar-pdf-pinching .bottom-nav-wrap{opacity:0!important;visibility:hidden
  var MAX_TEXT=80,MAX_NUM=4;
  var numericCols=[0,1,2,3,4,7,8,9];
  function persianDigits(v){return String(v==null?'':v).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)];}).replace(/[٠-٩]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'['٠١٢٣٤٥٦٧٨٩'.indexOf(d)];});}
- function isNum(el){return el.dataset.locationTypeColumn==='1'||el.inputMode==='numeric'||el.inputMode==='decimal'||el.getAttribute('inputmode')==='numeric'||el.getAttribute('inputmode')==='decimal';}
+ function isNum(el){return el.inputMode==='numeric'||el.inputMode==='decimal'||el.getAttribute('inputmode')==='numeric'||el.getAttribute('inputmode')==='decimal';}
  function maxFor(el){return isNum(el)?MAX_NUM:MAX_TEXT;}
  function limitNotice(){if(typeof window.toast==='function')window.toast('تعداد کاراکتر غیرمجاز می‌باشد','error');else{var t=document.getElementById('toast');if(t){t.textContent='تعداد کاراکتر غیرمجاز می‌باشد';t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2600);}}}
  function normalize(el,notify){if(!el||el.classList.contains('locked'))return;var raw=el.value!=null?el.value:el.textContent;var value=persianDigits(raw);if(isNum(el))value=value.replace(/[^۰-۹.,،/\-−–]/g,'');var max=maxFor(el);if(value.length>max){value=value.slice(0,max);if(notify)limitNotice();}if(el.value!=null){if(el.value!==value)el.value=value;el.maxLength=max;el.setAttribute('maxlength',String(max));}else if(el.textContent!==value)el.textContent=value;}
@@ -4786,3 +4794,32 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
   document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&menu.classList.contains('open')&&typeof window.toggleMapMenu==='function')window.toggleMapMenu(false)});
 })();
 </script>
+
+<style id="postyar-v15-precision-update">
+/* Locked PDF labels and record identifiers cannot receive focus or be selected. */
+#pdfFaithfulPages .pdf-original-field.locked{
+  pointer-events:none!important;
+  user-select:none!important;
+  -webkit-user-select:none!important;
+  -webkit-touch-callout:none!important;
+  caret-color:transparent!important;
+}
+/* Keep every edit box exactly on its original PDF cell; use compact text to show more characters. */
+#page-postal .pdf-original-field.is-editing{
+  transform:none!important;
+  font-size:var(--postyar-edit-font,8px)!important;
+  min-height:0!important;
+  max-height:none!important;
+  padding:0 1px!important;
+  line-height:1!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:640px){
+  #page-postal .pdf-original-field.is-editing{
+    transform:none!important;
+    font-size:var(--postyar-edit-font,8px)!important;
+    min-height:0!important;
+    padding:0 1px!important;
+  }
+}
+</style>
