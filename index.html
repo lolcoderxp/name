@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
@@ -2663,6 +2661,8 @@ function postyarResetPdfZoomBeforeMenu(){
   });
 }
 
+window.postyarResetPdfZoomBeforeMenu=postyarResetPdfZoomBeforeMenu;
+
 function addPdfSectionMenus(overlay,pageNo,items,scale){
   // منوها به بدنه صفحه منتقل می‌شوند تا مستقل از زوم PDF و محدوده canvas باشند.
   function placeFloatingPanel(panel,anchor){
@@ -2882,8 +2882,10 @@ async function renderFaithfulPdfPage(pageNo){
       var cellRight=next?((textRight+next.x)/2):Math.min(baseViewport.width,textRight+Math.max(it.width*2,baseViewport.width*.07));
       it.cellX=cellLeft;it.cellWidth=Math.max(it.width,cellRight-cellLeft);
     });
-    // Add one genuinely empty editable slot in the unit column only when the first data row has an empty unit cell.
-    // This is an overlay field: it does not draw over, repaint, or alter the original PDF table/grid.
+    // Ensure the first data row has a genuinely empty editable numeric field in the printed 'واحد' column
+    // when that cell is blank. It sits beside 'طبقه', uses the same in-place editor, accepts Persian/English
+    // digits (normalized to Persian), and is persisted through faithfulPdfEdits like every other PDF edit.
+    // This is an overlay field: it does not repaint or alter the original PDF table/grid.
     (function addOneEmptyUnitField(){
       var unitHeader=columnHeaders.filter(function(h){return h.type==='unit';}).find(function(h){
         return columnHeaders.some(function(p){return p.type==='plaque'&&Math.abs(p.y-h.y)<=Math.max(8,baseViewport.height*.012);}) &&
@@ -2921,7 +2923,13 @@ async function renderFaithfulPdfPage(pageNo){
       var sourceLooksDecimal=/^[0-9۰-۹٠-٩\s.,،/\-]+$/.test(it.text.trim());
       field.inputMode=it.locationTypeColumn?'decimal':((numericColumn&&numericColumn.type!=='block')?'numeric':(numericColumn&&numericColumn.type==='block'?'decimal':(sourceLooksNumeric?'numeric':(sourceLooksDecimal?'decimal':'text'))));
       if(it.locationTypeColumn){field.dataset.locationTypeColumn='1';field.style.direction='ltr';field.style.unicodeBidi='isolate';field.style.fontVariantNumeric='tabular-nums';field.style.letterSpacing='0';}
-      if(numericColumn)field.maxLength=4;
+      // Field-specific limits follow the original Postyar coding rules:
+      // plaque = 4 digits; floor/unit = 3 digits; block remains decimal-capable.
+      if(numericColumn){
+        if(numericColumn.type==='plaque')field.maxLength=4;
+        else if(numericColumn.type==='floor'||numericColumn.type==='unit')field.maxLength=3;
+        else field.maxLength=4;
+      }
       if(field.inputMode==='numeric'){
         field.setAttribute('pattern','[0-9۰-۹٠-٩]*');
         field.setAttribute('inputmode','numeric');
@@ -3957,13 +3965,23 @@ function isLocationTypeField(field){
  }
  return false;
 }
-document.addEventListener('click',function(ev){
+document.addEventListener('click',async function(ev){
  var field=ev.target.closest&&ev.target.closest('.pdf-original-field:not(.locked)');
  // Activity picker is restricted to the exact activity column; it never opens on workshop-name cells.
  var activityCell=isActivityColumnField(field);
  // نوع مکان مانند پلاک مستقیماً داخل همان خانه تایپ می‌شود؛ فقط نوع فعالیت پنجره انتخاب را باز می‌کند.
  if(!field||!activityCell)return;
- ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();open(field,'activity')
+ ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();
+ var targetField=field;
+ // همان رفتار منوی سه‌نقطه: ابتدا زوم لمسی PDF به‌آرامی به حالت عادی برمی‌گردد،
+ // سپس پنجره فعالیت در کل فضای قابل مشاهده گوشی باز می‌شود.
+ if(typeof window.postyarResetPdfZoomBeforeMenu==='function'){
+   await window.postyarResetPdfZoomBeforeMenu();
+ }
+ if(!targetField.isConnected)return;
+ open(targetField,'activity');
+ // اندازه‌گیری مجدد overlay پس از پایان تغییر viewport تا پنل دقیقاً تمام صفحه را بپوشاند.
+ window.dispatchEvent(new Event('resize'));
 },true);
 $('activityPickerTextMode').addEventListener('click',function(){textInput.value=('value' in activeField?activeField.value:activeField.textContent)||'';showView('text')});
 $('activityPickerCategoryMode').addEventListener('click',function(){showView('categories')});
@@ -4750,6 +4768,3 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
   document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&menu.classList.contains('open')&&typeof window.toggleMapMenu==='function')window.toggleMapMenu(false)});
 })();
 </script>
-
-
-
