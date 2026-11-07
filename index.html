@@ -3100,6 +3100,7 @@ async function renderFaithfulPdfPage(pageNo){
       field.style.fontSize=Math.max(7,it.height*scale*.9)+'px';field.style.direction=/[\u0600-\u06FF]/.test(it.text)?'rtl':'ltr';field.style.textAlign='center';
       field.dataset.baseLeft=left;field.dataset.baseTop=top;field.dataset.baseWidth=Math.min(w,Math.max(2,viewport.width-left));field.dataset.baseHeight=h;field.dataset.baseFont=field.style.fontSize;
       field.dataset.sourceX=it.x;field.dataset.sourceTop=it.top;field.dataset.sourceWidth=it.width;field.dataset.sourceHeight=it.height;field.dataset.displayScale=scale;field.dataset.baseText=it.text;
+      field.dataset.numericType=(it.numericColumn&&it.numericColumn.type)?it.numericColumn.type:'';
       var originalText=cleanPdfText(it.text);
       var hasSavedEdit=Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key) && cleanPdfText(faithfulPdfEdits[it.key])!==originalText;
       if(it.locked){field.style.color='transparent';field.style.background='transparent';}
@@ -3111,22 +3112,34 @@ async function renderFaithfulPdfPage(pageNo){
           // Its measured text-run bounds keep the white cover away from table rules.
           field.classList.add('is-editing');
           var baseL=Number(field.dataset.baseLeft),baseT=Number(field.dataset.baseTop),baseW=Number(field.dataset.baseWidth),baseH=Number(field.dataset.baseHeight);
-          // The field keeps the exact original PDF cell size. A smaller font reveals more characters.
-          field.style.left=baseL+'px';
+          // Keep text fields at their approved width behavior.
+          // Every numeric field uses exactly the same expanded width as the Unit field.
+          var pageWidth=Number(viewport&&viewport.width)||baseL+baseW;
+          var numericEdit=(field.inputMode==='numeric'||field.inputMode==='decimal'||field.getAttribute('inputmode')==='numeric'||field.getAttribute('inputmode')==='decimal');
+          var editW;
+          if(numericEdit){
+            var pageRoot=field.closest('.pdf-faithful-page-inner')||field.parentElement;
+            var unitField=pageRoot&&pageRoot.querySelector('.pdf-original-field[data-numeric-type="unit"]');
+            var unitBaseWidth=unitField?Number(unitField.dataset.baseWidth):0;
+            var unitExpandedWidth=unitBaseWidth>0?unitBaseWidth*2.6:baseW*2.6;
+            editW=Math.min(Math.max(baseW,unitExpandedWidth),pageWidth);
+          }else{
+            editW=Math.min(Math.max(baseW,baseW*1.9),pageWidth);
+          }
+          var editL=Math.max(0,Math.min(baseL-(editW-baseW)/2,pageWidth-editW));
+          field.style.left=editL+'px';
           field.style.top=baseT+'px';
-          field.style.width=baseW+'px';
-          field.style.height=baseH+'px';
-          var compactFont=Math.max(8.5,parseFloat(field.dataset.baseFont)*.82);
-          field.style.setProperty('--postyar-edit-font',compactFont+'px');
-          field.style.fontSize=compactFont+'px';
-          field.style.padding='0 1px';
+          field.style.width=editW+'px';
+          field.style.height=Math.max(baseH,30)+'px';
+          field.style.fontSize=field.dataset.baseFont;
+          field.style.padding='3px 7px';
           field.style.whiteSpace='pre';
           field.style.overflow='hidden';
           field.style.color='#2563eb';
           field.style.background='#fff';
-          field.style.border='1px solid #3b82f6';
-          field.style.borderRadius='2px';
-          field.style.boxShadow='none';
+          field.style.border='1.5px solid #2563eb';
+          field.style.borderRadius='8px';
+          field.style.boxShadow='0 3px 12px rgba(37,99,235,.20)';
           field.style.textAlign='center';
           field.style.zIndex='4';
         });
@@ -5193,12 +5206,26 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
 </style>
 
 
-<style id="postyar-pdf-edit-box-width-v29">
-/* Slightly widen the active PDF editing box without changing its font size or height. */
+<style id="postyar-pdf-edit-box-width-v31">
+/* Only while a PDF field is being edited, let its wider input extend beyond the original cell. */
 @media(max-width:640px){
+  #page-postal .pdf-faithful-page:has(.pdf-original-field.is-editing),
+  #page-postal .pdf-faithful-page-inner:has(.pdf-original-field.is-editing){
+    overflow:visible!important;
+  }
   #page-postal .pdf-original-field.is-editing{
-    transform:scaleX(1.12)!important;
-    transform-origin:center center!important;
+    transform:none!important;
+    box-sizing:border-box!important;
+    min-width:0!important;
+    max-width:none!important;
+    min-height:30px!important;
+    padding:3px 7px!important;
+    border:1.5px solid #2563eb!important;
+    border-radius:8px!important;
+    background:#fff!important;
+    color:#2563eb!important;
+    box-shadow:0 3px 12px rgba(37,99,235,.20)!important;
+    z-index:999!important;
   }
 }
 </style>
