@@ -729,6 +729,40 @@ img{display:block;max-width:100%}
 .import-project-gate{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(190px,260px);align-items:center;gap:12px;margin:8px 0 14px;padding:15px;border:1px solid #dce7f6;border-radius:18px;background:linear-gradient(135deg,#f8fbff,#fff)}.import-gate-icon{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:#e7f0ff;color:#2563eb}.import-gate-icon .icn{width:22px;height:22px}.import-gate-copy strong,.import-gate-copy small{display:block}.import-gate-copy strong{font-size:12px;color:#1e293b}.import-gate-copy small{font-size:10px;color:#64748b;line-height:1.8;margin-top:3px}.import-project-gate .field{margin:0}.import-project-gate .field label{font-size:10px}.import-file-area.is-locked{opacity:.42;filter:grayscale(.25);pointer-events:none;user-select:none}.project-files-panel{margin:0 0 16px;padding:14px;border:1px solid #e4eaf2;border-radius:17px;background:#fff}.project-files-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.project-files-heading strong{font-size:12px;color:#26364b}.project-files-heading small{font-size:10px;color:#64748b}.project-files-list{display:grid;gap:8px}.project-file-row{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #edf1f6;border-radius:13px;background:#fbfdff}.project-file-icon{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:11px;background:#fff0ef;color:#dc2626}.project-file-meta{flex:1;min-width:0}.project-file-meta strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#25364b}.project-file-meta small{display:block;margin-top:3px;color:#8190a5;font-size:9px}.project-file-row .btn{flex:0 0 auto}.project-files-empty{padding:13px 8px;text-align:center;color:#94a3b8;font-size:10px;line-height:1.8}
 @media(max-width:620px){.projects-hero{display:block;padding:16px;border-radius:18px}.project-create-hero{width:100%;margin-top:13px;justify-content:flex-start}.import-project-gate{grid-template-columns:38px minmax(0,1fr);gap:9px;padding:12px}.import-gate-icon{width:38px;height:38px}.import-project-gate .field{grid-column:1/-1}.projects-grid{grid-template-columns:1fr}}
 
+
+/* Postyar home, compact QR camera and notebook polish */
+@media(max-width:999px){.shortcuts{grid-template-columns:repeat(4,minmax(0,1fr))!important}.shortcuts .shortcut:nth-child(7){grid-column:span 2}}
+@media(min-width:1000px){.shortcuts{grid-template-columns:repeat(7,minmax(0,1fr))!important}}
+.notes-saved-hint{font-size:10.5px;color:#94a3b8;background:#f8fafc;border:1px solid #edf1f6;border-radius:10px;padding:8px 11px;margin:0 0 12px;line-height:1.8}
+.notes-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;align-items:stretch}
+.note-tile{min-width:0;aspect-ratio:1/1.06;display:flex;flex-direction:column;padding:12px;border:1px solid #e5eaf2;border-radius:17px;background:linear-gradient(155deg,#fff 0%,#fbfcff 100%);box-shadow:0 5px 16px rgba(20,42,75,.055);cursor:pointer;transition:transform .18s,border-color .18s;overflow:hidden}
+.note-tile:active{transform:scale(.98)}.note-tile-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.note-file-icon{width:31px;height:31px;border-radius:10px;display:grid;place-items:center;background:#fff3cf;color:#b7791f;font-size:18px}
+.note-delete{width:27px;height:27px;border-radius:9px;background:#fff1f2;color:#e11d48;font-size:19px;line-height:1}
+.note-tile-title{font-size:12px;line-height:1.6;font-weight:800;color:#1e293b;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.note-tile-preview{font-size:10.5px;line-height:1.8;color:#64748b;margin-top:6px;white-space:pre-wrap;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow-wrap:anywhere;flex:1}
+.note-tile-meta{display:flex;align-items:flex-end;justify-content:space-between;gap:5px;margin-top:8px;padding-top:7px;border-top:1px solid #eef1f5;font-size:9px;color:#94a3b8;line-height:1.5}
+.note-tile-meta b{color:#2563eb;font-size:9px;white-space:nowrap}.note-editor-textarea{min-height:220px!important;resize:vertical!important;line-height:1.9!important}
+@media(min-width:650px){.notes-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.note-tile{aspect-ratio:1/1.02;padding:15px}.note-tile-title{font-size:13px}.note-tile-preview{font-size:11.5px}}
+.qr-simple-shell{max-width:620px;margin-left:auto;margin-right:auto}
+.qr-simple-card{display:flex;align-items:center;gap:12px;padding:15px;border:1px solid #e6edf7;border-radius:17px;background:linear-gradient(135deg,#f8fbff,#fff);margin-bottom:17px}
+.qr-simple-icon{width:46px;height:46px;flex:0 0 46px;border-radius:14px;display:grid;place-items:center;background:#eaf1ff;color:#2563eb;font-size:27px}
+.qr-simple-copy strong,.qr-simple-copy small{display:block}.qr-simple-copy strong{font-size:13px;color:#1e293b}.qr-simple-copy small{font-size:10.5px;color:#64748b;margin-top:4px;line-height:1.7}
+.qr-project-summary{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:#f8fafc;border:1px solid #e8edf5;color:#64748b;font-size:11px;margin:-3px 0 14px}
+.qr-project-summary.selected{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}.qr-project-summary b,.qr-project-summary small{display:block}.qr-project-summary small{font-size:9px;color:#64748b;margin-top:3px}
+.qr-main-scan-btn{height:50px;border-radius:14px;font-size:13px}.qr-main-scan-btn:disabled{opacity:.45;box-shadow:none;cursor:not-allowed}
+.qr-scanner-message{font-size:10.5px;color:#94a3b8;text-align:center;line-height:1.8;margin:10px 0 15px}
+.qr-result-compact{margin-top:14px;padding:14px;border-radius:17px}.qr-result-compact .qr-number{font-size:24px;letter-spacing:2px}.qr-history-compact{padding:14px;border:1px solid #e7edf5;border-radius:17px;background:#fff;margin-top:15px}
+.qr-camera-overlay[hidden]{display:none!important}.qr-camera-overlay{position:fixed;inset:0;z-index:200000;background:rgba(8,15,30,.88);display:flex;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(8px)}
+.qr-camera-modal{width:min(560px,100%);max-height:94dvh;display:flex;flex-direction:column;gap:12px;background:#fff;border-radius:22px;padding:13px;box-shadow:0 24px 80px rgba(0,0,0,.35)}
+.qr-camera-modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:3px 2px}.qr-camera-modal-head strong,.qr-camera-modal-head small{display:block}.qr-camera-modal-head strong{font-size:14px}.qr-camera-modal-head small{font-size:10px;color:#64748b;margin-top:3px}
+.qr-camera-modal .qr-camera-stage{position:relative;min-height:300px;height:min(58dvh,520px);background:#0b1220;border-radius:16px;overflow:hidden}
+.qr-camera-modal .qr-camera-stage video{width:100%;height:100%;object-fit:cover}.qr-camera-modal .qr-camera-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#fff;background:#111827}.qr-camera-modal .qr-camera-placeholder[hidden]{display:none!important}
+.qr-camera-modal .qr-placeholder-icon{font-size:46px;color:#93c5fd}.qr-camera-modal .qr-camera-placeholder strong{font-size:14px}.qr-camera-modal .qr-camera-placeholder span{font-size:11px;color:#cbd5e1}
+.qr-camera-modal .qr-viewfinder{position:absolute;inset:12% 12%;pointer-events:none}.qr-camera-modal .qr-camera-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.22),transparent 25%,transparent 75%,rgba(0,0,0,.25))}
+.qr-camera-modal-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#94a3b8;font-size:10px}.qr-camera-modal-foot .btn{height:38px;min-height:38px}
+@media(max-width:480px){.qr-camera-overlay{padding:0}.qr-camera-modal{width:100%;height:100dvh;max-height:100dvh;border-radius:0;padding:calc(12px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom))}.qr-camera-modal .qr-camera-stage{height:auto;flex:1;min-height:250px}.qr-camera-modal-foot{padding-bottom:4px}}
+
 </style>
 <style>
 /* PostYar — polished create-row interaction. The added record is a single blank row,
@@ -833,6 +867,7 @@ img{display:block;max-width:100%}
     <symbol id="i-bolt" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
     <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
     <symbol id="i-label" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><rect x="2" y="2" width="7" height="7" rx="1"/><rect x="15" y="2" width="7" height="7" rx="1"/><rect x="2" y="15" width="7" height="7" rx="1"/><path d="M5 5h1v1H5zM18 5h1v1h-1zM5 18h1v1H5zM15 15h3v3h-3zM20 15h2v2h-2zM15 20h2v2h-2zM19 20h3v2h-3z"/></symbol>
     <symbol id="i-note" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></symbol>
     <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></symbol>
     <symbol id="i-send" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
@@ -934,25 +969,26 @@ img{display:block;max-width:100%}
       </div>
       <div class="stats-grid">
         <div class="stat-card"><div class="stat-num" id="sProjects">۰</div><div class="stat-lbl">پروژه فعال</div></div>
-        <div class="stat-card"><div class="stat-num" id="sBuildings">۰</div><div class="stat-lbl">ساختمان</div></div>
-        <div class="stat-card"><div class="stat-num" id="sUnits">۰</div><div class="stat-lbl">واحد ثبت‌شده</div></div>
+        <div class="stat-card"><div class="stat-num" id="sBuildings">۰</div><div class="stat-lbl">تعداد فایل‌های آپلودی</div></div>
+        <div class="stat-card"><div class="stat-num" id="sUnits">۰</div><div class="stat-lbl">تعداد اسکن‌ها</div></div>
         <div class="stat-card"><div class="stat-num" id="sParcels">۰</div><div class="stat-lbl">پارسل ترسیم‌شده</div></div>
       </div>
       <div class="section">
         <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-bolt"/></svg> دسترسی سریع</h2></div>
-        <div class="shortcuts">
-          <button class="shortcut" onclick="nav('projects')"><div class="shortcut-icon sc-yellow"><svg class="icn"><use href="#i-folder"/></svg></div><span class="shortcut-name">پروژه‌ها</span></button>
-          <button class="shortcut" onclick="nav('postal')"><div class="shortcut-icon sc-pink"><svg class="icn"><use href="#i-postal"/></svg></div><span class="shortcut-name">کدگذاری</span></button>
-          <button class="shortcut" onclick="nav('map')"><div class="shortcut-icon sc-green"><svg class="icn"><use href="#i-map"/></svg></div><span class="shortcut-name">نقشه و پارسل</span></button>
-          <button class="shortcut" onclick="nav('import')"><div class="shortcut-icon sc-orange"><svg class="icn"><use href="#i-upload"/></svg></div><span class="shortcut-name">Import/Export</span></button>
-          <button class="shortcut" onclick="nav('labels')"><div class="shortcut-icon sc-purple"><svg class="icn"><use href="#i-label"/></svg></div><span class="shortcut-name">اسکن QR</span></button>
-          <button class="shortcut" onclick="nav('search')"><div class="shortcut-icon sc-teal"><svg class="icn"><use href="#i-search"/></svg></div><span class="shortcut-name">جستجو</span></button>
-          <button class="shortcut" onclick="nav('tasks')"><div class="shortcut-icon sc-indigo"><svg class="icn"><use href="#i-tasks"/></svg></div><span class="shortcut-name">کنترل کارها</span></button>
-          <button class="shortcut" onclick="nav('notes')"><div class="shortcut-icon sc-blue"><svg class="icn"><use href="#i-note"/></svg></div><span class="shortcut-name">یادداشت</span></button>
-          <button class="shortcut" onclick="nav('users')"><div class="shortcut-icon sc-red"><svg class="icn"><use href="#i-user"/></svg></div><span class="shortcut-name">کاربران</span></button>
-          <button class="shortcut" onclick="nav('reports')"><div class="shortcut-icon sc-slate"><svg class="icn"><use href="#i-chart"/></svg></div><span class="shortcut-name">گزارش‌گیری</span></button>
-          <button class="shortcut" onclick="nav('admin')"><div class="shortcut-icon sc-pink"><svg class="icn"><use href="#i-chat"/></svg></div><span class="shortcut-name">پشتیبانی</span></button>
-          <button class="shortcut" onclick="nav('database')"><div class="shortcut-icon sc-blue"><svg class="icn"><use href="#i-database"/></svg></div><span class="shortcut-name">دیتابیس</span></button>
+        <div class="shortcuts home-shortcuts">
+          <button class="shortcut shortcut-wide shortcut-search" type="button" onclick="nav('search')" aria-label="رفتن به جستجوی پروژه">
+            <span class="shortcut-wide-icon sc-teal"><svg class="icn"><use href="#i-search"/></svg></span>
+            <span class="shortcut-wide-body"><strong>جستجوی پروژه</strong><span class="home-search-demo" aria-hidden="true"><span>نام پروژه را جستجو کنید…</span><svg class="icn"><use href="#i-search"/></svg></span></span>
+          </button>
+          <button class="shortcut shortcut-wide shortcut-scan" type="button" onclick="nav('labels')" aria-label="رفتن به اسکن QR">
+            <span class="shortcut-wide-icon sc-purple"><svg class="icn"><use href="#i-qr"/></svg></span>
+            <span class="shortcut-wide-body"><strong>اسکنر QR Code</strong></span>
+          </button>
+          <button class="shortcut shortcut-half shortcut-notes" type="button" onclick="nav('notes')"><span class="shortcut-half-icon sc-blue"><svg class="icn"><use href="#i-note"/></svg></span><span class="shortcut-name">یادداشت‌های من</span></button>
+          <button class="shortcut shortcut-half" type="button" onclick="nav('projects')"><span class="shortcut-half-icon sc-yellow"><svg class="icn"><use href="#i-folder"/></svg></span><span class="shortcut-name">پروژه‌ها</span></button>
+          <button class="shortcut" type="button" onclick="nav('postal')"><div class="shortcut-icon sc-pink"><svg class="icn"><use href="#i-postal"/></svg></div><span class="shortcut-name">کدگذاری</span></button>
+          <button class="shortcut" type="button" onclick="nav('map')"><div class="shortcut-icon sc-green"><svg class="icn"><use href="#i-map"/></svg></div><span class="shortcut-name">نقشه و پارسل</span></button>
+          <button class="shortcut shortcut-half" type="button" onclick="nav('import')"><span class="shortcut-half-icon sc-orange"><svg class="icn"><use href="#i-upload"/></svg></span><span class="shortcut-name">Import/Export</span></button>
         </div>
       </div>
       <div class="section">
@@ -1121,38 +1157,35 @@ img{display:block;max-width:100%}
 
     <!-- QR SCANNER -->
     <section class="page" id="page-labels">
-      <div class="qr-shell">
-        <div class="qr-hero">
-          <div class="qr-hero-orb qr-orb-one"></div><div class="qr-hero-orb qr-orb-two"></div>
-          <div class="qr-hero-top"><span class="qr-brand-chip"><span class="qr-brand-dot"></span> پست‌یار · اسکن هوشمند</span><span class="qr-hero-mini-icon">⌗</span></div>
-          <div class="qr-hero-title">اسکن <span>QR Code</span></div>
-          <p>پروژه را انتخاب کن، کد را با دوربین اسکن کن و شناسهٔ ۱۰ رقمی را همان لحظه دریافت کن.</p>
-          <div class="qr-hero-steps"><span><b>۱</b> انتخاب پروژه</span><i></i><span><b>۲</b> اسکن واقعی</span><i></i><span><b>۳</b> دریافت کد</span></div>
+      <div class="section qr-simple-shell">
+        <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-label"/></svg> اسکن کد</h2></div>
+        <div class="qr-simple-card">
+          <div class="qr-simple-icon">⌗</div>
+          <div class="qr-simple-copy"><strong>اسکن شناسهٔ ۱۰ رقمی</strong><small>ابتدا پروژه را انتخاب کن؛ سپس دکمهٔ اسکن را بزن.</small></div>
         </div>
-        <div class="qr-project-card">
-          <div class="qr-card-heading"><span class="qr-heading-icon">▦</span><div><strong>پروژهٔ فعال</strong><small>برای شروع اسکن، انتخاب پروژه الزامی است</small></div><span class="qr-required">ضروری</span></div>
-          <div class="field qr-project-field"><label for="labelProject">انتخاب پروژه</label><select id="labelProject" onchange="qrProjectChanged()"><option value="">ابتدا یک پروژه انتخاب کنید</option></select></div>
-          <div id="qrProjectSummary" class="qr-project-summary"><span class="qr-summary-icon">⌂</span><span>پروژه را انتخاب کن تا دکمهٔ اسکن فعال شود.</span></div>
+        <div class="field qr-project-field"><label for="labelProject">پروژه</label><select id="labelProject" onchange="qrProjectChanged()"><option value="">انتخاب پروژه</option></select></div>
+        <div id="qrProjectSummary" class="qr-project-summary"><span class="qr-summary-icon">⌂</span><span>هنوز پروژه‌ای انتخاب نشده است.</span></div>
+        <button class="btn btn-primary btn-block qr-main-scan-btn" id="qrStartBtn" type="button" onclick="startQrScanner()"><svg class="icn"><use href="#i-label"/></svg> اسکن با دوربین گوشی</button>
+        <div id="qrScannerMessage" class="qr-scanner-message" role="status">برای شروع، یک پروژه انتخاب کن.</div>
+        <div id="qrResultCard" class="qr-result-card qr-result-compact" hidden>
+          <div class="qr-result-head"><span class="qr-result-check">✓</span><div><strong>کد با موفقیت ذخیره شد</strong><small id="qrResultProject">پروژهٔ انتخاب‌شده</small></div></div>
+          <div class="qr-number-label">شناسهٔ ۱۰ رقمی</div><div class="qr-number" id="qrNumber" dir="ltr">۰۰۰۰۰۰۰۰۰۰</div>
+          <div class="qr-result-actions"><button class="btn btn-outline" type="button" onclick="copyQrNumber()">کپی کد</button><button class="btn btn-primary" type="button" onclick="scanAnotherQr()">اسکن بعدی</button></div>
+          <span id="qrRawValue" hidden>—</span>
         </div>
-        <div class="qr-scanner-card">
-          <div class="qr-scanner-heading"><div><strong>اسکنر دوربین</strong><small>دوربین دستگاه برای خواندن QR استفاده می‌شود</small></div><span id="qrCameraStatus" class="qr-status-pill">آمادهٔ شروع</span></div>
+        <div class="qr-history-card qr-history-compact"><div class="qr-history-head"><div><strong>کدهای ذخیره‌شدهٔ این پروژه</strong><small>اسکن‌ها به تفکیک پروژه نگهداری می‌شوند.</small></div><span id="qrHistoryCount">۰ مورد</span></div><div id="qrHistoryList" class="qr-history-list"><div class="qr-history-empty">هنوز کدی اسکن نشده است.</div></div></div>
+      </div>
+      <div class="qr-camera-overlay" id="qrCameraOverlay" hidden>
+        <div class="qr-camera-modal">
+          <div class="qr-camera-modal-head"><div><strong>دوربین اسکن</strong><small id="qrCameraStatus">در حال آماده‌سازی دوربین</small></div><button class="icon-button" type="button" onclick="stopQrScanner()" aria-label="بستن دوربین">×</button></div>
           <div class="qr-camera-stage" id="qrCameraStage">
-            <video id="qrVideo" playsinline muted aria-label="تصویر زنده دوربین برای اسکن QR"></video>
-            <div class="qr-camera-placeholder" id="qrCameraPlaceholder"><div class="qr-placeholder-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 22V12h10M42 12h10v10M52 42v10H42M22 52H12V42"/><path d="M20 25h24v14H20zM25 20v5M39 20v5M25 39v5M39 39v5"/></svg></div><strong>آمادهٔ اسکن QR</strong><span>پروژه را انتخاب کن، سپس دکمهٔ شروع اسکن را بزن.</span></div>
+            <video id="qrVideo" playsinline muted aria-label="تصویر زنده دوربین"></video>
+            <div class="qr-camera-placeholder" id="qrCameraPlaceholder"><div class="qr-placeholder-icon">⌗</div><strong>دوربین آمادهٔ اسکن</strong><span>کد QR را داخل کادر قرار بده.</span></div>
             <div class="qr-viewfinder" id="qrViewfinder" aria-hidden="true"><i class="qr-corner tl"></i><i class="qr-corner tr"></i><i class="qr-corner bl"></i><i class="qr-corner br"></i><span class="qr-scan-line"></span><span class="qr-focus-badge">در حال جست‌وجوی کد…</span></div>
             <div class="qr-camera-shade"></div>
           </div>
-          <div id="qrScannerMessage" class="qr-scanner-message" role="status">برای فعال شدن دوربین، ابتدا پروژه را انتخاب کنید.</div>
-          <div class="qr-camera-actions"><button class="btn btn-primary" id="qrStartBtn" type="button" onclick="startQrScanner()"><svg class="icn"><use href="#i-label"/></svg> شروع اسکن با دوربین</button><button class="btn btn-outline" id="qrStopBtn" type="button" onclick="stopQrScanner()" disabled>توقف دوربین</button></div>
-          <div class="qr-camera-tip"><span>✦</span> نور کافی داشته باشید و QR را داخل کادر قرار دهید. برای دوربین، سایت باید از HTTPS باز شده باشد.</div>
+          <div class="qr-camera-modal-foot"><span>کد ۱۰ رقمی به‌صورت خودکار ذخیره می‌شود.</span><button class="btn btn-outline" id="qrStopBtn" type="button" onclick="stopQrScanner()">بستن دوربین</button></div>
         </div>
-        <div id="qrResultCard" class="qr-result-card" hidden>
-          <div class="qr-result-head"><span class="qr-result-check">✓</span><div><strong>اسکن با موفقیت انجام شد</strong><small id="qrResultProject">پروژهٔ انتخاب‌شده</small></div><span class="qr-result-live">تأیید شد</span></div>
-          <div class="qr-number-label">شناسهٔ ۱۰ رقمی</div><div class="qr-number" id="qrNumber" dir="ltr">۰۰۰۰۰۰۰۰۰۰</div>
-          <div class="qr-result-meta"><span class="qr-meta-icon">▦</span><div><small>کد QR خوانده‌شده</small><strong id="qrRawValue" dir="ltr">—</strong></div></div>
-          <div class="qr-result-actions"><button class="btn btn-primary" type="button" onclick="copyQrNumber()">کپی کد</button><button class="btn btn-outline" type="button" onclick="scanAnotherQr()">اسکن مورد بعدی</button></div>
-        </div>
-        <div class="qr-history-card"><div class="qr-history-head"><div><strong>اسکن‌های این نشست</strong><small>کدهای اسکن‌شده در پروژهٔ انتخابی</small></div><span id="qrHistoryCount">۰ مورد</span></div><div id="qrHistoryList" class="qr-history-list"><div class="qr-history-empty">هنوز کدی اسکن نشده است.</div></div></div>
       </div>
     </section>
 
@@ -1161,10 +1194,10 @@ img{display:block;max-width:100%}
       <div class="section">
         <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-search"/></svg> جستجو</h2></div>
         <div class="search-box">
-          <input id="searchInput" placeholder="کد پستی، نام ساختمان، آدرس..." oninput="doSearch()">
+          <input id="searchInput" placeholder="نام پروژه را بنویس و جستجو کن…" oninput="doSearch()">
           <svg class="icn"><use href="#i-search"/></svg>
         </div>
-        <div class="field"><label>فیلتر پروژه</label><select id="searchProject" onchange="doSearch()"><option value="">همه پروژه‌ها</option></select></div>
+        <div class="field"><label>یا پروژه را از فهرست انتخاب کن</label><select id="searchProject" onchange="doSearch()"><option value="">همه پروژه‌ها</option></select></div>
         <div id="searchResults"></div>
       </div>
     </section>
@@ -1205,14 +1238,9 @@ img{display:block;max-width:100%}
     <!-- NOTES -->
     <section class="page" id="page-notes">
       <div class="section">
-        <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-note"/></svg> یادداشت جدید</h2></div>
-        <div class="field"><label>عنوان</label><input id="noteTitle" placeholder="عنوان یادداشت"></div>
-        <div class="field"><label>متن</label><textarea id="noteContent" placeholder="متن یادداشت..."></textarea></div>
-        <button class="btn btn-primary btn-block" onclick="addNote()"><svg class="icn"><use href="#i-plus"/></svg> افزودن یادداشت</button>
-      </div>
-      <div class="section">
-        <div class="section-heading"><h2 class="section-title">یادداشت‌های من</h2></div>
-        <div id="notesList"></div>
+        <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-note"/></svg> یادداشت‌های من</h2><button class="btn btn-primary btn-sm" type="button" onclick="openNoteEditor()"><svg class="icn"><use href="#i-plus"/></svg> یادداشت جدید</button></div>
+        <div id="notesSavedHint" class="notes-saved-hint" hidden>یادداشت شما در پست‌یار ذخیره گردید.</div>
+        <div id="notesList" class="notes-grid"></div>
       </div>
     </section>
 
@@ -1430,10 +1458,13 @@ function nav(page){
 $$('.nav-item').forEach(function(b){b.onclick=function(){nav(b.dataset.nav)}});
 $$('.ds-link').forEach(function(b){b.onclick=function(){nav(b.dataset.nav)}});
 
+function getQrScanTotal(){
+  try{var all=JSON.parse(localStorage.getItem('postyar_qr_project_codes_v1')||'{}');return Object.keys(all).reduce(function(total,key){return total+(Array.isArray(all[key])?all[key].length:0)},0)}catch(e){return 0}
+}
 function updateStats(){
   $('#sProjects').textContent=fa(state.projects.length);
-  $('#sBuildings').textContent=fa(state.buildings.length);
-  $('#sUnits').textContent=fa(state.units.length);
+  $('#sBuildings').textContent=fa((state.projectFiles||[]).length);
+  $('#sUnits').textContent=fa(getQrScanTotal());
   $('#sParcels').textContent=fa(state.drawings.length);
 }
 
@@ -1818,6 +1849,7 @@ function initMap(){
     drawLayer=L.featureGroup().addTo(map);
     savedLayer=L.featureGroup().addTo(map);
     map.on('click',onMapClick);
+    map.on('moveend',saveMapProjectView);
     map.on('mousemove',function(e){var el=$('#coordStatus');if(el)el.textContent=e.latlng.lat.toFixed(5)+', '+e.latlng.lng.toFixed(5)});
     ensureParcelCodes();
     renderDrawings();
@@ -1876,19 +1908,17 @@ function ensureParcelCodes(){
   });
   if(changed)save();
 }
+function mapViewKey(pid){return 'postyar-map-view:v2:'+String(pid||'');}
+function saveMapProjectView(){var pid=$('#mapProject')?$('#mapProject').value:'';if(!pid||!mapReady||!map)return;try{var c=map.getCenter();localStorage.setItem(mapViewKey(pid),JSON.stringify({lat:c.lat,lng:c.lng,zoom:map.getZoom(),updatedAt:new Date().toISOString()}));}catch(e){}}
 function mapProjectChanged(){
-  draftPoints=[];
-  if(draftLayer&&drawLayer){drawLayer.removeLayer(draftLayer);draftLayer=null;}
-  tool='select';
-  $$('.map-tool[data-tool], .map-quick-tool[data-tool]').forEach(function(b){b.classList.toggle('active',b.dataset.tool==='select')});
-  renderDrawings();
-  var pid=$('#mapProject')?$('#mapProject').value:'';
-  var selected=(state.drawings||[]).filter(function(d){return d.projectId===pid&&Array.isArray(d.coords)&&d.coords.length;});
-  if(mapReady&&map){
-    if(selected.length){var pts=[];selected.forEach(function(d){d.coords.forEach(function(c){pts.push(c)});});try{map.fitBounds(pts,{padding:[28,28],maxZoom:18});}catch(e){map.setView([35.700,51.400],12);}}
-    else map.setView([35.700,51.400],12);
-  }
-  var st=$('#mapStatus');if(st)st.textContent=pid?'پروژه انتخاب شد؛ فقط اطلاعات همین پروژه نمایش داده می‌شود':'برای مشاهده و ترسیم، ابتدا یک پروژه انتخاب کنید';
+ draftPoints=[];if(draftLayer&&drawLayer){drawLayer.removeLayer(draftLayer);draftLayer=null;}tool='select';
+ $$('.map-tool[data-tool], .map-quick-tool[data-tool]').forEach(function(b){b.classList.toggle('active',b.dataset.tool==='select')});renderDrawings();
+ var pid=$('#mapProject')?$('#mapProject').value:'',selected=(state.drawings||[]).filter(function(d){return String(d.projectId)===String(pid)&&Array.isArray(d.coords)&&d.coords.length;}),savedView=null;
+ try{savedView=JSON.parse(localStorage.getItem(mapViewKey(pid))||'null')}catch(e){}
+ if(mapReady&&map){if(savedView&&Number.isFinite(Number(savedView.lat))&&Number.isFinite(Number(savedView.lng))&&Number(savedView.zoom))map.setView([Number(savedView.lat),Number(savedView.lng)],Math.max(3,Math.min(22,Number(savedView.zoom))),{animate:false});
+ else if(selected.length){var latest=selected.slice().sort(function(a,b){return String(b.created||'').localeCompare(String(a.created||''));})[0],pts=latest.coords||[];try{if(pts.length===1)map.setView(pts[0],18,{animate:false});else map.fitBounds(pts,{padding:[34,34],maxZoom:19,animate:false});}catch(e){map.setView([35.700,51.400],12);}}
+ else map.setView([35.700,51.400],12,{animate:false});setTimeout(function(){if(map)map.invalidateSize()},100);}
+ var st=$('#mapStatus');if(st)st.textContent=pid?'پروژه انتخاب شد؛ نقشه و تمام پارسل‌های همین پروژه بارگذاری شدند':'برای مشاهده و ترسیم، ابتدا یک پروژه انتخاب کنید';
 }
 function finishDrawing(){
   if(!draftPoints.length){toast('اول نقطه بگذارید','error');return}
@@ -1901,7 +1931,7 @@ function finishDrawing(){
   if(draftLayer){drawLayer.removeLayer(draftLayer);draftLayer=null}
   tool='select';
   $$('.map-tool[data-tool], .map-quick-tool[data-tool]').forEach(function(x){x.classList.toggle('active',x.dataset.tool==='select')});
-  save();renderDrawings();updateStats();toast('ذخیره شد','success');
+  save();saveMapProjectView();renderDrawings();updateStats();toast('ذخیره شد','success');
 }
 function undoDraw(){if(draftPoints.length){draftPoints.pop();drawDraft()}}
 function clearDraw(){draftPoints=[];if(draftLayer){drawLayer.removeLayer(draftLayer);draftLayer=null}tool='select';$$('.map-tool[data-tool]').forEach(function(x){x.classList.toggle('active',x.dataset.tool==='select')})}
@@ -2183,6 +2213,8 @@ async function syncProjectToBackend(projectId){
 window.postyarData={schemaVersion:POSTYAR_DATA_SCHEMA_VERSION,buildProjectPackage:buildProjectDataPackage,syncProject:syncProjectToBackend,getParcels:function(projectId){return getAllFromStore('parcels').then(function(a){return a.filter(function(x){return String(x.projectId)===String(projectId)})})},getPdfRecords:function(projectId){return getAllFromStore('pdfRecords').then(function(a){return a.filter(function(x){return String(x.projectId)===String(projectId)})})}};
 
 function formatProjectFileSize(n){n=Number(n)||0;return n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
+var importAutoOpenToken=0;
+var lastAutoOpenedProjectId='';
 function onImportProjectChange(){
   var select=document.getElementById('importProject');
   var nextProjectId=select?select.value:'';
@@ -2192,6 +2224,20 @@ function onImportProjectChange(){
   if(area)area.classList.toggle('is-locked',!currentImportProjectId);
   if((!currentImportProjectId||changed)&&selectedFile)cancelFile();
   renderProjectFiles();
+  if(currentImportProjectId && (!selectedFile || changed) && lastAutoOpenedProjectId!==currentImportProjectId){
+    var token=++importAutoOpenToken;
+    lastAutoOpenedProjectId=currentImportProjectId;
+    setTimeout(function(){if(token===importAutoOpenToken && currentImportProjectId)openLatestProjectPdfForImport(currentImportProjectId,token)},80);
+  }
+}
+async function openLatestProjectPdfForImport(projectId,token){
+  try{
+    var latest=(state.projectFiles||[]).filter(function(f){return String(f.projectId)===String(projectId)&&String(f.name||'').toLowerCase().endsWith('.pdf')}).sort(function(a,b){return String(b.updatedAt||b.createdAt||'').localeCompare(String(a.updatedAt||a.createdAt||''))})[0];
+    if(!latest)return;
+    if(token!==importAutoOpenToken || String(currentImportProjectId)!==String(projectId))return;
+    if(selectedFile && String(currentProjectFileId)===String(latest.id) && faithfulPdf)return;
+    await openProjectFile(latest.id,true);
+  }catch(e){console.warn('بازگردانی خودکار PDF پروژه:',e)}
 }
 function renderProjectFiles(){
   var box=document.getElementById('projectFilesList'),count=document.getElementById('projectFilesCount');
@@ -2211,17 +2257,17 @@ async function persistProjectFile(file,existingRecord){
   await putProjectAsset(record,file.slice(0,file.size,file.type||'application/pdf'));
   if(!Array.isArray(state.projectFiles))state.projectFiles=[];
   var at=state.projectFiles.findIndex(function(x){return x.id===record.id});if(at>=0)state.projectFiles[at]=record;else state.projectFiles.unshift(record);
-  save();currentProjectFileId=record.id;renderProjectFiles();return record;
+  save();currentProjectFileId=record.id;renderProjectFiles();updateStats();return record;
 }
-async function openProjectFile(fileId){
+async function openProjectFile(fileId,autoExtract){
   var record=(state.projectFiles||[]).find(function(x){return x.id===fileId});
   if(!record)return toast('اطلاعات فایل در پروژه پیدا نشد','error');
   try{
     var stored=await getProjectAsset(fileId);if(!stored||!stored.blob)throw new Error('بدنه فایل در حافظه پیدا نشد');
     var file=new File([stored.blob],record.name,{type:record.type||'application/pdf',lastModified:Date.now()});
-    var sel=document.getElementById('importProject');if(sel){sel.value=record.projectId;onImportProjectChange()}
+    var sel=document.getElementById('importProject');if(sel){sel.value=record.projectId;currentImportProjectId=record.projectId;var area=document.getElementById('importFileArea');if(area)area.classList.remove('is-locked');renderProjectFiles()}
     await selectFile(file,record);
-    toast('فایل پروژه بارگذاری شد؛ برای بازکردن ویرایش، استخراج را بزنید','success');
+    if(autoExtract){await extractFile(null)}else{toast('فایل پروژه بارگذاری شد','success')}
   }catch(e){toast('بازکردن فایل ناموفق بود: '+(e.message||''),'error')}
 }
 
@@ -2317,6 +2363,7 @@ async function extractFile(event){
       }catch(storageReadError){}
       faithfulPdfSavedSnapshot=JSON.stringify(faithfulPdfEdits);faithfulPdfSavedDeletedSnapshot=JSON.stringify(deletedPdfSections);faithfulPdfSavedTablesSnapshot=JSON.stringify(addedPdfTables);
       updatePdfSaveUI(true);
+    refreshPdfEditedRowStars();
       editingRows=[];
       $('#progressBar').style.width='100%';
       $('#extractStatus').textContent='PDF اصلی آماده و قابل ویرایش است؛ '+fa(faithfulPdf.numPages)+' صفحه';
@@ -2333,9 +2380,10 @@ async function extractFile(event){
       var headings=$$('#editSection .section-heading');if(headings.length>1)headings[1].classList.add('hidden');
       setupFaithfulPdfPages();
       var postalEmpty=$('#postalPdfEmpty');if(postalEmpty)postalEmpty.classList.add('hidden');
+      pdfPositionRestorePending=true;
       nav('postal');
-      toast('فایل PDF اصلی در بخش کدگذاری باز شد','success');
-      setTimeout(function(){$('#pdfFaithfulEditor').scrollIntoView({behavior:'smooth',block:'start'})},250);
+      toast('فایل PDF اصلی پروژه به‌صورت خودکار باز شد','success');
+      setTimeout(function(){restoreFaithfulPdfPosition()},260);
       return;
     }
     $('#pdfFaithfulEditor').classList.add('hidden');
@@ -2380,6 +2428,43 @@ async function extractFile(event){
     toast(err.message||'ناموفق','error');
   }finally{if(btn)btn.disabled=false}
 }
+var pdfPositionSaveTimer=null;
+var pdfRestoringPosition=false;
+var pdfPositionRestorePending=false;
+function faithfulPdfPositionKey(){return 'postyar-pdf-position:v1:'+String(currentImportProjectId||'')+':'+String(currentProjectFileId||'')}
+function getFaithfulPdfVisiblePage(){
+  var pages=$$('#pdfFaithfulPages .pdf-faithful-page');if(!pages.length)return 1;
+  var best=pages[0],bestDistance=Infinity;
+  pages.forEach(function(el){var r=el.getBoundingClientRect();var d=Math.abs(r.top-110);if(r.bottom>0&&r.top<window.innerHeight&&d<bestDistance){best=el;bestDistance=d}});
+  return Math.max(1,Number(best.dataset.page)||1);
+}
+function saveFaithfulPdfPosition(pageNo){
+  if(pdfRestoringPosition||pdfPositionRestorePending||!currentImportProjectId||!currentProjectFileId||!faithfulPdf)return;
+  var page=Math.max(1,Math.min(Number(pageNo)||getFaithfulPdfVisiblePage(),faithfulPdf.numPages||1));
+  try{localStorage.setItem(faithfulPdfPositionKey(),JSON.stringify({page:page,updatedAt:new Date().toISOString()}))}catch(e){}
+}
+function scheduleFaithfulPdfPositionSave(){
+  if(pdfRestoringPosition||pdfPositionRestorePending||!faithfulPdf)return;
+  clearTimeout(pdfPositionSaveTimer);pdfPositionSaveTimer=setTimeout(function(){saveFaithfulPdfPosition()},220);
+}
+async function restoreFaithfulPdfPosition(){
+  if(!faithfulPdf||!currentProjectFileId)return;
+  var saved=null;try{saved=JSON.parse(localStorage.getItem(faithfulPdfPositionKey())||'null')}catch(e){}
+  var pageNo=Math.max(1,Math.min(Number(saved&&saved.page)||1,faithfulPdf.numPages||1));
+  var target=document.querySelector('#pdfFaithfulPages .pdf-faithful-page[data-page="'+pageNo+'"]');
+  if(!target)return;
+  pdfRestoringPosition=true;pdfPositionRestorePending=true;clearTimeout(pdfPositionSaveTimer);
+  try{
+    await renderFaithfulPdfPage(pageNo);
+    await new Promise(function(resolve){requestAnimationFrame(function(){requestAnimationFrame(resolve)})});
+    target.scrollIntoView({behavior:'auto',block:'start'});
+  }catch(e){console.warn('بازگردانی موقعیت PDF:',e)}
+  setTimeout(function(){pdfRestoringPosition=false;pdfPositionRestorePending=false;saveFaithfulPdfPosition(pageNo)},450);
+}
+window.addEventListener('scroll',scheduleFaithfulPdfPositionSave,{passive:true});
+window.addEventListener('beforeunload',function(){saveFaithfulPdfPosition()});
+document.addEventListener('focusin',function(e){var field=e.target;if(field&&field.matches&&field.matches('#pdfFaithfulPages .pdf-original-field')){var section=field.closest('.pdf-faithful-page');if(section)saveFaithfulPdfPosition(Number(section.dataset.page))}},true);
+
 function setupFaithfulPdfPages(){
   var host=$('#pdfFaithfulPages');
   if(!faithfulPdf||!host)return;
@@ -2431,6 +2516,20 @@ function updatePdfSaveUI(saved){
   hint.textContent=hasChanges?'ویرایش‌ها هنوز روی این دستگاه ذخیره نشده‌اند. برای ثبت آن‌ها دکمه را بزنید.':(saved?'ذخیره با موفقیت تأیید شد؛ می‌توانید با خیال راحت ادامه دهید.':'هر تغییری بدهید، دکمهٔ ذخیره فعال می‌شود.');
 }
 function markPdfEditsDirty(){updatePdfSaveUI(false)}
+function refreshPdfEditedRowStars(){
+  $$('#pdfFaithfulPages .pdf-original-overlay').forEach(function(overlay){
+    overlay.querySelectorAll('.pdf-edited-row-star').forEach(function(x){x.remove()});
+    var rows={};
+    overlay.querySelectorAll('.pdf-original-field:not(.locked)').forEach(function(field){
+      var original=cleanPdfText(field.dataset.baseText||''),value=cleanPdfText(field.value||'');
+      if(!field.classList.contains('edited')||value===original)return;
+      var top=Number(field.dataset.sourceTop)||0,key=String(Math.round(top*10)/10),right=(Number(field.dataset.sourceX)||0)+(Number(field.dataset.sourceWidth)||0);
+      if(!rows[key])rows[key]={top:top,right:0,scale:Number(field.dataset.displayScale)||1};
+      rows[key].right=Math.max(rows[key].right,right);
+    });
+    Object.keys(rows).forEach(function(k){var r=rows[k],star=document.createElement('span');star.className='pdf-edited-row-star';star.textContent='*';star.style.left=(r.right*r.scale+2)+'px';star.style.top=(r.top*r.scale-1)+'px';overlay.appendChild(star)});
+  });
+}
 function saveFaithfulPdfEdits(quiet){
   if(!faithfulPdf||!faithfulPdfStorageKey){if(!quiet)toast('ابتدا یک فایل PDF استخراج کنید','error');return false}
   // Capture the active editable fields before committing the project file.
@@ -3091,6 +3190,10 @@ async function renderFaithfulPdfPage(pageNo){
       if(Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)&&cleanPdfText(faithfulPdfEdits[it.key])!==cleanPdfText(it.text)&&!it.locked){field.style.color='#2563eb';field.style.background='#fff';if(field.dataset.locationTypeColumn==='1'){field.style.direction='ltr';field.style.unicodeBidi='isolate';field.style.fontVariantNumeric='tabular-nums';}}
       it.displayScale=scale;
     });
+    var editedRowMap={};
+    items.forEach(function(it){if(it.locked||!Object.prototype.hasOwnProperty.call(faithfulPdfEdits,it.key)||cleanPdfText(faithfulPdfEdits[it.key])===cleanPdfText(it.text))return;var rk=String(Math.round(Number(it.top)*10)/10);if(!editedRowMap[rk])editedRowMap[rk]={top:Number(it.top),right:0};});
+    items.forEach(function(it){var rk=String(Math.round(Number(it.top)*10)/10);if(editedRowMap[rk])editedRowMap[rk].right=Math.max(editedRowMap[rk].right,Number(it.x)+Number(it.width));});
+    Object.keys(editedRowMap).forEach(function(k){var row=editedRowMap[k],star=document.createElement('span');star.className='pdf-edited-row-star';star.textContent='*';star.setAttribute('aria-label','این ردیف ویرایش و ذخیره شده است');star.style.left=(row.right*scale+2)+'px';star.style.top=(row.top*scale-1)+'px';overlay.appendChild(star);});
     addPdfSectionMenus(overlay,pageNo,items,scale);
     inner.innerHTML='';inner.style.padding='0';inner.appendChild(wrap);
     faithfulPdfPageData[pageNo]={items:items,width:baseViewport.width,height:baseViewport.height,rotation:page.rotate||0};
@@ -3150,6 +3253,7 @@ async function makeEditedOriginalPdf(){
     (addedPdfTables[pn]||[]).forEach(function(t){continuationRows.push({sourcePage:pn,table:t,pageData:pd});});
   });
   var pageNos=Object.keys(changedByPage).map(Number).sort(function(a,b){return a-b});
+  var exportStarFont=await out.embedFont(PDFLib.StandardFonts.Helvetica);
   for(var pi=0;pi<pageNos.length;pi++){
     var pageNo=pageNos[pi],srcPage=await faithfulPdf.getPage(pageNo),data=faithfulPdfPageData[pageNo];
     var vp=srcPage.getViewport({scale:3});
@@ -3214,6 +3318,10 @@ async function makeEditedOriginalPdf(){
       patch.width=1;patch.height=1;
     }
     // New rows are deliberately not embedded on the original page; they are rendered on continuation pages below.
+    var starRows={};
+    changedByPage[pageNo].forEach(function(change){if(change.deleted)return;var rk=String(Math.round(Number(change.item.top)*10)/10);if(!starRows[rk])starRows[rk]={top:Number(change.item.top),right:0};});
+    data.items.forEach(function(it){var rk=String(Math.round(Number(it.top)*10)/10);if(starRows[rk])starRows[rk].right=Math.max(starRows[rk].right,Number(it.x)+Number(it.width));});
+    Object.keys(starRows).forEach(function(k){var row=starRows[k],ri=data.items.find(function(it){return Math.abs(Number(it.top)-row.top)<0.11})||{height:5};pdfPage.drawText('*',{x:Math.min(pdfW-5,Math.max(1,row.right+2)),y:Math.max(1,pdfH-(row.top+Math.max(5,ri.height))),size:9,font:exportStarFont,color:PDFLib.rgb(0.145,0.388,0.922)});});
     baseCanvas.width=1;baseCanvas.height=1;
   }
   if(continuationRows.length){
@@ -3508,23 +3616,31 @@ function pdfLabels(){
 
 /* ===== SEARCH ===== */
 function doSearch(){
-  var q=($('#searchInput').value||'').trim().toLowerCase();
-  var projectId=$('#searchProject').value;
-  var results=$('#searchResults');
-  if(!q){results.innerHTML='<div class="empty visible"><svg class="icn"><use href="#i-search"/></svg><h3>جستجو کنید</h3><p>کد پستی، نام ساختمان یا آدرس</p></div>';return}
+  var q=(($('#searchInput')||{}).value||'').trim().toLowerCase();
+  var projectId=(($('#searchProject')||{}).value)||'';
+  var results=$('#searchResults');if(!results)return;
+  if(!q&&!projectId){results.innerHTML='<div class="empty visible"><svg class="icn"><use href="#i-search"/></svg><h3>جستجوی پروژه</h3><p>نام پروژه را بنویس یا از فهرست انتخاب کن.</p></div>';return}
+  var matchedProjects=state.projects.filter(function(p){return (!projectId||String(p.id)===String(projectId))&&(!q||(String(p.name||'')+' '+String(p.area||'')).toLowerCase().indexOf(q)>=0)});
+  var projectHtml=matchedProjects.map(function(p){
+    var files=(state.projectFiles||[]).filter(function(f){return String(f.projectId)===String(p.id)}).length;
+    var buildings=state.buildings.filter(function(b){return String(b.projectId)===String(p.id)}).length;
+    return '<div class="info-card search-project-card" onclick="openProject(\''+String(p.id)+'\')"><div class="info-card-icon bg-yellow"><svg class="icn" style="color:#fff"><use href="#i-folder"/></svg></div><div class="info-card-body"><strong>'+esc(p.name)+'</strong><small>'+esc(p.area||'بدون محدوده')+' · '+fa(files)+' فایل · '+fa(buildings)+' ساختمان</small></div><div class="info-card-arrow"><svg class="icn"><use href="#i-chevron"/></svg></div></div>';
+  }).join('');
   var buildings=state.buildings.filter(function(b){
-    if(projectId&&b.projectId!==projectId)return false;
+    if(projectId&&String(b.projectId)!==String(projectId))return false;
+    var proj=state.projects.find(function(p){return String(p.id)===String(b.projectId)});
     var units=state.units.filter(function(u){return u.buildingId===b.id});
     var codes=units.map(function(u){return u.postalCode}).join(' ');
-    return (b.name+' '+b.address+' '+b.district+' '+codes).toLowerCase().indexOf(q)>=0;
+    var hay=(b.name+' '+b.address+' '+b.district+' '+codes+' '+(proj?proj.name:'' )).toLowerCase();
+    return !q||hay.indexOf(q)>=0;
   });
-  if(!buildings.length){results.innerHTML='<div class="empty visible"><svg class="icn"><use href="#i-search"/></svg><h3>نتیجه‌ای یافت نشد</h3><p>عبارت دیگری را امتحان کنید</p></div>';return}
-  results.innerHTML='<div class="section-heading" style="margin-bottom:8px"><h2 class="section-title">'+fa(buildings.length)+' نتیجه</h2></div>'+buildings.map(function(b){
+  var buildingHtml=buildings.map(function(b){
     var units=state.units.filter(function(u){return u.buildingId===b.id});
     return '<div class="building-card"><div class="building-head"><div class="building-icon"><svg class="icn"><use href="#i-building"/></svg></div><div class="building-info"><strong>'+esc(b.name)+'</strong><small>'+esc(b.district)+' · بلوک '+fa(b.blockNo)+' · ساختمان '+fa(b.buildingNo)+'</small></div><div class="building-badge">'+fa(units.length)+' واحد</div></div><div class="building-units">'+units.map(function(u){return '<div class="unit-row"><div class="unit-num">'+fa(u.unitNo)+'</div><div class="unit-info"><strong>واحد '+fa(u.unitNo)+'</strong><small>'+esc(u.postalCode)+'</small></div></div>'}).join('')+'</div></div>';
   }).join('');
+  if(!projectHtml&&!buildingHtml){results.innerHTML='<div class="empty visible"><svg class="icn"><use href="#i-search"/></svg><h3>پروژه یا رکوردی پیدا نشد</h3><p>نام پروژه را دقیق‌تر وارد کن.</p></div>';return}
+  results.innerHTML=(projectHtml?'<div class="section-heading" style="margin:12px 0 8px"><h2 class="section-title">پروژه‌ها ('+fa(matchedProjects.length)+')</h2></div>'+projectHtml:'')+(buildingHtml?'<div class="section-heading" style="margin:18px 0 8px"><h2 class="section-title">رکوردها ('+fa(buildings.length)+')</h2></div>'+buildingHtml:'');
 }
-
 /* ===== USERS ===== */
 function renderUsers(){
   var list=$('#usersList');
@@ -3601,19 +3717,31 @@ function generateReport(){
 }
 
 /* ===== NOTES / ADMIN / TASKS ===== */
-function addNote(){
-  var title=$('#noteTitle').value.trim();
-  var content=$('#noteContent').value.trim();
-  if(!title)return toast('عنوان را وارد کنید','error');
-  state.notes.unshift({id:uid('N'),title:title,content:content,date:nowFull()});
-  save();$('#noteTitle').value='';$('#noteContent').value='';
-  renderNotes();toast('ذخیره شد','success');
+function openNoteEditor(id){
+  var note=id?state.notes.find(function(n){return String(n.id)===String(id)}):null;
+  var title=note?note.title:'';var content=note?note.content:'';
+  openModal(note?'ویرایش یادداشت':'یادداشت جدید',note?'یادداشت را ویرایش کن و دوباره ذخیره کن.':'برای یادداشت یک نام و متن بنویس.',
+    '<div class="field"><label for="noteEditorTitle">نام فایل / عنوان یادداشت</label><input id="noteEditorTitle" maxlength="90" placeholder="مثلاً گزارش بازدید امروز" value="'+esc(title)+'"></div>'+ 
+    '<div class="field"><label for="noteEditorContent">متن یادداشت</label><textarea id="noteEditorContent" class="note-editor-textarea" placeholder="متن یادداشت را اینجا بنویس…">'+esc(content)+'</textarea></div>',
+    '<button class="btn btn-primary btn-block" type="button" onclick="saveNoteEditor(\''+(note?String(note.id):'')+'\')"><svg class="icn"><use href="#i-save"/></svg> ذخیره یادداشت</button>','i-note');
+  setTimeout(function(){var el=document.getElementById('noteEditorTitle');if(el)el.focus()},100);
 }
+function saveNoteEditor(id){
+  var title=(document.getElementById('noteEditorTitle').value||'').trim();
+  var content=(document.getElementById('noteEditorContent').value||'').trim();
+  if(!title){toast('نام یادداشت را وارد کن','error');return}
+  var stamp=nowFull();
+  if(id){var existing=state.notes.find(function(n){return String(n.id)===String(id)});if(!existing)return;existing.title=title;existing.content=content;existing.editedAt=stamp;existing.edited=true;existing.updatedAt=new Date().toISOString();}
+  else{state.notes.unshift({id:uid('N'),title:title,content:content,date:stamp,createdAt:new Date().toISOString(),edited:false});}
+  save();closeModal();renderNotes();var hint=document.getElementById('notesSavedHint');if(hint){hint.hidden=false;hint.textContent='یادداشت شما در پست‌یار ذخیره گردید.';}
+}
+function addNote(){openNoteEditor()}
 function renderNotes(){
   var list=$('#notesList');if(!list)return;
-  if(!state.notes.length){list.innerHTML='<div class="empty visible"><svg class="icn"><use href="#i-note"/></svg><h3>یادداشتی نیست</h3><p>اولین یادداشت را بنویسید</p></div>';return}
+  if(!state.notes.length){list.innerHTML='<div class="empty visible notes-empty"><svg class="icn"><use href="#i-note"/></svg><h3>هنوز یادداشتی نداری</h3><p>برای ساخت اولین یادداشت، روی «یادداشت جدید» بزن.</p></div>';return}
   list.innerHTML=state.notes.map(function(n){
-    return '<div style="background:linear-gradient(135deg,#fffbeb,#fef3c7);color:#3a2e00;border-radius:12px;padding:14px;margin-bottom:10px;border-right:4px solid var(--warning);box-shadow:var(--shadow-md)"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px"><strong style="font-size:13.5px">'+esc(n.title)+'</strong><button style="background:rgba(220,38,38,.15);color:var(--danger);width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center" onclick="delNote(\''+n.id+'\')"><svg class="icn" style="width:13px;height:13px"><use href="#i-close"/></svg></button></div><div style="font-size:12.5px;line-height:1.7;color:#5a4a10;white-space:pre-wrap">'+esc(n.content||'')+'</div><div style="font-size:10px;color:#8a7b3a;margin-top:8px">'+esc(n.date)+'</div></div>';
+    var date=n.editedAt||n.date||n.createdAt||'';
+    return '<article class="note-tile" role="button" tabindex="0" onclick="openNoteEditor(\''+String(n.id)+'\')"><div class="note-tile-top"><span class="note-file-icon">▤</span><button class="note-delete" type="button" onclick="event.stopPropagation();delNote(\''+String(n.id)+'\')" aria-label="حذف یادداشت">×</button></div><strong class="note-tile-title">'+esc(n.title)+'</strong><p class="note-tile-preview">'+esc(n.content||'بدون متن')+'</p><div class="note-tile-meta"><span>'+esc(date)+'</span>'+(n.edited||n.editedAt?'<b>ویرایش‌شده</b>':'')+'</div></article>';
   }).join('');
 }
 function delNote(id){if(!confirm('حذف شود؟'))return;state.notes=state.notes.filter(function(x){return x.id!==id});save();renderNotes();toast('حذف شد')}
@@ -3682,6 +3810,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 if(state.auth){showApp()}else{$('#loginScreen').style.display='flex'}
 
 // Expose map actions used by inline HTML onclick handlers.
+window.mapProjectChanged=mapProjectChanged;
 window.getMyLocation=getMyLocation;
 window.reverseCurrentMapCenter=reverseCurrentMapCenter;
 window.searchMapPlace=searchMapPlace;
@@ -3787,6 +3916,7 @@ async function qrLoadJsQR(){
 async function startQrScanner(){
   var p=qrGetProject();if(!p){toast('ابتدا یک پروژه انتخاب کنید','error');var sel=document.getElementById('labelProject');if(sel)sel.focus();return}
   if(qrScanning)return;
+  var cameraOverlay=document.getElementById('qrCameraOverlay');if(cameraOverlay)cameraOverlay.hidden=false;
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){qrScannerError('دوربین در این آدرس قابل دسترسی نیست. برنامه را با HTTPS باز کنید و مجوز دوربین را فعال کنید.');return}
   try{
     var supported=('BarcodeDetector' in window);
@@ -3818,11 +3948,11 @@ function handleQrScan(raw){
   var record={code:code,raw:raw,projectId:p?p.id:'',project:p?p.name:'—',time:new Date().toISOString()};qrHistory.unshift(record);
   try{var all=JSON.parse(localStorage.getItem('postyar_qr_project_codes_v1')||'{}');var key=String(record.projectId||'unknown');if(!Array.isArray(all[key]))all[key]=[];all[key].unshift(record);localStorage.setItem('postyar_qr_project_codes_v1',JSON.stringify(all));window.postyarQrProjectCodes=all;}
   catch(storageError){console.warn('QR project save failed',storageError);}
-  renderQrHistory();toast('کد در پروژه ذخیره شد','success');
+  renderQrHistory();updateStats();toast('کد در پروژه ذخیره شد','success');
 }
-function qrScannerError(message){var msg=document.getElementById('qrScannerMessage');if(msg)msg.textContent=message;var status=document.getElementById('qrCameraStatus');if(status)status.textContent='نیاز به بررسی';toast(message,'error')}
-function stopQrScanner(){qrScanning=false;if(qrScanFrame)cancelAnimationFrame(qrScanFrame);qrScanFrame=0;if(qrStream){qrStream.getTracks().forEach(function(t){t.stop()});qrStream=null}var video=document.getElementById('qrVideo');if(video){video.pause();video.srcObject=null}var stage=document.getElementById('qrCameraStage'),placeholder=document.getElementById('qrCameraPlaceholder'),vf=document.getElementById('qrViewfinder');if(stage)stage.classList.remove('is-live');if(placeholder)placeholder.hidden=false;if(vf)vf.classList.remove('active');var stop=document.getElementById('qrStopBtn'),start=document.getElementById('qrStartBtn'),status=document.getElementById('qrCameraStatus');if(stop)stop.disabled=true;if(start)start.disabled=!qrGetProject();if(status){status.classList.remove('live');if(status.textContent==='دوربین روشن')status.textContent='دوربین متوقف شد'}}
-function renderQrHistory(){var list=document.getElementById('qrHistoryList'),count=document.getElementById('qrHistoryCount');if(count)count.textContent=qrFaDigits(qrHistory.length)+' مورد';if(!list)return;if(!qrHistory.length){list.innerHTML='<div class="qr-history-empty">هنوز کدی اسکن نشده است.</div>';return}list.innerHTML=qrHistory.map(function(item,i){return '<div class="qr-history-row"><span class="qr-history-index">'+qrFaDigits(i+1)+'</span><div class="qr-history-code" dir="ltr">'+qrFaDigits(item.code)+'<small>'+esc(item.project)+' · '+qrFaDigits(item.time.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}))+'</small></div><button type="button" class="qr-copy-small" onclick="copyQrHistory('+i+')" aria-label="کپی کد">کپی</button></div>'}).join('')}
+function qrScannerError(message){var overlay=document.getElementById('qrCameraOverlay');if(overlay)overlay.hidden=true;var msg=document.getElementById('qrScannerMessage');if(msg)msg.textContent=message;var status=document.getElementById('qrCameraStatus');if(status)status.textContent='نیاز به بررسی';toast(message,'error')}
+function stopQrScanner(){qrScanning=false;var cameraOverlay=document.getElementById('qrCameraOverlay');if(cameraOverlay)cameraOverlay.hidden=true;if(qrScanFrame)cancelAnimationFrame(qrScanFrame);qrScanFrame=0;if(qrStream){qrStream.getTracks().forEach(function(t){t.stop()});qrStream=null}var video=document.getElementById('qrVideo');if(video){video.pause();video.srcObject=null}var stage=document.getElementById('qrCameraStage'),placeholder=document.getElementById('qrCameraPlaceholder'),vf=document.getElementById('qrViewfinder');if(stage)stage.classList.remove('is-live');if(placeholder)placeholder.hidden=false;if(vf)vf.classList.remove('active');var stop=document.getElementById('qrStopBtn'),start=document.getElementById('qrStartBtn'),status=document.getElementById('qrCameraStatus');if(stop)stop.disabled=true;if(start)start.disabled=!qrGetProject();if(status){status.classList.remove('live');if(status.textContent==='دوربین روشن')status.textContent='دوربین متوقف شد'}}
+function renderQrHistory(){var list=document.getElementById('qrHistoryList'),count=document.getElementById('qrHistoryCount');if(count)count.textContent=qrFaDigits(qrHistory.length)+' مورد';if(!list)return;if(!qrHistory.length){list.innerHTML='<div class="qr-history-empty">هنوز کدی اسکن نشده است.</div>';return}list.innerHTML=qrHistory.map(function(item,i){return '<div class="qr-history-row"><span class="qr-history-index">'+qrFaDigits(i+1)+'</span><div class="qr-history-code" dir="ltr">'+qrFaDigits(item.code)+'<small>'+esc(item.project)+' · '+qrFaDigits(new Date(item.time).toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}))+'</small></div><button type="button" class="qr-copy-small" onclick="copyQrHistory('+i+')" aria-label="کپی کد">کپی</button></div>'}).join('')}
 async function copyQrNumber(){var code=(document.getElementById('qrNumber').textContent||'').replace(/[۰-۹]/g,function(d){return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))});try{await navigator.clipboard.writeText(code);toast('کد کپی شد','success')}catch(e){var ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('کد کپی شد','success')}}
 function copyQrHistory(i){var item=qrHistory[i];if(item){var el=document.getElementById('qrNumber');el.textContent=qrFaDigits(item.code);copyQrNumber()}}
 function scanAnotherQr(){qrLastValue='';document.getElementById('qrResultCard').hidden=true;document.getElementById('qrCameraStatus').classList.remove('success');document.getElementById('qrCameraStatus').textContent='آمادهٔ شروع';document.getElementById('qrScannerMessage').textContent='برای اسکن بعدی، دوربین را دوباره روشن کنید.';qrProjectChanged();}
@@ -3834,6 +3964,11 @@ window.stopQrScanner=stopQrScanner;
 window.scanAnotherQr=scanAnotherQr;
 window.copyQrNumber=copyQrNumber;
 window.copyQrHistory=copyQrHistory;
+// توابع یادداشت برای رویدادهای inline کارت‌ها و دکمه‌های صفحه.
+window.openNoteEditor=openNoteEditor;
+window.saveNoteEditor=saveNoteEditor;
+window.delNote=delNote;
+window.addNote=addNote;
 
 })();
 </script>
@@ -4112,7 +4247,45 @@ html, body {
   }
 }
 </style>
-</body>
+
+<style id="postyar-home-layout-and-icon-fix-v17">
+/* چیدمان صفحه خانه: جستجو و اسکن عریض، یادداشت نیم‌ردیف و بقیه منظم */
+#page-home .home-shortcuts{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:11px!important;align-items:stretch!important}
+#page-home .home-shortcuts .shortcut{min-width:0!important;max-width:100%!important;overflow:hidden!important;border:1px solid #e8edf5!important;background:#fff!important;box-shadow:0 5px 16px rgba(25,45,75,.055)!important;border-radius:17px!important}
+#page-home .home-shortcuts .shortcut-wide{grid-column:1/-1!important;display:flex!important;align-items:center!important;gap:13px!important;min-height:86px!important;padding:12px 14px!important;text-align:right!important}
+#page-home .shortcut-wide-icon{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border-radius:16px}
+#page-home .shortcut-wide-icon .icn{width:30px;height:30px;stroke:currentColor;fill:none;stroke-width:1.8}
+#page-home .shortcut-wide-body{display:flex;flex:1;min-width:0;flex-direction:column;gap:6px}
+#page-home .shortcut-wide-body strong{font-size:13px;font-weight:900;color:#1e293b}
+#page-home .shortcut-wide-body small{font-size:10px;color:#8290a3;line-height:1.6}
+#page-home .home-search-demo{height:34px;max-width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 10px;border:1px solid #e4eaf2;border-radius:10px;background:#f8fafc;color:#9aa5b5;font-size:10px;font-weight:500}
+#page-home .home-search-demo .icn{width:16px;height:16px;flex:0 0 16px;color:#64748b}
+#page-home .shortcut-scan{background:linear-gradient(105deg,#faf7ff,#fff 72%)!important;border-color:#e9e0fb!important;min-height:92px!important}
+#page-home .shortcut-scan .shortcut-wide-icon{width:60px;height:60px;flex-basis:60px;background:#eee7ff;color:#7441c8}
+#page-home .shortcut-scan .shortcut-wide-icon .icn{width:37px;height:37px;stroke-width:1.65}
+#page-home .shortcut-wide-arrow{font-size:27px;color:#9b8ac0;line-height:1;flex:0 0 auto}
+#page-home .shortcut-half{grid-column:span 2!important;min-height:78px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;padding:12px!important;text-align:right!important}
+#page-home .shortcut-half-icon{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:13px}
+#page-home .shortcut-half-icon .icn{width:22px;height:22px}
+#page-home .shortcut-half .shortcut-name{font-size:11px!important;font-weight:800!important;line-height:1.5!important;text-align:right!important;display:block!important}
+#page-home .home-shortcuts .shortcut:not(.shortcut-wide):not(.shortcut-half){padding:9px 5px 10px!important;min-height:105px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important}
+#page-home .home-shortcuts .shortcut:not(.shortcut-wide):not(.shortcut-half) .shortcut-icon{width:min(100%,58px)!important;margin:0 auto 7px!important;aspect-ratio:1!important}
+#page-home .home-shortcuts .shortcut:not(.shortcut-wide):not(.shortcut-half) .shortcut-name{font-size:9.5px!important}
+@media(min-width:1000px){#page-home .home-shortcuts{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:13px!important}#page-home .home-shortcuts .shortcut-wide{grid-column:span 6!important}#page-home .home-shortcuts .shortcut-half{grid-column:span 3!important}#page-home .home-shortcuts .shortcut:not(.shortcut-wide):not(.shortcut-half){grid-column:span 2!important}}
+/* رفع بیرون‌زدگی آیکون‌های + و آپلود در ایجاد پروژه و ایمپورت */
+.project-create-hero,.project-create-icon,.import-project-gate,.import-gate-icon,.segment button,.btn{box-sizing:border-box!important;min-width:0!important}
+.project-create-icon,.import-gate-icon{width:40px!important;height:40px!important;min-width:40px!important;max-width:40px!important;flex:0 0 40px!important;overflow:hidden!important;display:grid!important;place-items:center!important}
+.project-create-icon .icn,.import-gate-icon .icn,.segment button .icn,.btn>.icn{width:19px!important;height:19px!important;max-width:19px!important;max-height:19px!important;flex:0 0 19px!important;display:block!important}
+.project-create-hero{overflow:hidden!important;gap:9px!important}
+.project-create-hero>*{min-width:0!important;max-width:100%!important}
+.import-project-gate{overflow:hidden!important;grid-template-columns:40px minmax(0,1fr) minmax(170px,260px)!important}
+.import-gate-icon{background:#e7f0ff!important;border-radius:12px!important}
+.import-project-gate .field{min-width:0!important;width:100%!important}
+.import-project-gate select{max-width:100%!important;min-width:0!important}
+.segment button{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;overflow:hidden!important}
+.segment button svg,.btn svg{flex-shrink:0!important}
+@media(max-width:620px){.import-project-gate{grid-template-columns:36px minmax(0,1fr)!important}.import-gate-icon{width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;flex-basis:36px!important}.import-gate-icon .icn{width:18px!important;height:18px!important;flex-basis:18px!important}.import-project-gate .field{grid-column:1/-1!important}.project-create-icon{width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;flex-basis:36px!important}}
+</style>
 
 <!-- POSTYAR PRECISE NOTEBOOK PATCH 2026-11 -->
 <style id="postyar-notebook-refinements">
@@ -4823,3 +4996,213 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
   }
 }
 </style>
+
+
+<style id="postyar-home-layout-safe-v19">
+/* Home layout only: QR occupies the left two-by-two area; search and notes stack on the right. */
+#page-home .home-shortcuts{
+ container-type:inline-size!important;
+ display:grid!important;
+ direction:ltr!important;
+ grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ grid-template-rows:repeat(3,calc((100cqw - 30px)/4))!important;
+ grid-auto-flow:row!important;
+ gap:10px!important;
+ align-items:stretch!important;
+}
+#page-home .home-shortcuts>.shortcut{box-sizing:border-box!important;min-width:0!important;max-width:100%!important;min-height:0!important;height:100%!important;margin:0!important;overflow:hidden!important;}
+#page-home .home-shortcuts>.shortcut-search{grid-column:3 / 5!important;grid-row:1!important;direction:rtl!important;}
+#page-home .home-shortcuts>.shortcut-scan{grid-column:1 / 3!important;grid-row:1 / 3!important;direction:rtl!important;min-height:0!important;display:flex!important;align-items:center!important;}
+#page-home .home-shortcuts>.shortcut-notes{grid-column:3 / 5!important;grid-row:2!important;direction:rtl!important;}
+#page-home .home-shortcuts>button:nth-child(4){grid-column:1!important;grid-row:3!important;direction:rtl!important;}
+#page-home .home-shortcuts>button:nth-child(5){grid-column:2!important;grid-row:3!important;direction:rtl!important;}
+#page-home .home-shortcuts>button:nth-child(6){grid-column:3!important;grid-row:3!important;direction:rtl!important;}
+#page-home .home-shortcuts>button:nth-child(7){grid-column:4!important;grid-row:3!important;direction:rtl!important;}
+#page-home .home-shortcuts>button:not(.shortcut-search):not(.shortcut-scan):not(.shortcut-notes):not(.shortcut-projects):not(.shortcut-half){grid-row:3!important;direction:rtl!important;}
+/* Keep the four lower shortcuts perfectly square and equal-sized, matching the original compact cards. */
+#page-home .home-shortcuts>button:nth-child(4),
+#page-home .home-shortcuts>button:nth-child(5),
+#page-home .home-shortcuts>button:nth-child(6),
+#page-home .home-shortcuts>button:nth-child(7){aspect-ratio:1/1!important;}
+#page-home .home-shortcuts>button:nth-child(4),
+#page-home .home-shortcuts>button:nth-child(5),
+#page-home .home-shortcuts>button:nth-child(6),
+#page-home .home-shortcuts>button:nth-child(7){
+ display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+ padding:7px 3px!important;gap:4px!important;text-align:center!important;
+}
+#page-home .home-shortcuts>button:nth-child(4) .shortcut-half-icon,
+#page-home .home-shortcuts>button:nth-child(7) .shortcut-half-icon,
+#page-home .home-shortcuts>button:nth-child(5) .shortcut-icon,
+#page-home .home-shortcuts>button:nth-child(6) .shortcut-icon{
+ width:40px!important;height:40px!important;min-width:40px!important;max-width:40px!important;flex:0 0 40px!important;margin:0 auto!important;
+ display:grid!important;place-items:center!important;overflow:hidden!important;
+}
+#page-home .home-shortcuts>button:nth-child(4) .shortcut-name,
+#page-home .home-shortcuts>button:nth-child(5) .shortcut-name,
+#page-home .home-shortcuts>button:nth-child(6) .shortcut-name,
+#page-home .home-shortcuts>button:nth-child(7) .shortcut-name{font-size:9px!important;line-height:1.35!important;text-align:center!important;}
+#page-home .home-shortcuts>.shortcut-search,
+#page-home .home-shortcuts>.shortcut-notes{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;padding:9px 10px!important;}
+#page-home .home-shortcuts>.shortcut-search .shortcut-wide-icon,
+#page-home .home-shortcuts>.shortcut-notes .shortcut-half-icon{width:38px!important;height:38px!important;min-width:38px!important;flex:0 0 38px!important;margin:0!important;}
+#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body{min-width:0!important;gap:4px!important;}
+#page-home .home-shortcuts>.shortcut-search .home-search-demo{display:none!important;}
+#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;}
+#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body strong{font-size:11px!important;font-weight:800!important;line-height:1.35!important;}
+#page-home .home-shortcuts>.shortcut-search .shortcut-wide-icon{background:var(--blue)!important;}
+#page-home .home-shortcuts>.shortcut-notes .shortcut-name{font-size:11px!important;font-weight:800!important;}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon{width:58px!important;height:58px!important;min-width:58px!important;flex:0 0 58px!important;}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon .icn{width:35px!important;height:35px!important;}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body{min-width:0!important;}
+@media(max-width:380px){
+ #page-home .home-shortcuts{grid-template-rows:repeat(3,calc((100cqw - 21px)/4))!important;gap:7px!important;}
+ #page-home .home-shortcuts>button:nth-child(4) .shortcut-half-icon,
+ #page-home .home-shortcuts>button:nth-child(7) .shortcut-half-icon,
+ #page-home .home-shortcuts>button:nth-child(5) .shortcut-icon,
+ #page-home .home-shortcuts>button:nth-child(6) .shortcut-icon{width:34px!important;height:34px!important;min-width:34px!important;flex-basis:34px!important;}
+ #page-home .home-shortcuts>.shortcut-search,#page-home .home-shortcuts>.shortcut-notes{padding:6px!important;gap:6px!important;}
+ #page-home .home-shortcuts>.shortcut-search .shortcut-wide-icon,#page-home .home-shortcuts>.shortcut-notes .shortcut-half-icon{width:32px!important;height:32px!important;min-width:32px!important;flex-basis:32px!important;}
+ #page-home .home-shortcuts>.shortcut-scan{padding:7px!important;gap:7px!important;}
+}
+@media(min-width:1000px){#page-home .home-shortcuts{max-width:100%!important;}}
+</style>
+
+
+<style id="postyar-home-final-layout-v21">
+/* Home final arrangement: four equal square shortcuts at the top; QR/search/notes below. */
+#page-home .home-shortcuts{
+ display:grid!important;direction:ltr!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ grid-template-rows:repeat(1,calc((100cqw - 30px)/4)) repeat(2,calc((100cqw - 30px)/5.4))!important;
+ gap:10px!important;align-items:stretch!important;
+}
+#page-home .home-shortcuts>button{box-sizing:border-box!important;min-width:0!important;max-width:100%!important;min-height:0!important;height:100%!important;margin:0!important;overflow:hidden!important;}
+/* First row: four identical squares. */
+#page-home .home-shortcuts>button:nth-child(4){grid-column:1!important;grid-row:1!important}
+#page-home .home-shortcuts>button:nth-child(5){grid-column:2!important;grid-row:1!important}
+#page-home .home-shortcuts>button:nth-child(6){grid-column:3!important;grid-row:1!important}
+#page-home .home-shortcuts>button:nth-child(7){grid-column:4!important;grid-row:1!important}
+#page-home .home-shortcuts>button:nth-child(4),#page-home .home-shortcuts>button:nth-child(5),#page-home .home-shortcuts>button:nth-child(6),#page-home .home-shortcuts>button:nth-child(7){aspect-ratio:1/1!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;padding:7px 3px!important;gap:4px!important;text-align:center!important}
+#page-home .home-shortcuts>button:nth-child(4) .shortcut-half-icon,#page-home .home-shortcuts>button:nth-child(7) .shortcut-half-icon,#page-home .home-shortcuts>button:nth-child(5) .shortcut-icon,#page-home .home-shortcuts>button:nth-child(6) .shortcut-icon{width:40px!important;height:40px!important;min-width:40px!important;max-width:40px!important;flex:0 0 40px!important;margin:0 auto!important;display:grid!important;place-items:center!important}
+#page-home .home-shortcuts>button:nth-child(4) .shortcut-name,#page-home .home-shortcuts>button:nth-child(5) .shortcut-name,#page-home .home-shortcuts>button:nth-child(6) .shortcut-name,#page-home .home-shortcuts>button:nth-child(7) .shortcut-name{font-size:9px!important;line-height:1.35!important;text-align:center!important}
+/* QR scanner is the large left tile; its icon is prominent and close to the card edge. */
+#page-home .home-shortcuts>.shortcut-scan{grid-column:1/3!important;grid-row:2/4!important;direction:rtl!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;gap:5px!important;padding:8px 4px 5px!important;text-align:center!important}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon{width:clamp(64px,18cqw,88px)!important;height:clamp(64px,18cqw,88px)!important;min-width:0!important;flex:0 0 auto!important;margin:0 auto!important;border-radius:20px!important}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon .icn{width:clamp(42px,12cqw,58px)!important;height:clamp(42px,12cqw,58px)!important}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;margin:0!important}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body strong{font-size:12px!important;font-weight:900!important;line-height:1.5!important;white-space:nowrap!important}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body small,#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-arrow{display:none!important}
+/* Search and notes are shorter, stacked rectangles on the right. */
+#page-home .home-shortcuts>.shortcut-search{grid-column:3/5!important;grid-row:2!important;direction:rtl!important}
+#page-home .home-shortcuts>.shortcut-notes{grid-column:3/5!important;grid-row:3!important;direction:rtl!important}
+#page-home .home-shortcuts>.shortcut-search,#page-home .home-shortcuts>.shortcut-notes{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;padding:7px 10px!important}
+#page-home .home-shortcuts>.shortcut-search .shortcut-wide-icon,#page-home .home-shortcuts>.shortcut-notes .shortcut-half-icon{width:34px!important;height:34px!important;min-width:34px!important;flex:0 0 34px!important;margin:0!important}
+#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important}
+#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body strong,#page-home .home-shortcuts>.shortcut-notes .shortcut-name{font-size:11px!important;font-weight:800!important;line-height:1.4!important}
+#page-home .home-shortcuts>.shortcut-search .home-search-demo{display:none!important}
+@media(max-width:380px){
+ #page-home .home-shortcuts{grid-template-rows:repeat(1,calc((100cqw - 21px)/4)) repeat(2,calc((100cqw - 21px)/5.4))!important;gap:7px!important}
+ #page-home .home-shortcuts>.shortcut-scan{padding:4px 2px!important;gap:4px!important}
+ #page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body strong{font-size:10px!important}
+ #page-home .home-shortcuts>.shortcut-search,#page-home .home-shortcuts>.shortcut-notes{padding:5px 6px!important;gap:6px!important}
+ #page-home .home-shortcuts>.shortcut-search .shortcut-wide-icon,#page-home .home-shortcuts>.shortcut-notes .shortcut-half-icon{width:30px!important;height:30px!important;min-width:30px!important;flex-basis:30px!important}
+}
+</style>
+
+<style id="postyar-home-layout-v22-repair">
+#page-home .home-shortcuts{display:grid!important;direction:ltr!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:repeat(1,calc((100cqw - 30px)/4)) repeat(2,calc((100cqw - 30px)/5.4))!important;grid-auto-flow:row!important;gap:10px!important;align-items:stretch!important}
+#page-home .home-shortcuts>button{position:relative!important;box-sizing:border-box!important;min-width:0!important;max-width:100%!important;height:100%!important;min-height:0!important;margin:0!important}
+#page-home .home-shortcuts>button:nth-child(4){grid-column:1!important;grid-row:1!important}#page-home .home-shortcuts>button:nth-child(5){grid-column:2!important;grid-row:1!important}#page-home .home-shortcuts>button:nth-child(6){grid-column:3!important;grid-row:1!important}#page-home .home-shortcuts>button:nth-child(7){grid-column:4!important;grid-row:1!important}
+#page-home .home-shortcuts>button:nth-child(4),#page-home .home-shortcuts>button:nth-child(5),#page-home .home-shortcuts>button:nth-child(6),#page-home .home-shortcuts>button:nth-child(7){aspect-ratio:1/1!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;padding:7px 3px!important;gap:4px!important;text-align:center!important;overflow:hidden!important}
+#page-home .home-shortcuts>.shortcut-scan{grid-column:1/3!important;grid-row:2/4!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;gap:5px!important;padding:7px 4px!important;text-align:center!important;overflow:hidden!important}
+#page-home .home-shortcuts>.shortcut-search{grid-column:3/5!important;grid-row:2!important}#page-home .home-shortcuts>.shortcut-notes{grid-column:3/5!important;grid-row:3!important}
+#page-home .home-shortcuts>.shortcut-search,#page-home .home-shortcuts>.shortcut-notes{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:8px!important;padding:6px 9px!important;overflow:hidden!important}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon{width:clamp(62px,17cqw,82px)!important;height:clamp(62px,17cqw,82px)!important;min-width:0!important;flex:0 0 auto!important;margin:0 auto!important}#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon .icn{width:clamp(42px,11cqw,54px)!important;height:clamp(42px,11cqw,54px)!important}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;margin:0!important;min-width:0!important}#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body strong{font-size:11px!important;font-weight:900!important;white-space:nowrap!important}
+#page-home .home-shortcuts>.shortcut-search .home-search-demo{display:none!important}#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important}#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body strong,#page-home .home-shortcuts>.shortcut-notes .shortcut-name{font-size:10px!important;font-weight:800!important;line-height:1.4!important}
+@media(max-width:380px){#page-home .home-shortcuts{grid-template-rows:repeat(1,calc((100cqw - 21px)/4)) repeat(2,calc((100cqw - 21px)/5.4))!important;gap:7px!important}#page-home .home-shortcuts>.shortcut-scan{padding:5px 2px!important;gap:4px!important}#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body strong{font-size:10px!important}}
+.pdf-original-overlay{overflow:visible!important}.pdf-edited-row-star{position:absolute;z-index:6;display:block;color:#2563eb;font:900 15px/1 Arial,sans-serif;pointer-events:none;text-shadow:0 0 1px #fff;transform:translateY(-1px)}
+</style>
+
+
+<style id="postyar-home-layout-three-top-four-bottom-v24">
+/* Restore the approved home layout: three upper cards, four compact squares below. */
+#page-home .home-shortcuts{
+  display:grid!important;
+  direction:ltr!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  grid-template-rows:repeat(3,minmax(78px,calc((100cqw - 30px)/4)))!important;
+  grid-auto-flow:row!important;
+  gap:10px!important;
+  align-items:stretch!important;
+}
+#page-home .home-shortcuts>button{
+  box-sizing:border-box!important;position:relative!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  height:100%!important;min-height:0!important;margin:0!important;
+}
+/* Upper area: QR spans the two left rows; search and notes stack on the right. */
+#page-home .home-shortcuts>.shortcut-scan{
+  grid-column:1 / 3!important;grid-row:1 / 3!important;
+  display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:flex-start!important;
+  gap:5px!important;padding:7px 4px!important;text-align:center!important;
+  overflow:hidden!important;
+}
+#page-home .home-shortcuts>.shortcut-search{grid-column:3 / 5!important;grid-row:1!important;}
+#page-home .home-shortcuts>.shortcut-notes{grid-column:3 / 5!important;grid-row:2!important;}
+#page-home .home-shortcuts>.shortcut-search,
+#page-home .home-shortcuts>.shortcut-notes{
+  display:flex!important;align-items:center!important;justify-content:flex-start!important;
+  gap:8px!important;padding:6px 9px!important;overflow:hidden!important;
+}
+/* Bottom row: all four original shortcuts remain equal square cards. */
+#page-home .home-shortcuts>button[onclick*="nav('projects')"]{grid-column:1!important;grid-row:3!important;}
+#page-home .home-shortcuts>button[onclick*="nav('postal')"]{grid-column:2!important;grid-row:3!important;}
+#page-home .home-shortcuts>button[onclick*="nav('map')"]{grid-column:3!important;grid-row:3!important;}
+#page-home .home-shortcuts>button[onclick*="nav('import')"]{grid-column:4!important;grid-row:3!important;}
+#page-home .home-shortcuts>button[onclick*="nav('projects')"],
+#page-home .home-shortcuts>button[onclick*="nav('postal')"],
+#page-home .home-shortcuts>button[onclick*="nav('map')"],
+#page-home .home-shortcuts>button[onclick*="nav('import')"]{
+  aspect-ratio:1 / 1!important;display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;
+  padding:7px 3px!important;gap:4px!important;text-align:center!important;overflow:hidden!important;
+}
+#page-home .home-shortcuts>button[onclick*="nav('projects')"] .shortcut-half-icon,
+#page-home .home-shortcuts>button[onclick*="nav('import')"] .shortcut-half-icon,
+#page-home .home-shortcuts>button[onclick*="nav('postal')"] .shortcut-icon,
+#page-home .home-shortcuts>button[onclick*="nav('map')"] .shortcut-icon{
+  width:40px!important;height:40px!important;min-width:40px!important;max-width:40px!important;
+  flex:0 0 40px!important;margin:0 auto!important;display:grid!important;place-items:center!important;
+}
+#page-home .home-shortcuts>button[onclick*="nav('projects')"] .shortcut-name,
+#page-home .home-shortcuts>button[onclick*="nav('postal')"] .shortcut-name,
+#page-home .home-shortcuts>button[onclick*="nav('map')"] .shortcut-name,
+#page-home .home-shortcuts>button[onclick*="nav('import')"] .shortcut-name{
+  font-size:9px!important;line-height:1.35!important;text-align:center!important;
+}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon{
+  width:clamp(62px,17cqw,82px)!important;height:clamp(62px,17cqw,82px)!important;
+  min-width:0!important;flex:0 0 auto!important;margin:0 auto!important;
+}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon .icn{width:clamp(42px,11cqw,54px)!important;height:clamp(42px,11cqw,54px)!important;}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;margin:0!important;min-width:0!important;}
+#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body strong{font-size:11px!important;font-weight:900!important;white-space:nowrap!important;}
+#page-home .home-shortcuts>.shortcut-search .home-search-demo{display:none!important;}
+#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;}
+#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body strong,
+#page-home .home-shortcuts>.shortcut-notes .shortcut-name{font-size:10px!important;font-weight:800!important;line-height:1.4!important;}
+@media(max-width:380px){
+ #page-home .home-shortcuts{grid-template-rows:repeat(3, minmax(72px,calc((100cqw - 21px)/4)))!important;gap:7px!important;}
+ #page-home .home-shortcuts>.shortcut-scan{padding:5px 2px!important;gap:4px!important;}
+ #page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body strong{font-size:10px!important;}
+ #page-home .home-shortcuts>button[onclick*="nav('projects')"] .shortcut-half-icon,
+ #page-home .home-shortcuts>button[onclick*="nav('import')"] .shortcut-half-icon,
+ #page-home .home-shortcuts>button[onclick*="nav('postal')"] .shortcut-icon,
+ #page-home .home-shortcuts>button[onclick*="nav('map')"] .shortcut-icon{width:34px!important;height:34px!important;min-width:34px!important;flex-basis:34px!important;}
+}
+</style>
+
+</body>
+</html>
