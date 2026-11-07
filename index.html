@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
@@ -2628,6 +2630,39 @@ function createSubrowForAddedTable(pageNo,parent,overlay,items,scale){
   if(!addedPdfTables[pageNo])addedPdfTables[pageNo]=[];addedPdfTables[pageNo].push(row);
   faithfulPdfRendered[pageNo]=false;renderFaithfulPdfPage(pageNo).then(function(){markPdfEditsDirty();if(nextY+row.rowHeight>data.height-4)toast('زیرردیف ثبت شد؛ در خروجی PDF در صفحهٔ ادامه درج می‌شود.','success')});
 }
+/* بازگشت نرم زوم مرورگر پیش از بازکردن منوی سه‌نقطه PDF در موبایل */
+function postyarResetPdfZoomBeforeMenu(){
+  return new Promise(function(resolve){
+    var vv=window.visualViewport;
+    if(!vv||!window.matchMedia||!window.matchMedia('(max-width: 640px)').matches||vv.scale<=1.03){resolve();return;}
+    var meta=document.querySelector('meta[name="viewport"]');
+    if(!meta){resolve();return;}
+    var original=meta.getAttribute('content')||'width=device-width,initial-scale=1,viewport-fit=cover';
+    var current=Math.max(1,Number(vv.scale)||1),steps=9,index=0,duration=300;
+    /* مرورگرهای موبایل با تغییر کنترل‌شده initial-scale به نمای عادی برمی‌گردند؛
+       پس از پایان، امکان pinch مجدداً طبق تنظیم اصلی سایت فعال می‌ماند. */
+    function tick(){
+      index++;
+      var t=Math.min(1,index/steps);
+      var eased=1-Math.pow(1-t,3);
+      var value=current-(current-1)*eased;
+      var content=original.replace(/initial-scale\s*=\s*[0-9.]+/i,'initial-scale='+value.toFixed(3));
+      if(!/initial-scale\s*=/.test(content))content+=',initial-scale='+value.toFixed(3);
+      meta.setAttribute('content',content+',maximum-scale=1');
+      if(index<steps){setTimeout(tick,duration/steps);}
+      else{
+        setTimeout(function(){
+          meta.setAttribute('content',original);
+          setTimeout(resolve,90);
+        },35);
+      }
+    }
+    tick();
+    /* جلوگیری از معطل ماندن منو در مرورگرهایی که تغییر viewport را نادیده می‌گیرند. */
+    setTimeout(function(){if(index>=steps){meta.setAttribute('content',original);resolve();}},650);
+  });
+}
+
 function addPdfSectionMenus(overlay,pageNo,items,scale){
   // منوها به بدنه صفحه منتقل می‌شوند تا مستقل از زوم PDF و محدوده canvas باشند.
   function placeFloatingPanel(panel,anchor){
@@ -2681,8 +2716,11 @@ function addPdfSectionMenus(overlay,pageNo,items,scale){
     var btn=document.createElement('button');btn.type='button';btn.className='pdf-section-menu';btn.textContent='⋮';btn.title='گزینه‌های این جدول';
     btn.style.left='1px';btn.style.top=Math.max(2,group.start*scale)+'px';
     btn.setAttribute('aria-label','گزینه‌های جدول PDF');
-    btn.addEventListener('click',function(ev){
+    btn.addEventListener('click',async function(ev){
       ev.preventDefault();ev.stopPropagation();
+      /* اگر کاربر روی PDF کاملاً زوم کرده باشد، ابتدا با انیمیشن کوتاه به نمای عادی برگرد؛
+         سپس منو را در اندازه کامل و قابل‌دیدن گوشی باز کن. */
+      await postyarResetPdfZoomBeforeMenu();
       document.querySelectorAll('.pdf-section-pop').forEach(function(m){m.remove()});
       var pop=document.createElement('div');pop.className='pdf-section-pop';
       pop.style.width='min(270px,calc(100vw - 24px))';pop.style.boxSizing='border-box';
@@ -2719,6 +2757,7 @@ function addPdfSectionMenus(overlay,pageNo,items,scale){
         });pop.appendChild(choose);
       }
       placeFloatingPanel(pop,btn);
+      requestAnimationFrame(function(){pop.classList.add('postyar-menu-visible');});
     });
     overlay.appendChild(btn);
   });
@@ -3959,6 +3998,12 @@ document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&backdrop.
 }
 </style>
 
+<style id="postyar-pdf-menu-soft-open-v11">
+.pdf-section-pop{opacity:0;transform:translateY(8px) scale(.985);transition:opacity .18s ease,transform .22s cubic-bezier(.2,.8,.2,1);transform-origin:top center;}
+.pdf-section-pop.postyar-menu-visible{opacity:1;transform:translateY(0) scale(1);}
+@media(prefers-reduced-motion:reduce){.pdf-section-pop{transition:none!important;}}
+</style>
+
 <style id="postyar-pdf-only-zoom-and-final-polish">
 @media(max-width:640px){
   .pdf-faithful-page-inner{display:block!important;position:relative!important;overflow:auto!important;overflow-x:auto!important;overflow-y:auto!important;max-width:100%!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;touch-action:pan-x pan-y!important;}
@@ -4705,3 +4750,6 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
   document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&menu.classList.contains('open')&&typeof window.toggleMapMenu==='function')window.toggleMapMenu(false)});
 })();
 </script>
+
+
+
