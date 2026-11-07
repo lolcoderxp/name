@@ -3112,25 +3112,26 @@ async function renderFaithfulPdfPage(pageNo){
           // Its measured text-run bounds keep the white cover away from table rules.
           field.classList.add('is-editing');
           var baseL=Number(field.dataset.baseLeft),baseT=Number(field.dataset.baseTop),baseW=Number(field.dataset.baseWidth),baseH=Number(field.dataset.baseHeight);
-          // Keep text fields at their approved width behavior.
-          // Every numeric field uses exactly the same expanded width as the Unit field.
+          // Numeric inputs get a genuinely readable typing area, independent of
+          // the narrow source-table cell. Keep it within the rendered PDF page.
+          // Text inputs retain their previously approved width behavior.
           var pageWidth=Number(viewport&&viewport.width)||baseL+baseW;
           var numericEdit=(field.inputMode==='numeric'||field.inputMode==='decimal'||field.getAttribute('inputmode')==='numeric'||field.getAttribute('inputmode')==='decimal');
           var editW;
           if(numericEdit){
-            var pageRoot=field.closest('.pdf-faithful-page-inner')||field.parentElement;
-            var unitField=pageRoot&&pageRoot.querySelector('.pdf-original-field[data-numeric-type="unit"]');
-            var unitBaseWidth=unitField?Number(unitField.dataset.baseWidth):0;
-            var unitExpandedWidth=unitBaseWidth>0?unitBaseWidth*2.6:baseW*2.6;
-            editW=Math.min(Math.max(baseW,unitExpandedWidth),pageWidth);
+            // Every numeric/decimal field uses the same comfortable editing width.
+            // This avoids tiny boxes for narrow source-PDF columns.
+            editW=Math.min(110,pageWidth);
           }else{
-            editW=Math.min(Math.max(baseW,baseW*1.9),pageWidth);
+            // Text fields open as a noticeably wider writing box so longer
+            // Persian activity/address text remains visible while typing.
+            editW=Math.min(Math.max(baseW,Math.max(190,baseW*2.8)),pageWidth);
           }
           var editL=Math.max(0,Math.min(baseL-(editW-baseW)/2,pageWidth-editW));
           field.style.left=editL+'px';
           field.style.top=baseT+'px';
           field.style.width=editW+'px';
-          field.style.height=Math.max(baseH,30)+'px';
+          field.style.height=Math.max(baseH,numericEdit?32:38)+'px';
           field.style.fontSize=field.dataset.baseFont;
           field.style.padding='3px 7px';
           field.style.whiteSpace='pre';
@@ -4182,11 +4183,7 @@ document.addEventListener('click',async function(ev){
  if(!field||!activityCell)return;
  ev.preventDefault();ev.stopPropagation();if(ev.stopImmediatePropagation)ev.stopImmediatePropagation();
  var targetField=field;
- // همان رفتار منوی سه‌نقطه: ابتدا زوم لمسی PDF به‌آرامی به حالت عادی برمی‌گردد،
- // سپس پنجره فعالیت در کل فضای قابل مشاهده گوشی باز می‌شود.
- if(typeof window.postyarResetPdfZoomBeforeMenu==='function'){
-   await window.postyarResetPdfZoomBeforeMenu();
- }
+ // هنگام ویرایش متن، زوم فعلی PDF حفظ می‌شود و صفحه به نمای عادی برنمی‌گردد.
  if(!targetField.isConnected)return;
  open(targetField,'activity');
  // اندازه‌گیری مجدد overlay پس از پایان تغییر viewport تا پنل دقیقاً تمام صفحه را بپوشاند.
