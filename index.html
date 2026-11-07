@@ -1161,15 +1161,17 @@ img{display:block;max-width:100%}
         <div class="section-heading"><h2 class="section-title"><svg class="icn"><use href="#i-label"/></svg> اسکن کد</h2></div>
         <div class="qr-simple-card">
           <div class="qr-simple-icon">⌗</div>
-          <div class="qr-simple-copy"><strong>اسکن شناسهٔ ۱۰ رقمی</strong><small>ابتدا پروژه را انتخاب کن؛ سپس دکمهٔ اسکن را بزن.</small></div>
+          <div class="qr-simple-copy"><strong>اسکن QR و بارکد</strong><small>ابتدا پروژه را انتخاب کن؛ سپس دکمهٔ اسکن را بزن.</small></div>
         </div>
         <div class="field qr-project-field"><label for="labelProject">پروژه</label><select id="labelProject" onchange="qrProjectChanged()"><option value="">انتخاب پروژه</option></select></div>
         <div id="qrProjectSummary" class="qr-project-summary"><span class="qr-summary-icon">⌂</span><span>هنوز پروژه‌ای انتخاب نشده است.</span></div>
         <button class="btn btn-primary btn-block qr-main-scan-btn" id="qrStartBtn" type="button" onclick="startQrScanner()"><svg class="icn"><use href="#i-label"/></svg> اسکن با دوربین گوشی</button>
+        <input id="qrNativeCameraInput" type="file" accept="image/*" capture="environment" hidden onchange="processQrCameraImage(this)">
+        <button class="btn btn-outline btn-block qr-native-camera-btn" type="button" onclick="openQrNativeCamera()"><svg class="icn"><use href="#i-label"/></svg> اسکن با دوربین اصلی گوشی</button>
         <div id="qrScannerMessage" class="qr-scanner-message" role="status">برای شروع، یک پروژه انتخاب کن.</div>
         <div id="qrResultCard" class="qr-result-card qr-result-compact" hidden>
           <div class="qr-result-head"><span class="qr-result-check">✓</span><div><strong>کد با موفقیت ذخیره شد</strong><small id="qrResultProject">پروژهٔ انتخاب‌شده</small></div></div>
-          <div class="qr-number-label">شناسهٔ ۱۰ رقمی</div><div class="qr-number" id="qrNumber" dir="ltr">۰۰۰۰۰۰۰۰۰۰</div>
+          <div class="qr-number-label">محتوای اسکن‌شده</div><div class="qr-number" id="qrNumber" dir="ltr">۰۰۰۰۰۰۰۰۰۰</div>
           <div class="qr-result-actions"><button class="btn btn-outline" type="button" onclick="copyQrNumber()">کپی کد</button><button class="btn btn-primary" type="button" onclick="scanAnotherQr()">اسکن بعدی</button></div>
           <span id="qrRawValue" hidden>—</span>
         </div>
@@ -3114,7 +3116,7 @@ async function renderFaithfulPdfPage(pageNo){
           field.style.top=baseT+'px';
           field.style.width=baseW+'px';
           field.style.height=baseH+'px';
-          var compactFont=Math.max(4.5,parseFloat(field.dataset.baseFont)*.62);
+          var compactFont=Math.max(8.5,parseFloat(field.dataset.baseFont)*.82);
           field.style.setProperty('--postyar-edit-font',compactFont+'px');
           field.style.fontSize=compactFont+'px';
           field.style.padding='0 1px';
@@ -3909,50 +3911,81 @@ function qrProjectChanged(){
 async function qrLoadJsQR(){
   if(window.jsQR)return true;
   if(window.__postyarJsQrLoading)return window.__postyarJsQrLoading;
-  window.__postyarJsQrLoading=new Promise(function(resolve){
-    var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';s.onload=function(){resolve(!!window.jsQR)};s.onerror=function(){resolve(false)};document.head.appendChild(s);
-  });return window.__postyarJsQrLoading;
+  window.__postyarJsQrLoading=(async function(){
+    var urls=['https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js','https://unpkg.com/jsqr@1.4.0/dist/jsQR.js'];
+    for(var i=0;i<urls.length;i++){try{await new Promise(function(resolve,reject){var sc=document.createElement('script');sc.src=urls[i];sc.onload=resolve;sc.onerror=reject;document.head.appendChild(sc)});if(window.jsQR)return true}catch(e){}}
+    return false;
+  })(); return window.__postyarJsQrLoading;
 }
+async function qrLoadMultiFormat(){
+  if(window.ZXingBrowser&&window.ZXingBrowser.BrowserMultiFormatReader)return true;
+  if(window.__postyarZxingLoading)return window.__postyarZxingLoading;
+  window.__postyarZxingLoading=(async function(){var urls=['https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/umd/zxing-browser.min.js','https://unpkg.com/@zxing/browser@0.1.5/umd/zxing-browser.min.js'];for(var i=0;i<urls.length;i++){try{await new Promise(function(resolve,reject){var sc=document.createElement('script');sc.src=urls[i];sc.onload=resolve;sc.onerror=reject;document.head.appendChild(sc)});if(window.ZXingBrowser&&window.ZXingBrowser.BrowserMultiFormatReader)return true}catch(e){}}return false})();return window.__postyarZxingLoading;
+}
+function qrSupportedFormats(){return ['qr_code','aztec','data_matrix','pdf417','code_128','code_39','code_93','codabar','ean_13','ean_8','itf','upc_a','upc_e'];}
+function qrMakeDetector(){if(!('BarcodeDetector'in window))return null;try{var supported=BarcodeDetector.getSupportedFormats?BarcodeDetector.getSupportedFormats():qrSupportedFormats();var formats=qrSupportedFormats().filter(function(f){return supported.indexOf(f)>=0});return formats.length?new BarcodeDetector({formats:formats}):new BarcodeDetector()}catch(e){try{return new BarcodeDetector()}catch(_){return null}}}
+
 async function startQrScanner(){
   var p=qrGetProject();if(!p){toast('ابتدا یک پروژه انتخاب کنید','error');var sel=document.getElementById('labelProject');if(sel)sel.focus();return}
   if(qrScanning)return;
   var cameraOverlay=document.getElementById('qrCameraOverlay');if(cameraOverlay)cameraOverlay.hidden=false;
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){qrScannerError('دوربین در این آدرس قابل دسترسی نیست. برنامه را با HTTPS باز کنید و مجوز دوربین را فعال کنید.');return}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){qrScannerError('این پیش‌نمایش اجازهٔ دوربین زنده نمی‌دهد. از دکمهٔ «اسکن با دوربین اصلی گوشی» استفاده کنید.');return}
   try{
-    var supported=('BarcodeDetector' in window);
-    if(supported){try{qrDetector=new BarcodeDetector({formats:['qr_code']})}catch(_){qrDetector=null}}
-    if(!qrDetector){var ok=await qrLoadJsQR();if(!ok)throw new Error('QR_LIB_LOAD')}
+    qrDetector=null;
+    qrDetector=qrMakeDetector();
     qrStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
     var video=document.getElementById('qrVideo');video.setAttribute('playsinline','');video.muted=true;video.srcObject=qrStream;await video.play();qrScanning=true;
+    if(!qrDetector){var z=await qrLoadMultiFormat();var ok=z||await qrLoadJsQR();if(!ok){stopQrScanner();qrScannerError('موتور تشخیص بارکد بارگیری نشد؛ اتصال اینترنت را بررسی کنید یا از دوربین اصلی گوشی استفاده کنید.');return}}
     document.getElementById('qrCameraPlaceholder').hidden=true;document.getElementById('qrViewfinder').classList.add('active');document.getElementById('qrCameraStage').classList.add('is-live');
-    document.getElementById('qrCameraStatus').textContent='دوربین روشن';document.getElementById('qrCameraStatus').classList.remove('success');document.getElementById('qrCameraStatus').classList.add('live');document.getElementById('qrStartBtn').disabled=true;document.getElementById('qrStopBtn').disabled=false;document.getElementById('qrScannerMessage').textContent='دوربین فعال است؛ QR را داخل کادر قرار دهید.';
+    document.getElementById('qrCameraStatus').textContent='دوربین روشن';document.getElementById('qrCameraStatus').classList.remove('success');document.getElementById('qrCameraStatus').classList.add('live');document.getElementById('qrStartBtn').disabled=true;document.getElementById('qrStopBtn').disabled=false;document.getElementById('qrScannerMessage').textContent='دوربین فعال است؛ QR یا بارکد خطی را داخل کادر قرار دهید.';
     qrScanLoop();
-  }catch(e){stopQrScanner();var m='باز کردن دوربین ممکن نشد. ';if(e&&e.name==='NotAllowedError')m='اجازهٔ دوربین رد شده است؛ مجوز Camera را در تنظیمات مرورگر فعال کنید.';else if(e&&e.name==='NotFoundError')m='دوربینی روی دستگاه پیدا نشد.';else if(e&&e.name==='NotReadableError')m='دوربین مشغول استفاده توسط برنامهٔ دیگری است.';else if(e&&e.message==='QR_LIB_LOAD')m='کتابخانهٔ خواندن QR بارگیری نشد؛ اتصال اینترنت را بررسی کنید.';else m+='مطمئن شوید برنامه با HTTPS باز شده و مجوز دوربین فعال است.';qrScannerError(m)}
+  }catch(e){stopQrScanner();var m='باز کردن دوربین زنده ممکن نشد. ';if(e&&e.name==='NotAllowedError')m='مجوز دوربین زنده در پیش‌نمایش داده نشده است؛ دکمهٔ «اسکن با دوربین اصلی گوشی» را بزنید.';else if(e&&e.name==='NotFoundError')m='دوربینی روی دستگاه پیدا نشد؛ از اسکن با دوربین اصلی گوشی استفاده کنید.';else if(e&&e.name==='NotReadableError')m='دوربین مشغول استفاده توسط برنامهٔ دیگری است؛ یا از اسکن با دوربین اصلی گوشی استفاده کنید.';else m+='از دکمهٔ «اسکن با دوربین اصلی گوشی» استفاده کنید.';qrScannerError(m)}
 }
 var qrCanvas=null,qrCanvasContext=null,qrDetectorBusy=false;
 async function qrScanLoop(){
   if(!qrScanning)return;var video=document.getElementById('qrVideo');
   if(video&&video.readyState>=2&&!qrDetectorBusy){qrDetectorBusy=true;try{
     if(qrDetector){var codes=await qrDetector.detect(video);if(codes&&codes.length){var value=(codes[0].rawValue||'').trim();if(value){handleQrScan(value);return}}}
+    else if(window.ZXingBrowser&&window.ZXingBrowser.BrowserMultiFormatReader){try{if(!window.__postyarZxingReader)window.__postyarZxingReader=new window.ZXingBrowser.BrowserMultiFormatReader();var zres=window.__postyarZxingReader.decodeFromVideoElement(video);if(zres&&zres.getText){var zv=zres.getText();if(zv){handleQrScan(zv);return}}}catch(zerr){}}
     else if(window.jsQR){if(!qrCanvas){qrCanvas=document.createElement('canvas');qrCanvasContext=qrCanvas.getContext('2d',{willReadFrequently:true})}var w=video.videoWidth,h=video.videoHeight;if(w&&h){qrCanvas.width=w;qrCanvas.height=h;qrCanvasContext.drawImage(video,0,0,w,h);var image=qrCanvasContext.getImageData(0,0,w,h);var result=window.jsQR(image.data,w,h,{inversionAttempts:'attemptBoth'});if(result&&result.data){handleQrScan(result.data);return}}}
   }catch(e){}finally{qrDetectorBusy=false}}
   if(qrScanning)qrScanFrame=setTimeout(qrScanLoop,120);
 }
 function handleQrScan(raw){
-  if(!qrScanning||raw===qrLastValue)return;
-  var normalized=raw.replace(/[۰-۹]/g,function(d){return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))}).replace(/[٠-٩]/g,function(d){return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))});
-  var matches=normalized.match(/(?:^|\D)(\d{10})(?!\d)/g), code='';if(matches&&matches.length){code=matches[0].replace(/\D/g,'')}else if(/^\d{10}$/.test(normalized))code=normalized;
-  if(!code){document.getElementById('qrScannerMessage').textContent='QR خوانده شد، اما مقدار آن یک عدد ۱۰ رقمی نیست. کد صحیح را اسکن کنید.';document.getElementById('qrCameraStatus').textContent='کد نامعتبر';setTimeout(function(){if(qrScanning)document.getElementById('qrCameraStatus').textContent='دوربین روشن'},1800);return}
+  raw=String(raw==null?'':raw).trim();if(!qrScanning||!raw||raw===qrLastValue)return;
   qrLastValue=raw;stopQrScanner();var p=qrGetProject();
-  document.getElementById('qrNumber').textContent=qrFaDigits(code);document.getElementById('qrRawValue').textContent=raw;document.getElementById('qrResultProject').textContent='پروژه: '+(p?p.name:'—');document.getElementById('qrResultCard').hidden=false;document.getElementById('qrScannerMessage').textContent='کد ۱۰ رقمی با موفقیت شناسایی شد.';document.getElementById('qrCameraStatus').textContent='اسکن موفق';document.getElementById('qrCameraStatus').classList.add('success');
-  var record={code:code,raw:raw,projectId:p?p.id:'',project:p?p.name:'—',time:new Date().toISOString()};qrHistory.unshift(record);
-  try{var all=JSON.parse(localStorage.getItem('postyar_qr_project_codes_v1')||'{}');var key=String(record.projectId||'unknown');if(!Array.isArray(all[key]))all[key]=[];all[key].unshift(record);localStorage.setItem('postyar_qr_project_codes_v1',JSON.stringify(all));window.postyarQrProjectCodes=all;}
-  catch(storageError){console.warn('QR project save failed',storageError);}
-  renderQrHistory();updateStats();toast('کد در پروژه ذخیره شد','success');
+  var display=raw.length>180?raw.slice(0,177)+'…':raw;
+  var number=document.getElementById('qrNumber');if(number){number.textContent=display;number.setAttribute('dir','auto');number.style.whiteSpace='pre-wrap';number.style.overflowWrap='anywhere';number.style.fontSize=raw.length>32?'15px':''}
+  var rawEl=document.getElementById('qrRawValue');if(rawEl)rawEl.textContent=raw;
+  var rp=document.getElementById('qrResultProject');if(rp)rp.textContent='پروژه: '+(p?p.name:'—');
+  var card=document.getElementById('qrResultCard');if(card)card.hidden=false;
+  var msg=document.getElementById('qrScannerMessage');if(msg)msg.textContent='محتوای بارکد با موفقیت شناسایی و ذخیره شد.';
+  var status=document.getElementById('qrCameraStatus');if(status){status.textContent='اسکن موفق';status.classList.add('success')}
+  var record={code:raw,raw:raw,format:'QR/Barcode',projectId:p?p.id:'',project:p?p.name:'—',time:new Date().toISOString()};qrHistory.unshift(record);
+  try{var all=JSON.parse(localStorage.getItem('postyar_qr_project_codes_v1')||'{}');var key=String(record.projectId||'unknown');if(!Array.isArray(all[key]))all[key]=[];all[key].unshift(record);localStorage.setItem('postyar_qr_project_codes_v1',JSON.stringify(all));window.postyarQrProjectCodes=all}catch(storageError){console.warn('Barcode project save failed',storageError)}
+  renderQrHistory();updateStats();toast('محتوای اسکن‌شده در پروژه ذخیره شد','success');
+}
+async function openQrNativeCamera(){
+  if(!qrGetProject()){toast('ابتدا یک پروژه انتخاب کنید','error');return}
+  var input=document.getElementById('qrNativeCameraInput');if(input){input.value='';input.click()}
+}
+async function processQrCameraImage(input){
+  var file=input&&input.files&&input.files[0];if(!file)return;
+  var msg=document.getElementById('qrScannerMessage');if(msg)msg.textContent='در حال خواندن QR از تصویر دوربین…';
+  try{
+    var raw='';
+    try{var detector=qrMakeDetector();if(detector){var bitmap=await createImageBitmap(file);var found=await detector.detect(bitmap);bitmap.close&&bitmap.close();if(found&&found.length)raw=(found[0].rawValue||'').trim()}}catch(e){}
+    if(!raw){var z=await qrLoadMultiFormat();if(z){var u=URL.createObjectURL(file);try{var zi=new Image();await new Promise(function(resolve,reject){zi.onload=resolve;zi.onerror=reject;zi.src=u});var reader=new window.ZXingBrowser.BrowserMultiFormatReader();var zr=reader.decodeFromImageElement(zi);if(zr&&zr.getText)raw=zr.getText()}catch(ze){}finally{URL.revokeObjectURL(u)}}}if(!raw){var ok=await qrLoadJsQR();if(!ok)throw new Error('موتور تشخیص بارکد بارگیری نشد. اتصال اینترنت را بررسی کنید.');
+      var url=URL.createObjectURL(file);try{var img=new Image();await new Promise(function(resolve,reject){img.onload=resolve;img.onerror=reject;img.src=url});var canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true});var scale=Math.min(1,1800/Math.max(img.naturalWidth,img.naturalHeight));canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));ctx.drawImage(img,0,0,canvas.width,canvas.height);var pixels=ctx.getImageData(0,0,canvas.width,canvas.height);var result=window.jsQR(pixels.data,canvas.width,canvas.height,{inversionAttempts:'attemptBoth'});if(result)raw=(result.data||'').trim()}finally{URL.revokeObjectURL(url)}
+    }
+    if(!raw)throw new Error('هیچ QR یا بارکدی در تصویر پیدا نشد. تصویر واضح‌تر و کامل‌تری بگیرید.');
+    qrScanning=true;handleQrScan(raw);
+  }catch(e){if(msg)msg.textContent=(e&&e.message)||'خواندن تصویر ناموفق بود؛ دوباره عکس بگیرید.';toast((e&&e.message)||'خواندن QR ناموفق بود','error')}
+  finally{if(input)input.value=''}
 }
 function qrScannerError(message){var overlay=document.getElementById('qrCameraOverlay');if(overlay)overlay.hidden=true;var msg=document.getElementById('qrScannerMessage');if(msg)msg.textContent=message;var status=document.getElementById('qrCameraStatus');if(status)status.textContent='نیاز به بررسی';toast(message,'error')}
-function stopQrScanner(){qrScanning=false;var cameraOverlay=document.getElementById('qrCameraOverlay');if(cameraOverlay)cameraOverlay.hidden=true;if(qrScanFrame)cancelAnimationFrame(qrScanFrame);qrScanFrame=0;if(qrStream){qrStream.getTracks().forEach(function(t){t.stop()});qrStream=null}var video=document.getElementById('qrVideo');if(video){video.pause();video.srcObject=null}var stage=document.getElementById('qrCameraStage'),placeholder=document.getElementById('qrCameraPlaceholder'),vf=document.getElementById('qrViewfinder');if(stage)stage.classList.remove('is-live');if(placeholder)placeholder.hidden=false;if(vf)vf.classList.remove('active');var stop=document.getElementById('qrStopBtn'),start=document.getElementById('qrStartBtn'),status=document.getElementById('qrCameraStatus');if(stop)stop.disabled=true;if(start)start.disabled=!qrGetProject();if(status){status.classList.remove('live');if(status.textContent==='دوربین روشن')status.textContent='دوربین متوقف شد'}}
-function renderQrHistory(){var list=document.getElementById('qrHistoryList'),count=document.getElementById('qrHistoryCount');if(count)count.textContent=qrFaDigits(qrHistory.length)+' مورد';if(!list)return;if(!qrHistory.length){list.innerHTML='<div class="qr-history-empty">هنوز کدی اسکن نشده است.</div>';return}list.innerHTML=qrHistory.map(function(item,i){return '<div class="qr-history-row"><span class="qr-history-index">'+qrFaDigits(i+1)+'</span><div class="qr-history-code" dir="ltr">'+qrFaDigits(item.code)+'<small>'+esc(item.project)+' · '+qrFaDigits(new Date(item.time).toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}))+'</small></div><button type="button" class="qr-copy-small" onclick="copyQrHistory('+i+')" aria-label="کپی کد">کپی</button></div>'}).join('')}
+function stopQrScanner(){qrScanning=false;var cameraOverlay=document.getElementById('qrCameraOverlay');if(cameraOverlay)cameraOverlay.hidden=true;if(qrScanFrame)clearTimeout(qrScanFrame);qrScanFrame=0;if(qrStream){qrStream.getTracks().forEach(function(t){t.stop()});qrStream=null}var video=document.getElementById('qrVideo');if(video){video.pause();video.srcObject=null}var stage=document.getElementById('qrCameraStage'),placeholder=document.getElementById('qrCameraPlaceholder'),vf=document.getElementById('qrViewfinder');if(stage)stage.classList.remove('is-live');if(placeholder)placeholder.hidden=false;if(vf)vf.classList.remove('active');var stop=document.getElementById('qrStopBtn'),start=document.getElementById('qrStartBtn'),status=document.getElementById('qrCameraStatus');if(stop)stop.disabled=true;if(start)start.disabled=!qrGetProject();if(status){status.classList.remove('live');if(status.textContent==='دوربین روشن')status.textContent='دوربین متوقف شد'}}
+function renderQrHistory(){var list=document.getElementById('qrHistoryList'),count=document.getElementById('qrHistoryCount');if(count)count.textContent=qrFaDigits(qrHistory.length)+' مورد';if(!list)return;if(!qrHistory.length){list.innerHTML='<div class="qr-history-empty">هنوز کدی اسکن نشده است.</div>';return}list.innerHTML=qrHistory.map(function(item,i){return '<div class="qr-history-row"><span class="qr-history-index">'+qrFaDigits(i+1)+'</span><div class="qr-history-code" dir="ltr">'+esc(item.code)+'<small>'+esc(item.project)+' · '+qrFaDigits(new Date(item.time).toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}))+'</small></div><button type="button" class="qr-copy-small" onclick="copyQrHistory('+i+')" aria-label="کپی کد">کپی</button></div>'}).join('')}
 async function copyQrNumber(){var code=(document.getElementById('qrNumber').textContent||'').replace(/[۰-۹]/g,function(d){return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))});try{await navigator.clipboard.writeText(code);toast('کد کپی شد','success')}catch(e){var ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('کد کپی شد','success')}}
 function copyQrHistory(i){var item=qrHistory[i];if(item){var el=document.getElementById('qrNumber');el.textContent=qrFaDigits(item.code);copyQrNumber()}}
 function scanAnotherQr(){qrLastValue='';document.getElementById('qrResultCard').hidden=true;document.getElementById('qrCameraStatus').classList.remove('success');document.getElementById('qrCameraStatus').textContent='آمادهٔ شروع';document.getElementById('qrScannerMessage').textContent='برای اسکن بعدی، دوربین را دوباره روشن کنید.';qrProjectChanged();}
@@ -3960,6 +3993,8 @@ function scanAnotherQr(){qrLastValue='';document.getElementById('qrResultCard').
 /* Expose functions used by inline HTML event handlers. */
 window.qrProjectChanged=qrProjectChanged;
 window.startQrScanner=startQrScanner;
+window.openQrNativeCamera=openQrNativeCamera;
+window.processQrCameraImage=processQrCameraImage;
 window.stopQrScanner=stopQrScanner;
 window.scanAnotherQr=scanAnotherQr;
 window.copyQrNumber=copyQrNumber;
@@ -4969,31 +5004,11 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
 </script>
 
 <style id="postyar-v15-precision-update">
-/* Locked PDF labels and record identifiers cannot receive focus or be selected. */
+/* Keep locked PDF labels and record identifiers non-editable. */
 #pdfFaithfulPages .pdf-original-field.locked{
-  pointer-events:none!important;
-  user-select:none!important;
-  -webkit-user-select:none!important;
-  -webkit-touch-callout:none!important;
+  pointer-events:none!important;user-select:none!important;
+  -webkit-user-select:none!important;-webkit-touch-callout:none!important;
   caret-color:transparent!important;
-}
-/* Keep every edit box exactly on its original PDF cell; use compact text to show more characters. */
-#page-postal .pdf-original-field.is-editing{
-  transform:none!important;
-  font-size:var(--postyar-edit-font,8px)!important;
-  min-height:0!important;
-  max-height:none!important;
-  padding:0 1px!important;
-  line-height:1!important;
-  box-sizing:border-box!important;
-}
-@media(max-width:640px){
-  #page-postal .pdf-original-field.is-editing{
-    transform:none!important;
-    font-size:var(--postyar-edit-font,8px)!important;
-    min-height:0!important;
-    padding:0 1px!important;
-  }
 }
 </style>
 
@@ -5109,100 +5124,81 @@ html,body{touch-action:auto!important;-webkit-text-size-adjust:100%;}
 }
 </style>
 
-<style id="postyar-home-layout-v22-repair">
-#page-home .home-shortcuts{display:grid!important;direction:ltr!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:repeat(1,calc((100cqw - 30px)/4)) repeat(2,calc((100cqw - 30px)/5.4))!important;grid-auto-flow:row!important;gap:10px!important;align-items:stretch!important}
-#page-home .home-shortcuts>button{position:relative!important;box-sizing:border-box!important;min-width:0!important;max-width:100%!important;height:100%!important;min-height:0!important;margin:0!important}
-#page-home .home-shortcuts>button:nth-child(4){grid-column:1!important;grid-row:1!important}#page-home .home-shortcuts>button:nth-child(5){grid-column:2!important;grid-row:1!important}#page-home .home-shortcuts>button:nth-child(6){grid-column:3!important;grid-row:1!important}#page-home .home-shortcuts>button:nth-child(7){grid-column:4!important;grid-row:1!important}
-#page-home .home-shortcuts>button:nth-child(4),#page-home .home-shortcuts>button:nth-child(5),#page-home .home-shortcuts>button:nth-child(6),#page-home .home-shortcuts>button:nth-child(7){aspect-ratio:1/1!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;padding:7px 3px!important;gap:4px!important;text-align:center!important;overflow:hidden!important}
-#page-home .home-shortcuts>.shortcut-scan{grid-column:1/3!important;grid-row:2/4!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;gap:5px!important;padding:7px 4px!important;text-align:center!important;overflow:hidden!important}
-#page-home .home-shortcuts>.shortcut-search{grid-column:3/5!important;grid-row:2!important}#page-home .home-shortcuts>.shortcut-notes{grid-column:3/5!important;grid-row:3!important}
-#page-home .home-shortcuts>.shortcut-search,#page-home .home-shortcuts>.shortcut-notes{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:8px!important;padding:6px 9px!important;overflow:hidden!important}
-#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon{width:clamp(62px,17cqw,82px)!important;height:clamp(62px,17cqw,82px)!important;min-width:0!important;flex:0 0 auto!important;margin:0 auto!important}#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon .icn{width:clamp(42px,11cqw,54px)!important;height:clamp(42px,11cqw,54px)!important}
-#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;margin:0!important;min-width:0!important}#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body strong{font-size:11px!important;font-weight:900!important;white-space:nowrap!important}
-#page-home .home-shortcuts>.shortcut-search .home-search-demo{display:none!important}#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important}#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body strong,#page-home .home-shortcuts>.shortcut-notes .shortcut-name{font-size:10px!important;font-weight:800!important;line-height:1.4!important}
-@media(max-width:380px){#page-home .home-shortcuts{grid-template-rows:repeat(1,calc((100cqw - 21px)/4)) repeat(2,calc((100cqw - 21px)/5.4))!important;gap:7px!important}#page-home .home-shortcuts>.shortcut-scan{padding:5px 2px!important;gap:4px!important}#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body strong{font-size:10px!important}}
-.pdf-original-overlay{overflow:visible!important}.pdf-edited-row-star{position:absolute;z-index:6;display:block;color:#2563eb;font:900 15px/1 Arial,sans-serif;pointer-events:none;text-shadow:0 0 1px #fff;transform:translateY(-1px)}
+
+
+
+<style id="postyar-qr-native-camera-v25">
+#page-labels .qr-native-camera-btn{margin-top:9px;min-height:50px;border-radius:15px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:14px;font-weight:850;background:#fff;border:1.5px solid #dbeafe;color:#1d4ed8;box-shadow:0 4px 12px rgba(37,99,235,.07)}
+#page-labels .qr-native-camera-btn .icn{width:21px;height:21px}
+#page-labels .qr-native-camera-btn:active{transform:scale(.99)}
 </style>
 
 
-<style id="postyar-home-layout-three-top-four-bottom-v24">
-/* Restore the approved home layout: three upper cards, four compact squares below. */
+</body>
+</html>
+
+<style id="postyar-pdf-edit-box-reference-size-v28">
+/* Match the supplied reference file's comfortable mobile editing box.
+   Do not force an 8px font: the original PDF field font calculation remains in effect. */
+@media(max-width:640px){
+  #page-postal .pdf-original-field.is-editing{
+    transform:none!important;
+    min-height:30px!important;
+    line-height:1.15!important;
+    border:1.5px solid #2563eb!important;
+    border-radius:9px!important;
+    background:linear-gradient(180deg,#fff,#f7faff)!important;
+    box-shadow:0 5px 18px rgba(37,99,235,.22),0 0 0 3px rgba(59,130,246,.10)!important;
+    padding:3px 6px!important;
+    z-index:100!important;
+    font-weight:600!important;
+    text-rendering:geometricPrecision!important;
+    -webkit-text-size-adjust:100%!important;
+  }
+}
+.pdf-original-overlay{overflow:visible!important}
+.pdf-edited-row-star{position:absolute;z-index:6;display:block;color:#2563eb;font:900 15px/1 Arial,sans-serif;pointer-events:none;text-shadow:0 0 1px #fff;transform:translateY(-1px)}
+</style>
+<style id="postyar-home-four-bottom-cards-v28">
+/* Keep the three upper cards as before and place all four square shortcuts together below. */
 #page-home .home-shortcuts{
+  container-type:inline-size!important;
   display:grid!important;
   direction:ltr!important;
   grid-template-columns:repeat(4,minmax(0,1fr))!important;
-  grid-template-rows:repeat(3,minmax(78px,calc((100cqw - 30px)/4)))!important;
+  grid-template-rows:repeat(3,calc((100cqw - 30px)/4))!important;
   grid-auto-flow:row!important;
   gap:10px!important;
   align-items:stretch!important;
 }
-#page-home .home-shortcuts>button{
-  box-sizing:border-box!important;position:relative!important;
-  width:100%!important;min-width:0!important;max-width:100%!important;
-  height:100%!important;min-height:0!important;margin:0!important;
+#page-home .home-shortcuts>.shortcut{
+  box-sizing:border-box!important;min-width:0!important;max-width:100%!important;
+  min-height:0!important;height:100%!important;margin:0!important;overflow:hidden!important;
 }
-/* Upper area: QR spans the two left rows; search and notes stack on the right. */
-#page-home .home-shortcuts>.shortcut-scan{
-  grid-column:1 / 3!important;grid-row:1 / 3!important;
-  display:flex!important;flex-direction:column!important;
-  align-items:center!important;justify-content:flex-start!important;
-  gap:5px!important;padding:7px 4px!important;text-align:center!important;
-  overflow:hidden!important;
-}
-#page-home .home-shortcuts>.shortcut-search{grid-column:3 / 5!important;grid-row:1!important;}
-#page-home .home-shortcuts>.shortcut-notes{grid-column:3 / 5!important;grid-row:2!important;}
-#page-home .home-shortcuts>.shortcut-search,
-#page-home .home-shortcuts>.shortcut-notes{
-  display:flex!important;align-items:center!important;justify-content:flex-start!important;
-  gap:8px!important;padding:6px 9px!important;overflow:hidden!important;
-}
-/* Bottom row: all four original shortcuts remain equal square cards. */
-#page-home .home-shortcuts>button[onclick*="nav('projects')"]{grid-column:1!important;grid-row:3!important;}
-#page-home .home-shortcuts>button[onclick*="nav('postal')"]{grid-column:2!important;grid-row:3!important;}
-#page-home .home-shortcuts>button[onclick*="nav('map')"]{grid-column:3!important;grid-row:3!important;}
-#page-home .home-shortcuts>button[onclick*="nav('import')"]{grid-column:4!important;grid-row:3!important;}
-#page-home .home-shortcuts>button[onclick*="nav('projects')"],
-#page-home .home-shortcuts>button[onclick*="nav('postal')"],
-#page-home .home-shortcuts>button[onclick*="nav('map')"],
-#page-home .home-shortcuts>button[onclick*="nav('import')"]{
-  aspect-ratio:1 / 1!important;display:flex!important;flex-direction:column!important;
-  align-items:center!important;justify-content:center!important;
-  padding:7px 3px!important;gap:4px!important;text-align:center!important;overflow:hidden!important;
-}
-#page-home .home-shortcuts>button[onclick*="nav('projects')"] .shortcut-half-icon,
-#page-home .home-shortcuts>button[onclick*="nav('import')"] .shortcut-half-icon,
-#page-home .home-shortcuts>button[onclick*="nav('postal')"] .shortcut-icon,
-#page-home .home-shortcuts>button[onclick*="nav('map')"] .shortcut-icon{
-  width:40px!important;height:40px!important;min-width:40px!important;max-width:40px!important;
-  flex:0 0 40px!important;margin:0 auto!important;display:grid!important;place-items:center!important;
-}
-#page-home .home-shortcuts>button[onclick*="nav('projects')"] .shortcut-name,
-#page-home .home-shortcuts>button[onclick*="nav('postal')"] .shortcut-name,
-#page-home .home-shortcuts>button[onclick*="nav('map')"] .shortcut-name,
-#page-home .home-shortcuts>button[onclick*="nav('import')"] .shortcut-name{
-  font-size:9px!important;line-height:1.35!important;text-align:center!important;
-}
-#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon{
-  width:clamp(62px,17cqw,82px)!important;height:clamp(62px,17cqw,82px)!important;
-  min-width:0!important;flex:0 0 auto!important;margin:0 auto!important;
-}
-#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-icon .icn{width:clamp(42px,11cqw,54px)!important;height:clamp(42px,11cqw,54px)!important;}
-#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;margin:0!important;min-width:0!important;}
-#page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body strong{font-size:11px!important;font-weight:900!important;white-space:nowrap!important;}
-#page-home .home-shortcuts>.shortcut-search .home-search-demo{display:none!important;}
-#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body{display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;}
-#page-home .home-shortcuts>.shortcut-search .shortcut-wide-body strong,
-#page-home .home-shortcuts>.shortcut-notes .shortcut-name{font-size:10px!important;font-weight:800!important;line-height:1.4!important;}
-@media(max-width:380px){
- #page-home .home-shortcuts{grid-template-rows:repeat(3, minmax(72px,calc((100cqw - 21px)/4)))!important;gap:7px!important;}
- #page-home .home-shortcuts>.shortcut-scan{padding:5px 2px!important;gap:4px!important;}
- #page-home .home-shortcuts>.shortcut-scan .shortcut-wide-body strong{font-size:10px!important;}
- #page-home .home-shortcuts>button[onclick*="nav('projects')"] .shortcut-half-icon,
- #page-home .home-shortcuts>button[onclick*="nav('import')"] .shortcut-half-icon,
- #page-home .home-shortcuts>button[onclick*="nav('postal')"] .shortcut-icon,
- #page-home .home-shortcuts>button[onclick*="nav('map')"] .shortcut-icon{width:34px!important;height:34px!important;min-width:34px!important;flex-basis:34px!important;}
+#page-home .home-shortcuts>.shortcut-search{grid-column:3/5!important;grid-row:1!important;direction:rtl!important}
+#page-home .home-shortcuts>.shortcut-scan{grid-column:1/3!important;grid-row:1/3!important;direction:rtl!important}
+#page-home .home-shortcuts>.shortcut-notes{grid-column:3/5!important;grid-row:2!important;direction:rtl!important}
+#page-home .home-shortcuts>button:nth-child(4){grid-column:1!important;grid-row:3!important}
+#page-home .home-shortcuts>button:nth-child(5){grid-column:2!important;grid-row:3!important}
+#page-home .home-shortcuts>button:nth-child(6){grid-column:3!important;grid-row:3!important}
+#page-home .home-shortcuts>button:nth-child(7){grid-column:4!important;grid-row:3!important}
+#page-home .home-shortcuts>button:nth-child(4),
+#page-home .home-shortcuts>button:nth-child(5),
+#page-home .home-shortcuts>button:nth-child(6),
+#page-home .home-shortcuts>button:nth-child(7){
+  aspect-ratio:1/1!important;display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;padding:7px 3px!important;
+  gap:4px!important;text-align:center!important;
 }
 </style>
 
-</body>
-</html>
+
+<style id="postyar-pdf-edit-box-width-v29">
+/* Slightly widen the active PDF editing box without changing its font size or height. */
+@media(max-width:640px){
+  #page-postal .pdf-original-field.is-editing{
+    transform:scaleX(1.12)!important;
+    transform-origin:center center!important;
+  }
+}
+</style>
